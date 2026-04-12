@@ -3,468 +3,240 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bilimly — Панель администратора</title>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Bilimly — Админ панель</title>
 <style>
-:root {
-  --primary:#1a5c3a; --primary-light:#e8f5ee; --primary-dark:#134428;
-  --gold:#d4a017; --coral:#e8533a; --ink:#111827; --muted:#6b7280;
-  --border:#e5e7eb; --bg:#f3f4f6; --white:#ffffff;
-  --shadow:0 2px 12px rgba(0,0,0,0.06);
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);display:flex;min-height:100vh;}
-
-/* SIDEBAR */
-.sidebar{width:240px;background:var(--ink);min-height:100vh;position:fixed;left:0;top:0;z-index:100;display:flex;flex-direction:column;}
-.sidebar-logo{padding:20px 20px 16px;border-bottom:1px solid rgba(255,255,255,0.08);}
-.sidebar-logo a{font-family:'Unbounded',sans-serif;font-size:1.15rem;font-weight:700;color:#fff;text-decoration:none;}
-.sidebar-logo a span{color:var(--gold);}
-.sidebar-logo small{display:block;color:rgba(255,255,255,0.35);font-size:0.68rem;margin-top:2px;text-transform:uppercase;letter-spacing:0.06em;}
-.sidebar-nav{flex:1;padding:16px 0;}
-.nav-section{padding:0 12px;margin-bottom:4px;}
-.nav-section-label{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.3);padding:8px 8px 4px;}
-.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;color:rgba(255,255,255,0.6);font-size:0.85rem;font-weight:500;transition:all 0.2s;text-decoration:none;}
-.nav-item:hover,.nav-item.active{background:rgba(255,255,255,0.08);color:white;}
-.nav-item.active{background:var(--primary)!important;color:white;}
-.nav-item .icon{font-size:1rem;width:20px;text-align:center;}
-.nav-badge{margin-left:auto;background:var(--coral);color:white;font-size:0.65rem;font-weight:700;padding:2px 7px;border-radius:10px;}
-.sidebar-footer{padding:16px;border-top:1px solid rgba(255,255,255,0.08);}
-.sidebar-user{display:flex;align-items:center;gap:10px;}
-.sidebar-av{width:34px;height:34px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:1rem;}
-.sidebar-info .name{font-size:0.82rem;font-weight:600;color:white;}
-.sidebar-info .role{font-size:0.7rem;color:rgba(255,255,255,0.4);}
-
-/* MAIN */
-.main{margin-left:240px;flex:1;display:flex;flex-direction:column;}
-.topbar{background:white;border-bottom:1px solid var(--border);padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
-.topbar-title{font-family:'Unbounded',sans-serif;font-size:1rem;font-weight:700;}
-.topbar-right{display:flex;align-items:center;gap:16px;}
-.topbar-time{font-size:0.78rem;color:var(--muted);}
-.notif-btn{background:none;border:none;cursor:pointer;font-size:1.1rem;position:relative;}
-.notif-dot{position:absolute;top:0;right:0;width:8px;height:8px;background:var(--coral);border-radius:50%;border:2px solid white;}
-.content{padding:28px;flex:1;}
-
-/* STATS CARDS */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px;}
-.stat-card{background:white;border-radius:12px;padding:20px;box-shadow:var(--shadow);border:1px solid var(--border);}
-.stat-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
-.stat-card-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;}
-.stat-card-icon.green{background:var(--primary-light);}
-.stat-card-icon.gold{background:#fef9ed;}
-.stat-card-icon.coral{background:#fef0ed;}
-.stat-card-icon.blue{background:#eff6ff;}
-.stat-card-change{font-size:0.72rem;font-weight:600;padding:2px 8px;border-radius:10px;}
-.stat-card-change.up{background:#dcfce7;color:#166534;}
-.stat-card-change.down{background:#fee2e2;color:#991b1b;}
-.stat-card-val{font-family:'Unbounded',sans-serif;font-size:1.6rem;font-weight:700;margin-bottom:2px;}
-.stat-card-label{font-size:0.78rem;color:var(--muted);}
-
-/* TABLES */
-.card{background:white;border-radius:12px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:20px;overflow:hidden;}
-.card-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.card-head h3{font-family:'Unbounded',sans-serif;font-size:0.9rem;font-weight:700;}
-.card-actions{display:flex;gap:8px;}
-.btn-sm{padding:6px 14px;border-radius:7px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;border:1.5px solid var(--border);background:none;color:var(--ink);transition:all 0.15s;}
-.btn-sm:hover{border-color:var(--primary);color:var(--primary);}
-.btn-sm.primary{background:var(--primary);border-color:var(--primary);color:white;}
-.btn-sm.primary:hover{background:var(--primary-dark);}
-.btn-sm.danger{background:var(--coral);border-color:var(--coral);color:white;}
-table{width:100%;border-collapse:collapse;}
-th{padding:11px 16px;text-align:left;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);background:#f9fafb;border-bottom:1px solid var(--border);}
-td{padding:13px 16px;font-size:0.82rem;border-bottom:1px solid var(--border);}
-tr:last-child td{border-bottom:none;}
-tr:hover td{background:#f9fafb;}
-.badge{display:inline-block;padding:3px 9px;border-radius:8px;font-size:0.7rem;font-weight:700;}
-.badge.green{background:#dcfce7;color:#166534;}
-.badge.gold{background:#fef9ed;color:#92400e;}
-.badge.red{background:#fee2e2;color:#991b1b;}
-.badge.blue{background:#eff6ff;color:#1e40af;}
-.badge.gray{background:#f3f4f6;color:var(--muted);}
-.avatar-cell{display:flex;align-items:center;gap:10px;}
-.av-circle{width:32px;height:32px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
-
-/* TABS */
-.tabs{display:flex;gap:4px;padding:16px 20px;border-bottom:1px solid var(--border);}
-.tab{padding:7px 16px;border-radius:8px;font-size:0.82rem;font-weight:500;cursor:pointer;color:var(--muted);transition:all 0.15s;}
-.tab.active,.tab:hover{background:var(--primary-light);color:var(--primary);}
-.tab.active{font-weight:600;}
-.tab-content{display:none;padding:20px;}
-.tab-content.active{display:block;}
-
-/* AI SCORE */
-.ai-score{display:flex;align-items:center;gap:6px;}
-.score-bar{width:60px;height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
-.score-fill{height:100%;border-radius:3px;background:var(--primary);}
-
-/* GRID 2 COL */
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
-@media(max-width:900px){.sidebar{transform:translateX(-100%);}.main{margin-left:0;}.grid-2{grid-template-columns:1fr;}}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#f3f4f6;color:#111}
+.login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#111827}
+.login-box{background:white;padding:40px;border-radius:16px;width:380px}
+.logo{font-size:1.5rem;font-weight:700;color:#1a5c3a;margin-bottom:8px}
+.logo span{color:#d4a017}
+h2{color:#6b7280;font-size:0.95rem;margin-bottom:24px;font-weight:400}
+input{width:100%;border:1.5px solid #e5e7eb;border-radius:8px;padding:10px 14px;font-size:0.9rem;margin-bottom:12px;outline:none}
+input:focus{border-color:#1a5c3a}
+.btn{width:100%;background:#1a5c3a;color:white;border:none;padding:13px;border-radius:10px;font-size:0.95rem;font-weight:600;cursor:pointer}
+.err{color:#e8533a;font-size:0.82rem;margin-top:8px}
+.sidebar{width:220px;background:#111827;min-height:100vh;position:fixed;left:0;top:0}
+.slogo{padding:20px;color:white;font-size:1.1rem;font-weight:700;border-bottom:1px solid rgba(255,255,255,0.08)}
+.slogo span{color:#d4a017}
+.nav a{display:block;padding:10px 20px;color:rgba(255,255,255,0.6);text-decoration:none;font-size:0.85rem;cursor:pointer}
+.nav a:hover,.nav a.active{background:rgba(255,255,255,0.1);color:white}
+.nav a.active{background:#1a5c3a;color:white}
+.sfooter{position:absolute;bottom:0;left:0;right:0;padding:16px;border-top:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.4);font-size:0.78rem}
+.main{margin-left:220px;padding:28px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.topbar h1{font-size:1.1rem;font-weight:700}
+.rbtn{background:none;border:1.5px solid #e5e7eb;color:#6b7280;padding:6px 14px;border-radius:7px;font-size:0.78rem;cursor:pointer}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:24px}
+.stat{background:white;border-radius:12px;padding:18px;border:1px solid #e5e7eb}
+.sv{font-size:1.8rem;font-weight:700;color:#1a5c3a}
+.sl{font-size:0.75rem;color:#6b7280;margin-top:3px}
+.card{background:white;border-radius:12px;border:1px solid #e5e7eb;margin-bottom:18px;overflow:hidden}
+.ch{padding:14px 18px;border-bottom:1px solid #e5e7eb;font-weight:700;font-size:0.88rem}
+table{width:100%;border-collapse:collapse}
+th{padding:9px 14px;text-align:left;font-size:0.7rem;text-transform:uppercase;color:#6b7280;background:#f9fafb;border-bottom:1px solid #e5e7eb}
+td{padding:11px 14px;font-size:0.82rem;border-bottom:1px solid #e5e7eb}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f9fafb}
+.b{display:inline-block;padding:2px 8px;border-radius:6px;font-size:0.7rem;font-weight:700}
+.bg{background:#dcfce7;color:#166534}
+.bb{background:#eff6ff;color:#1e40af}
+.br{background:#fee2e2;color:#991b1b}
+.bo{background:#fef9ed;color:#92400e}
+.bx{background:#f3f4f6;color:#6b7280}
+.ab{background:#1a5c3a;color:white;border:none;padding:4px 10px;border-radius:6px;font-size:0.75rem;cursor:pointer;margin-right:4px}
+.rb{background:#e8533a;color:white;border:none;padding:4px 10px;border-radius:6px;font-size:0.75rem;cursor:pointer}
+.empty{text-align:center;color:#6b7280;padding:36px;font-size:0.85rem}
+.page{display:none}
+.page.active{display:block}
+#app{display:none}
 </style>
 </head>
 <body>
 
-<!-- SIDEBAR -->
-<aside class="sidebar">
-  <div class="sidebar-logo">
-    <a href="index.html">Bilimly<span>.kg</span></a>
-    <small>Панель администратора</small>
-  </div>
-  <nav class="sidebar-nav">
-    <div class="nav-section">
-      <div class="nav-section-label">Главное</div>
-      <a class="nav-item active" onclick="showPage('dashboard')"><span class="icon">📊</span> Дашборд</a>
-      <a class="nav-item" onclick="showPage('bookings')"><span class="icon">📅</span> Бронирования</a>
-      <a class="nav-item" onclick="showPage('payments')"><span class="icon">💳</span> Платежи</a>
-    </div>
-    <div class="nav-section">
-      <div class="nav-section-label">Пользователи</div>
-      <a class="nav-item" onclick="showPage('tutors')"><span class="icon">👨‍🏫</span> Репетиторы</a>
-      <a class="nav-item" onclick="showPage('students')"><span class="icon">👩‍🎓</span> Студенты</a>
-      <a class="nav-item" onclick="showPage('applications')"><span class="icon">📋</span> Заявки <span class="nav-badge">3</span></a>
-    </div>
-    <div class="nav-section">
-      <div class="nav-section-label">Агенты</div>
-      <a class="nav-item" onclick="showPage('chat')"><span class="icon">💬</span> Сообщения</a>
-      <a class="nav-item" onclick="showPage('whatsapp')"><span class="icon">📱</span> WhatsApp</a>
-      <a class="nav-item" onclick="showPage('instagram')"><span class="icon">📷</span> Instagram</a>
-    </div>
-  </nav>
-  <div class="sidebar-footer">
-    <div class="sidebar-user">
-      <div class="sidebar-av">👤</div>
-      <div class="sidebar-info">
-        <div class="name">Администратор</div>
-        <div class="role">admin@bilimly.kg</div>
-      </div>
-    </div>
-  </div>
-</aside>
+<div class="login-wrap" id="loginWrap">
+<div class="login-box">
+  <div class="logo">Bilimly<span>.kg</span></div>
+  <h2>Панель администратора</h2>
+  <input type="email" id="em" value="admin@bilimly.kg">
+  <input type="password" id="pw" placeholder="Пароль" onkeydown="if(event.key==='Enter')login()">
+  <button class="btn" onclick="login()">Войти</button>
+  <div class="err" id="er"></div>
+</div>
+</div>
 
-<!-- MAIN -->
+<div id="app">
+<div class="sidebar">
+  <div class="slogo">Bilimly<span>.kg</span></div>
+  <div class="nav">
+    <a class="active" onclick="show('dashboard',this)">📊 Дашборд</a>
+    <a onclick="show('users',this)">👥 Пользователи</a>
+    <a onclick="show('bookings',this)">📅 Бронирования</a>
+    <a onclick="show('applications',this)">📋 Заявки</a>
+    <a onclick="show('messages',this)">💬 Сообщения</a>
+    <a onclick="logout()" style="margin-top:20px;color:rgba(255,255,255,0.3)">🚪 Выйти</a>
+  </div>
+  <div class="sfooter" id="aname"></div>
+</div>
+
 <div class="main">
   <div class="topbar">
-    <div class="topbar-title" id="page-title">Дашборд</div>
-    <div class="topbar-right">
-      <span class="topbar-time" id="clock"></span>
-      <button class="notif-btn">🔔<span class="notif-dot"></span></button>
-      <a href="index.html" class="btn-sm">← Сайт</a>
+    <h1 id="ptitle">Дашборд</h1>
+    <button class="rbtn" onclick="reload()">↻ Обновить</button>
+  </div>
+
+  <div id="page-dashboard" class="page active">
+    <div class="stats">
+      <div class="stat"><div class="sv" id="ss">—</div><div class="sl">Студентов</div></div>
+      <div class="stat"><div class="sv" id="st">—</div><div class="sl">Репетиторов</div></div>
+      <div class="stat"><div class="sv" id="sl">—</div><div class="sl">Уроков</div></div>
+      <div class="stat"><div class="sv" id="sr">—</div><div class="sl">Выручка сом</div></div>
+      <div class="stat"><div class="sv" id="sp" style="color:#e8533a">—</div><div class="sl">Заявок ждут</div></div>
+    </div>
+    <div class="card"><div class="ch">Последние бронирования</div>
+      <table><thead><tr><th>Студент</th><th>Репетитор</th><th>Предмет</th><th>Дата</th><th>Сумма</th><th>Статус</th></tr></thead>
+      <tbody id="rb"></tbody></table>
     </div>
   </div>
 
-  <div class="content">
-
-    <!-- DASHBOARD PAGE -->
-    <div id="page-dashboard">
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-card-top"><div class="stat-card-icon green">👩‍🎓</div><span class="stat-card-change up">+12%</span></div>
-          <div class="stat-card-val">1,847</div>
-          <div class="stat-card-label">Студентов</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-top"><div class="stat-card-icon gold">👨‍🏫</div><span class="stat-card-change up">+8%</span></div>
-          <div class="stat-card-val">243</div>
-          <div class="stat-card-label">Репетиторов</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-top"><div class="stat-card-icon coral">📅</div><span class="stat-card-change up">+24%</span></div>
-          <div class="stat-card-val">3,291</div>
-          <div class="stat-card-label">Уроков проведено</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-top"><div class="stat-card-icon blue">💰</div><span class="stat-card-change up">+31%</span></div>
-          <div class="stat-card-val">847,500 сом</div>
-          <div class="stat-card-label">Выручка (месяц)</div>
-        </div>
-      </div>
-
-      <div class="grid-2">
-        <!-- RECENT BOOKINGS -->
-        <div class="card">
-          <div class="card-head"><h3>Последние бронирования</h3><button class="btn-sm" onclick="showPage('bookings')">Все →</button></div>
-          <table>
-            <thead><tr><th>Студент</th><th>Репетитор</th><th>Дата</th><th>Статус</th></tr></thead>
-            <tbody>
-              <tr><td><div class="avatar-cell"><div class="av-circle">👩</div>Айгерим К.</div></td><td>Нурлан А.</td><td>12 апр</td><td><span class="badge green">Подтверждён</span></td></tr>
-              <tr><td><div class="avatar-cell"><div class="av-circle">👨</div>Бакыт М.</div></td><td>Айгуль Б.</td><td>12 апр</td><td><span class="badge gold">Ожидает</span></td></tr>
-              <tr><td><div class="avatar-cell"><div class="av-circle">👩</div>Назира Т.</div></td><td>Тимур С.</td><td>11 апр</td><td><span class="badge green">Завершён</span></td></tr>
-              <tr><td><div class="avatar-cell"><div class="av-circle">👦</div>Алмаз Ж.</div></td><td>Гүлнара Э.</td><td>11 апр</td><td><span class="badge red">Отменён</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- PENDING APPLICATIONS -->
-        <div class="card">
-          <div class="card-head"><h3>Заявки репетиторов</h3><button class="btn-sm" onclick="showPage('applications')">Все →</button></div>
-          <table>
-            <thead><tr><th>Имя</th><th>Предмет</th><th>AI-оценка</th><th>Действие</th></tr></thead>
-          <tbody>
-            <tr>
-              <td><div class="avatar-cell"><div class="av-circle">👨</div>Эрнест Б.</div></td>
-              <td>Химия</td>
-              <td><div class="ai-score">87<div class="score-bar"><div class="score-fill" style="width:87%"></div></div></div></td>
-              <td><button class="btn-sm primary" onclick="approveApp(this)">Одобрить</button></td>
-            </tr>
-            <tr>
-              <td><div class="avatar-cell"><div class="av-circle">👩</div>Салтанат А.</div></td>
-              <td>Английский</td>
-              <td><div class="ai-score">92<div class="score-bar"><div class="score-fill" style="width:92%"></div></div></div></td>
-              <td><button class="btn-sm primary" onclick="approveApp(this)">Одобрить</button></td>
-            </tr>
-            <tr>
-              <td><div class="avatar-cell"><div class="av-circle">👨</div>Дамир Т.</div></td>
-              <td>Физика</td>
-              <td><div class="ai-score">61<div class="score-bar"><div class="score-fill" style="width:61%;background:var(--gold)"></div></div></div></td>
-              <td><button class="btn-sm" onclick="showPage('applications')">Проверить</button></td>
-            </tr>
-          </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- REVENUE CHART -->
-      <div class="card">
-        <div class="card-head"><h3>Выручка за последние 7 дней</h3></div>
-        <div style="padding:20px">
-          <div style="display:flex;align-items:flex-end;gap:8px;height:120px">
-            ${[42000,58000,38000,71000,65000,89000,54000].map((v,i) => {
-              const days = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
-              const h = Math.round((v/89000)*100);
-              return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
-                <div style="font-size:0.65rem;color:var(--muted)">${(v/1000).toFixed(0)}к</div>
-                <div style="width:100%;height:${h}%;background:var(--primary);border-radius:4px 4px 0 0;min-height:4px"></div>
-                <div style="font-size:0.7rem;color:var(--muted)">${days[i]}</div>
-              </div>`;
-            }).join('')}
-          </div>
-        </div>
-      </div>
+  <div id="page-users" class="page">
+    <div class="card"><div class="ch">Пользователи</div>
+      <table><thead><tr><th>Имя</th><th>Email</th><th>Телефон</th><th>Роль</th><th>Дата</th><th>Статус</th></tr></thead>
+      <tbody id="ut"></tbody></table>
     </div>
-
-    <!-- APPLICATIONS PAGE -->
-    <div id="page-applications" style="display:none">
-      <div class="card">
-        <div class="card-head"><h3>Заявки репетиторов</h3><div class="card-actions"><button class="btn-sm">Фильтр</button><button class="btn-sm primary">Экспорт</button></div></div>
-        <div class="tabs">
-          <div class="tab active" onclick="switchTab(this,'app-pending')">Ожидают (3)</div>
-          <div class="tab" onclick="switchTab(this,'app-approved')">Одобрены</div>
-          <div class="tab" onclick="switchTab(this,'app-rejected')">Отклонены</div>
-        </div>
-        <div id="app-pending" class="tab-content active">
-          <table>
-            <thead><tr><th>Имя</th><th>Предмет</th><th>Опыт</th><th>Ставка</th><th>AI-оценка</th><th>Рекомендация</th><th>Действие</th></tr></thead>
-            <tbody>
-              <tr>
-                <td><div class="avatar-cell"><div class="av-circle">👨</div><div><div>Эрнест Байжанов</div><div style="font-size:0.72rem;color:var(--muted)">ernest@email.com</div></div></div></td>
-                <td>Химия, Биология</td><td>5 лет</td><td>800 сом/ч</td>
-                <td><div class="ai-score" style="gap:8px"><span style="font-weight:700;color:var(--primary)">87</span><div class="score-bar"><div class="score-fill" style="width:87%"></div></div></div></td>
-                <td><span class="badge green">Одобрить</span></td>
-                <td><div style="display:flex;gap:6px"><button class="btn-sm primary" onclick="approveApp(this)">✓ Одобрить</button><button class="btn-sm danger" onclick="rejectApp(this)">✗</button></div></td>
-              </tr>
-              <tr>
-                <td><div class="avatar-cell"><div class="av-circle">👩</div><div><div>Салтанат Алиева</div><div style="font-size:0.72rem;color:var(--muted)">saltanat@email.com</div></div></div></td>
-                <td>Английский язык</td><td>7 лет</td><td>900 сом/ч</td>
-                <td><div class="ai-score" style="gap:8px"><span style="font-weight:700;color:var(--primary)">92</span><div class="score-bar"><div class="score-fill" style="width:92%"></div></div></div></td>
-                <td><span class="badge green">Одобрить</span></td>
-                <td><div style="display:flex;gap:6px"><button class="btn-sm primary" onclick="approveApp(this)">✓ Одобрить</button><button class="btn-sm danger" onclick="rejectApp(this)">✗</button></div></td>
-              </tr>
-              <tr>
-                <td><div class="avatar-cell"><div class="av-circle">👨</div><div><div>Дамир Токтогулов</div><div style="font-size:0.72rem;color:var(--muted)">damir@email.com</div></div></div></td>
-                <td>Физика</td><td>2 года</td><td>600 сом/ч</td>
-                <td><div class="ai-score" style="gap:8px"><span style="font-weight:700;color:var(--gold)">61</span><div class="score-bar"><div class="score-fill" style="width:61%;background:var(--gold)"></div></div></div></td>
-                <td><span class="badge gold">Проверить</span></td>
-                <td><div style="display:flex;gap:6px"><button class="btn-sm primary" onclick="approveApp(this)">✓ Одобрить</button><button class="btn-sm danger" onclick="rejectApp(this)">✗</button></div></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div id="app-approved" class="tab-content"><div style="padding:20px;text-align:center;color:var(--muted)">Одобренные репетиторы появятся здесь</div></div>
-        <div id="app-rejected" class="tab-content"><div style="padding:20px;text-align:center;color:var(--muted)">Отклонённые заявки появятся здесь</div></div>
-      </div>
-    </div>
-
-    <!-- BOOKINGS PAGE -->
-    <div id="page-bookings" style="display:none">
-      <div class="card">
-        <div class="card-head"><h3>Все бронирования</h3><div class="card-actions"><button class="btn-sm">Фильтр</button><button class="btn-sm primary">Экспорт CSV</button></div></div>
-        <table>
-          <thead><tr><th>№</th><th>Студент</th><th>Репетитор</th><th>Предмет</th><th>Дата</th><th>Время</th><th>Тип</th><th>Сумма</th><th>Статус</th></tr></thead>
-          <tbody>
-            <tr><td>#1024</td><td>Айгерим К.</td><td>Нурлан А.</td><td>Математика</td><td>12 апр</td><td>14:00</td><td><span class="badge blue">Пробный</span></td><td>200 сом</td><td><span class="badge green">Подтверждён</span></td></tr>
-            <tr><td>#1023</td><td>Бакыт М.</td><td>Айгуль Б.</td><td>Английский</td><td>12 апр</td><td>11:00</td><td><span class="badge gray">Обычный</span></td><td>800 сом</td><td><span class="badge gold">Ожидает оплаты</span></td></tr>
-            <tr><td>#1022</td><td>Назира Т.</td><td>Тимур С.</td><td>Python</td><td>11 апр</td><td>17:00</td><td><span class="badge gray">Обычный</span></td><td>1200 сом</td><td><span class="badge green">Завершён</span></td></tr>
-            <tr><td>#1021</td><td>Алмаз Ж.</td><td>Гүлнара Э.</td><td>ОРТ Математика</td><td>11 апр</td><td>10:00</td><td><span class="badge blue">Пробный</span></td><td>250 сом</td><td><span class="badge red">Отменён</span></td></tr>
-            <tr><td>#1020</td><td>Зарина О.</td><td>Мадина Т.</td><td>Кыргызский</td><td>10 апр</td><td>15:00</td><td><span class="badge gray">Обычный</span></td><td>500 сом</td><td><span class="badge green">Завершён</span></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- PAYMENTS PAGE -->
-    <div id="page-payments" style="display:none">
-      <div class="stats-grid" style="margin-bottom:20px">
-        <div class="stat-card"><div class="stat-card-top"><div class="stat-card-icon green">💰</div></div><div class="stat-card-val">847,500 сом</div><div class="stat-card-label">Выручка за апрель</div></div>
-        <div class="stat-card"><div class="stat-card-top"><div class="stat-card-icon gold">📱</div></div><div class="stat-card-val">94%</div><div class="stat-card-label">Оплачено через MBANK</div></div>
-        <div class="stat-card"><div class="stat-card-top"><div class="stat-card-icon coral">⏳</div></div><div class="stat-card-val">12</div><div class="stat-card-label">Ожидают оплаты</div></div>
-      </div>
-      <div class="card">
-        <div class="card-head"><h3>История платежей</h3><div class="card-actions"><button class="btn-sm primary">Экспорт</button></div></div>
-        <table>
-          <thead><tr><th>ID</th><th>Студент</th><th>Сумма</th><th>Метод</th><th>Транзакция MBANK</th><th>Дата</th><th>Статус</th><th>Действие</th></tr></thead>
-          <tbody>
-            <tr><td>#P-4421</td><td>Айгерим К.</td><td>200 сом</td><td>📱 MBANK QR</td><td>MBK-881234</td><td>12 апр 14:32</td><td><span class="badge green">Оплачено</span></td><td><button class="btn-sm">Детали</button></td></tr>
-            <tr><td>#P-4420</td><td>Бакыт М.</td><td>800 сом</td><td>📱 MBANK QR</td><td>—</td><td>12 апр 11:15</td><td><span class="badge gold">Ожидает</span></td><td><button class="btn-sm primary" onclick="confirmPayment(this)">Подтвердить</button></td></tr>
-            <tr><td>#P-4419</td><td>Назира Т.</td><td>1200 сом</td><td>📱 MBANK QR</td><td>MBK-881189</td><td>11 апр 17:05</td><td><span class="badge green">Оплачено</span></td><td><button class="btn-sm">Детали</button></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- CHAT PAGE -->
-    <div id="page-chat" style="display:none">
-      <div class="card">
-        <div class="card-head"><h3>💬 Сообщения поддержки</h3></div>
-        <table>
-          <thead><tr><th>Канал</th><th>Пользователь</th><th>Последнее сообщение</th><th>ИИ-ответ</th><th>Время</th></tr></thead>
-          <tbody>
-            <tr><td><span class="badge blue">Сайт</span></td><td>Айгерим К.</td><td>Как забронировать урок?</td><td><span class="badge green">✓ ИИ ответил</span></td><td>5 мин назад</td></tr>
-            <tr><td><span class="badge green">WhatsApp</span></td><td>+996 770 *** ***</td><td>Когда придёт подтверждение?</td><td><span class="badge green">✓ ИИ ответил</span></td><td>12 мин назад</td></tr>
-            <tr><td><span class="badge gold">Instagram</span></td><td>@user_kg</td><td>Сколько стоит урок математики?</td><td><span class="badge green">✓ ИИ ответил</span></td><td>28 мин назад</td></tr>
-            <tr><td><span class="badge blue">Сайт</span></td><td>Гость</td><td>Как стать репетитором?</td><td><span class="badge green">✓ ИИ ответил</span></td><td>1 час назад</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- WHATSAPP PAGE -->
-    <div id="page-whatsapp" style="display:none">
-      <div class="stats-grid" style="margin-bottom:20px">
-        <div class="stat-card"><div class="stat-card-top"><div class="stat-card-icon green">📱</div></div><div class="stat-card-val">284</div><div class="stat-card-label">Сообщений сегодня</div></div>
-        <div class="stat-card"><div class="stat-card-top"><div class="stat-card-icon gold">🤖</div></div><div class="stat-card-val">97%</div><div class="stat-card-label">Автоответов ИИ</div></div>
-        <div class="stat-card"><div class="stat-card-top"><div class="stat-card-icon coral">⏱</div></div><div class="stat-card-val">&lt;5 сек</div><div class="stat-card-label">Среднее время ответа</div></div>
-      </div>
-      <div class="card">
-        <div class="card-head"><h3>WhatsApp — последние диалоги</h3></div>
-        <table>
-          <thead><tr><th>Номер</th><th>Сообщение</th><th>Ответ ИИ</th><th>Время</th><th>Статус</th></tr></thead>
-          <tbody>
-            <tr><td>+996 700 *** ***</td><td>Как записаться на урок английского?</td><td>Здравствуйте! Выберите репетитора на bilimly.kg и нажмите "Записаться"...</td><td>2 мин</td><td><span class="badge green">Отвечено</span></td></tr>
-            <tr><td>+996 550 *** ***</td><td>Урок тастыкталдыбы?</td><td>Ооба, сабагыңыз тастыкталды! 12-апрель, саат 14:00...</td><td>8 мин</td><td><span class="badge green">Отвечено</span></td></tr>
-            <tr><td>+996 777 *** ***</td><td>Refund please, tutor didn't show</td><td>I'm sorry to hear that. I'm escalating this to our support team immediately...</td><td>15 мин</td><td><span class="badge coral">Эскалировано</span></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- INSTAGRAM PAGE -->
-    <div id="page-instagram" style="display:none">
-      <div class="stats-grid" style="margin-bottom:20px">
-        <div class="stat-card"><div class="stat-card-top"><div class="stat-card-icon gold">📷</div></div><div class="stat-card-val">1,284</div><div class="stat-card-label">DM за месяц</div></div>
-        <div class="stat-card"><div class="stat-card-top"><div class="stat-card-icon green">💬</div></div><div class="stat-card-val">3,891</div><div class="stat-card-label">Комментариев обработано</div></div>
-        <div class="stat-card"><div class="stat-card-top"><div class="stat-card-icon coral">🎯</div></div><div class="stat-card-val">18%</div><div class="stat-card-label">Конверсия в бронирование</div></div>
-      </div>
-      <div class="card">
-        <div class="card-head"><h3>Instagram — последние DM</h3></div>
-        <table>
-          <thead><tr><th>Пользователь</th><th>Сообщение</th><th>Ответ ИИ</th><th>Источник</th><th>Статус</th></tr></thead>
-          <tbody>
-            <tr><td>@aizat_kg</td><td>Сколько стоит репетитор по математике?</td><td>Уроки по математике от 500 сом/час. Пробный урок — от 200 сом!</td><td>Пост</td><td><span class="badge green">Отвечено</span></td></tr>
-            <tr><td>@student_bish</td><td>Есть ли репетиторы по ОРТ?</td><td>Да! У нас 280 репетиторов по ОРТ. Перейдите на bilimly.kg чтобы найти лучшего!</td><td>Reels</td><td><span class="badge green">Отвечено</span></td></tr>
-            <tr><td>@nuriza_t</td><td>How to become a tutor?</td><td>Hi! Click "Become a Tutor" on bilimly.kg — we review applications within 24 hours!</td><td>DM</td><td><span class="badge green">Отвечено</span></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- TUTORS PAGE -->
-    <div id="page-tutors" style="display:none">
-      <div class="card">
-        <div class="card-head"><h3>Репетиторы</h3><div class="card-actions"><input type="text" placeholder="Поиск..." style="padding:6px 12px;border:1.5px solid var(--border);border-radius:7px;font-size:0.82rem;outline:none"><button class="btn-sm primary">+ Добавить</button></div></div>
-        <table>
-          <thead><tr><th>Репетитор</th><th>Предмет</th><th>Рейтинг</th><th>Уроков</th><th>Ставка</th><th>Статус</th><th>Действие</th></tr></thead>
-          <tbody>
-            <tr><td><div class="avatar-cell"><div class="av-circle">👩‍🏫</div><div><div>Айгуль Бекова</div><div style="font-size:0.72rem;color:var(--muted)">aigul@email.com</div></div></div></td><td>Английский</td><td>⭐ 4.98</td><td>312</td><td>800 сом/ч</td><td><span class="badge green">Активен</span></td><td><button class="btn-sm">Редактировать</button></td></tr>
-            <tr><td><div class="avatar-cell"><div class="av-circle">👨‍🔬</div><div><div>Нурлан Асанов</div><div style="font-size:0.72rem;color:var(--muted)">nurlan@email.com</div></div></div></td><td>Математика</td><td>⭐ 4.97</td><td>289</td><td>700 сом/ч</td><td><span class="badge green">Активен</span></td><td><button class="btn-sm">Редактировать</button></td></tr>
-            <tr><td><div class="avatar-cell"><div class="av-circle">👩‍🏫</div><div><div>Гүлнара Эргешева</div><div style="font-size:0.72rem;color:var(--muted)">gulnara@email.com</div></div></div></td><td>ОРТ · Математика</td><td>⭐ 4.99</td><td>427</td><td>1000 сом/ч</td><td><span class="badge green">Активен</span></td><td><button class="btn-sm">Редактировать</button></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- STUDENTS PAGE -->
-    <div id="page-students" style="display:none">
-      <div class="card">
-        <div class="card-head"><h3>Студенты</h3><div class="card-actions"><input type="text" placeholder="Поиск..." style="padding:6px 12px;border:1.5px solid var(--border);border-radius:7px;font-size:0.82rem;outline:none"></div></div>
-        <table>
-          <thead><tr><th>Студент</th><th>Email</th><th>Телефон</th><th>Уроков</th><th>Регистрация</th><th>Статус</th></tr></thead>
-          <tbody>
-            <tr><td><div class="avatar-cell"><div class="av-circle">👩</div>Айгерим Карыбекова</div></td><td>aigerim@email.com</td><td>+996 700 123 456</td><td>24</td><td>1 март 2026</td><td><span class="badge green">Активен</span></td></tr>
-            <tr><td><div class="avatar-cell"><div class="av-circle">👨</div>Бакыт Мамытов</div></td><td>bakyt@email.com</td><td>+996 550 234 567</td><td>8</td><td>15 март 2026</td><td><span class="badge green">Активен</span></td></tr>
-            <tr><td><div class="avatar-cell"><div class="av-circle">👩</div>Назира Токтосунова</div></td><td>nazira@email.com</td><td>+996 777 345 678</td><td>18</td><td>5 февр 2026</td><td><span class="badge green">Активен</span></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
   </div>
+
+  <div id="page-bookings" class="page">
+    <div class="card"><div class="ch">Все бронирования</div>
+      <table><thead><tr><th>Студент</th><th>Репетитор</th><th>Предмет</th><th>Дата</th><th>Сумма</th><th>Оплата</th><th>Статус</th></tr></thead>
+      <tbody id="bt"></tbody></table>
+    </div>
+  </div>
+
+  <div id="page-applications" class="page">
+    <div class="card"><div class="ch">Заявки репетиторов</div>
+      <table><thead><tr><th>Имя</th><th>Email</th><th>Предметы</th><th>Опыт</th><th>AI</th><th>Статус</th><th>Действие</th></tr></thead>
+      <tbody id="at"></tbody></table>
+    </div>
+  </div>
+
+  <div id="page-messages" class="page">
+    <div class="card"><div class="ch">Сообщения</div>
+      <table><thead><tr><th>Канал</th><th>Сообщение</th><th>Тип</th><th>Время</th></tr></thead>
+      <tbody id="mt"></tbody></table>
+    </div>
+  </div>
+
+</div>
 </div>
 
 <script>
-// ── NAVIGATION ─────────────────────────────────────────────
-const pageTitles = {
-  dashboard: 'Дашборд', bookings: 'Бронирования', payments: 'Платежи',
-  tutors: 'Репетиторы', students: 'Студенты', applications: 'Заявки репетиторов',
-  chat: 'Сообщения', whatsapp: 'WhatsApp агент', instagram: 'Instagram агент'
-};
+const API='https://bilimly-backend-production.up.railway.app';
+let tok=localStorage.getItem('bt');
+let cp='dashboard';
+if(tok)init();
 
-function showPage(name) {
-  document.querySelectorAll('[id^="page-"]').forEach(p => p.style.display='none');
-  const page = document.getElementById(`page-${name}`);
-  if (page) page.style.display='block';
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('page-title').textContent = pageTitles[name] || name;
-}
-
-function switchTab(tabEl, contentId) {
-  const parent = tabEl.closest('.card');
-  parent.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  parent.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-  tabEl.classList.add('active');
-  document.getElementById(contentId).classList.add('active');
-}
-
-function approveApp(btn) {
-  const row = btn.closest('tr');
-  const name = row.cells[0].textContent.trim();
-  row.remove();
-  showToast(`✓ Репетитор одобрен и добавлен на платформу`);
-}
-function rejectApp(btn) {
-  btn.closest('tr').remove();
-  showToast('Заявка отклонена');
-}
-function confirmPayment(btn) {
-  const row = btn.closest('tr');
-  row.cells[6].innerHTML = '<span class="badge green">Оплачено</span>';
-  btn.remove();
-  showToast('✓ Платёж подтверждён вручную');
+async function login(){
+  const e=document.getElementById('em').value;
+  const p=document.getElementById('pw').value;
+  document.getElementById('er').textContent='';
+  try{
+    const r=await fetch(API+'/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e,password:p})});
+    const d=await r.json();
+    if(d.token){
+      if(d.user.role!=='admin'){document.getElementById('er').textContent='Нет прав администратора';return;}
+      tok=d.token;
+      localStorage.setItem('bt',tok);
+      localStorage.setItem('bu',JSON.stringify(d.user));
+      init();
+    }else{document.getElementById('er').textContent='Неверный email или пароль';}
+  }catch(e){document.getElementById('er').textContent='Ошибка соединения';}
 }
 
-// Clock
-function updateClock() {
-  const now = new Date();
-  document.getElementById('clock').textContent = now.toLocaleString('ru-RU', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' }) + ' • Бишкек';
+function init(){
+  const u=JSON.parse(localStorage.getItem('bu')||'{}');
+  document.getElementById('aname').textContent=u.first_name+' '+u.last_name;
+  document.getElementById('loginWrap').style.display='none';
+  document.getElementById('app').style.display='block';
+  loadDash();
 }
-setInterval(updateClock, 1000);
-updateClock();
 
-function showToast(msg) {
-  const t = document.createElement('div');
-  t.textContent = msg;
-  Object.assign(t.style, { position:'fixed', bottom:'24px', left:'50%', transform:'translateX(-50%)', background:'var(--primary)', color:'white', padding:'12px 24px', borderRadius:'10px', fontWeight:'600', zIndex:'9999', boxShadow:'0 8px 24px rgba(0,0,0,0.15)', fontSize:'0.875rem', whiteSpace:'nowrap' });
-  document.body.appendChild(t);
-  setTimeout(() => t.remove(), 3000);
+function logout(){localStorage.removeItem('bt');localStorage.removeItem('bu');location.reload();}
+
+async function get(path){
+  const r=await fetch(API+path,{headers:{'Authorization':'Bearer '+tok}});
+  if(r.status===401){logout();return null;}
+  return r.json();
+}
+
+function show(name,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav a').forEach(a=>a.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  if(el)el.classList.add('active');
+  cp=name;
+  const t={dashboard:'Дашборд',users:'Пользователи',bookings:'Бронирования',applications:'Заявки',messages:'Сообщения'};
+  document.getElementById('ptitle').textContent=t[name]||name;
+  if(name==='users')loadUsers();
+  else if(name==='bookings')loadBookings();
+  else if(name==='applications')loadApps();
+  else if(name==='messages')loadMsgs();
+  else loadDash();
+}
+
+function reload(){show(cp,null);}
+
+async function loadDash(){
+  const d=await get('/api/admin/stats');
+  if(!d)return;
+  document.getElementById('ss').textContent=d.stats?.total_students??0;
+  document.getElementById('st').textContent=d.stats?.total_tutors??0;
+  document.getElementById('sl').textContent=d.stats?.completed_lessons??0;
+  document.getElementById('sr').textContent=Math.round(d.stats?.total_revenue_kgs??0).toLocaleString('ru');
+  document.getElementById('sp').textContent=d.stats?.pending_applications??0;
+  const b=await get('/api/admin/bookings?limit=5');
+  if(b)renderB(b,'rb');
+}
+
+async function loadUsers(){
+  const d=await get('/api/admin/users?limit=100');
+  if(!d)return;
+  const tb=document.getElementById('ut');
+  if(!d.length){tb.innerHTML='<tr><td colspan="6" class="empty">Нет пользователей</td></tr>';return;}
+  tb.innerHTML=d.map(u=>`<tr><td>${u.first_name} ${u.last_name}</td><td>${u.email}</td><td>${u.phone||'—'}</td><td><span class="b ${u.role==='admin'?'br':u.role==='tutor'?'bb':'bg'}">${u.role}</span></td><td>${new Date(u.created_at).toLocaleDateString('ru-RU')}</td><td><span class="b ${u.is_active?'bg':'br'}">${u.is_active?'Активен':'Заблок.'}</span></td></tr>`).join('');
+}
+
+async function loadBookings(){
+  const d=await get('/api/admin/bookings?limit=50');
+  if(d)renderB(d,'bt');
+}
+
+function renderB(d,id){
+  const tb=document.getElementById(id);
+  if(!d.length){tb.innerHTML='<tr><td colspan="7" class="empty">Нет бронирований</td></tr>';return;}
+  const sm={pending:'bo',confirmed:'bb',completed:'bg',cancelled:'br'};
+  tb.innerHTML=d.map(b=>`<tr><td>${b.student_name||'—'}</td><td>${b.tutor_name||'—'}</td><td>${b.subject||'—'}</td><td>${new Date(b.lesson_date).toLocaleDateString('ru-RU')}</td><td>${b.amount} сом</td><td><span class="b ${b.payment_status==='completed'?'bg':'bo'}">${b.payment_status||'pending'}</span></td><td><span class="b ${sm[b.status]||'bx'}">${b.status}</span></td></tr>`).join('');
+}
+
+async function loadApps(){
+  const d=await get('/api/admin/applications');
+  if(!d)return;
+  const tb=document.getElementById('at');
+  if(!d.length){tb.innerHTML='<tr><td colspan="7" class="empty">Нет заявок</td></tr>';return;}
+  tb.innerHTML=d.map(a=>`<tr><td>${a.full_name}</td><td>${a.email}</td><td>${(a.subjects||[]).join(', ')||'—'}</td><td>${a.experience_years||'—'} лет</td><td><b style="color:${(a.ai_review_score||0)>=80?'#166534':'#92400e'}">${a.ai_review_score||'—'}</b></td><td><span class="b ${a.status==='approved'?'bg':a.status==='rejected'?'br':'bb'}">${a.status}</span></td><td>${a.status==='pending'||a.status==='ai_reviewed'?`<button class="ab" onclick="rev('${a.id}','approve')">✓</button><button class="rb" onclick="rev('${a.id}','reject')">✗</button>`:'—'}</td></tr>`).join('');
+}
+
+async function rev(id,action){
+  await fetch(API+'/api/admin/applications/'+id+'/review',{method:'PUT',headers:{'Authorization':'Bearer '+tok,'Content-Type':'application/json'},body:JSON.stringify({action})});
+  loadApps();
+}
+
+async function loadMsgs(){
+  const d=await get('/api/admin/messages');
+  if(!d)return;
+  const tb=document.getElementById('mt');
+  if(!d.length){tb.innerHTML='<tr><td colspan="4" class="empty">Нет сообщений</td></tr>';return;}
+  tb.innerHTML=d.map(m=>`<tr><td><span class="b ${m.channel==='whatsapp'?'bg':m.channel==='instagram'?'bo':'bb'}">${m.channel}</span></td><td>${(m.message||'').substring(0,80)}</td><td><span class="b ${m.is_ai_response?'bg':'bx'}">${m.is_ai_response?'ИИ':'Человек'}</span></td><td>${new Date(m.created_at).toLocaleDateString('ru-RU')}</td></tr>`).join('');
 }
 </script>
 </body>
