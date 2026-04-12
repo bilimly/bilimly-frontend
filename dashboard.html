@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bilimly — Мой кабинет</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#1a5c3a;--primary-light:#e8f5ee;--gold:#d4a017;--coral:#e8533a;--ink:#111827;--muted:#6b7280;--border:#e5e7eb;--bg:#f3f4f6;--white:#fff;--shadow:0 2px 12px rgba(0,0,0,0.06);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);}
+.top-nav{background:white;border-bottom:1px solid var(--border);padding:0 5%;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+.logo{font-family:'Unbounded',sans-serif;font-size:1.15rem;font-weight:700;color:var(--primary);text-decoration:none;}
+.logo span{color:var(--gold);}
+.nav-tabs{display:flex;gap:4px;}
+.ntab{padding:7px 16px;border-radius:8px;font-size:0.82rem;font-weight:500;cursor:pointer;color:var(--muted);border:none;background:none;font-family:inherit;transition:all 0.15s;position:relative;}
+.ntab:hover,.ntab.active{background:var(--primary-light);color:var(--primary);}
+.ntab.active{font-weight:600;}
+.badge-dot{position:absolute;top:6px;right:8px;width:7px;height:7px;background:var(--coral);border-radius:50%;}
+.back-btn{font-size:0.82rem;color:var(--muted);text-decoration:none;padding:7px 14px;border-radius:8px;border:1px solid var(--border);}
+.back-btn:hover{color:var(--primary);}
+.page{display:none;padding:28px 5%;max-width:960px;margin:0 auto;}
+.page.active{display:block;}
+h2{font-family:'Unbounded',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:20px;}
+.card{background:white;border-radius:12px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:16px;overflow:hidden;}
+.card-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.card-head h3{font-family:'Unbounded',sans-serif;font-size:0.88rem;font-weight:700;}
+.card-body{padding:20px;}
+
+/* PACKAGES */
+.packages-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px;}
+.pkg-card{border:2px solid var(--border);border-radius:12px;padding:18px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;}
+.pkg-card:hover,.pkg-card.selected{border-color:var(--primary);background:var(--primary-light);}
+.pkg-card.popular{border-color:var(--gold);}
+.pkg-popular-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gold);color:white;font-size:0.65rem;font-weight:700;padding:2px 10px;border-radius:10px;white-space:nowrap;}
+.pkg-size{font-family:'Unbounded',sans-serif;font-size:1.6rem;font-weight:700;color:var(--primary);}
+.pkg-label{font-size:0.78rem;color:var(--muted);margin-bottom:10px;}
+.pkg-price{font-size:1.1rem;font-weight:700;margin-bottom:2px;}
+.pkg-original{font-size:0.72rem;color:var(--muted);text-decoration:line-through;}
+.pkg-discount{background:#dcfce7;color:#166534;font-size:0.7rem;font-weight:700;padding:2px 8px;border-radius:8px;display:inline-block;margin-top:4px;}
+.pkg-savings{font-size:0.72rem;color:var(--primary);font-weight:600;margin-top:4px;}
+
+/* QR BOX */
+.qr-box{background:var(--primary-light);border-radius:12px;padding:24px;text-align:center;margin-top:16px;}
+.qr-amount{font-family:'Unbounded',sans-serif;font-size:1.8rem;font-weight:700;color:var(--primary);margin-bottom:4px;}
+.qr-box img{width:180px;height:180px;border-radius:8px;margin:16px auto;display:block;border:4px solid white;}
+.qr-instruction{font-size:0.82rem;color:var(--muted);}
+
+/* BOOKINGS */
+.booking-item{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border);}
+.booking-item:last-child{border-bottom:none;}
+.booking-avatar{width:44px;height:44px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.booking-info{flex:1;}
+.booking-name{font-weight:600;font-size:0.9rem;margin-bottom:2px;}
+.booking-meta{font-size:0.75rem;color:var(--muted);}
+.booking-right{text-align:right;}
+.badge{display:inline-block;padding:3px 9px;border-radius:8px;font-size:0.7rem;font-weight:700;}
+.badge.green{background:#dcfce7;color:#166534;}
+.badge.gold{background:#fef9ed;color:#92400e;}
+.badge.blue{background:#eff6ff;color:#1e40af;}
+.badge.red{background:#fee2e2;color:#991b1b;}
+.btn-join{background:var(--primary);color:white;border:none;padding:7px 16px;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;margin-top:6px;transition:all 0.2s;}
+.btn-join:hover{background:#134428;}
+.btn-outline{background:none;border:1.5px solid var(--border);color:var(--ink);padding:7px 16px;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;}
+.btn-outline:hover{border-color:var(--primary);color:var(--primary);}
+
+/* MESSAGES */
+.conv-list{border-right:1px solid var(--border);width:280px;flex-shrink:0;}
+.chat-layout{display:flex;height:480px;overflow:hidden;}
+.conv-item{padding:14px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s;}
+.conv-item:hover,.conv-item.active{background:var(--primary-light);}
+.conv-av{width:38px;height:38px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.conv-info{flex:1;min-width:0;}
+.conv-name{font-size:0.85rem;font-weight:600;margin-bottom:2px;}
+.conv-preview{font-size:0.75rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.conv-unread{background:var(--primary);color:white;border-radius:10px;font-size:0.65rem;font-weight:700;padding:1px 7px;flex-shrink:0;}
+.conv-row{display:flex;align-items:center;gap:10px;}
+.chat-main{flex:1;display:flex;flex-direction:column;background:#f9fafb;}
+.chat-header{padding:14px 16px;background:white;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.chat-msgs-area{flex:1;padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;}
+.chat-msg{max-width:75%;padding:9px 13px;border-radius:12px;font-size:0.83rem;line-height:1.5;}
+.chat-msg.mine{background:var(--primary);color:white;align-self:flex-end;border-radius:12px 12px 3px 12px;}
+.chat-msg.theirs{background:white;border:1px solid var(--border);align-self:flex-start;border-radius:12px 12px 12px 3px;}
+.chat-msg-time{font-size:0.65rem;opacity:0.6;margin-top:2px;}
+.chat-input-row{padding:12px;background:white;border-top:1px solid var(--border);display:flex;gap:8px;}
+.chat-text{flex:1;border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;font-family:inherit;font-size:0.85rem;outline:none;resize:none;}
+.chat-text:focus{border-color:var(--primary);}
+.chat-send-btn{background:var(--primary);color:white;border:none;width:38px;height:38px;border-radius:8px;cursor:pointer;font-size:1rem;flex-shrink:0;}
+.empty-chat{flex:1;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:0.85rem;flex-direction:column;gap:8px;}
+
+/* VIDEO LESSON */
+.lesson-card{background:linear-gradient(135deg,var(--primary) 0%,#0d4028 100%);border-radius:14px;padding:24px;color:white;margin-bottom:16px;}
+.lesson-card h3{font-family:'Unbounded',sans-serif;font-size:1rem;margin-bottom:6px;}
+.lesson-card p{opacity:0.75;font-size:0.85rem;margin-bottom:18px;}
+.btn-join-big{background:white;color:var(--primary);border:none;padding:12px 28px;border-radius:10px;font-size:0.95rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all 0.2s;}
+.btn-join-big:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,0.2);}
+.countdown{font-family:'Unbounded',sans-serif;font-size:1.4rem;font-weight:700;color:#f0c84a;margin-bottom:8px;}
+
+/* MY PACKAGES STATUS */
+.my-pkg{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border);}
+.my-pkg:last-child{border-bottom:none;}
+.pkg-progress-wrap{flex:1;}
+.pkg-progress-bar{height:6px;background:var(--border);border-radius:3px;margin-top:4px;overflow:hidden;}
+.pkg-progress-fill{height:100%;background:var(--primary);border-radius:3px;transition:width 0.5s;}
+
+/* TOAST */
+#toast{display:none;position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--primary);color:white;padding:12px 24px;border-radius:10px;font-weight:600;z-index:9999;font-size:0.875rem;box-shadow:0 8px 24px rgba(0,0,0,0.15);}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a class="logo" href="index.html">Bilimly<span>.kg</span></a>
+  <div class="nav-tabs">
+    <button class="ntab active" onclick="showPage('lessons')">📅 Уроки</button>
+    <button class="ntab" onclick="showPage('packages')">📦 Пакеты</button>
+    <button class="ntab" onclick="showPage('messages')" id="msg-tab">💬 Сообщения<span class="badge-dot" id="msg-dot" style="display:none"></span></button>
+  </div>
+  <a class="back-btn" href="index.html">← Найти репетитора</a>
+</nav>
+
+<!-- ── LESSONS PAGE ── -->
+<div class="page active" id="page-lessons">
+
+  <!-- Upcoming video lesson -->
+  <div class="lesson-card" id="upcoming-lesson">
+    <div class="countdown" id="lesson-countdown">01:24:35</div>
+    <h3>Урок математики начинается скоро!</h3>
+    <p>Репетитор: Нурлан Асанов · Сегодня 14:00 · 60 минут</p>
+    <button class="btn-join-big" onclick="joinLesson()">🎥 Войти в урок</button>
+  </div>
+
+  <h2>Мои уроки</h2>
+  <div class="card">
+    <div class="booking-item">
+      <div class="booking-avatar">👨‍🔬</div>
+      <div class="booking-info">
+        <div class="booking-name">Нурлан Асанов</div>
+        <div class="booking-meta">📐 Математика · Сегодня 14:00 · 60 мин</div>
+      </div>
+      <div class="booking-right">
+        <span class="badge green">Подтверждён</span><br>
+        <button class="btn-join" onclick="joinLesson()">🎥 Войти</button>
+      </div>
+    </div>
+    <div class="booking-item">
+      <div class="booking-avatar">👩‍🏫</div>
+      <div class="booking-info">
+        <div class="booking-name">Айгуль Бекова</div>
+        <div class="booking-meta">🇬🇧 Английский · Завтра 11:00 · 60 мин</div>
+      </div>
+      <div class="booking-right">
+        <span class="badge blue">Завтра</span><br>
+        <button class="btn-outline" onclick="openMessages('Айгуль Бекова')">💬 Написать</button>
+      </div>
+    </div>
+    <div class="booking-item">
+      <div class="booking-avatar">👩‍🏫</div>
+      <div class="booking-info">
+        <div class="booking-name">Гүлнара Эргешева</div>
+        <div class="booking-meta">📝 ОРТ · 15 апр 15:00 · 90 мин</div>
+      </div>
+      <div class="booking-right">
+        <span class="badge gold">Ожидает оплаты</span><br>
+        <button class="btn-join" style="background:var(--gold);color:white">💳 Оплатить</button>
+      </div>
+    </div>
+    <div class="booking-item">
+      <div class="booking-avatar">👨‍💻</div>
+      <div class="booking-info">
+        <div class="booking-name">Тимур Садыков</div>
+        <div class="booking-meta">💻 Python · 10 апр 17:00 · Завершён</div>
+      </div>
+      <div class="booking-right">
+        <span class="badge" style="background:#f3f4f6;color:var(--muted)">Завершён</span><br>
+        <button class="btn-outline">⭐ Отзыв</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PACKAGES PAGE ── -->
+<div class="page" id="page-packages">
+  <h2>Пакеты уроков</h2>
+
+  <div class="card">
+    <div class="card-head"><h3>Купить пакет уроков у репетитора</h3></div>
+    <div class="card-body">
+      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:18px">Выберите репетитора и купите пакет уроков со скидкой до 30%</p>
+
+      <div style="margin-bottom:16px">
+        <label style="font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;display:block;margin-bottom:6px">Репетитор</label>
+        <select id="pkg-tutor" style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:0.875rem;outline:none" onchange="loadPackages()">
+          <option value="">— Выберите репетитора —</option>
+          <option value="1" data-rate="800">Айгуль Бекова — Английский (800 сом/ч)</option>
+          <option value="2" data-rate="700">Нурлан Асанов — Математика (700 сом/ч)</option>
+          <option value="4" data-rate="1200">Тимур Садыков — Python (1200 сом/ч)</option>
+          <option value="7" data-rate="1000">Гүлнара Эргешева — ОРТ (1000 сом/ч)</option>
+        </select>
+      </div>
+
+      <div class="packages-grid" id="packages-grid" style="display:none">
+        <!-- Filled by JS -->
+      </div>
+
+      <div id="pkg-qr" style="display:none">
+        <div class="qr-box">
+          <div style="font-size:0.85rem;color:var(--muted);margin-bottom:4px" id="pkg-label">Пакет 10 уроков</div>
+          <div class="qr-amount" id="pkg-total">7,000 сом</div>
+          <div style="font-size:0.78rem;color:#166534;background:#dcfce7;padding:4px 12px;border-radius:8px;display:inline-block;margin-bottom:4px" id="pkg-saving-text">Экономия 1,750 сом</div>
+          <img id="pkg-qr-img" src="" alt="QR">
+          <p class="qr-instruction">Отсканируйте QR-код в приложении <strong>MBANK</strong></p>
+        </div>
+        <div style="text-align:center;margin-top:12px">
+          <button class="btn-join" onclick="confirmPackage()">✓ Оплачено — активировать пакет</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- My active packages -->
+  <div class="card">
+    <div class="card-head"><h3>Мои активные пакеты</h3></div>
+    <div class="my-pkg">
+      <div class="booking-avatar">👩‍🏫</div>
+      <div class="pkg-progress-wrap">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-weight:600;font-size:0.88rem">Айгуль Бекова — Английский</div>
+            <div style="font-size:0.75rem;color:var(--muted)">Использовано 3 из 10 уроков · 800 сом/урок</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-family:'Unbounded',sans-serif;font-size:1.1rem;font-weight:700;color:var(--primary)">7</div>
+            <div style="font-size:0.7rem;color:var(--muted)">осталось</div>
+          </div>
+        </div>
+        <div class="pkg-progress-bar"><div class="pkg-progress-fill" style="width:30%"></div></div>
+      </div>
+    </div>
+    <div class="my-pkg">
+      <div class="booking-avatar">👨‍🔬</div>
+      <div class="pkg-progress-wrap">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-weight:600;font-size:0.88rem">Нурлан Асанов — Математика</div>
+            <div style="font-size:0.75rem;color:var(--muted)">Использовано 8 из 10 уроков · 630 сом/урок</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-family:'Unbounded',sans-serif;font-size:1.1rem;font-weight:700;color:var(--coral)">2</div>
+            <div style="font-size:0.7rem;color:var(--muted)">осталось</div>
+          </div>
+        </div>
+        <div class="pkg-progress-bar"><div class="pkg-progress-fill" style="width:80%"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MESSAGES PAGE ── -->
+<div class="page" id="page-messages">
+  <h2>Сообщения</h2>
+  <div class="card" style="padding:0">
+    <div class="chat-layout">
+      <div class="conv-list">
+        <div class="conv-item active" onclick="openConv(this,'Айгуль Бекова','👩‍🏫')">
+          <div class="conv-row">
+            <div class="conv-av">👩‍🏫</div>
+            <div class="conv-info">
+              <div class="conv-name">Айгуль Бекова</div>
+              <div class="conv-preview">Жду вас завтра в 11:00!</div>
+            </div>
+            <span class="conv-unread">2</span>
+          </div>
+        </div>
+        <div class="conv-item" onclick="openConv(this,'Нурлан Асанов','👨‍🔬')">
+          <div class="conv-row">
+            <div class="conv-av">👨‍🔬</div>
+            <div class="conv-info">
+              <div class="conv-name">Нурлан Асанов</div>
+              <div class="conv-preview">Домашнее задание прикреплено</div>
+            </div>
+          </div>
+        </div>
+        <div class="conv-item" onclick="openConv(this,'Тимур Садыков','👨‍💻')">
+          <div class="conv-row">
+            <div class="conv-av">👨‍💻</div>
+            <div class="conv-info">
+              <div class="conv-name">Тимур Садыков</div>
+              <div class="conv-preview">Отличная работа на уроке!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-main" id="chat-main">
+        <div class="chat-header" id="chat-header">
+          <div class="conv-av" id="chat-av">👩‍🏫</div>
+          <div>
+            <div style="font-weight:600;font-size:0.9rem" id="chat-name">Айгуль Бекова</div>
+            <div style="font-size:0.72rem;color:var(--muted)">Репетитор английского языка</div>
+          </div>
+        </div>
+        <div class="chat-msgs-area" id="chat-msgs-area">
+          <div class="chat-msg theirs">
+            Добрый день! Напоминаю о завтрашнем уроке в 11:00. Пожалуйста, повторите Unit 5 из учебника 📚
+            <div class="chat-msg-time">Вчера 18:30</div>
+          </div>
+          <div class="chat-msg mine">
+            Хорошо, спасибо! Подготовлюсь. Можно ли перенести на 11:30?
+            <div class="chat-msg-time">Вчера 20:15</div>
+          </div>
+          <div class="chat-msg theirs">
+            Конечно! Жду вас завтра в 11:30 😊 Ссылка на урок придёт за 30 минут.
+            <div class="chat-msg-time">Вчера 20:22</div>
+          </div>
+        </div>
+        <div class="chat-input-row">
+          <textarea class="chat-text" id="chat-text" rows="1" placeholder="Написать сообщение..." onkeydown="handleChatKey(event)"></textarea>
+          <button class="chat-send-btn" onclick="sendMsg()">➤</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast">✓ Готово!</div>
+
+<script>
+const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3001' : '';
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.ntab').forEach(t => t.classList.remove('active'));
+  document.getElementById(`page-${name}`).classList.add('active');
+  event?.target?.classList.add('active');
+}
+
+// ── COUNTDOWN TIMER ────────────────────────────────────────
+function updateCountdown() {
+  const target = new Date();
+  target.setHours(14, 0, 0, 0);
+  const now = new Date();
+  const diff = target - now;
+  if (diff > 0) {
+    const h = Math.floor(diff / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('lesson-countdown').textContent =
+      `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  } else {
+    document.getElementById('lesson-countdown').textContent = 'Урок идёт!';
+    document.getElementById('lesson-countdown').style.color = '#f0c84a';
+  }
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// ── JOIN LESSON ────────────────────────────────────────────
+function joinLesson() {
+  // In production: get real meeting_url from API
+  const meetingUrl = `https://meet.jit.si/bilimly-demo-lesson-${Date.now()}`;
+  window.open(meetingUrl, '_blank');
+  showToast('🎥 Открываем видеоурок...');
+}
+
+// ── PACKAGES ───────────────────────────────────────────────
+const packages = [
+  { size:1,  lessons:1,  discount:0,    pricePerLesson:null, label:'Разовый урок' },
+  { size:5,  lessons:5,  discount:0.10, pricePerLesson:null, label:'5 уроков' },
+  { size:10, lessons:10, discount:0.20, pricePerLesson:null, label:'10 уроков', popular:true },
+  { size:20, lessons:20, discount:0.30, pricePerLesson:null, label:'20 уроков' },
+];
+
+let selectedPkg = null;
+
+function loadPackages() {
+  const select = document.getElementById('pkg-tutor');
+  const rate = parseInt(select.options[select.selectedIndex]?.getAttribute('data-rate') || 0);
+  if (!rate) return;
+
+  const grid = document.getElementById('packages-grid');
+  grid.style.display = 'grid';
+  document.getElementById('pkg-qr').style.display = 'none';
+
+  grid.innerHTML = packages.map(pkg => {
+    const price = Math.round(rate * (1 - pkg.discount));
+    const total = price * pkg.lessons;
+    const original = rate * pkg.lessons;
+    const saving = original - total;
+    return `
+      <div class="pkg-card ${pkg.popular?'popular':''}" onclick="selectPkg(this,${pkg.size},${price},${total},${saving},'${pkg.label}')">
+        ${pkg.popular ? '<span class="pkg-popular-badge">⭐ Популярный</span>' : ''}
+        <div class="pkg-size">${pkg.lessons}</div>
+        <div class="pkg-label">${pkg.label}</div>
+        <div class="pkg-price">${total.toLocaleString()} сом</div>
+        ${pkg.discount > 0 ? `<div class="pkg-original">${original.toLocaleString()} сом</div>` : ''}
+        ${pkg.discount > 0 ? `<div class="pkg-discount">−${pkg.discount*100}%</div>` : ''}
+        <div class="pkg-savings">${price.toLocaleString()} сом/урок${saving>0?` · экономия ${saving.toLocaleString()} сом`:''}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function selectPkg(el, size, pricePerLesson, total, saving, label) {
+  document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedPkg = { size, pricePerLesson, total, saving, label };
+
+  // Show QR
+  const qrDiv = document.getElementById('pkg-qr');
+  qrDiv.style.display = 'block';
+  document.getElementById('pkg-label').textContent = `Пакет: ${label}`;
+  document.getElementById('pkg-total').textContent = `${total.toLocaleString()} сом`;
+  document.getElementById('pkg-saving-text').textContent = saving > 0 ? `Экономия ${saving.toLocaleString()} сом` : 'Базовая цена';
+  const qrData = `BILIMLY_PKG_${size}_${total}KGS_${Date.now()}`;
+  document.getElementById('pkg-qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrData)}&bgcolor=ffffff&color=1a5c3a`;
+
+  qrDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function confirmPackage() {
+  if (!selectedPkg) return;
+  document.getElementById('pkg-qr').style.display = 'none';
+  document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('selected'));
+  showPage('lessons');
+  showToast(`🎉 Пакет "${selectedPkg.label}" активирован!`);
+}
+
+// ── MESSAGES ───────────────────────────────────────────────
+const demoMessages = {
+  'Нурлан Асанов': [
+    { from:'theirs', text:'Отличная работа на сегодняшнем уроке! Домашнее задание: стр. 45-48, задачи 1-10', time:'Сегодня 14:52' },
+    { from:'mine', text:'Спасибо! Сделаю к следующему уроку', time:'Сегодня 15:10' },
+  ],
+  'Тимур Садыков': [
+    { from:'theirs', text:'Отличная работа на уроке! Ваш Python проект выглядит очень хорошо 🐍', time:'10 апр 17:55' },
+    { from:'mine', text:'Спасибо большое! Мне очень понравился урок', time:'10 апр 18:02' },
+  ],
+};
+
+function openConv(el, name, avatar) {
+  document.querySelectorAll('.conv-item').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  el.querySelector('.conv-unread')?.remove();
+  document.getElementById('chat-name').textContent = name;
+  document.getElementById('chat-av').textContent = avatar;
+
+  const msgs = demoMessages[name] || [];
+  const area = document.getElementById('chat-msgs-area');
+  const defaultMsgs = area.innerHTML;
+
+  if (msgs.length > 0) {
+    area.innerHTML = msgs.map(m => `
+      <div class="chat-msg ${m.from}">
+        ${m.text}
+        <div class="chat-msg-time">${m.time}</div>
+      </div>
+    `).join('');
+  }
+}
+
+function openMessages(name) {
+  showPage('messages');
+  document.querySelector('.ntab:nth-child(3)').classList.add('active');
+  document.querySelectorAll('.ntab').forEach(t => {
+    if (t.textContent.includes('Сообщения')) t.classList.add('active');
+    else t.classList.remove('active');
+  });
+}
+
+function handleChatKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); }
+}
+
+function sendMsg() {
+  const text = document.getElementById('chat-text').value.trim();
+  if (!text) return;
+  document.getElementById('chat-text').value = '';
+
+  const area = document.getElementById('chat-msgs-area');
+  const div = document.createElement('div');
+  div.className = 'chat-msg mine';
+  const now = new Date();
+  div.innerHTML = `${text}<div class="chat-msg-time">Сейчас ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}</div>`;
+  area.appendChild(div);
+  area.scrollTop = 9999;
+
+  // Simulate reply
+  setTimeout(() => {
+    const reply = document.createElement('div');
+    reply.className = 'chat-msg theirs';
+    reply.innerHTML = `Получила ваше сообщение! Отвечу скоро 😊<div class="chat-msg-time">Сейчас</div>`;
+    area.appendChild(reply);
+    area.scrollTop = 9999;
+  }, 1500);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 3500);
+}
+</script>
+</body>
+</html>
