@@ -913,19 +913,74 @@ function switchAuth(mode) {
   document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active', (i===0&&mode==='login')||(i===1&&mode==='register')));
   document.getElementById('auth-btn').textContent = mode==='login' ? (i18n[currentLang]['auth.login']||'Войти') : (i18n[currentLang]['auth.register']||'Регистрация');
 }
-function doAuth() {
-  closeModal('authModal');
-  showToast(authMode==='login' ? '✓ Добро пожаловать в Bilimly!' : '✓ Аккаунт создан! Добро пожаловать!');
+async function doAuth() {
+  const API = 'https://bilimly-backend-production.up.railway.app';
+  if (authMode === 'register') {
+    const first_name = document.getElementById('r-fname').value;
+    const last_name = document.getElementById('r-lname').value;
+    const email = document.getElementById('r-email').value;
+    const password = document.getElementById('r-pass').value;
+    const role = document.getElementById('r-role').value;
+    try {
+      const res = await fetch(API + '/api/auth/register', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({first_name, last_name, email, password, role})
+      });
+      const data = await res.json();
+      if (data.token) {
+        localStorage.setItem('bilimly_token', data.token);
+        localStorage.setItem('bilimly_user', JSON.stringify(data.user));
+        closeModal('authModal');
+        showToast('✓ Добро пожаловать, ' + data.user.first_name + '!');
+      } else {
+        showToast('Ошибка: ' + (data.error || 'Попробуйте снова'));
+      }
+    } catch(e) { showToast('Ошибка соединения'); }
+  } else {
+    const email = document.getElementById('l-email').value;
+    const password = document.getElementById('l-pass').value;
+    try {
+      const res = await fetch(API + '/api/auth/login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({email, password})
+      });
+      const data = await res.json();
+      if (data.token) {
+        localStorage.setItem('bilimly_token', data.token);
+        localStorage.setItem('bilimly_user', JSON.stringify(data.user));
+        closeModal('authModal');
+        showToast('✓ Добро пожаловать, ' + data.user.first_name + '!');
+      } else {
+        showToast('Ошибка: ' + (data.error || 'Неверный email или пароль'));
+      }
+    } catch(e) { showToast('Ошибка соединения'); }
+  }
 }
 
 // ── APPLY ──────────────────────────────────────────────────
 function openApply() { document.getElementById('applyModal').classList.add('open'); }
-function submitApplication() {
-  const name = document.getElementById('ap-name').value;
+async function submitApplication() {
+  const API = 'https://bilimly-backend-production.up.railway.app';
+  const full_name = document.getElementById('ap-name').value;
   const email = document.getElementById('ap-email').value;
-  if (!name || !email) { showToast('Заполните имя и email'); return; }
-  closeModal('applyModal');
-  showToast('✓ Заявка отправлена! Мы свяжемся в течение 24 часов');
+  const phone = document.getElementById('ap-phone').value;
+  const subjects = document.getElementById('ap-subjects').value.split(',').map(s=>s.trim());
+  const experience_years = parseInt(document.getElementById('ap-exp').value) || 0;
+  const hourly_rate = parseInt(document.getElementById('ap-rate').value) || 500;
+  const about = document.getElementById('ap-about').value;
+  if (!full_name || !email) { showToast('Заполните имя и email'); return; }
+  try {
+    const res = await fetch(API + '/api/tutors/apply', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({full_name, email, phone, subjects, experience_years, hourly_rate, about})
+    });
+    const data = await res.json();
+    closeModal('applyModal');
+    showToast('✓ Заявка отправлена! Мы свяжемся в течение 24 часов');
+  } catch(e) { showToast('Ошибка соединения'); }
 }
 
 // ── CHAT ───────────────────────────────────────────────────
