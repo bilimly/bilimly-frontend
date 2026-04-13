@@ -494,7 +494,8 @@ async function loadTutors() {
     if (data.tutors && data.tutors.length) {
       data.tutors.forEach(t => {
         tutors.push({
-          id: t.tutor_id,
+          id: t.tutor_id || t.id,
+tutor_id: t.tutor_id,
           name: t.first_name + ' ' + t.last_name,
           subject: t.subjects?.join(' · ') || '—',
           cat: t.subjects?.[0] || 'Другое',
