@@ -514,7 +514,7 @@ function renderTutors(list) {
         <div class="tc-tags">${t.tags.map(tag=>`<span class="tc-tag">${tag}</span>`).join('')}</div>
         <div class="tc-footer">
           <div class="tc-price">${t.price} сом<small>/час</small><br><span class="tc-trial">Пробный: ${t.trial} сом</span></div>
-          <button class="btn-book" onclick="openBooking(${t.id})">Записаться</button>
+          <button class="btn-book" onclick="openBooking('${t.id}')">Записаться</button>
         </div>
       </div>
     </div>
