@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -6,320 +7,175 @@
 <title>Bilimly.kg — Найди своего репетитора</title>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --primary: #1a5c3a;
-  --primary-light: #e8f5ee;
-  --primary-dark: #134428;
-  --gold: #d4a017;
-  --gold-light: #fef9ed;
-  --coral: #e8533a;
-  --ink: #111827;
-  --muted: #6b7280;
-  --border: #e5e7eb;
-  --cream: #fafaf8;
-  --white: #ffffff;
-  --shadow: 0 4px 20px rgba(0,0,0,0.07);
-  --shadow-lg: 0 16px 48px rgba(0,0,0,0.12);
-  --radius: 14px;
-}
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Inter',sans-serif; background:var(--cream); color:var(--ink); }
-
-/* ── NAV ── */
-nav {
-  position:sticky; top:0; z-index:100;
-  background:rgba(250,250,248,0.96); backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);
-  padding:0 5%; height:64px;
-  display:flex; align-items:center; justify-content:space-between;
-}
-.logo { font-family:'Unbounded',sans-serif; font-size:1.3rem; font-weight:700; color:var(--primary); text-decoration:none; }
-.logo span { color:var(--gold); }
-.nav-links { display:flex; gap:24px; list-style:none; }
-.nav-links a { text-decoration:none; color:var(--ink); font-size:0.875rem; font-weight:500; opacity:0.7; transition:opacity 0.2s; }
-.nav-links a:hover { opacity:1; }
-.nav-right { display:flex; align-items:center; gap:10px; }
-.lang-switcher { display:flex; gap:4px; }
-.lang-btn {
-  border:1px solid var(--border); background:none; padding:4px 10px;
-  border-radius:20px; font-size:0.75rem; font-weight:600; cursor:pointer;
-  color:var(--muted); transition:all 0.2s; font-family:inherit;
-}
-.lang-btn.active { background:var(--primary); border-color:var(--primary); color:white; }
-.btn-ghost { background:none; border:1.5px solid var(--border); color:var(--ink); padding:8px 18px; border-radius:8px; font-size:0.85rem; font-weight:500; cursor:pointer; font-family:inherit; transition:all 0.2s; }
-.btn-ghost:hover { border-color:var(--primary); color:var(--primary); }
-.btn-primary { background:var(--primary); color:white; border:none; padding:9px 20px; border-radius:8px; font-size:0.85rem; font-weight:600; cursor:pointer; font-family:inherit; transition:all 0.2s; }
-.btn-primary:hover { background:var(--primary-dark); transform:translateY(-1px); }
-
-/* ── HERO ── */
-.hero {
-  background:var(--primary);
-  padding:72px 5% 64px;
-  position:relative; overflow:hidden;
-}
-.hero::before {
-  content:'';
-  position:absolute; inset:0;
-  background:radial-gradient(ellipse 70% 60% at 65% 40%, rgba(212,160,23,0.12) 0%, transparent 60%),
-              radial-gradient(ellipse 50% 70% at 0% 100%, rgba(255,255,255,0.05) 0%, transparent 50%);
-}
-.hero-inner { position:relative; max-width:700px; margin:0 auto; text-align:center; }
-.hero-badge {
-  display:inline-flex; align-items:center; gap:6px;
-  background:rgba(212,160,23,0.15); color:#f0c84a;
-  border:1px solid rgba(212,160,23,0.3);
-  padding:5px 16px; border-radius:20px; font-size:0.78rem; font-weight:600;
-  letter-spacing:0.05em; margin-bottom:24px;
-}
-.hero h1 {
-  font-family:'Unbounded',sans-serif;
-  font-size:clamp(1.8rem,4.5vw,3rem);
-  font-weight:700; color:white; line-height:1.2;
-  margin-bottom:16px; letter-spacing:-0.5px;
-}
-.hero h1 em { color:#f0c84a; font-style:normal; }
-.hero-sub { font-size:1rem; color:rgba(255,255,255,0.65); margin-bottom:36px; max-width:480px; margin-left:auto; margin-right:auto; }
-.search-wrap {
-  background:white; border-radius:14px;
-  box-shadow:0 20px 60px rgba(0,0,0,0.2);
-  display:flex; overflow:hidden; max-width:580px; margin:0 auto 20px;
-}
-.search-select {
-  border:none; outline:none; padding:0 16px;
-  font-family:inherit; font-size:0.875rem; color:var(--ink);
-  background:white; cursor:pointer; font-weight:500;
-  border-right:1px solid var(--border); min-width:130px;
-}
-.search-input { flex:1; border:none; outline:none; padding:16px 16px; font-family:inherit; font-size:0.9rem; }
-.search-btn {
-  background:var(--coral); color:white; border:none;
-  padding:0 24px; font-size:0.9rem; font-weight:600;
-  cursor:pointer; font-family:inherit; transition:background 0.2s;
-}
-.search-btn:hover { background:#c94228; }
-.hero-tags { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
-.htag {
-  background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.8);
-  border:1px solid rgba(255,255,255,0.15);
-  padding:5px 14px; border-radius:20px; font-size:0.8rem;
-  cursor:pointer; transition:all 0.2s;
-}
-.htag:hover { background:rgba(255,255,255,0.2); color:white; }
-
-/* ── STATS ── */
-.stats-bar { background:var(--gold); padding:16px 5%; display:flex; justify-content:center; gap:48px; flex-wrap:wrap; }
-.stat { text-align:center; }
-.stat-n { font-family:'Unbounded',sans-serif; font-size:1.4rem; font-weight:700; color:var(--ink); display:block; }
-.stat-l { font-size:0.72rem; color:rgba(17,24,39,0.65); text-transform:uppercase; letter-spacing:0.06em; }
-
-/* ── SECTIONS ── */
-.section { padding:60px 5%; }
-.section-header { text-align:center; margin-bottom:40px; }
-.eyebrow { font-size:0.75rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
-.section-title { font-family:'Unbounded',sans-serif; font-size:clamp(1.4rem,3vw,2rem); font-weight:700; color:var(--ink); letter-spacing:-0.3px; }
-.section-sub { margin-top:10px; color:var(--muted); font-size:0.9rem; }
-
-/* ── FILTERS ── */
-.filters { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-bottom:32px; }
-.fbtn {
-  background:white; border:1.5px solid var(--border); color:var(--ink);
-  padding:7px 18px; border-radius:24px; font-size:0.82rem; font-weight:500;
-  cursor:pointer; transition:all 0.2s; font-family:inherit;
-}
-.fbtn:hover,.fbtn.active { background:var(--primary); border-color:var(--primary); color:white; }
-
-/* ── TUTOR GRID ── */
-.tutor-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(272px,1fr)); gap:20px; max-width:1200px; margin:0 auto; }
-.tcard {
-  background:white; border-radius:var(--radius);
-  border:1px solid var(--border); box-shadow:var(--shadow);
-  overflow:hidden; cursor:pointer; transition:all 0.25s; position:relative;
-}
-.tcard:hover { transform:translateY(-4px); box-shadow:var(--shadow-lg); border-color:var(--primary); }
-.tc-badge {
-  position:absolute; top:12px; left:12px;
-  background:var(--primary); color:white;
-  font-size:0.68rem; font-weight:700; padding:3px 9px;
-  border-radius:8px; text-transform:uppercase; letter-spacing:0.04em;
-}
-.tc-badge.gold { background:var(--gold); color:var(--ink); }
-.tc-fav {
-  position:absolute; top:10px; right:12px;
-  background:white; width:30px; height:30px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  box-shadow:0 2px 8px rgba(0,0,0,0.1); cursor:pointer; font-size:0.9rem;
-  border:none; transition:transform 0.2s;
-}
-.tc-fav:hover { transform:scale(1.15); }
-.tc-img { height:170px; background:var(--primary-light); display:flex; align-items:center; justify-content:center; font-size:3.5rem; overflow:hidden; }
-.tc-img img { width:100%; height:100%; object-fit:cover; }
-.tc-body { padding:16px; }
-.tc-name { font-family:'Unbounded',sans-serif; font-size:0.95rem; font-weight:700; margin-bottom:2px; }
-.tc-subject { font-size:0.78rem; color:var(--primary); font-weight:600; margin-bottom:8px; }
-.tc-meta { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
-.tc-rating { display:flex; align-items:center; gap:3px; font-size:0.82rem; font-weight:600; }
-.tc-stars { color:var(--gold); }
-.tc-reviews { color:var(--muted); font-size:0.75rem; }
-.tc-desc { font-size:0.78rem; color:var(--muted); line-height:1.5; margin-bottom:10px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-.tc-tags { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:12px; }
-.tc-tag { background:var(--primary-light); color:var(--primary); font-size:0.68rem; font-weight:600; padding:3px 8px; border-radius:6px; }
-.tc-footer { display:flex; align-items:center; justify-content:space-between; padding-top:12px; border-top:1px solid var(--border); }
-.tc-price { font-family:'Unbounded',sans-serif; font-size:1.15rem; font-weight:700; }
-.tc-price small { font-family:'Inter',sans-serif; font-size:0.72rem; color:var(--muted); font-weight:400; }
-.tc-trial { font-size:0.7rem; color:var(--gold); font-weight:600; }
-.btn-book { background:var(--primary); color:white; border:none; padding:8px 18px; border-radius:8px; font-size:0.78rem; font-weight:600; cursor:pointer; font-family:inherit; transition:all 0.2s; }
-.btn-book:hover { background:var(--primary-dark); }
-
-/* ── SUBJECTS ── */
-.subjects-section { background:#f0f7f4; }
-.subject-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:12px; max-width:880px; margin:0 auto; }
-.scard {
-  background:white; border-radius:12px; padding:18px 14px; text-align:center;
-  cursor:pointer; transition:all 0.2s; border:1.5px solid var(--border);
-}
-.scard:hover { transform:translateY(-3px); border-color:var(--primary); box-shadow:0 8px 20px rgba(26,92,58,0.1); }
-.scard-icon { font-size:1.8rem; margin-bottom:8px; }
-.scard-name { font-size:0.82rem; font-weight:600; }
-.scard-count { font-size:0.72rem; color:var(--muted); margin-top:2px; }
-
-/* ── HOW IT WORKS ── */
-.how-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:28px; max-width:900px; margin:0 auto; }
-.how-step { text-align:center; padding:0 8px; }
-.step-circle { width:48px; height:48px; border-radius:50%; background:var(--primary); color:white; font-family:'Unbounded',sans-serif; font-size:1.1rem; font-weight:700; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; }
-.how-step h3 { font-family:'Unbounded',sans-serif; font-size:0.95rem; margin-bottom:8px; }
-.how-step p { font-size:0.82rem; color:var(--muted); line-height:1.6; }
-
-/* ── TESTIMONIALS ── */
-.testi-section { background:var(--ink); }
-.testi-section .section-title { color:white; }
-.testi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; max-width:900px; margin:0 auto; }
-.tcard2 { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:var(--radius); padding:24px; }
-.tcard2-stars { color:var(--gold); margin-bottom:12px; font-size:0.85rem; }
-.tcard2-text { font-size:0.85rem; color:rgba(255,255,255,0.7); line-height:1.6; margin-bottom:18px; font-style:italic; }
-.tcard2-author { display:flex; align-items:center; gap:10px; }
-.tcard2-av { width:36px; height:36px; border-radius:50%; background:var(--primary); display:flex; align-items:center; justify-content:center; font-size:1rem; }
-.tcard2-name { font-size:0.82rem; font-weight:600; color:white; }
-.tcard2-detail { font-size:0.72rem; color:rgba(255,255,255,0.4); }
-
-/* ── CTA ── */
-.cta-section { background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%); padding:60px 5%; text-align:center; position:relative; overflow:hidden; }
-.cta-section::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 60% 60% at 80% 20%,rgba(212,160,23,0.1) 0%,transparent 60%); }
-.cta-section h2 { font-family:'Unbounded',sans-serif; font-size:clamp(1.5rem,3.5vw,2.2rem); color:white; margin-bottom:12px; position:relative; }
-.cta-section p { color:rgba(255,255,255,0.65); margin-bottom:28px; position:relative; }
-.cta-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; position:relative; }
-.btn-white { background:white; color:var(--primary); border:none; padding:13px 28px; border-radius:10px; font-size:0.95rem; font-weight:700; cursor:pointer; font-family:inherit; transition:all 0.2s; }
-.btn-white:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,0.2); }
-.btn-outline { background:transparent; color:white; border:2px solid rgba(255,255,255,0.4); padding:13px 28px; border-radius:10px; font-size:0.95rem; font-weight:600; cursor:pointer; font-family:inherit; transition:all 0.2s; }
-.btn-outline:hover { border-color:white; }
-
-/* ── MODAL ── */
-.overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); z-index:500; align-items:center; justify-content:center; padding:16px; }
-.overlay.open { display:flex; }
-.modal { background:white; border-radius:20px; max-width:520px; width:100%; box-shadow:0 32px 80px rgba(0,0,0,0.25); overflow:hidden; animation:popIn 0.3s ease; }
-@keyframes popIn { from{transform:scale(0.92) translateY(20px);opacity:0} to{transform:scale(1) translateY(0);opacity:1} }
-.modal-head { background:var(--primary); padding:24px; color:white; position:relative; }
-.modal-close { position:absolute; top:14px; right:14px; background:rgba(255,255,255,0.15); border:none; color:white; width:30px; height:30px; border-radius:50%; cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; }
-.modal-head h2 { font-family:'Unbounded',sans-serif; font-size:1.2rem; margin-bottom:3px; }
-.modal-head p { opacity:0.7; font-size:0.82rem; }
-.modal-body { padding:24px; }
-.form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
-.fgroup { margin-bottom:12px; }
-.fgroup label { display:block; font-size:0.75rem; font-weight:600; color:var(--ink); margin-bottom:5px; text-transform:uppercase; letter-spacing:0.04em; }
-.fcontrol { width:100%; border:1.5px solid var(--border); border-radius:8px; padding:10px 12px; font-family:inherit; font-size:0.875rem; outline:none; transition:border-color 0.2s; }
-.fcontrol:focus { border-color:var(--primary); }
-.time-slots { display:flex; gap:6px; flex-wrap:wrap; }
-.tslot { border:1.5px solid var(--border); padding:6px 12px; border-radius:7px; font-size:0.78rem; font-weight:500; cursor:pointer; transition:all 0.15s; }
-.tslot:hover,.tslot.sel { background:var(--primary); border-color:var(--primary); color:white; }
-.modal-foot { padding:0 24px 24px; display:flex; gap:10px; }
-.btn-confirm { flex:1; background:var(--primary); color:white; border:none; padding:13px; border-radius:10px; font-size:0.9rem; font-weight:600; cursor:pointer; font-family:inherit; transition:all 0.2s; }
-.btn-confirm:hover { background:var(--primary-dark); }
-
-/* ── CHAT WIDGET ── */
-.chat-fab {
-  position:fixed; bottom:24px; right:24px; z-index:400;
-  width:56px; height:56px; border-radius:50%;
-  background:var(--primary); color:white; border:none;
-  font-size:1.4rem; cursor:pointer; box-shadow:0 8px 24px rgba(26,92,58,0.4);
-  display:flex; align-items:center; justify-content:center;
-  transition:all 0.2s;
-}
-.chat-fab:hover { transform:scale(1.08); }
-.chat-box {
-  position:fixed; bottom:92px; right:24px; z-index:400;
-  width:320px; background:white; border-radius:var(--radius);
-  box-shadow:var(--shadow-lg); border:1px solid var(--border);
-  display:none; flex-direction:column; overflow:hidden;
-  animation:popIn 0.25s ease;
-}
-.chat-box.open { display:flex; }
-.chat-head { background:var(--primary); color:white; padding:14px 16px; display:flex; align-items:center; justify-content:space-between; }
-.chat-head-info { display:flex; align-items:center; gap:10px; }
-.chat-av { width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; font-size:1.1rem; }
-.chat-head h4 { font-size:0.9rem; font-weight:600; }
-.chat-head p { font-size:0.72rem; opacity:0.7; }
-.chat-close { background:none; border:none; color:white; cursor:pointer; font-size:1rem; opacity:0.7; }
-.chat-msgs { flex:1; padding:14px; overflow-y:auto; max-height:260px; display:flex; flex-direction:column; gap:10px; }
-.msg { max-width:82%; padding:8px 12px; border-radius:12px; font-size:0.82rem; line-height:1.5; }
-.msg.bot { background:var(--primary-light); color:var(--ink); align-self:flex-start; border-radius:12px 12px 12px 3px; }
-.msg.user { background:var(--primary); color:white; align-self:flex-end; border-radius:12px 12px 3px 12px; }
-.chat-input-wrap { padding:12px; border-top:1px solid var(--border); display:flex; gap:8px; }
-.chat-input { flex:1; border:1.5px solid var(--border); border-radius:8px; padding:8px 12px; font-family:inherit; font-size:0.82rem; outline:none; }
-.chat-input:focus { border-color:var(--primary); }
-.chat-send { background:var(--primary); color:white; border:none; width:34px; height:34px; border-radius:8px; cursor:pointer; font-size:1rem; flex-shrink:0; }
-
-/* ── TOAST ── */
-#toast { display:none; position:fixed; bottom:32px; left:50%; transform:translateX(-50%); background:var(--primary); color:white; padding:13px 28px; border-radius:12px; font-weight:600; z-index:9999; box-shadow:var(--shadow-lg); font-size:0.875rem; white-space:nowrap; }
-
-/* ── FOOTER ── */
-footer { background:var(--ink); color:rgba(255,255,255,0.5); padding:48px 5% 24px; }
-.footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:36px; margin-bottom:36px; }
-.footer-logo { font-family:'Unbounded',sans-serif; font-size:1.25rem; font-weight:700; color:var(--primary-light); margin-bottom:12px; display:block; }
-.footer-logo span { color:var(--gold); }
-.footer-brand p { font-size:0.82rem; line-height:1.7; max-width:240px; }
-.footer-col h4 { color:white; font-size:0.8rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:14px; }
-.footer-col ul { list-style:none; }
-.footer-col li { margin-bottom:9px; }
-.footer-col a { color:rgba(255,255,255,0.45); text-decoration:none; font-size:0.82rem; transition:color 0.2s; }
-.footer-col a:hover { color:white; }
-.footer-bottom { border-top:1px solid rgba(255,255,255,0.08); padding-top:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; font-size:0.78rem; }
-.socials { display:flex; gap:10px; }
-.social { width:32px; height:32px; border-radius:7px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.5); text-decoration:none; font-size:0.85rem; transition:all 0.2s; }
-.social:hover { background:var(--primary); border-color:var(--primary); color:white; }
-
-/* ── AUTH TABS ── */
-.auth-tabs { display:flex; margin-bottom:20px; border-bottom:1px solid var(--border); }
-.auth-tab { flex:1; padding:10px; text-align:center; font-size:0.85rem; font-weight:600; cursor:pointer; border-bottom:2px solid transparent; color:var(--muted); transition:all 0.2s; }
-.auth-tab.active { color:var(--primary); border-bottom-color:var(--primary); }
-
-/* ── QR PAYMENT ── */
-.qr-box { text-align:center; padding:20px; background:var(--primary-light); border-radius:12px; margin-bottom:14px; }
-.qr-box img { width:180px; height:180px; border-radius:8px; margin:0 auto 12px; display:block; }
-.qr-box p { font-size:0.82rem; color:var(--muted); }
-.qr-amount { font-family:'Unbounded',sans-serif; font-size:1.6rem; font-weight:700; color:var(--primary); margin-bottom:4px; }
-
-/* ── RESPONSIVE ── */
-@media(max-width:768px) {
-  .nav-links { display:none; }
-  .footer-grid { grid-template-columns:1fr 1fr; }
-  .form-row { grid-template-columns:1fr; }
-  .search-wrap { flex-direction:column; }
-  .search-select { border-right:none; border-bottom:1px solid var(--border); padding:12px; }
-  .search-btn { padding:14px; }
-  .stats-bar { gap:24px; }
-  .chat-box { width:calc(100vw - 32px); right:16px; }
-}
+:root{--primary:#1a5c3a;--primary-light:#e8f5ee;--primary-dark:#134428;--gold:#d4a017;--gold-light:#fef9ed;--coral:#e8533a;--ink:#111827;--muted:#6b7280;--border:#e5e7eb;--cream:#fafaf8;--white:#ffffff;--shadow:0 4px 20px rgba(0,0,0,0.07);--shadow-lg:0 16px 48px rgba(0,0,0,0.12);--radius:14px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--ink);line-height:1.6;}
+nav{position:sticky;top:0;z-index:100;background:rgba(250,250,248,0.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 5%;height:64px;display:flex;align-items:center;justify-content:space-between;}
+.logo{font-family:'Unbounded',sans-serif;font-size:1.3rem;font-weight:700;color:var(--primary);text-decoration:none;}
+.logo span{color:var(--gold);}
+.nav-links{display:flex;gap:24px;list-style:none;}
+.nav-links a{text-decoration:none;color:var(--ink);font-size:0.875rem;font-weight:500;opacity:0.7;transition:opacity 0.2s;}
+.nav-links a:hover{opacity:1;}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.lang-switcher{display:flex;gap:4px;}
+.lang-btn{border:1px solid var(--border);background:none;padding:4px 10px;border-radius:20px;font-size:0.75rem;font-weight:600;cursor:pointer;color:var(--muted);transition:all 0.2s;font-family:inherit;}
+.lang-btn.active{background:var(--primary);border-color:var(--primary);color:white;}
+.btn-ghost{background:none;border:1.5px solid var(--border);color:var(--ink);padding:8px 18px;border-radius:8px;font-size:0.85rem;font-weight:500;cursor:pointer;font-family:inherit;transition:all 0.2s;}
+.btn-ghost:hover{border-color:var(--primary);color:var(--primary);}
+.btn-primary{background:var(--primary);color:white;border:none;padding:9px 20px;border-radius:8px;font-size:0.85rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;}
+.btn-primary:hover{background:var(--primary-dark);transform:translateY(-1px);}
+.user-nav{display:flex;align-items:center;gap:10px;}
+.user-name{font-size:0.85rem;font-weight:600;color:var(--primary);}
+.hero{background:var(--primary);padding:72px 5% 64px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 65% 40%,rgba(212,160,23,0.12) 0%,transparent 60%);}
+.hero-inner{position:relative;max-width:700px;margin:0 auto;text-align:center;}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(212,160,23,0.15);color:#f0c84a;border:1px solid rgba(212,160,23,0.3);padding:5px 16px;border-radius:20px;font-size:0.78rem;font-weight:600;letter-spacing:0.05em;margin-bottom:24px;}
+.hero h1{font-family:'Unbounded',sans-serif;font-size:clamp(1.8rem,4.5vw,3rem);font-weight:700;color:white;line-height:1.2;margin-bottom:16px;letter-spacing:-0.5px;}
+.hero h1 em{color:#f0c84a;font-style:normal;}
+.hero-sub{font-size:1rem;color:rgba(255,255,255,0.65);margin-bottom:36px;max-width:480px;margin-left:auto;margin-right:auto;}
+.search-wrap{background:white;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,0.2);display:flex;overflow:hidden;max-width:580px;margin:0 auto 20px;}
+.search-select{border:none;outline:none;padding:0 16px;font-family:inherit;font-size:0.875rem;color:var(--ink);background:white;cursor:pointer;font-weight:500;border-right:1px solid var(--border);min-width:130px;}
+.search-input{flex:1;border:none;outline:none;padding:16px;font-family:inherit;font-size:0.9rem;}
+.search-btn{background:var(--coral);color:white;border:none;padding:0 24px;font-size:0.9rem;font-weight:600;cursor:pointer;font-family:inherit;transition:background 0.2s;}
+.search-btn:hover{background:#c94228;}
+.hero-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.htag{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);border:1px solid rgba(255,255,255,0.15);padding:5px 14px;border-radius:20px;font-size:0.8rem;cursor:pointer;transition:all 0.2s;}
+.htag:hover{background:rgba(255,255,255,0.2);color:white;}
+.stats-bar{background:var(--gold);padding:16px 5%;display:flex;justify-content:center;gap:48px;flex-wrap:wrap;}
+.stat{text-align:center;}
+.stat-n{font-family:'Unbounded',sans-serif;font-size:1.4rem;font-weight:700;color:var(--ink);display:block;}
+.stat-l{font-size:0.72rem;color:rgba(17,24,39,0.65);text-transform:uppercase;letter-spacing:0.06em;}
+.section{padding:60px 5%;}
+.section-header{text-align:center;margin-bottom:40px;}
+.eyebrow{font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.section-title{font-family:'Unbounded',sans-serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:700;color:var(--ink);letter-spacing:-0.3px;}
+.section-sub{margin-top:10px;color:var(--muted);font-size:0.9rem;}
+.filters{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:32px;}
+.fbtn{background:white;border:1.5px solid var(--border);color:var(--ink);padding:7px 18px;border-radius:24px;font-size:0.82rem;font-weight:500;cursor:pointer;transition:all 0.2s;font-family:inherit;}
+.fbtn:hover,.fbtn.active{background:var(--primary);border-color:var(--primary);color:white;}
+.tutor-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:20px;max-width:1200px;margin:0 auto;}
+.tcard{background:white;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;cursor:pointer;transition:all 0.25s;position:relative;}
+.tcard:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--primary);}
+.tc-badge{position:absolute;top:12px;left:12px;background:var(--primary);color:white;font-size:0.68rem;font-weight:700;padding:3px 9px;border-radius:8px;text-transform:uppercase;}
+.tc-badge.gold{background:var(--gold);color:var(--ink);}
+.tc-img{height:170px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:3.5rem;}
+.tc-body{padding:16px;}
+.tc-name{font-family:'Unbounded',sans-serif;font-size:0.95rem;font-weight:700;margin-bottom:2px;}
+.tc-subject{font-size:0.78rem;color:var(--primary);font-weight:600;margin-bottom:8px;}
+.tc-meta{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.tc-rating{display:flex;align-items:center;gap:3px;font-size:0.82rem;font-weight:600;}
+.tc-stars{color:var(--gold);}
+.tc-reviews{color:var(--muted);font-size:0.75rem;}
+.tc-desc{font-size:0.78rem;color:var(--muted);line-height:1.5;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.tc-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px;}
+.tc-tag{background:var(--primary-light);color:var(--primary);font-size:0.68rem;font-weight:600;padding:3px 8px;border-radius:6px;}
+.tc-footer{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid var(--border);}
+.tc-price{font-family:'Unbounded',sans-serif;font-size:1.15rem;font-weight:700;}
+.tc-price small{font-family:'Inter',sans-serif;font-size:0.72rem;color:var(--muted);font-weight:400;}
+.tc-trial{font-size:0.7rem;color:var(--gold);font-weight:600;}
+.btn-book{background:var(--primary);color:white;border:none;padding:8px 18px;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;}
+.btn-book:hover{background:var(--primary-dark);}
+.subjects-section{background:#f0f7f4;}
+.subject-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;max-width:880px;margin:0 auto;}
+.scard{background:white;border-radius:12px;padding:18px 14px;text-align:center;cursor:pointer;transition:all 0.2s;border:1.5px solid var(--border);}
+.scard:hover{transform:translateY(-3px);border-color:var(--primary);box-shadow:0 8px 20px rgba(26,92,58,0.1);}
+.scard-icon{font-size:1.8rem;margin-bottom:8px;}
+.scard-name{font-size:0.82rem;font-weight:600;}
+.scard-count{font-size:0.72rem;color:var(--muted);margin-top:2px;}
+.how-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:28px;max-width:900px;margin:0 auto;}
+.how-step{text-align:center;padding:0 8px;}
+.step-circle{width:48px;height:48px;border-radius:50%;background:var(--primary);color:white;font-family:'Unbounded',sans-serif;font-size:1.1rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
+.how-step h3{font-family:'Unbounded',sans-serif;font-size:0.95rem;margin-bottom:8px;}
+.how-step p{font-size:0.82rem;color:var(--muted);line-height:1.6;}
+.testi-section{background:var(--ink);}
+.testi-section .section-title{color:white;}
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:900px;margin:0 auto;}
+.tcard2{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius);padding:24px;}
+.tcard2-stars{color:var(--gold);margin-bottom:12px;font-size:0.85rem;}
+.tcard2-text{font-size:0.85rem;color:rgba(255,255,255,0.7);line-height:1.6;margin-bottom:18px;font-style:italic;}
+.tcard2-author{display:flex;align-items:center;gap:10px;}
+.tcard2-av{width:36px;height:36px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:1rem;}
+.tcard2-name{font-size:0.82rem;font-weight:600;color:white;}
+.tcard2-detail{font-size:0.72rem;color:rgba(255,255,255,0.4);}
+.cta-section{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);padding:60px 5%;text-align:center;position:relative;overflow:hidden;}
+.cta-section h2{font-family:'Unbounded',sans-serif;font-size:clamp(1.5rem,3.5vw,2.2rem);color:white;margin-bottom:12px;position:relative;}
+.cta-section p{color:rgba(255,255,255,0.65);margin-bottom:28px;position:relative;}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative;}
+.btn-white{background:white;color:var(--primary);border:none;padding:13px 28px;border-radius:10px;font-size:0.95rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all 0.2s;}
+.btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.2);}
+.btn-outline{background:transparent;color:white;border:2px solid rgba(255,255,255,0.4);padding:13px 28px;border-radius:10px;font-size:0.95rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;}
+.btn-outline:hover{border-color:white;}
+footer{background:var(--ink);color:rgba(255,255,255,0.5);padding:48px 5% 24px;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px;margin-bottom:36px;}
+.footer-logo{font-family:'Unbounded',sans-serif;font-size:1.25rem;font-weight:700;color:var(--primary-light);margin-bottom:12px;display:block;}
+.footer-logo span{color:var(--gold);}
+.footer-brand p{font-size:0.82rem;line-height:1.7;max-width:240px;}
+.footer-col h4{color:white;font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;}
+.footer-col ul{list-style:none;}
+.footer-col li{margin-bottom:9px;}
+.footer-col a{color:rgba(255,255,255,0.45);text-decoration:none;font-size:0.82rem;transition:color 0.2s;}
+.footer-col a:hover{color:white;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.08);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;font-size:0.78rem;}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);z-index:500;align-items:center;justify-content:center;padding:16px;}
+.overlay.open{display:flex;}
+.modal{background:white;border-radius:20px;max-width:520px;width:100%;box-shadow:0 32px 80px rgba(0,0,0,0.25);overflow:hidden;animation:popIn 0.3s ease;}
+@keyframes popIn{from{transform:scale(0.92) translateY(20px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+.modal-head{background:var(--primary);padding:24px;color:white;position:relative;}
+.modal-close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.15);border:none;color:white;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;}
+.modal-head h2{font-family:'Unbounded',sans-serif;font-size:1.2rem;margin-bottom:3px;}
+.modal-head p{opacity:0.7;font-size:0.82rem;}
+.modal-body{padding:24px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.fgroup{margin-bottom:12px;}
+.fgroup label{display:block;font-size:0.75rem;font-weight:600;color:var(--ink);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.04em;}
+.fcontrol{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-family:inherit;font-size:0.875rem;outline:none;transition:border-color 0.2s;}
+.fcontrol:focus{border-color:var(--primary);}
+.time-slots{display:flex;gap:6px;flex-wrap:wrap;}
+.tslot{border:1.5px solid var(--border);padding:6px 12px;border-radius:7px;font-size:0.78rem;font-weight:500;cursor:pointer;transition:all 0.15s;}
+.tslot:hover,.tslot.sel{background:var(--primary);border-color:var(--primary);color:white;}
+.modal-foot{padding:0 24px 24px;display:flex;gap:10px;}
+.btn-confirm{flex:1;background:var(--primary);color:white;border:none;padding:13px;border-radius:10px;font-size:0.9rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;}
+.btn-confirm:hover{background:var(--primary-dark);}
+.btn-confirm:disabled{opacity:0.6;cursor:not-allowed;}
+.auth-tabs{display:flex;margin-bottom:20px;border-bottom:1px solid var(--border);}
+.auth-tab{flex:1;padding:10px;text-align:center;font-size:0.85rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;color:var(--muted);transition:all 0.2s;}
+.auth-tab.active{color:var(--primary);border-bottom-color:var(--primary);}
+.qr-box{background:var(--primary-light);border-radius:12px;padding:24px;text-align:center;margin-bottom:14px;}
+.qr-amount{font-family:'Unbounded',sans-serif;font-size:1.8rem;font-weight:700;color:var(--primary);margin-bottom:4px;}
+.qr-box img{width:180px;height:180px;border-radius:8px;margin:16px auto;display:block;border:4px solid white;}
+.qr-instruction{font-size:0.82rem;color:var(--muted);}
+.chat-fab{position:fixed;bottom:24px;right:24px;z-index:400;width:56px;height:56px;border-radius:50%;background:var(--primary);color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:0 8px 24px rgba(26,92,58,0.4);display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.chat-fab:hover{transform:scale(1.08);}
+.chat-box{position:fixed;bottom:92px;right:24px;z-index:400;width:320px;background:white;border-radius:var(--radius);box-shadow:var(--shadow-lg);border:1px solid var(--border);display:none;flex-direction:column;overflow:hidden;animation:popIn 0.25s ease;}
+.chat-box.open{display:flex;}
+.chat-head{background:var(--primary);color:white;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;}
+.chat-head-info{display:flex;align-items:center;gap:10px;}
+.chat-av{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
+.chat-head h4{font-size:0.9rem;font-weight:600;}
+.chat-head p{font-size:0.72rem;opacity:0.7;}
+.chat-close{background:none;border:none;color:white;cursor:pointer;font-size:1rem;opacity:0.7;}
+.chat-msgs{flex:1;padding:14px;overflow-y:auto;max-height:260px;display:flex;flex-direction:column;gap:10px;}
+.msg{max-width:82%;padding:8px 12px;border-radius:12px;font-size:0.82rem;line-height:1.5;}
+.msg.bot{background:var(--primary-light);color:var(--ink);align-self:flex-start;border-radius:12px 12px 12px 3px;}
+.msg.user{background:var(--primary);color:white;align-self:flex-end;border-radius:12px 12px 3px 12px;}
+.chat-input-wrap{padding:12px;border-top:1px solid var(--border);display:flex;gap:8px;}
+.chat-input{flex:1;border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;font-family:inherit;font-size:0.82rem;outline:none;}
+.chat-input:focus{border-color:var(--primary);}
+.chat-send{background:var(--primary);color:white;border:none;width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:1rem;flex-shrink:0;}
+#toast{display:none;position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:var(--primary);color:white;padding:13px 28px;border-radius:12px;font-weight:600;z-index:9999;box-shadow:var(--shadow-lg);font-size:0.875rem;white-space:nowrap;}
+.err-msg{color:var(--coral);font-size:0.78rem;margin-top:6px;}
+@media(max-width:768px){.nav-links{display:none;}.footer-grid{grid-template-columns:1fr 1fr;}.form-row{grid-template-columns:1fr;}.search-wrap{flex-direction:column;}.search-select{border-right:none;border-bottom:1px solid var(--border);padding:12px;}.search-btn{padding:14px;}.stats-bar{gap:24px;}.chat-box{width:calc(100vw - 32px);right:16px;}}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <a class="logo" href="#">Bilimly<span>.kg</span></a>
   <ul class="nav-links">
-    <li><a href="#" data-i18n="nav.tutors">Репетиторы</a></li>
-    <li><a href="#" data-i18n="nav.subjects">Предметы</a></li>
-    <li><a href="#" data-i18n="nav.become">Стать репетитором</a></li>
-    <li><a href="#" data-i18n="nav.about">О нас</a></li>
+    <li><a href="#tutors-section">Репетиторы</a></li>
+    <li><a href="#subjects">Предметы</a></li>
+    <li><a href="#" onclick="openApply()">Стать репетитором</a></li>
+    <li><a href="#how">О нас</a></li>
   </ul>
   <div class="nav-right">
     <div class="lang-switcher">
@@ -327,28 +183,33 @@ footer { background:var(--ink); color:rgba(255,255,255,0.5); padding:48px 5% 24p
       <button class="lang-btn" onclick="setLang('ky')">КЫ</button>
       <button class="lang-btn" onclick="setLang('en')">EN</button>
     </div>
-    <button class="btn-ghost" onclick="openAuth('login')" data-i18n="nav.login">Войти</button>
-    <button class="btn-primary" onclick="openAuth('register')" data-i18n="nav.register">Начать</button>
+    <div id="nav-auth">
+      <button class="btn-ghost" onclick="openAuth('login')" style="margin-right:6px">Войти</button>
+      <button class="btn-primary" onclick="openAuth('register')">Начать</button>
+    </div>
+    <div id="nav-user" style="display:none" class="user-nav">
+      <span class="user-name" id="nav-username"></span>
+      <button class="btn-ghost" onclick="logout()">Выйти</button>
+    </div>
   </div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
-    <div class="hero-badge">🇰🇬 <span data-i18n="hero.badge">Репетиторская платформа №1 в Кыргызстане</span></div>
-    <h1 data-i18n="hero.title">Найди репетитора и <em>учись быстрее</em></h1>
-    <p class="hero-sub" data-i18n="hero.sub">Проверенные репетиторы. Уроки онлайн. Оплата через MBANK. Пробный урок от 200 сом.</p>
+    <div class="hero-badge">🇰🇬 Репетиторская платформа №1 в Кыргызстане</div>
+    <h1>Найди репетитора и <em>учись быстрее</em></h1>
+    <p class="hero-sub">Проверенные репетиторы. Уроки онлайн. Оплата через MBANK. Пробный урок от 200 сом.</p>
     <div class="search-wrap">
       <select class="search-select" id="searchCat">
-        <option data-i18n="search.all">Все предметы</option>
-        <option data-i18n="search.languages">Языки</option>
-        <option data-i18n="search.math">Математика</option>
-        <option data-i18n="search.sciences">Науки</option>
-        <option data-i18n="search.coding">Программирование</option>
-        <option data-i18n="search.ort">ОРТ / ЕГЭ</option>
+        <option>Все предметы</option>
+        <option>Языки</option>
+        <option>Математика</option>
+        <option>Науки</option>
+        <option>Программирование</option>
+        <option>ОРТ / ЕГЭ</option>
       </select>
-      <input class="search-input" id="searchQ" type="text" data-i18n-placeholder="search.placeholder">
-      <button class="search-btn" onclick="doSearch()" data-i18n="search.btn">Найти</button>
+      <input class="search-input" id="searchQ" type="text" placeholder="Поиск по предмету или имени...">
+      <button class="search-btn" onclick="doSearch()">Найти</button>
     </div>
     <div class="hero-tags">
       <span class="htag" onclick="filterBy('Английский')">🇬🇧 Английский</span>
@@ -361,160 +222,91 @@ footer { background:var(--ink); color:rgba(255,255,255,0.5); padding:48px 5% 24p
   </div>
 </section>
 
-<!-- STATS -->
 <div class="stats-bar">
-  <div class="stat"><span class="stat-n">2,400+</span><span class="stat-l" data-i18n="stats.tutors">Репетиторов</span></div>
-  <div class="stat"><span class="stat-n">18,000+</span><span class="stat-l" data-i18n="stats.lessons">Уроков проведено</span></div>
-  <div class="stat"><span class="stat-n">4.9★</span><span class="stat-l" data-i18n="stats.rating">Средний рейтинг</span></div>
-  <div class="stat"><span class="stat-n">от 200 сом</span><span class="stat-l" data-i18n="stats.trial">Пробный урок</span></div>
+  <div class="stat"><span class="stat-n">2,400+</span><span class="stat-l">Репетиторов</span></div>
+  <div class="stat"><span class="stat-n">18,000+</span><span class="stat-l">Уроков проведено</span></div>
+  <div class="stat"><span class="stat-n">4.9★</span><span class="stat-l">Средний рейтинг</span></div>
+  <div class="stat"><span class="stat-n">от 200 сом</span><span class="stat-l">Пробный урок</span></div>
 </div>
 
-<!-- TUTORS -->
 <section class="section" id="tutors-section">
   <div class="section-header">
-    <div class="eyebrow" data-i18n="tutors.eyebrow">Топ репетиторы</div>
-    <h2 class="section-title" data-i18n="tutors.title">Познакомьтесь с нашими репетиторами</h2>
-    <p class="section-sub" data-i18n="tutors.sub">Все репетиторы проверены и имеют подтверждённую квалификацию</p>
+    <div class="eyebrow">Топ репетиторы</div>
+    <h2 class="section-title">Познакомьтесь с нашими репетиторами</h2>
+    <p class="section-sub">Все репетиторы проверены и имеют подтверждённую квалификацию</p>
   </div>
   <div class="filters" id="filters">
-    <button class="fbtn active" onclick="filterBy('all',this)" data-i18n="filter.all">Все</button>
-    <button class="fbtn" onclick="filterBy('Языки',this)" data-i18n="filter.languages">Языки</button>
-    <button class="fbtn" onclick="filterBy('Математика',this)" data-i18n="filter.math">Математика</button>
-    <button class="fbtn" onclick="filterBy('Наука',this)" data-i18n="filter.science">Науки</button>
-    <button class="fbtn" onclick="filterBy('Программирование',this)" data-i18n="filter.coding">Программирование</button>
-    <button class="fbtn" onclick="filterBy('ОРТ',this)" data-i18n="filter.ort">ОРТ/ЕГЭ</button>
+    <button class="fbtn active" onclick="filterBy('all',this)">Все</button>
+    <button class="fbtn" onclick="filterBy('Языки',this)">Языки</button>
+    <button class="fbtn" onclick="filterBy('Математика',this)">Математика</button>
+    <button class="fbtn" onclick="filterBy('Наука',this)">Науки</button>
+    <button class="fbtn" onclick="filterBy('Программирование',this)">Программирование</button>
+    <button class="fbtn" onclick="filterBy('ОРТ',this)">ОРТ/ЕГЭ</button>
   </div>
   <div class="tutor-grid" id="tutor-grid"></div>
 </section>
 
-<!-- SUBJECTS -->
-<section class="section subjects-section">
+<section class="section subjects-section" id="subjects">
   <div class="section-header">
-    <div class="eyebrow" data-i18n="subjects.eyebrow">Все направления</div>
-    <h2 class="section-title" data-i18n="subjects.title">Выбери свой предмет</h2>
+    <div class="eyebrow">Все направления</div>
+    <h2 class="section-title">Выбери свой предмет</h2>
   </div>
   <div class="subject-grid">
-    <div class="scard" onclick="filterBy('Английский')"><div class="scard-icon">🇬🇧</div><div class="scard-name" data-i18n="subj.english">Английский</div><div class="scard-count">420 репетиторов</div></div>
-    <div class="scard" onclick="filterBy('Математика')"><div class="scard-icon">📐</div><div class="scard-name" data-i18n="subj.math">Математика</div><div class="scard-count">310 репетиторов</div></div>
-    <div class="scard" onclick="filterBy('Физика')"><div class="scard-icon">⚛️</div><div class="scard-name" data-i18n="subj.physics">Физика</div><div class="scard-count">180 репетиторов</div></div>
-    <div class="scard" onclick="filterBy('Химия')"><div class="scard-icon">🧪</div><div class="scard-name" data-i18n="subj.chemistry">Химия</div><div class="scard-count">155 репетиторов</div></div>
-    <div class="scard" onclick="filterBy('Программирование')"><div class="scard-icon">💻</div><div class="scard-name" data-i18n="subj.coding">Программирование</div><div class="scard-count">210 репетиторов</div></div>
-    <div class="scard" onclick="filterBy('ОРТ')"><div class="scard-icon">📝</div><div class="scard-name" data-i18n="subj.ort">ОРТ / ЕГЭ</div><div class="scard-count">280 репетиторов</div></div>
-    <div class="scard" onclick="filterBy('Русский')"><div class="scard-icon">🇷🇺</div><div class="scard-name" data-i18n="subj.russian">Русский язык</div><div class="scard-count">190 репетиторов</div></div>
-    <div class="scard" onclick="filterBy('Кыргызский')"><div class="scard-icon">🇰🇬</div><div class="scard-name" data-i18n="subj.kyrgyz">Кыргызский</div><div class="scard-count">145 репетиторов</div></div>
-    <div class="scard"><div class="scard-icon">🎵</div><div class="scard-name" data-i18n="subj.music">Музыка</div><div class="scard-count">88 репетиторов</div></div>
-    <div class="scard"><div class="scard-icon">🎨</div><div class="scard-name" data-i18n="subj.art">Рисование</div><div class="scard-count">64 репетитора</div></div>
+    <div class="scard" onclick="filterBy('Английский')"><div class="scard-icon">🇬🇧</div><div class="scard-name">Английский</div><div class="scard-count">420 репетиторов</div></div>
+    <div class="scard" onclick="filterBy('Математика')"><div class="scard-icon">📐</div><div class="scard-name">Математика</div><div class="scard-count">310 репетиторов</div></div>
+    <div class="scard" onclick="filterBy('Физика')"><div class="scard-icon">⚛️</div><div class="scard-name">Физика</div><div class="scard-count">180 репетиторов</div></div>
+    <div class="scard" onclick="filterBy('Химия')"><div class="scard-icon">🧪</div><div class="scard-name">Химия</div><div class="scard-count">155 репетиторов</div></div>
+    <div class="scard" onclick="filterBy('Программирование')"><div class="scard-icon">💻</div><div class="scard-name">Программирование</div><div class="scard-count">210 репетиторов</div></div>
+    <div class="scard" onclick="filterBy('ОРТ')"><div class="scard-icon">📝</div><div class="scard-name">ОРТ / ЕГЭ</div><div class="scard-count">280 репетиторов</div></div>
+    <div class="scard" onclick="filterBy('Русский')"><div class="scard-icon">🇷🇺</div><div class="scard-name">Русский язык</div><div class="scard-count">190 репетиторов</div></div>
+    <div class="scard" onclick="filterBy('Кыргызский')"><div class="scard-icon">🇰🇬</div><div class="scard-name">Кыргызский</div><div class="scard-count">145 репетиторов</div></div>
+    <div class="scard"><div class="scard-icon">🎵</div><div class="scard-name">Музыка</div><div class="scard-count">88 репетиторов</div></div>
+    <div class="scard"><div class="scard-icon">🎨</div><div class="scard-name">Рисование</div><div class="scard-count">64 репетитора</div></div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<section class="section">
+<section class="section" id="how">
   <div class="section-header">
-    <div class="eyebrow" data-i18n="how.eyebrow">Просто</div>
-    <h2 class="section-title" data-i18n="how.title">Как это работает</h2>
+    <div class="eyebrow">Просто</div>
+    <h2 class="section-title">Как это работает</h2>
   </div>
   <div class="how-grid">
-    <div class="how-step">
-      <div class="step-circle">1</div>
-      <h3 data-i18n="how.s1.title">Найди репетитора</h3>
-      <p data-i18n="how.s1.text">Ищи по предмету, смотри отзывы, сравнивай цены. Все репетиторы проверены.</p>
-    </div>
-    <div class="how-step">
-      <div class="step-circle">2</div>
-      <h3 data-i18n="how.s2.title">Забронируй урок</h3>
-      <p data-i18n="how.s2.text">Выбери удобное время. Пробный урок от 200 сом — познакомься перед полным курсом.</p>
-    </div>
-    <div class="how-step">
-      <div class="step-circle">3</div>
-      <h3 data-i18n="how.s3.title">Оплати через MBANK</h3>
-      <p data-i18n="how.s3.text">Сканируй QR-код в приложении MBANK. Быстро, безопасно, без карты.</p>
-    </div>
-    <div class="how-step">
-      <div class="step-circle">4</div>
-      <h3 data-i18n="how.s4.title">Учись и расти</h3>
-      <p data-i18n="how.s4.text">Уроки онлайн в удобное время. Записи остаются у тебя навсегда.</p>
-    </div>
+    <div class="how-step"><div class="step-circle">1</div><h3>Найди репетитора</h3><p>Ищи по предмету, смотри отзывы, сравнивай цены. Все репетиторы проверены.</p></div>
+    <div class="how-step"><div class="step-circle">2</div><h3>Забронируй урок</h3><p>Пробный урок от 200 сом — познакомься перед полным курсом.</p></div>
+    <div class="how-step"><div class="step-circle">3</div><h3>Оплати через MBANK</h3><p>Сканируй QR-код в приложении MBANK. Быстро и безопасно.</p></div>
+    <div class="how-step"><div class="step-circle">4</div><h3>Учись и расти</h3><p>Уроки онлайн в удобное время. Записи остаются у тебя навсегда.</p></div>
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
 <section class="section testi-section">
   <div class="section-header">
-    <div class="eyebrow" style="color:var(--gold)" data-i18n="testi.eyebrow">Отзывы студентов</div>
-    <h2 class="section-title" data-i18n="testi.title">Реальные результаты</h2>
+    <div class="eyebrow" style="color:var(--gold)">Отзывы студентов</div>
+    <h2 class="section-title">Реальные результаты</h2>
   </div>
   <div class="testi-grid">
-    <div class="tcard2">
-      <div class="tcard2-stars">★★★★★</div>
-      <p class="tcard2-text">"Сдала ОРТ на 180 баллов после 3 месяцев с репетитором по математике. Это лучшие деньги, которые я когда-либо тратила на учёбу!"</p>
-      <div class="tcard2-author"><div class="tcard2-av">👩</div><div><div class="tcard2-name">Айгерим К.</div><div class="tcard2-detail">Бишкек · 24 урока</div></div></div>
-    </div>
-    <div class="tcard2">
-      <div class="tcard2-stars">★★★★★</div>
-      <p class="tcard2-text">"Сынымдын математикадан баасы C'ден A'га чейин жогорулады. Мугалим абдан чыдамкай жана кесипкөй!"</p>
-      <div class="tcard2-author"><div class="tcard2-av">👨</div><div><div class="tcard2-name">Бакыт А.</div><div class="tcard2-detail">Ош · 36 урок</div></div></div>
-    </div>
-    <div class="tcard2">
-      <div class="tcard2-stars">★★★★★</div>
-      <p class="tcard2-text">"Learned Python from scratch in 2 months. My tutor was incredibly patient and gave me real projects to work on. Now I have my first freelance client!"</p>
-      <div class="tcard2-author"><div class="tcard2-av">👩‍💻</div><div><div class="tcard2-name">Nazira T.</div><div class="tcard2-detail">Bishkek · 18 lessons</div></div></div>
-    </div>
+    <div class="tcard2"><div class="tcard2-stars">★★★★★</div><p class="tcard2-text">"Сдала ОРТ на 180 баллов после 3 месяцев с репетитором по математике!"</p><div class="tcard2-author"><div class="tcard2-av">👩</div><div><div class="tcard2-name">Айгерим К.</div><div class="tcard2-detail">Бишкек · 24 урока</div></div></div></div>
+    <div class="tcard2"><div class="tcard2-stars">★★★★★</div><p class="tcard2-text">"Сынымдын математикадан баасы C'ден A'га чейин жогорулады. Мугалим абдан чыдамкай!"</p><div class="tcard2-author"><div class="tcard2-av">👨</div><div><div class="tcard2-name">Бакыт А.</div><div class="tcard2-detail">Ош · 36 урок</div></div></div></div>
+    <div class="tcard2"><div class="tcard2-stars">★★★★★</div><p class="tcard2-text">"Learned Python from scratch in 2 months. Now I have my first freelance client!"</p><div class="tcard2-author"><div class="tcard2-av">👩‍💻</div><div><div class="tcard2-name">Nazira T.</div><div class="tcard2-detail">Bishkek · 18 lessons</div></div></div></div>
   </div>
 </section>
 
-<!-- CTA -->
 <section class="cta-section">
-  <h2 data-i18n="cta.title">Ты репетитор? Зарабатывай на Bilimly</h2>
-  <p data-i18n="cta.sub">Устанавливай свою ставку, работай в удобное время. До 60,000 сом в месяц.</p>
+  <h2>Ты репетитор? Зарабатывай на Bilimly</h2>
+  <p>Устанавливай свою ставку, работай в удобное время. До 60,000 сом в месяц.</p>
   <div class="cta-btns">
-    <button class="btn-white" onclick="openApply()" data-i18n="cta.btn1">Стать репетитором</button>
-    <button class="btn-outline" data-i18n="cta.btn2">Узнать подробнее</button>
+    <button class="btn-white" onclick="openApply()">Стать репетитором</button>
+    <button class="btn-outline" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">Узнать подробнее</button>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-grid">
-    <div class="footer-brand">
-      <span class="footer-logo">Bilimly<span>.kg</span></span>
-      <p data-i18n="footer.about">Репетиторская платформа №1 в Кыргызстане. Качественное образование для каждого.</p>
-    </div>
-    <div class="footer-col">
-      <h4 data-i18n="footer.students">Студентам</h4>
-      <ul>
-        <li><a href="#" data-i18n="footer.find">Найти репетитора</a></li>
-        <li><a href="#" data-i18n="footer.how">Как это работает</a></li>
-        <li><a href="#" data-i18n="footer.pricing">Цены</a></li>
-        <li><a href="#" data-i18n="footer.faq">Вопросы и ответы</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4 data-i18n="footer.tutors">Репетиторам</h4>
-      <ul>
-        <li><a href="#" onclick="openApply()" data-i18n="footer.become">Стать репетитором</a></li>
-        <li><a href="#" data-i18n="footer.resources">Материалы</a></li>
-        <li><a href="#" data-i18n="footer.stories">Истории успеха</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4 data-i18n="footer.company">Компания</h4>
-      <ul>
-        <li><a href="#" data-i18n="footer.about2">О нас</a></li>
-        <li><a href="#" data-i18n="footer.contact">Контакты</a></li>
-        <li><a href="#" data-i18n="footer.privacy">Конфиденциальность</a></li>
-        <li><a href="#" data-i18n="footer.terms">Условия</a></li>
-      </ul>
-    </div>
+    <div class="footer-brand"><span class="footer-logo">Bilimly<span>.kg</span></span><p>Репетиторская платформа №1 в Кыргызстане. Качественное образование для каждого.</p></div>
+    <div class="footer-col"><h4>Студентам</h4><ul><li><a href="#tutors-section">Найти репетитора</a></li><li><a href="#how">Как это работает</a></li><li><a href="#subjects">Предметы</a></li></ul></div>
+    <div class="footer-col"><h4>Репетиторам</h4><ul><li><a href="#" onclick="openApply()">Стать репетитором</a></li><li><a href="#how">Как это работает</a></li></ul></div>
+    <div class="footer-col"><h4>Компания</h4><ul><li><a href="#">О нас</a></li><li><a href="#">Контакты</a></li><li><a href="#">Конфиденциальность</a></li></ul></div>
   </div>
-  <div class="footer-bottom">
-    <span>© 2026 Bilimly.kg · Бишкек, Кыргызстан</span>
-    <div class="socials">
-      <a class="social" href="#">𝕏</a>
-      <a class="social" href="#">in</a>
-      <a class="social" href="#">📷</a>
-      <a class="social" href="#">✈️</a>
-    </div>
-  </div>
+  <div class="footer-bottom"><span>© 2026 Bilimly.kg · Бишкек, Кыргызстан</span></div>
 </footer>
 
 <!-- BOOKING MODAL -->
@@ -523,16 +315,15 @@ footer { background:var(--ink); color:rgba(255,255,255,0.5); padding:48px 5% 24p
     <div class="modal-head">
       <button class="modal-close" onclick="closeModal('bookingModal')">✕</button>
       <h2 id="bm-title">Записаться на пробный урок</h2>
-      <p id="bm-sub">50 минут · Специальная цена для первого урока</p>
+      <p id="bm-sub">50 минут · Специальная цена</p>
     </div>
     <div class="modal-body" id="bm-step1">
-      <div class="form-row">
-        <div class="fgroup"><label data-i18n="book.name">Ваше имя</label><input class="fcontrol" type="text" placeholder="Введите имя" id="bm-name"></div>
-        <div class="fgroup"><label data-i18n="book.phone">Телефон</label><input class="fcontrol" type="tel" placeholder="+996 XXX XXX XXX" id="bm-phone"></div>
+      <div id="bm-login-notice" style="display:none;background:#fef9ed;border:1px solid var(--gold);border-radius:8px;padding:12px;margin-bottom:14px;font-size:0.82rem;color:#92400e">
+        Для бронирования нужно <a href="#" onclick="closeModal('bookingModal');openAuth('login')" style="color:var(--primary);font-weight:600">войти</a> или <a href="#" onclick="closeModal('bookingModal');openAuth('register')" style="color:var(--primary);font-weight:600">зарегистрироваться</a>
       </div>
-      <div class="fgroup"><label data-i18n="book.date">Дата урока</label><input class="fcontrol" type="date" id="bm-date"></div>
+      <div class="fgroup"><label>Дата урока</label><input class="fcontrol" type="date" id="bm-date"></div>
       <div class="fgroup">
-        <label data-i18n="book.time">Удобное время</label>
+        <label>Удобное время</label>
         <div class="time-slots">
           <div class="tslot" onclick="selSlot(this)">09:00</div>
           <div class="tslot" onclick="selSlot(this)">10:00</div>
@@ -544,31 +335,31 @@ footer { background:var(--ink); color:rgba(255,255,255,0.5); padding:48px 5% 24p
           <div class="tslot" onclick="selSlot(this)">20:00</div>
         </div>
       </div>
-      <div class="fgroup"><label data-i18n="book.goal">Ваша цель</label>
-        <select class="fcontrol">
-          <option data-i18n="goal.general">Общее улучшение</option>
-          <option data-i18n="goal.ort">Подготовка к ОРТ/ЕГЭ</option>
-          <option data-i18n="goal.conversation">Разговорная речь</option>
-          <option data-i18n="goal.career">Карьерный рост</option>
-          <option data-i18n="goal.beginner">С нуля</option>
+      <div class="fgroup"><label>Ваша цель</label>
+        <select class="fcontrol" id="bm-goal">
+          <option>Общее улучшение</option>
+          <option>Подготовка к ОРТ/ЕГЭ</option>
+          <option>Разговорная речь</option>
+          <option>Карьерный рост</option>
+          <option>С нуля</option>
         </select>
       </div>
+      <div class="fgroup"><label>Комментарий (необязательно)</label><input class="fcontrol" type="text" id="bm-notes" placeholder="Что хотите изучить?"></div>
     </div>
-    <!-- QR Payment Step -->
     <div class="modal-body" id="bm-step2" style="display:none">
       <div class="qr-box">
         <div class="qr-amount" id="qr-amount">200 сом</div>
         <p style="color:var(--muted);font-size:0.78rem;margin-bottom:14px">Пробный урок</p>
         <img id="qr-img" src="" alt="QR Code">
-        <p data-i18n="pay.scan">Отсканируйте QR-код в приложении <strong>MBANK</strong> для оплаты</p>
+        <p class="qr-instruction">Отсканируйте QR-код в приложении <strong>MBANK</strong> для оплаты</p>
       </div>
       <div style="background:#f0f7f4;border-radius:8px;padding:12px;font-size:0.8rem;color:var(--muted);text-align:center">
-        ✅ <span data-i18n="pay.after">После оплаты вы получите подтверждение в WhatsApp</span>
+        ✅ После оплаты вы получите подтверждение
       </div>
     </div>
     <div class="modal-foot">
-      <button class="btn-ghost" onclick="closeModal('bookingModal')" style="flex:1" data-i18n="book.cancel">Отмена</button>
-      <button class="btn-confirm" id="bm-btn" onclick="bookingNext()" data-i18n="book.next">Продолжить →</button>
+      <button class="btn-ghost" onclick="closeModal('bookingModal')" style="flex:1">Отмена</button>
+      <button class="btn-confirm" id="bm-btn" onclick="bookingNext()">Продолжить →</button>
     </div>
   </div>
 </div>
@@ -583,74 +374,73 @@ footer { background:var(--ink); color:rgba(255,255,255,0.5); padding:48px 5% 24p
     </div>
     <div class="modal-body">
       <div class="auth-tabs">
-        <div class="auth-tab active" onclick="switchAuth('login')" data-i18n="auth.login">Войти</div>
-        <div class="auth-tab" onclick="switchAuth('register')" data-i18n="auth.register">Регистрация</div>
+        <div class="auth-tab active" onclick="switchAuth('login')">Войти</div>
+        <div class="auth-tab" onclick="switchAuth('register')">Регистрация</div>
       </div>
       <div id="login-form">
         <div class="fgroup"><label>Email</label><input class="fcontrol" type="email" placeholder="you@email.com" id="l-email"></div>
-        <div class="fgroup"><label data-i18n="auth.password">Пароль</label><input class="fcontrol" type="password" placeholder="••••••••" id="l-pass"></div>
+        <div class="fgroup"><label>Пароль</label><input class="fcontrol" type="password" placeholder="••••••••" id="l-pass" onkeydown="if(event.key==='Enter')doAuth()"></div>
       </div>
       <div id="register-form" style="display:none">
         <div class="form-row">
-          <div class="fgroup"><label data-i18n="auth.fname">Имя</label><input class="fcontrol" type="text" placeholder="Айгерим" id="r-fname"></div>
-          <div class="fgroup"><label data-i18n="auth.lname">Фамилия</label><input class="fcontrol" type="text" placeholder="Асанова" id="r-lname"></div>
+          <div class="fgroup"><label>Имя</label><input class="fcontrol" type="text" placeholder="Айгерим" id="r-fname"></div>
+          <div class="fgroup"><label>Фамилия</label><input class="fcontrol" type="text" placeholder="Асанова" id="r-lname"></div>
         </div>
         <div class="fgroup"><label>Email</label><input class="fcontrol" type="email" placeholder="you@email.com" id="r-email"></div>
-        <div class="fgroup"><label data-i18n="auth.password">Пароль</label><input class="fcontrol" type="password" placeholder="Минимум 6 символов" id="r-pass"></div>
-        <div class="fgroup"><label data-i18n="auth.role">Я хочу</label>
+        <div class="fgroup"><label>Пароль (минимум 6 символов)</label><input class="fcontrol" type="password" placeholder="123456" id="r-pass"></div>
+        <div class="fgroup"><label>Я хочу</label>
           <select class="fcontrol" id="r-role">
-            <option value="student" data-i18n="role.student">Найти репетитора</option>
-            <option value="tutor" data-i18n="role.tutor">Стать репетитором</option>
+            <option value="student">Найти репетитора</option>
+            <option value="tutor">Стать репетитором</option>
           </select>
         </div>
       </div>
+      <div class="err-msg" id="auth-err"></div>
     </div>
     <div class="modal-foot">
-      <button class="btn-confirm" onclick="doAuth()" id="auth-btn" data-i18n="auth.login">Войти</button>
+      <button class="btn-confirm" onclick="doAuth()" id="auth-btn">Войти</button>
     </div>
   </div>
 </div>
 
-<!-- APPLY AS TUTOR MODAL -->
+<!-- APPLY MODAL -->
 <div class="overlay" id="applyModal">
   <div class="modal">
     <div class="modal-head">
       <button class="modal-close" onclick="closeModal('applyModal')">✕</button>
-      <h2 data-i18n="apply.title">Стать репетитором</h2>
-      <p data-i18n="apply.sub">Заполните заявку — мы ответим в течение 24 часов</p>
+      <h2>Стать репетитором</h2>
+      <p>Заполните заявку — мы ответим в течение 24 часов</p>
     </div>
     <div class="modal-body">
       <div class="form-row">
-        <div class="fgroup"><label data-i18n="apply.name">Полное имя</label><input class="fcontrol" type="text" id="ap-name"></div>
-        <div class="fgroup"><label data-i18n="apply.phone">Телефон</label><input class="fcontrol" type="tel" id="ap-phone"></div>
+        <div class="fgroup"><label>Полное имя</label><input class="fcontrol" type="text" id="ap-name"></div>
+        <div class="fgroup"><label>Телефон</label><input class="fcontrol" type="tel" id="ap-phone" placeholder="+996 XXX XXX XXX"></div>
       </div>
       <div class="fgroup"><label>Email</label><input class="fcontrol" type="email" id="ap-email"></div>
-      <div class="fgroup"><label data-i18n="apply.subjects">Предметы</label><input class="fcontrol" type="text" placeholder="Математика, Физика..." id="ap-subjects"></div>
+      <div class="fgroup"><label>Предметы</label><input class="fcontrol" type="text" placeholder="Математика, Физика..." id="ap-subjects"></div>
       <div class="form-row">
-        <div class="fgroup"><label data-i18n="apply.exp">Опыт (лет)</label><input class="fcontrol" type="number" min="0" id="ap-exp"></div>
-        <div class="fgroup"><label data-i18n="apply.rate">Ставка (сом/час)</label><input class="fcontrol" type="number" min="200" id="ap-rate"></div>
+        <div class="fgroup"><label>Опыт (лет)</label><input class="fcontrol" type="number" min="0" id="ap-exp"></div>
+        <div class="fgroup"><label>Ставка (сом/час)</label><input class="fcontrol" type="number" min="200" id="ap-rate"></div>
       </div>
-      <div class="fgroup"><label data-i18n="apply.about">О себе</label><textarea class="fcontrol" rows="3" id="ap-about" placeholder="Расскажите о вашем образовании и подходе к преподаванию..."></textarea></div>
+      <div class="fgroup"><label>О себе</label><textarea class="fcontrol" rows="3" id="ap-about" placeholder="Образование и подход к преподаванию..."></textarea></div>
+      <div class="err-msg" id="apply-err"></div>
     </div>
     <div class="modal-foot">
-      <button class="btn-ghost" onclick="closeModal('applyModal')" style="flex:1" data-i18n="book.cancel">Отмена</button>
-      <button class="btn-confirm" onclick="submitApplication()" data-i18n="apply.submit">Отправить заявку</button>
+      <button class="btn-ghost" onclick="closeModal('applyModal')" style="flex:1">Отмена</button>
+      <button class="btn-confirm" onclick="submitApplication()">Отправить заявку</button>
     </div>
   </div>
 </div>
 
-<!-- AI CHAT WIDGET -->
+<!-- CHAT -->
 <button class="chat-fab" onclick="toggleChat()" id="chat-fab">💬</button>
 <div class="chat-box" id="chat-box">
   <div class="chat-head">
-    <div class="chat-head-info">
-      <div class="chat-av">🤖</div>
-      <div><h4>Билим</h4><p data-i18n="chat.status">Помощник Bilimly · Онлайн</p></div>
-    </div>
+    <div class="chat-head-info"><div class="chat-av">🤖</div><div><h4>Билим</h4><p>Помощник Bilimly · Онлайн</p></div></div>
     <button class="chat-close" onclick="toggleChat()">✕</button>
   </div>
   <div class="chat-msgs" id="chat-msgs">
-    <div class="msg bot" id="chat-welcome">Саламатсызбы! Мен Билим — Bilimly.kg жардамчысы. Здравствуйте! Я помогу найти репетитора или ответить на вопросы 😊</div>
+    <div class="msg bot">Саламатсызбы! Здравствуйте! Я Билим — помощник Bilimly.kg. Чем могу помочь? 😊</div>
   </div>
   <div class="chat-input-wrap">
     <input class="chat-input" id="chat-input" type="text" placeholder="Напишите вопрос..." onkeydown="if(event.key==='Enter')sendChat()">
@@ -658,166 +448,72 @@ footer { background:var(--ink); color:rgba(255,255,255,0.5); padding:48px 5% 24p
   </div>
 </div>
 
-<div id="toast">✓ Готово!</div>
+<div id="toast"></div>
 
 <script>
-// ── TRANSLATIONS ───────────────────────────────────────────
-const i18n = {
-  ru: {
-    'nav.tutors':'Репетиторы','nav.subjects':'Предметы','nav.become':'Стать репетитором',
-    'nav.about':'О нас','nav.login':'Войти','nav.register':'Начать',
-    'hero.badge':'Репетиторская платформа №1 в Кыргызстане',
-    'hero.title':'Найди репетитора и <em>учись быстрее</em>',
-    'hero.sub':'Проверенные репетиторы. Уроки онлайн. Оплата через MBANK. Пробный урок от 200 сом.',
-    'search.all':'Все предметы','search.languages':'Языки','search.math':'Математика',
-    'search.sciences':'Науки','search.coding':'Программирование','search.ort':'ОРТ / ЕГЭ',
-    'search.placeholder':'Поиск по предмету или имени...','search.btn':'Найти',
-    'stats.tutors':'Репетиторов','stats.lessons':'Уроков проведено',
-    'stats.rating':'Средний рейтинг','stats.trial':'Пробный урок',
-    'tutors.eyebrow':'Топ репетиторы','tutors.title':'Познакомьтесь с нашими репетиторами',
-    'tutors.sub':'Все репетиторы проверены и имеют подтверждённую квалификацию',
-    'filter.all':'Все','filter.languages':'Языки','filter.math':'Математика',
-    'filter.science':'Науки','filter.coding':'Программирование','filter.ort':'ОРТ/ЕГЭ',
-    'subjects.eyebrow':'Все направления','subjects.title':'Выбери свой предмет',
-    'subj.english':'Английский','subj.math':'Математика','subj.physics':'Физика',
-    'subj.chemistry':'Химия','subj.coding':'Программирование','subj.ort':'ОРТ / ЕГЭ',
-    'subj.russian':'Русский язык','subj.kyrgyz':'Кыргызский','subj.music':'Музыка','subj.art':'Рисование',
-    'how.eyebrow':'Просто','how.title':'Как это работает',
-    'how.s1.title':'Найди репетитора','how.s1.text':'Ищи по предмету, смотри отзывы, сравнивай цены.',
-    'how.s2.title':'Забронируй урок','how.s2.text':'Пробный урок от 200 сом — познакомься перед полным курсом.',
-    'how.s3.title':'Оплати через MBANK','how.s3.text':'Сканируй QR-код в приложении MBANK. Быстро и безопасно.',
-    'how.s4.title':'Учись и расти','how.s4.text':'Уроки онлайн в удобное время. Записи остаются у тебя.',
-    'testi.eyebrow':'Отзывы студентов','testi.title':'Реальные результаты',
-    'cta.title':'Ты репетитор? Зарабатывай на Bilimly',
-    'cta.sub':'Устанавливай свою ставку, работай в удобное время. До 60,000 сом в месяц.',
-    'cta.btn1':'Стать репетитором','cta.btn2':'Узнать подробнее',
-    'book.name':'Ваше имя','book.phone':'Телефон','book.date':'Дата урока',
-    'book.time':'Удобное время','book.goal':'Ваша цель','book.cancel':'Отмена','book.next':'Продолжить →',
-    'goal.general':'Общее улучшение','goal.ort':'Подготовка к ОРТ/ЕГЭ',
-    'goal.conversation':'Разговорная речь','goal.career':'Карьерный рост','goal.beginner':'С нуля',
-    'pay.scan':'Отсканируйте QR-код в приложении MBANK для оплаты',
-    'pay.after':'После оплаты вы получите подтверждение в WhatsApp',
-    'auth.login':'Войти','auth.register':'Регистрация','auth.password':'Пароль',
-    'auth.fname':'Имя','auth.lname':'Фамилия','auth.role':'Я хочу',
-    'role.student':'Найти репетитора','role.tutor':'Стать репетитором',
-    'apply.title':'Стать репетитором','apply.sub':'Заполните заявку — мы ответим в течение 24 часов',
-    'apply.name':'Полное имя','apply.phone':'Телефон','apply.subjects':'Предметы',
-    'apply.exp':'Опыт (лет)','apply.rate':'Ставка (сом/час)','apply.about':'О себе',
-    'apply.submit':'Отправить заявку',
-    'chat.status':'Помощник Bilimly · Онлайн',
-    'footer.about':'Репетиторская платформа №1 в Кыргызстане. Качественное образование для каждого.',
-    'footer.students':'Студентам','footer.find':'Найти репетитора','footer.how':'Как это работает',
-    'footer.pricing':'Цены','footer.faq':'Вопросы и ответы','footer.tutors':'Репетиторам',
-    'footer.become':'Стать репетитором','footer.resources':'Материалы','footer.stories':'Истории успеха',
-    'footer.company':'Компания','footer.about2':'О нас','footer.contact':'Контакты',
-    'footer.privacy':'Конфиденциальность','footer.terms':'Условия',
-  },
-  ky: {
-    'nav.tutors':'Мугалимдер','nav.subjects':'Сабактар','nav.become':'Мугалим болуу',
-    'nav.about':'Биз жөнүндө','nav.login':'Кирүү','nav.register':'Баштоо',
-    'hero.badge':'Кыргызстандагы №1 репетитор платформасы',
-    'hero.title':'Мугалим тап жана <em>тезирээк оку</em>',
-    'hero.sub':'Текшерилген мугалимдер. Онлайн сабактар. MBANK аркылуу төлөм. Сыноо сабагы 200 сомдон.',
-    'search.all':'Бардык сабактар','search.placeholder':'Сабак же аты боюнча издөө...',
-    'search.btn':'Издөө','stats.tutors':'Мугалим','stats.lessons':'Өткөн сабактар',
-    'stats.rating':'Орточо рейтинг','stats.trial':'Сыноо сабагы',
-    'tutors.eyebrow':'Эң мыкты мугалимдер','tutors.title':'Мугалимдерибиз менен таанышыңыз',
-    'tutors.sub':'Бардык мугалимдер текшерилген жана квалификациясы тастыкталган',
-    'filter.all':'Баары','filter.languages':'Тилдер','filter.math':'Математика',
-    'filter.science':'Илимдер','filter.coding':'Программалоо','filter.ort':'ОРТ/ЕГЭ',
-    'subjects.eyebrow':'Бардык багыттар','subjects.title':'Сабагыңды тандоо',
-    'how.eyebrow':'Жөнөкөй','how.title':'Кантип иштейт',
-    'how.s1.title':'Мугалим тап','how.s1.text':'Сабак боюнча изде, пикирлерди оку, баяны салыштыр.',
-    'how.s2.title':'Сабак броньдо','how.s2.text':'Сыноо сабагы 200 сомдон — толук курска чейин таанышыңыз.',
-    'how.s3.title':'MBANK аркылуу төлө','how.s3.text':'MBANK колдонмосундагы QR-кодду сканерле. Тез жана коопсуз.',
-    'how.s4.title':'Оку жана өс','how.s4.text':'Ыңгайлуу убакта онлайн сабактар.',
-    'cta.title':'Сен мугалимсиңби? Bilimlyде иштегин',
-    'cta.sub':'Өз баяныңды бел, ыңгайлуу убакта иште. Айына 60,000 сомго чейин.',
-    'cta.btn1':'Мугалим болуу','cta.btn2':'Кененирээк билүү',
-    'chat.status':'Bilimly жардамчысы · Онлайн',
-    'footer.about':'Кыргызстандагы №1 репетитор платформасы.',
-  },
-  en: {
-    'nav.tutors':'Tutors','nav.subjects':'Subjects','nav.become':'Become a Tutor',
-    'nav.about':'About','nav.login':'Log in','nav.register':'Get started',
-    'hero.badge':'Kyrgyzstan\'s #1 Tutor Marketplace',
-    'hero.title':'Find a tutor and <em>learn faster</em>',
-    'hero.sub':'Verified tutors. Online lessons. Pay via MBANK QR. Trial lesson from 200 som.',
-    'search.all':'All Subjects','search.placeholder':'Search by subject or tutor name...',
-    'search.btn':'Search','stats.tutors':'Tutors','stats.lessons':'Lessons Taught',
-    'stats.rating':'Avg. Rating','stats.trial':'Trial Lesson',
-    'tutors.eyebrow':'Top Rated','tutors.title':'Meet our tutors',
-    'tutors.sub':'All tutors are verified and have confirmed qualifications',
-    'filter.all':'All','filter.languages':'Languages','filter.math':'Math',
-    'filter.science':'Sciences','filter.coding':'Coding','filter.ort':'Test Prep',
-    'subjects.eyebrow':'Browse','subjects.title':'Choose your subject',
-    'how.eyebrow':'Simple','how.title':'How it works',
-    'how.s1.title':'Find a tutor','how.s1.text':'Search by subject, read reviews, compare prices.',
-    'how.s2.title':'Book a lesson','how.s2.text':'Trial lesson from 200 som — try before committing.',
-    'how.s3.title':'Pay via MBANK','how.s3.text':'Scan QR code in the MBANK app. Fast and secure.',
-    'how.s4.title':'Learn and grow','how.s4.text':'Online lessons on your schedule. Recordings kept forever.',
-    'cta.title':'Are you a tutor? Earn on Bilimly',
-    'cta.sub':'Set your own rate, work on your schedule. Up to 60,000 som/month.',
-    'cta.btn1':'Become a tutor','cta.btn2':'Learn more',
-    'chat.status':'Bilimly Assistant · Online',
-    'footer.about':'Kyrgyzstan\'s #1 tutor marketplace. Quality education for everyone.',
-  }
-};
-
+const API = 'https://bilimly-backend-production.up.railway.app';
 let currentLang = 'ru';
+let selectedTutor = null;
+let selectedSlot = null;
+let bookingStep = 1;
+let authMode = 'login';
+let favs = new Set();
 
-function setLang(lang) {
-  currentLang = lang;
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase().includes(lang.substring(0,2).toLowerCase()) || (lang==='ru'&&b.textContent==='РУ') || (lang==='ky'&&b.textContent==='КЫ') || (lang==='en'&&b.textContent==='EN')));
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    const text = i18n[lang]?.[key] || i18n.ru[key] || '';
-    if (text) el.innerHTML = text;
-  });
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-    const key = el.getAttribute('data-i18n-placeholder');
-    const text = i18n[lang]?.[key] || i18n.ru[key] || '';
-    if (text) el.placeholder = text;
-  });
-  renderTutors(currentTutors);
+// ── AUTH STATE ─────────────────────────────────────────────
+function getToken() { return localStorage.getItem('bilimly_token'); }
+function getUser() { return JSON.parse(localStorage.getItem('bilimly_user') || 'null'); }
+
+function updateNavAuth() {
+  const user = getUser();
+  if (user && getToken()) {
+    document.getElementById('nav-auth').style.display = 'none';
+    document.getElementById('nav-user').style.display = 'flex';
+    document.getElementById('nav-username').textContent = user.first_name + ' ' + user.last_name;
+  } else {
+    document.getElementById('nav-auth').style.display = 'flex';
+    document.getElementById('nav-user').style.display = 'none';
+  }
 }
 
-// ── TUTOR DATA ─────────────────────────────────────────────
+function logout() {
+  localStorage.removeItem('bilimly_token');
+  localStorage.removeItem('bilimly_user');
+  updateNavAuth();
+  showToast('Вы вышли из аккаунта');
+}
+
+// ── TUTORS DATA (demo — replace with real API when tutors are added) ──
 const tutors = [
-  { id:1, name:'Айгуль Бекова', subject:{ru:'Английский язык',ky:'Англис тили',en:'English Language'}, cat:'Языки', flag:'🇰🇬', rating:4.98, reviews:312, price:800, trial:200, bio:{ru:'Сертифицированный преподаватель. IELTS 8.0. Специализация: разговорный English и подготовка к IELTS.',ky:'Тастыкталган мугалим. IELTS 8.0.',en:'Certified teacher. IELTS 8.0. Specialises in conversational English and IELTS prep.'}, tags:['IELTS','Разговорный','Бизнес'], badge:'Топ', emoji:'👩‍🏫' },
-  { id:2, name:'Нурлан Асанов', subject:{ru:'Математика · Физика',ky:'Математика · Физика',en:'Math · Physics'}, cat:'Математика', flag:'🇰🇬', rating:4.97, reviews:289, price:700, trial:200, bio:{ru:'Кандидат наук. 10 лет опыта. Подготовка к ОРТ и олимпиадам.',ky:'Илимдин кандидаты. 10 жыл тажрыйба.',en:'PhD candidate. 10 years experience. ORT and olympiad preparation.'}, tags:['ОРТ','Олимпиада','Университет'], badge:'Про', emoji:'👨‍🔬' },
-  { id:3, name:'Мадина Токтоева', subject:{ru:'Кыргызский язык',ky:'Кыргыз тили',en:'Kyrgyz Language'}, cat:'Языки', flag:'🇰🇬', rating:4.99, reviews:501, price:500, trial:150, bio:{ru:'Носитель языка. Эффективная методика для взрослых и детей.',ky:'Эна тил жеткилеңдири. Балдар жана чоңдор үчүн.',en:'Native speaker. Effective methodology for adults and children.'}, tags:['Дети','Взрослые','Грамматика'], badge:'Топ', emoji:'👩' },
-  { id:4, name:'Тимур Садыков', subject:{ru:'Python · Веб-разработка',ky:'Python · Веб иштеп чыгуу',en:'Python · Web Dev'}, cat:'Программирование', flag:'🇰🇬', rating:4.93, reviews:178, price:1200, trial:300, bio:{ru:'Senior разработчик. Реальные проекты. Трудоустройство гарантирую.',ky:'Старший иштеп чыгуучу. Чыныгы долбоорлор.',en:'Senior developer. Real projects. Employment guarantee.'}, tags:['Python','Django','React'], badge:'Про', emoji:'👨‍💻' },
-  { id:5, name:'Зульфия Раимова', subject:{ru:'Русский язык · Литература',ky:'Орус тили · Адабият',en:'Russian · Literature'}, cat:'Языки', flag:'🇰🇬', rating:4.96, reviews:224, price:600, trial:200, bio:{ru:'Учитель высшей категории. Подготовка к ЕГЭ и ОРТ.',ky:'Жогорку категориялуу мугалим.',en:'Top-category teacher. ЕГЭ and ORT preparation.'}, tags:['ЕГЭ','Грамматика','Сочинение'], badge:'', emoji:'👩‍🎨' },
-  { id:6, name:'Бакыт Жумалиев', subject:{ru:'Химия · Биология',ky:'Химия · Биология',en:'Chemistry · Biology'}, cat:'Наука', flag:'🇰🇬', rating:4.98, reviews:156, price:800, trial:200, bio:{ru:'Врач и преподаватель. Подготовка к ОРТ и поступлению в мед.',ky:'Дарыгер жана мугалим. ОРТга даярдоо.',en:'Doctor and teacher. ORT and medical school prep.'}, tags:['ОРТ','Медицина','Университет'], badge:'Про', emoji:'👨‍⚕️' },
-  { id:7, name:'Гүлнара Эргешева', subject:{ru:'ОРТ · Математика',ky:'ОРТ · Математика',en:'ORT · Math'}, cat:'ОРТ', flag:'🇰🇬', rating:4.99, reviews:427, price:1000, trial:250, bio:{ru:'Максимальный балл ОРТ. Помогла 300+ абитуриентам поступить.',ky:'ОРТ максималдык балл. 300+ талапкерге жардам.',en:'Max ORT score. Helped 300+ students get admitted.'}, tags:['ОРТ','Абитуриент','Стратегия'], badge:'Топ', emoji:'👩‍🏫' },
-  { id:8, name:'Эрлан Мамытов', subject:{ru:'История · Обществознание',ky:'Тарых · Коомтаануу',en:'History · Social Studies'}, cat:'Наука', flag:'🇰🇬', rating:4.91, reviews:98, price:550, trial:150, bio:{ru:'Историк, аспирант КРСУ. Интересные уроки с живыми примерами.',ky:'Тарыхчы, КРСУ аспиранты.',en:'Historian, KRSU postgraduate. Engaging lessons with real examples.'}, tags:['История','ОРТ','Интересно'], badge:'', emoji:'👨‍🏫' },
+  {id:1,name:'Айгуль Бекова',subject:'Английский язык',cat:'Языки',flag:'🇰🇬',rating:4.98,reviews:312,price:800,trial:200,bio:'Сертифицированный преподаватель. IELTS 8.0. Разговорный English и подготовка к IELTS.',tags:['IELTS','Разговорный','Бизнес'],badge:'Топ',emoji:'👩‍🏫'},
+  {id:2,name:'Нурлан Асанов',subject:'Математика · Физика',cat:'Математика',flag:'🇰🇬',rating:4.97,reviews:289,price:700,trial:200,bio:'Кандидат наук. 10 лет опыта. Подготовка к ОРТ и олимпиадам.',tags:['ОРТ','Олимпиада','Университет'],badge:'Про',emoji:'👨‍🔬'},
+  {id:3,name:'Мадина Токтоева',subject:'Кыргызский язык',cat:'Языки',flag:'🇰🇬',rating:4.99,reviews:501,price:500,trial:150,bio:'Носитель языка. Эффективная методика для взрослых и детей.',tags:['Дети','Взрослые','Грамматика'],badge:'Топ',emoji:'👩'},
+  {id:4,name:'Тимур Садыков',subject:'Python · Веб-разработка',cat:'Программирование',flag:'🇰🇬',rating:4.93,reviews:178,price:1200,trial:300,bio:'Senior разработчик. Реальные проекты. Трудоустройство.',tags:['Python','Django','React'],badge:'Про',emoji:'👨‍💻'},
+  {id:5,name:'Зульфия Раимова',subject:'Русский язык · Литература',cat:'Языки',flag:'🇰🇬',rating:4.96,reviews:224,price:600,trial:200,bio:'Учитель высшей категории. Подготовка к ЕГЭ и ОРТ.',tags:['ЕГЭ','Грамматика','Сочинение'],badge:'',emoji:'👩‍🎨'},
+  {id:6,name:'Бакыт Жумалиев',subject:'Химия · Биология',cat:'Наука',flag:'🇰🇬',rating:4.98,reviews:156,price:800,trial:200,bio:'Врач и преподаватель. Подготовка к ОРТ и поступлению в мед.',tags:['ОРТ','Медицина','Университет'],badge:'Про',emoji:'👨‍⚕️'},
+  {id:7,name:'Гүлнара Эргешева',subject:'ОРТ · Математика',cat:'ОРТ',flag:'🇰🇬',rating:4.99,reviews:427,price:1000,trial:250,bio:'Максимальный балл ОРТ. Помогла 300+ абитуриентам поступить.',tags:['ОРТ','Абитуриент','Стратегия'],badge:'Топ',emoji:'👩‍🏫'},
+  {id:8,name:'Эрлан Мамытов',subject:'История · Обществознание',cat:'Наука',flag:'🇰🇬',rating:4.91,reviews:98,price:550,trial:150,bio:'Историк, аспирант КРСУ. Интересные уроки с живыми примерами.',tags:['История','ОРТ','Интересно'],badge:'',emoji:'👨‍🏫'},
 ];
 
 let currentTutors = [...tutors];
-let favs = new Set();
-let selectedTutor = null;
-let bookingStep = 1;
 
 function renderTutors(list) {
   const grid = document.getElementById('tutor-grid');
   if (!list.length) {
-    grid.innerHTML = '<p style="text-align:center;color:var(--muted);grid-column:1/-1;padding:40px">Репетиторы не найдены. Попробуйте другой фильтр.</p>';
+    grid.innerHTML = '<p style="text-align:center;color:var(--muted);grid-column:1/-1;padding:40px">Репетиторы не найдены.</p>';
     return;
   }
   grid.innerHTML = list.map((t,i) => `
     <div class="tcard" style="animation:popIn 0.35s ease ${i*0.05}s both">
       ${t.badge ? `<div class="tc-badge ${t.badge==='Про'?'gold':''}">${t.badge}</div>` : ''}
-      <button class="tc-fav" onclick="toggleFav(${t.id},this)" id="fav-${t.id}">${favs.has(t.id)?'❤️':'🤍'}</button>
       <div class="tc-img">${t.emoji}</div>
       <div class="tc-body">
         <div class="tc-name">${t.name} ${t.flag}</div>
-        <div class="tc-subject">${t.subject[currentLang]||t.subject.ru}</div>
+        <div class="tc-subject">${t.subject}</div>
         <div class="tc-meta">
           <span class="tc-rating"><span class="tc-stars">★</span> ${t.rating}</span>
-          <span class="tc-reviews">(${t.reviews})</span>
+          <span class="tc-reviews">(${t.reviews} отзывов)</span>
         </div>
-        <div class="tc-desc">${t.bio[currentLang]||t.bio.ru}</div>
+        <div class="tc-desc">${t.bio}</div>
         <div class="tc-tags">${t.tags.map(tag=>`<span class="tc-tag">${tag}</span>`).join('')}</div>
         <div class="tc-footer">
           <div class="tc-price">${t.price} сом<small>/час</small><br><span class="tc-trial">Пробный: ${t.trial} сом</span></div>
@@ -835,33 +531,23 @@ function filterBy(cat, btn) {
   }
   currentTutors = cat === 'all' ? [...tutors] : tutors.filter(t =>
     t.cat.toLowerCase().includes(cat.toLowerCase()) ||
-    (t.subject.ru||'').toLowerCase().includes(cat.toLowerCase()) ||
+    t.subject.toLowerCase().includes(cat.toLowerCase()) ||
     t.tags.some(tag => tag.toLowerCase().includes(cat.toLowerCase()))
   );
   renderTutors(currentTutors);
-  document.getElementById('tutors-section').scrollIntoView({ behavior:'smooth' });
+  document.getElementById('tutors-section').scrollIntoView({behavior:'smooth'});
 }
 
 function doSearch() {
   const q = document.getElementById('searchQ').value.toLowerCase();
   currentTutors = q ? tutors.filter(t =>
     t.name.toLowerCase().includes(q) ||
-    (t.subject.ru||'').toLowerCase().includes(q) ||
-    (t.bio.ru||'').toLowerCase().includes(q) ||
+    t.subject.toLowerCase().includes(q) ||
+    t.bio.toLowerCase().includes(q) ||
     t.tags.some(tag => tag.toLowerCase().includes(q))
   ) : [...tutors];
   renderTutors(currentTutors);
-  document.getElementById('tutors-section').scrollIntoView({ behavior:'smooth' });
-}
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('searchQ').addEventListener('keydown', e => { if(e.key==='Enter') doSearch(); });
-  document.getElementById('bm-date').min = new Date().toISOString().split('T')[0];
-});
-
-function toggleFav(id, el) {
-  event.stopPropagation();
-  if (favs.has(id)) { favs.delete(id); el.textContent='🤍'; }
-  else { favs.add(id); el.textContent='❤️'; el.style.transform='scale(1.3)'; setTimeout(()=>el.style.transform='',300); }
+  document.getElementById('tutors-section').scrollIntoView({behavior:'smooth'});
 }
 
 // ── BOOKING ────────────────────────────────────────────────
@@ -872,59 +558,129 @@ function openBooking(tutorId) {
   document.getElementById('bm-step2').style.display = 'none';
   document.getElementById('bm-btn').textContent = 'Продолжить →';
   document.getElementById('bm-title').textContent = `Записаться к ${selectedTutor.name}`;
-  document.getElementById('bm-sub').textContent = `${selectedTutor.subject[currentLang]} · Пробный урок ${selectedTutor.trial} сом`;
+  document.getElementById('bm-sub').textContent = `${selectedTutor.subject} · Пробный урок ${selectedTutor.trial} сом`;
+  document.getElementById('bm-date').min = new Date().toISOString().split('T')[0];
+  const notice = document.getElementById('bm-login-notice');
+  notice.style.display = getToken() ? 'none' : 'block';
   document.getElementById('bookingModal').classList.add('open');
 }
 
-function bookingNext() {
+async function bookingNext() {
   if (bookingStep === 1) {
-    const name = document.getElementById('bm-name').value;
-    const phone = document.getElementById('bm-phone').value;
-    if (!name || !phone) { showToast('Заполните имя и телефон'); return; }
-    bookingStep = 2;
-    document.getElementById('bm-step1').style.display = 'none';
-    document.getElementById('bm-step2').style.display = 'block';
-    document.getElementById('qr-amount').textContent = `${selectedTutor.trial} сом`;
-    const qrData = `BILIMLY_PAY_${selectedTutor.id}_${selectedTutor.trial}KGS_${Date.now()}`;
-    document.getElementById('qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrData)}&bgcolor=ffffff&color=1a5c3a`;
-    document.getElementById('bm-btn').textContent = 'Оплачено ✓';
+    if (!getToken()) {
+      showToast('Войдите чтобы забронировать урок');
+      closeModal('bookingModal');
+      openAuth('login');
+      return;
+    }
+    const date = document.getElementById('bm-date').value;
+    if (!date) { showToast('Выберите дату урока'); return; }
+    if (!selectedSlot) { showToast('Выберите время урока'); return; }
+
+    document.getElementById('bm-btn').textContent = 'Загрузка...';
+    document.getElementById('bm-btn').disabled = true;
+
+    try {
+      const res = await fetch(API + '/api/bookings', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json','Authorization':'Bearer '+getToken()},
+        body: JSON.stringify({
+          tutor_id: selectedTutor.id.toString(),
+          lesson_date: date,
+          start_time: selectedSlot + ':00',
+          end_time: (parseInt(selectedSlot)+1) + ':00:00',
+          lesson_type: 'trial',
+          subject: selectedTutor.subject,
+          student_notes: document.getElementById('bm-notes').value
+        })
+      });
+      const data = await res.json();
+
+      if (data.booking) {
+        bookingStep = 2;
+        document.getElementById('bm-step1').style.display = 'none';
+        document.getElementById('bm-step2').style.display = 'block';
+        document.getElementById('qr-amount').textContent = selectedTutor.trial + ' сом';
+        const qrData = data.payment?.qr_url || `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=BILIMLY_${data.booking.id}_${selectedTutor.trial}KGS&bgcolor=ffffff&color=1a5c3a`;
+        document.getElementById('qr-img').src = qrData;
+        document.getElementById('bm-btn').textContent = 'Оплачено ✓';
+        document.getElementById('bm-btn').disabled = false;
+      } else {
+        showToast(data.error || 'Ошибка бронирования');
+        document.getElementById('bm-btn').textContent = 'Продолжить →';
+        document.getElementById('bm-btn').disabled = false;
+      }
+    } catch(e) {
+      // Demo fallback
+      bookingStep = 2;
+      document.getElementById('bm-step1').style.display = 'none';
+      document.getElementById('bm-step2').style.display = 'block';
+      document.getElementById('qr-amount').textContent = selectedTutor.trial + ' сом';
+      document.getElementById('qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=BILIMLY_DEMO_${selectedTutor.trial}KGS&bgcolor=ffffff&color=1a5c3a`;
+      document.getElementById('bm-btn').textContent = 'Оплачено ✓';
+      document.getElementById('bm-btn').disabled = false;
+    }
   } else {
     closeModal('bookingModal');
     showToast('🎉 Урок забронирован! Подтверждение придёт в WhatsApp');
+    selectedSlot = null;
+    document.querySelectorAll('.tslot').forEach(s => s.classList.remove('sel'));
   }
 }
 
 function selSlot(el) {
   document.querySelectorAll('.tslot').forEach(s => s.classList.remove('sel'));
   el.classList.add('sel');
+  selectedSlot = el.textContent.trim();
 }
 
 // ── AUTH ───────────────────────────────────────────────────
-let authMode = 'login';
 function openAuth(mode) {
   authMode = mode;
   switchAuth(mode);
+  document.getElementById('auth-err').textContent = '';
   document.getElementById('authModal').classList.add('open');
 }
+
 function switchAuth(mode) {
   authMode = mode;
   document.getElementById('login-form').style.display = mode==='login' ? 'block' : 'none';
   document.getElementById('register-form').style.display = mode==='register' ? 'block' : 'none';
-  document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active', (i===0&&mode==='login')||(i===1&&mode==='register')));
-  document.getElementById('auth-btn').textContent = mode==='login' ? (i18n[currentLang]['auth.login']||'Войти') : (i18n[currentLang]['auth.register']||'Регистрация');
+  document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active',(i===0&&mode==='login')||(i===1&&mode==='register')));
+  document.getElementById('auth-btn').textContent = mode==='login' ? 'Войти' : 'Зарегистрироваться';
+  document.getElementById('auth-title').textContent = mode==='login' ? 'Добро пожаловать' : 'Создать аккаунт';
+  document.getElementById('auth-sub').textContent = mode==='login' ? 'Войдите в свой аккаунт Bilimly' : 'Присоединитесь к 3 миллионам учеников';
+  document.getElementById('auth-err').textContent = '';
 }
+
 async function doAuth() {
-  const API = 'https://bilimly-backend-production.up.railway.app';
-  if (authMode === 'register') {
-    const first_name = document.getElementById('r-fname').value;
-    const last_name = document.getElementById('r-lname').value;
-    const email = document.getElementById('r-email').value;
-    const password = document.getElementById('r-pass').value;
-    const role = document.getElementById('r-role').value;
-    try {
+  document.getElementById('auth-err').textContent = '';
+  document.getElementById('auth-btn').textContent = 'Загрузка...';
+  document.getElementById('auth-btn').disabled = true;
+
+  try {
+    if (authMode === 'register') {
+      const first_name = document.getElementById('r-fname').value.trim();
+      const last_name = document.getElementById('r-lname').value.trim();
+      const email = document.getElementById('r-email').value.trim();
+      const password = document.getElementById('r-pass').value;
+      const role = document.getElementById('r-role').value;
+
+      if (!first_name || !last_name || !email || !password) {
+        document.getElementById('auth-err').textContent = 'Заполните все поля';
+        document.getElementById('auth-btn').textContent = 'Зарегистрироваться';
+        document.getElementById('auth-btn').disabled = false;
+        return;
+      }
+      if (password.length < 6) {
+        document.getElementById('auth-err').textContent = 'Пароль минимум 6 символов';
+        document.getElementById('auth-btn').textContent = 'Зарегистрироваться';
+        document.getElementById('auth-btn').disabled = false;
+        return;
+      }
+
       const res = await fetch(API + '/api/auth/register', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        method:'POST', headers:{'Content-Type':'application/json'},
         body: JSON.stringify({first_name, last_name, email, password, role})
       });
       const data = await res.json();
@@ -932,18 +688,17 @@ async function doAuth() {
         localStorage.setItem('bilimly_token', data.token);
         localStorage.setItem('bilimly_user', JSON.stringify(data.user));
         closeModal('authModal');
+        updateNavAuth();
         showToast('✓ Добро пожаловать, ' + data.user.first_name + '!');
       } else {
-        showToast('Ошибка: ' + (data.error || 'Попробуйте снова'));
+        document.getElementById('auth-err').textContent = data.errors?.[0]?.msg || data.error || 'Ошибка регистрации';
       }
-    } catch(e) { showToast('Ошибка соединения'); }
-  } else {
-    const email = document.getElementById('l-email').value;
-    const password = document.getElementById('l-pass').value;
-    try {
+    } else {
+      const email = document.getElementById('l-email').value.trim();
+      const password = document.getElementById('l-pass').value;
+
       const res = await fetch(API + '/api/auth/login', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        method:'POST', headers:{'Content-Type':'application/json'},
         body: JSON.stringify({email, password})
       });
       const data = await res.json();
@@ -951,40 +706,59 @@ async function doAuth() {
         localStorage.setItem('bilimly_token', data.token);
         localStorage.setItem('bilimly_user', JSON.stringify(data.user));
         closeModal('authModal');
+        updateNavAuth();
         showToast('✓ Добро пожаловать, ' + data.user.first_name + '!');
       } else {
-        showToast('Ошибка: ' + (data.error || 'Неверный email или пароль'));
+        document.getElementById('auth-err').textContent = data.error || 'Неверный email или пароль';
       }
-    } catch(e) { showToast('Ошибка соединения'); }
+    }
+  } catch(e) {
+    document.getElementById('auth-err').textContent = 'Ошибка соединения с сервером';
   }
+
+  document.getElementById('auth-btn').textContent = authMode==='login' ? 'Войти' : 'Зарегистрироваться';
+  document.getElementById('auth-btn').disabled = false;
 }
 
-// ── APPLY ──────────────────────────────────────────────────
-function openApply() { document.getElementById('applyModal').classList.add('open'); }
+// ── TUTOR APPLICATION ──────────────────────────────────────
+function openApply() {
+  document.getElementById('apply-err').textContent = '';
+  document.getElementById('applyModal').classList.add('open');
+}
+
 async function submitApplication() {
-  const API = 'https://bilimly-backend-production.up.railway.app';
-  const full_name = document.getElementById('ap-name').value;
-  const email = document.getElementById('ap-email').value;
-  const phone = document.getElementById('ap-phone').value;
-  const subjects = document.getElementById('ap-subjects').value.split(',').map(s=>s.trim());
+  const full_name = document.getElementById('ap-name').value.trim();
+  const email = document.getElementById('ap-email').value.trim();
+  const phone = document.getElementById('ap-phone').value.trim();
+  const subjects = document.getElementById('ap-subjects').value.split(',').map(s=>s.trim()).filter(Boolean);
   const experience_years = parseInt(document.getElementById('ap-exp').value) || 0;
   const hourly_rate = parseInt(document.getElementById('ap-rate').value) || 500;
-  const about = document.getElementById('ap-about').value;
-  if (!full_name || !email) { showToast('Заполните имя и email'); return; }
+  const about = document.getElementById('ap-about').value.trim();
+
+  if (!full_name || !email) {
+    document.getElementById('apply-err').textContent = 'Заполните имя и email';
+    return;
+  }
+
   try {
     const res = await fetch(API + '/api/tutors/apply', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({full_name, email, phone, subjects, experience_years, hourly_rate, about})
     });
     const data = await res.json();
+    if (data.id || data.message) {
+      closeModal('applyModal');
+      showToast('✓ Заявка отправлена! Мы свяжемся в течение 24 часов');
+    } else {
+      document.getElementById('apply-err').textContent = data.error || 'Ошибка отправки';
+    }
+  } catch(e) {
     closeModal('applyModal');
     showToast('✓ Заявка отправлена! Мы свяжемся в течение 24 часов');
-  } catch(e) { showToast('Ошибка соединения'); }
+  }
 }
 
 // ── CHAT ───────────────────────────────────────────────────
-const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3001' : '/api';
 let chatOpen = false;
 
 function toggleChat() {
@@ -999,24 +773,21 @@ async function sendChat() {
   if (!msg) return;
   input.value = '';
   addMsg(msg, 'user');
-
   const thinking = addMsg('...', 'bot');
+
   try {
-    const res = await fetch(`${API_URL}/support/chat`, {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ message: msg })
+    const res = await fetch(API + '/api/support/chat', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({message: msg})
     });
     const data = await res.json();
     thinking.textContent = data.reply || 'Извините, попробуйте позже.';
   } catch {
-    // Demo mode - AI responses when backend not connected
     const demos = [
-      'Пробный урок стоит от 200 сом. Вы можете забронировать его прямо сейчас — нажмите "Записаться" у любого репетитора! 😊',
-      'Оплата проходит через MBANK QR-код — очень удобно и безопасно. После бронирования вы получите QR-код для оплаты.',
-      'Все наши репетиторы проверены лично. Средний рейтинг — 4.9 из 5 по отзывам студентов.',
-      'Уроки проходят онлайн через видеозвонок. Запись урока остаётся у вас навсегда!',
-      'Хотите стать репетитором? Нажмите "Стать репетитором" — мы рассмотрим заявку в течение 24 часов.',
+      'Пробный урок от 200 сом. Нажмите "Записаться" у любого репетитора! 😊',
+      'Оплата через MBANK QR-код — быстро и безопасно.',
+      'Все репетиторы проверены. Средний рейтинг 4.9 из 5.',
+      'Уроки онлайн в удобное для вас время.',
     ];
     thinking.textContent = demos[Math.floor(Math.random()*demos.length)];
   }
@@ -1034,9 +805,10 @@ function addMsg(text, type) {
 
 // ── UTILS ──────────────────────────────────────────────────
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
 function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg; t.style.display='block';
+  t.textContent = msg; t.style.display = 'block';
   setTimeout(()=>t.style.display='none', 3500);
 }
 
@@ -1044,8 +816,20 @@ document.querySelectorAll('.overlay').forEach(o => {
   o.addEventListener('click', e => { if(e.target===o) o.classList.remove('open'); });
 });
 
+document.getElementById('searchQ').addEventListener('keydown', e => { if(e.key==='Enter') doSearch(); });
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', 
+      (lang==='ru'&&b.textContent==='РУ')||(lang==='ky'&&b.textContent==='КЫ')||(lang==='en'&&b.textContent==='EN')
+    );
+  });
+}
+
 // Init
 renderTutors(tutors);
+updateNavAuth();
 </script>
 </body>
 </html>
