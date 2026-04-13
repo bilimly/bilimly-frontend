@@ -528,7 +528,7 @@ function renderTutors(list) {
     return;
   }
   grid.innerHTML = list.map((t,i) => `
-    <div class="tcard" style="animation:popIn 0.35s ease ${i*0.05}s both">
+    <div class="tcard" onclick="window.location.href='tutor.html?id=${t.id}'" style="animation:popIn 0.35s ease ${i*0.05}s both">
       ${t.badge ? `<div class="tc-badge ${t.badge==='Про'?'gold':''}">${t.badge}</div>` : ''}
       <div class="tc-img">${t.emoji}</div>
       <div class="tc-body">
@@ -542,7 +542,7 @@ function renderTutors(list) {
         <div class="tc-tags">${t.tags.map(tag=>`<span class="tc-tag">${tag}</span>`).join('')}</div>
         <div class="tc-footer">
           <div class="tc-price">${t.price} сом<small>/час</small><br><span class="tc-trial">Пробный: ${t.trial} сом</span></div>
-          <button class="btn-book" onclick="openBooking('${t.id}')">Записаться</button>
+          <button class="btn-book" onclick="window.location.href='tutor.html?id='+encodeURIComponent('${t.id}')">Подробнее</button>
         </div>
       </div>
     </div>
