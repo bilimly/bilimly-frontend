@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bilimly — Профиль репетитора</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#1a5c3a;--primary-light:#e8f5ee;--gold:#d4a017;--coral:#e8533a;--ink:#111827;--muted:#6b7280;--border:#e5e7eb;--bg:#f3f4f6;--white:#fff;--shadow:0 2px 12px rgba(0,0,0,0.08);}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{overflow-x:hidden;max-width:100vw;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);}
+nav{background:white;border-bottom:1px solid var(--border);padding:0 5%;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.logo{font-family:'Unbounded',sans-serif;font-size:1.1rem;font-weight:700;color:var(--primary);text-decoration:none;}
+.logo span{color:var(--gold);}
+.back-btn{font-size:0.82rem;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:6px;}
+.back-btn:hover{color:var(--primary);}
+
+/* VIDEO HERO */
+.video-hero{width:100%;background:#000;position:relative;max-height:420px;overflow:hidden;}
+.video-hero iframe{width:100%;height:420px;border:none;display:block;}
+.video-placeholder{width:100%;height:280px;background:linear-gradient(135deg,var(--primary) 0%,#0d3d28 100%);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:white;}
+.video-placeholder .play-btn{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;font-size:1.5rem;cursor:pointer;}
+.video-placeholder p{font-size:0.85rem;opacity:0.7;}
+
+/* MAIN LAYOUT */
+.profile-wrap{max-width:900px;margin:0 auto;padding:24px 5%;}
+.profile-top{background:white;border-radius:14px;padding:24px;box-shadow:var(--shadow);margin-bottom:20px;}
+.profile-header{display:flex;gap:18px;align-items:flex-start;margin-bottom:20px;}
+.avatar{width:80px;height:80px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:2.5rem;flex-shrink:0;overflow:hidden;}
+.avatar img{width:100%;height:100%;object-fit:cover;}
+.profile-info{flex:1;}
+.tutor-name{font-family:'Unbounded',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:4px;}
+.tutor-subject{color:var(--primary);font-weight:600;font-size:0.9rem;margin-bottom:8px;}
+.tutor-meta{display:flex;gap:16px;flex-wrap:wrap;}
+.meta-item{display:flex;align-items:center;gap:5px;font-size:0.82rem;color:var(--muted);}
+.meta-item strong{color:var(--ink);}
+
+/* STATS ROW */
+.stats-row{display:flex;gap:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:20px 0;}
+.stat-item{flex:1;text-align:center;padding:14px 8px;border-right:1px solid var(--border);}
+.stat-item:last-child{border-right:none;}
+.stat-val{font-family:'Unbounded',sans-serif;font-size:1.2rem;font-weight:700;color:var(--ink);display:block;}
+.stat-label{font-size:0.72rem;color:var(--muted);margin-top:2px;}
+
+/* ACTION BUTTONS */
+.action-btns{display:flex;gap:10px;}
+.btn-book-trial{flex:1;background:var(--coral);color:white;border:none;padding:14px;border-radius:10px;font-size:0.95rem;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-book-trial:hover{background:#c94228;}
+.btn-message{background:white;border:1.5px solid var(--border);color:var(--ink);padding:14px 20px;border-radius:10px;font-size:0.9rem;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px;}
+.btn-message:hover{border-color:var(--primary);color:var(--primary);}
+.response-time{text-align:center;font-size:0.75rem;color:var(--muted);margin-top:8px;}
+
+/* CONTENT SECTIONS */
+.section-card{background:white;border-radius:14px;padding:24px;box-shadow:var(--shadow);margin-bottom:16px;}
+.section-card h3{font-family:'Unbounded',sans-serif;font-size:0.95rem;font-weight:700;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.bio-text{font-size:0.88rem;line-height:1.7;color:var(--ink);}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.tag{background:var(--primary-light);color:var(--primary);font-size:0.75rem;font-weight:600;padding:4px 12px;border-radius:20px;}
+
+/* AVAILABILITY */
+.avail-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:12px;}
+.avail-day{text-align:center;padding:8px 4px;border-radius:8px;font-size:0.72rem;font-weight:600;}
+.avail-day.active{background:var(--primary-light);color:var(--primary);}
+.avail-day.inactive{background:#f3f4f6;color:var(--muted);}
+.time-slots{display:flex;gap:6px;flex-wrap:wrap;}
+.tslot{padding:6px 12px;border:1.5px solid var(--border);border-radius:7px;font-size:0.78rem;cursor:pointer;transition:all 0.15s;}
+.tslot:hover,.tslot.sel{background:var(--primary);border-color:var(--primary);color:white;}
+
+/* REVIEWS */
+.review-item{padding:16px 0;border-bottom:1px solid var(--border);}
+.review-item:last-child{border-bottom:none;}
+.review-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.reviewer{display:flex;align-items:center;gap:10px;}
+.reviewer-av{width:36px;height:36px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;}
+.reviewer-name{font-weight:600;font-size:0.85rem;}
+.reviewer-date{font-size:0.72rem;color:var(--muted);}
+.stars{color:var(--gold);font-size:0.85rem;}
+.review-text{font-size:0.83rem;color:var(--muted);line-height:1.6;font-style:italic;}
+.no-reviews{text-align:center;color:var(--muted);padding:30px;font-size:0.85rem;}
+
+/* STICKY BOOKING BAR (mobile) */
+.sticky-bar{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--border);padding:12px 5%;display:flex;gap:10px;align-items:center;z-index:200;box-shadow:0 -4px 20px rgba(0,0,0,0.08);}
+.sticky-price{font-family:'Unbounded',sans-serif;font-size:1rem;font-weight:700;flex-shrink:0;}
+.sticky-price small{font-family:'Inter',sans-serif;font-size:0.7rem;color:var(--muted);font-weight:400;display:block;}
+.sticky-book{flex:1;background:var(--coral);color:white;border:none;padding:12px;border-radius:10px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:inherit;}
+
+/* BOOKING MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:500;align-items:center;justify-content:center;padding:16px;}
+.overlay.open{display:flex;}
+.modal{background:white;border-radius:20px;max-width:480px;width:100%;box-shadow:0 32px 80px rgba(0,0,0,0.25);overflow:hidden;}
+.modal-head{background:var(--primary);padding:20px 24px;color:white;position:relative;}
+.modal-close{position:absolute;top:12px;right:14px;background:rgba(255,255,255,0.15);border:none;color:white;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;}
+.modal-head h2{font-family:'Unbounded',sans-serif;font-size:1rem;margin-bottom:2px;}
+.modal-head p{opacity:0.7;font-size:0.8rem;}
+.modal-body{padding:20px 24px;}
+.fgroup{margin-bottom:12px;}
+.fgroup label{display:block;font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:5px;}
+.fcontrol{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;font-family:inherit;font-size:0.875rem;outline:none;}
+.fcontrol:focus{border-color:var(--primary);}
+.modal-foot{padding:0 24px 20px;display:flex;gap:10px;}
+.btn-confirm{flex:1;background:var(--coral);color:white;border:none;padding:13px;border-radius:10px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:inherit;}
+.btn-ghost{background:none;border:1.5px solid var(--border);color:var(--ink);padding:13px 20px;border-radius:10px;font-size:0.85rem;cursor:pointer;font-family:inherit;}
+.qr-box{background:var(--primary-light);border-radius:12px;padding:20px;text-align:center;margin-bottom:14px;}
+.qr-amount{font-family:'Unbounded',sans-serif;font-size:1.6rem;font-weight:700;color:var(--primary);}
+.qr-box img{width:160px;height:160px;border-radius:8px;margin:12px auto;display:block;border:3px solid white;}
+
+/* CHAT WIDGET */
+.chat-fab{position:fixed;bottom:80px;right:20px;z-index:400;width:52px;height:52px;border-radius:50%;background:var(--primary);color:white;border:none;font-size:1.3rem;cursor:pointer;box-shadow:0 6px 20px rgba(26,92,58,0.4);}
+.chat-box{position:fixed;bottom:144px;right:16px;z-index:400;width:300px;background:white;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.15);border:1px solid var(--border);display:none;flex-direction:column;overflow:hidden;}
+.chat-box.open{display:flex;}
+.chat-head{background:var(--primary);color:white;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;}
+.chat-head-info{display:flex;align-items:center;gap:8px;}
+.chat-av-sm{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:0.9rem;}
+.chat-head h4{font-size:0.85rem;font-weight:600;}
+.chat-close{background:none;border:none;color:white;cursor:pointer;font-size:0.9rem;opacity:0.7;}
+.chat-msgs{max-height:220px;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;}
+.cmsg{max-width:80%;padding:7px 11px;border-radius:10px;font-size:0.8rem;line-height:1.5;}
+.cmsg.bot{background:var(--primary-light);align-self:flex-start;border-radius:10px 10px 10px 3px;}
+.cmsg.user{background:var(--primary);color:white;align-self:flex-end;border-radius:10px 10px 3px 10px;}
+.chat-inp{padding:10px;border-top:1px solid var(--border);display:flex;gap:6px;}
+.chat-text{flex:1;border:1.5px solid var(--border);border-radius:7px;padding:7px 10px;font-family:inherit;font-size:0.8rem;outline:none;}
+.chat-send{background:var(--primary);color:white;border:none;width:32px;height:32px;border-radius:7px;cursor:pointer;}
+
+#toast{display:none;position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--primary);color:white;padding:11px 22px;border-radius:10px;font-weight:600;z-index:9999;font-size:0.875rem;}
+.loading{text-align:center;padding:60px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="back-btn" href="index.html">← Все репетиторы</a>
+  <a class="logo" href="index.html">Bilimly<span>.kg</span></a>
+  <div style="width:120px"></div>
+</nav>
+
+<!-- VIDEO -->
+<div class="video-hero" id="video-section">
+  <div class="video-placeholder" id="video-placeholder">
+    <div class="play-btn">▶</div>
+    <p>Видео-презентация загружается...</p>
+  </div>
+</div>
+
+<!-- PROFILE -->
+<div class="profile-wrap">
+  <div id="profile-content" class="loading">Загрузка профиля...</div>
+</div>
+
+<!-- STICKY BAR -->
+<div class="sticky-bar" id="sticky-bar" style="display:none">
+  <div class="sticky-price">
+    <span id="sticky-price-val">500 сом</span>
+    <small>за 60 мин</small>
+  </div>
+  <button class="sticky-book" onclick="openBooking()">⚡ Записаться на пробный урок</button>
+</div>
+
+<!-- BOOKING MODAL -->
+<div class="overlay" id="bookingModal">
+  <div class="modal">
+    <div class="modal-head">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <h2 id="bm-title">Записаться на пробный урок</h2>
+      <p id="bm-sub">Познакомьтесь с репетитором</p>
+    </div>
+    <div id="bm-step1">
+      <div class="modal-body">
+        <div id="bm-login-notice" style="display:none;background:#fef9ed;border:1px solid var(--gold);border-radius:8px;padding:10px;margin-bottom:12px;font-size:0.8rem;color:#92400e">
+          Для бронирования нужно <a href="index.html" style="color:var(--primary);font-weight:600">войти или зарегистрироваться</a>
+        </div>
+        <div class="fgroup"><label>Дата урока</label><input class="fcontrol" type="date" id="bm-date"></div>
+        <div class="fgroup">
+          <label>Время</label>
+          <div class="time-slots" id="modal-slots">
+            <div class="tslot" onclick="selSlot(this)">09:00</div>
+            <div class="tslot" onclick="selSlot(this)">10:00</div>
+            <div class="tslot" onclick="selSlot(this)">11:00</div>
+            <div class="tslot" onclick="selSlot(this)">14:00</div>
+            <div class="tslot" onclick="selSlot(this)">15:00</div>
+            <div class="tslot" onclick="selSlot(this)">17:00</div>
+            <div class="tslot" onclick="selSlot(this)">19:00</div>
+            <div class="tslot" onclick="selSlot(this)">20:00</div>
+          </div>
+        </div>
+        <div class="fgroup"><label>Ваша цель</label>
+          <select class="fcontrol" id="bm-goal">
+            <option>Общее улучшение</option>
+            <option>Подготовка к ОРТ/ЕГЭ</option>
+            <option>Разговорная речь</option>
+            <option>С нуля</option>
+          </select>
+        </div>
+        <div class="fgroup"><label>Комментарий</label><input class="fcontrol" type="text" id="bm-notes" placeholder="Что хотите изучить?"></div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn-ghost" onclick="closeModal()">Отмена</button>
+        <button class="btn-confirm" onclick="submitBooking()">Продолжить →</button>
+      </div>
+    </div>
+    <div id="bm-step2" style="display:none">
+      <div class="modal-body">
+        <div class="qr-box">
+          <div class="qr-amount" id="qr-amount">200 сом</div>
+          <p style="color:var(--muted);font-size:0.75rem;margin-bottom:8px">Пробный урок · 50 минут</p>
+          <img id="qr-img" src="" alt="QR">
+          <p style="font-size:0.78rem;color:var(--muted)">Оплатите через <strong>MBANK</strong></p>
+        </div>
+        <div style="background:#f0f7f4;border-radius:8px;padding:10px;font-size:0.78rem;color:var(--muted);text-align:center">
+          ✅ После оплаты репетитор пришлёт ссылку на урок
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn-ghost" onclick="closeModal()">Закрыть</button>
+        <button class="btn-confirm" onclick="confirmPaid()">✓ Оплачено</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHAT -->
+<button class="chat-fab" onclick="toggleChat()" id="chat-fab">💬</button>
+<div class="chat-box" id="chat-box">
+  <div class="chat-head">
+    <div class="chat-head-info">
+      <div class="chat-av-sm">🤖</div>
+      <div><h4>Билим · Помощник</h4></div>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-msgs" id="chat-msgs">
+    <div class="cmsg bot">Привет! Хотите узнать больше об этом репетиторе или записаться на урок? 😊</div>
+  </div>
+  <div class="chat-inp">
+    <input class="chat-text" id="chat-input" placeholder="Написать..." onkeydown="if(event.key==='Enter')sendChat()">
+    <button class="chat-send" onclick="sendChat()">➤</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const API = 'https://bilimly-backend-0zbt.onrender.com';
+let tutor = null;
+let selectedSlot = null;
+let bookingStep = 1;
+
+function getToken() { return localStorage.getItem('bilimly_token'); }
+function getUser() { return JSON.parse(localStorage.getItem('bilimly_user') || 'null'); }
+
+// Get tutor ID from URL
+const urlParams = new URLSearchParams(window.location.search);
+const tutorId = urlParams.get('id');
+
+if (!tutorId) {
+  window.location.href = 'index.html';
+}
+
+// Load tutor profile
+async function loadTutor() {
+  try {
+    const res = await fetch(API + '/api/tutors/' + tutorId);
+    const data = await res.json();
+    if (data.error) { window.location.href = 'index.html'; return; }
+    tutor = data;
+    renderProfile(data);
+  } catch(e) {
+    document.getElementById('profile-content').innerHTML = '<p style="text-align:center;color:var(--muted);padding:40px">Ошибка загрузки профиля</p>';
+  }
+}
+
+function renderProfile(t) {
+  // Video
+  const videoSection = document.getElementById('video-section');
+  if (t.video_intro_url) {
+    let embedUrl = t.video_intro_url;
+    if (t.video_intro_url.includes('youtube.com/watch')) {
+      const id = t.video_intro_url.split('v=')[1]?.split('&')[0];
+      embedUrl = 'https://www.youtube.com/embed/' + id + '?autoplay=0&rel=0';
+    } else if (t.video_intro_url.includes('youtu.be/')) {
+      const id = t.video_intro_url.split('youtu.be/')[1]?.split('?')[0];
+      embedUrl = 'https://www.youtube.com/embed/' + id;
+    }
+    videoSection.innerHTML = `<iframe src="${embedUrl}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
+  } else {
+    document.getElementById('video-placeholder').innerHTML = `
+      <div style="font-size:3rem;margin-bottom:8px">👨‍🏫</div>
+      <p style="font-size:1rem;font-weight:600">${t.first_name} ${t.last_name}</p>
+      <p style="opacity:0.6;font-size:0.85rem">${(t.subjects||[]).join(' · ') || 'Репетитор'}</p>
+    `;
+  }
+
+  // Sticky bar
+  document.getElementById('sticky-price-val').textContent = Math.round(t.trial_rate || 200) + ' сом';
+  document.getElementById('sticky-bar').style.display = 'flex';
+
+  // Stars
+  const rating = parseFloat(t.rating) || 0;
+  const stars = '★'.repeat(Math.round(rating)) + '☆'.repeat(5 - Math.round(rating));
+
+  document.getElementById('profile-content').innerHTML = `
+    <div class="profile-top">
+      <div class="profile-header">
+        <div class="avatar">${t.avatar_url ? `<img src="${t.avatar_url}" alt="${t.first_name}">` : '👨‍🏫'}</div>
+        <div class="profile-info">
+          <div class="tutor-name">${t.first_name} ${t.last_name} 🇰🇬</div>
+          <div class="tutor-subject">${(t.subjects||[]).join(' · ') || 'Репетитор'}</div>
+          <div class="tutor-meta">
+            <span class="meta-item"><strong style="color:var(--gold)">${stars}</strong> <strong>${rating.toFixed(1)}</strong></span>
+            <span class="meta-item">👥 <strong>${t.total_students || 0}</strong> студентов</span>
+            <span class="meta-item">📚 <strong>${t.total_lessons || 0}</strong> уроков</span>
+            <span class="meta-item">📍 <strong>${t.city || 'Бишкек'}</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-item"><span class="stat-val">${rating.toFixed(1)} ★</span><span class="stat-label">Рейтинг</span></div>
+        <div class="stat-item"><span class="stat-val">${t.review_count || 0}</span><span class="stat-label">Отзывов</span></div>
+        <div class="stat-item"><span class="stat-val">${t.total_lessons || 0}</span><span class="stat-label">Уроков</span></div>
+        <div class="stat-item"><span class="stat-val">${Math.round(t.hourly_rate || 500)} сом</span><span class="stat-label">За урок</span></div>
+      </div>
+
+      <div class="action-btns">
+        <button class="btn-message" onclick="openMessage()">💬 Написать</button>
+        <button class="btn-book-trial" onclick="openBooking()">⚡ Пробный урок — ${Math.round(t.trial_rate || 200)} сом</button>
+      </div>
+      <div class="response-time">Обычно отвечает в течение 2 часов</div>
+    </div>
+
+    <div class="section-card">
+      <h3>О репетиторе</h3>
+      <div class="bio-text">${t.bio_ru || t.bio_en || 'Опытный репетитор. Заполню профиль скоро.'}</div>
+      ${t.subjects?.length ? `<div class="tags">${t.subjects.map(s=>`<span class="tag">${s}</span>`).join('')}</div>` : ''}
+    </div>
+
+    ${renderAvailability(t.availability)}
+    ${renderReviews(t.reviews)}
+  `;
+
+  document.title = `${t.first_name} ${t.last_name} — Bilimly.kg`;
+}
+
+function renderAvailability(availability) {
+  if (!availability?.length) return '';
+  const days = ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
+  const activeDays = new Set(availability.map(a => a.day_of_week));
+  const activeTimes = [...new Set(availability.map(a => a.start_time.substring(0,5)))].sort();
+
+  return `
+    <div class="section-card">
+      <h3>Расписание</h3>
+      <div class="avail-grid">
+        ${days.map((d,i) => `<div class="avail-day ${activeDays.has(i)?'active':'inactive'}">${d}</div>`).join('')}
+      </div>
+      <div class="time-slots">
+        ${activeTimes.map(t => `<div class="tslot" onclick="selSlot(this)">${t}</div>`).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderReviews(reviews) {
+  if (!reviews?.length) {
+    return `<div class="section-card"><h3>Отзывы</h3><div class="no-reviews">Пока нет отзывов. Станьте первым!</div></div>`;
+  }
+  return `
+    <div class="section-card">
+      <h3>Отзывы студентов (${reviews.length})</h3>
+      ${reviews.map(r => `
+        <div class="review-item">
+          <div class="review-header">
+            <div class="reviewer">
+              <div class="reviewer-av">${r.first_name?.[0] || '👤'}</div>
+              <div>
+                <div class="reviewer-name">${r.first_name} ${r.last_name}</div>
+                <div class="reviewer-date">${new Date(r.created_at).toLocaleDateString('ru-RU')}</div>
+              </div>
+            </div>
+            <div class="stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+          </div>
+          <div class="review-text">"${r.comment || 'Отличный репетитор!'}"</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+// BOOKING
+function openBooking() {
+  if (!getToken()) {
+    document.getElementById('bm-login-notice').style.display = 'block';
+  }
+  bookingStep = 1;
+  document.getElementById('bm-step1').style.display = 'block';
+  document.getElementById('bm-step2').style.display = 'none';
+  document.getElementById('bm-date').min = new Date().toISOString().split('T')[0];
+  if (tutor) {
+    document.getElementById('bm-title').textContent = `Урок с ${tutor.first_name}`;
+    document.getElementById('bm-sub').textContent = `Пробный урок · ${Math.round(tutor.trial_rate || 200)} сом`;
+  }
+  document.getElementById('bookingModal').classList.add('open');
+}
+
+function selSlot(el) {
+  document.querySelectorAll('.tslot').forEach(s => s.classList.remove('sel'));
+  el.classList.add('sel');
+  selectedSlot = el.textContent.trim();
+}
+
+async function submitBooking() {
+  if (!getToken()) {
+    showToast('Войдите чтобы забронировать урок');
+    closeModal();
+    return;
+  }
+  const date = document.getElementById('bm-date').value;
+  if (!date) { showToast('Выберите дату'); return; }
+  if (!selectedSlot) { showToast('Выберите время'); return; }
+
+  try {
+    const res = await fetch(API + '/api/bookings', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','Authorization':'Bearer '+getToken()},
+      body: JSON.stringify({
+        tutor_id: tutor.tutor_id,
+        lesson_date: date,
+        start_time: selectedSlot + ':00',
+        end_time: (parseInt(selectedSlot)+1).toString().padStart(2,'0') + ':00:00',
+        lesson_type: 'trial',
+        subject: tutor.subjects?.[0] || 'Урок',
+        student_notes: document.getElementById('bm-notes').value
+      })
+    });
+    const data = await res.json();
+    bookingStep = 2;
+    document.getElementById('bm-step1').style.display = 'none';
+    document.getElementById('bm-step2').style.display = 'block';
+    document.getElementById('qr-amount').textContent = Math.round(tutor.trial_rate || 200) + ' сом';
+    document.getElementById('qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=BILIMLY_${tutor.tutor_id}_${tutor.trial_rate}KGS&bgcolor=ffffff&color=1a5c3a`;
+  } catch(e) {
+    bookingStep = 2;
+    document.getElementById('bm-step1').style.display = 'none';
+    document.getElementById('bm-step2').style.display = 'block';
+    document.getElementById('qr-amount').textContent = Math.round(tutor?.trial_rate || 200) + ' сом';
+    document.getElementById('qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=BILIMLY_DEMO_${Date.now()}&bgcolor=ffffff&color=1a5c3a`;
+  }
+}
+
+function confirmPaid() {
+  closeModal();
+  showToast('🎉 Урок забронирован! Репетитор свяжется с вами');
+}
+
+function closeModal() {
+  document.getElementById('bookingModal').classList.remove('open');
+  selectedSlot = null;
+  document.querySelectorAll('.tslot').forEach(s => s.classList.remove('sel'));
+}
+
+function openMessage() {
+  if (!getToken()) {
+    showToast('Войдите чтобы написать репетитору');
+    return;
+  }
+  toggleChat();
+  document.getElementById('chat-input').placeholder = `Написать ${tutor?.first_name}...`;
+}
+
+// CHAT
+let chatOpen = false;
+function toggleChat() {
+  chatOpen = !chatOpen;
+  document.getElementById('chat-box').classList.toggle('open', chatOpen);
+  document.getElementById('chat-fab').textContent = chatOpen ? '✕' : '💬';
+}
+
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  addMsg(msg, 'user');
+  const thinking = addMsg('...', 'bot');
+  try {
+    const res = await fetch(API + '/api/support/chat', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({message: msg})
+    });
+    const data = await res.json();
+    thinking.textContent = data.reply || 'Спасибо за вопрос! Нажмите "Записаться" чтобы забронировать урок.';
+  } catch {
+    thinking.textContent = 'Нажмите "Записаться на пробный урок" чтобы начать! 😊';
+  }
+  document.getElementById('chat-msgs').scrollTop = 9999;
+}
+
+function addMsg(text, type) {
+  const div = document.createElement('div');
+  div.className = `cmsg ${type}`;
+  div.textContent = text;
+  document.getElementById('chat-msgs').appendChild(div);
+  document.getElementById('chat-msgs').scrollTop = 9999;
+  return div;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 3000);
+}
+
+document.getElementById('bookingModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('bookingModal')) closeModal();
+});
+
+loadTutor();
+</script>
+</body>
+</html>
