@@ -483,13 +483,42 @@ function logout() {
 }
 
 // ── TUTORS DATA (demo — replace with real API when tutors are added) ──
-const tutors = [
-  {id:'6a11e509-3a69-4f07-b5c4-720d82e6bedf',name:'Айгуль Бекова',subject:'Английский язык',cat:'Языки',flag:'🇰🇬',rating:4.98,reviews:312,price:800,trial:200,bio:'Сертифицированный преподаватель. IELTS 8.0. Разговорный English и подготовка к IELTS.',tags:['IELTS','Разговорный','Бизнес'],badge:'Топ',emoji:'👩‍🏫'},
-  {id:'9224d0e6-1296-4387-bf28-1c443e882462',name:'Нурлан Асанов',subject:'Математика · Физика',cat:'Математика',flag:'🇰🇬',rating:4.97,reviews:289,price:700,trial:200,bio:'Кандидат наук. 10 лет опыта. Подготовка к ОРТ и олимпиадам.',tags:['ОРТ','Олимпиада','Университет'],badge:'Про',emoji:'👨‍🔬'},
-  {id:'2e29905e-717d-45b6-be3d-39f157a0cf1b',name:'Мадина Токтоева',subject:'Кыргызский язык',cat:'Языки',flag:'🇰🇬',rating:4.99,reviews:501,price:500,trial:150,bio:'Носитель языка. Эффективная методика для взрослых и детей.',tags:['Дети','Взрослые','Грамматика'],badge:'Топ',emoji:'👩'},
-  {id:'6d700c5a-224e-472a-8bb1-e808353d707e',name:'Тимур Садыков',subject:'Python · Веб-разработка',cat:'Программирование',flag:'🇰🇬',rating:4.93,reviews:178,price:1200,trial:300,bio:'Senior разработчик. Реальные проекты. Трудоустройство.',tags:['Python','Django','React'],badge:'Про',emoji:'👨‍💻'},
-  {id:'d9a3579b-2061-428f-a9d7-925efa4aab85',name:'Гүлнара Эргешева',subject:'ОРТ · Математика',cat:'ОРТ',flag:'🇰🇬',rating:4.99,reviews:427,price:1000,trial:250,bio:'Максимальный балл ОРТ. Помогла 300+ абитуриентам поступить.',tags:['ОРТ','Абитуриент','Стратегия'],badge:'Топ',emoji:'👩‍🏫'},
-];
+const tutors = [];
+let currentTutors = [];
+
+async function loadTutors() {
+  try {
+    const res = await fetch(API + '/api/tutors');
+    const data = await res.json();
+    if (data.tutors && data.tutors.length) {
+      data.tutors.forEach(t => {
+        tutors.push({
+          id: t.tutor_id,
+          name: t.first_name + ' ' + t.last_name,
+          subject: t.subjects?.join(' · ') || '—',
+          cat: t.subjects?.[0] || 'Другое',
+          flag: '🇰🇬',
+          rating: parseFloat(t.rating) || 5.0,
+          reviews: t.review_count || 0,
+          price: parseInt(t.hourly_rate) || 500,
+          trial: parseInt(t.trial_rate) || 200,
+          bio: t.bio_ru || t.bio_en || 'Опытный репетитор',
+          tags: t.subjects?.slice(0,3) || [],
+          badge: t.is_featured ? 'Топ' : '',
+          emoji: '👨‍🏫',
+          video: t.video_intro_url || null,
+        });
+      });
+      currentTutors = [...tutors];
+      renderTutors(currentTutors);
+    } else {
+      renderTutors([]);
+    }
+  } catch(e) {
+    console.log('Could not load tutors:', e);
+    renderTutors([]);
+  }
+}
 
 let currentTutors = [...tutors];
 
@@ -825,7 +854,7 @@ function setLang(lang) {
 }
 
 // Init
-renderTutors(tutors);
+loadTutors();
 updateNavAuth();
 </script>
 </body>
