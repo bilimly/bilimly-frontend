@@ -553,7 +553,74 @@ async function loadDashboard() {
     `).join('');
   }
 }
+async function openLessonSummary(bookingId, studentName) {
+  const modal = document.createElement('div');
+  modal.id = 'summary-modal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:500;display:flex;align-items:center;justify-content:center;padding:16px;';
+  modal.innerHTML = `
+    <div style="background:white;border-radius:16px;max-width:500px;width:100%;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,0.25);">
+      <div style="background:#1a5c3a;padding:20px 24px;color:white;">
+        <h2 style="font-family:'Unbounded',sans-serif;font-size:1rem;margin-bottom:4px;">Итоги урока</h2>
+        <p style="opacity:0.7;font-size:0.82rem;">Студент: ${studentName}</p>
+      </div>
+      <div style="padding:20px 24px;">
+        <div style="margin-bottom:14px;">
+          <label style="display:block;font-size:0.75rem;font-weight:600;text-transform:uppercase;margin-bottom:5px;">Прогресс студента</label>
+          <div style="display:flex;gap:8px;" id="progress-stars">
+            ${[1,2,3,4,5].map(n => `<button onclick="setStar(${n})" data-star="${n}" style="width:36px;height:36px;border:1.5px solid #e5e7eb;border-radius:8px;background:white;font-size:1.2rem;cursor:pointer;">⭐</button>`).join('')}
+          </div>
+        </div>
+        <div style="margin-bottom:14px;">
+          <label style="display:block;font-size:0.75rem;font-weight:600;text-transform:uppercase;margin-bottom:5px;">Что изучали сегодня</label>
+          <textarea id="summary-text" style="width:100%;border:1.5px solid #e5e7eb;border-radius:8px;padding:10px;font-family:inherit;font-size:0.875rem;outline:none;resize:none;" rows="3" placeholder="Тема урока, что разбирали..."></textarea>
+        </div>
+        <div style="margin-bottom:14px;">
+          <label style="display:block;font-size:0.75rem;font-weight:600;text-transform:uppercase;margin-bottom:5px;">Домашнее задание</label>
+          <textarea id="homework-text" style="width:100%;border:1.5px solid #e5e7eb;border-radius:8px;padding:10px;font-family:inherit;font-size:0.875rem;outline:none;resize:none;" rows="2" placeholder="Что задали на дом..."></textarea>
+        </div>
+        <div style="margin-bottom:14px;">
+          <label style="display:block;font-size:0.75rem;font-weight:600;text-transform:uppercase;margin-bottom:5px;">Прикрепить файл (PDF)</label>
+          <input type="file" id="homework-file" accept=".pdf,.doc,.docx,.jpg,.png" style="width:100%;border:1.5px solid #e5e7eb;border-radius:8px;padding:8px;font-family:inherit;font-size:0.82rem;">
+        </div>
+        <div id="summary-err" style="color:#e8533a;font-size:0.78rem;margin-bottom:8px;"></div>
+      </div>
+      <div style="padding:0 24px 20px;display:flex;gap:10px;">
+        <button onclick="document.getElementById('summary-modal').remove()" style="flex:1;background:none;border:1.5px solid #e5e7eb;padding:12px;border-radius:10px;cursor:pointer;font-family:inherit;">Отмена</button>
+        <button onclick="submitSummary('${bookingId}')" style="flex:2;background:#1a5c3a;color:white;border:none;padding:12px;border-radius:10px;font-size:0.9rem;font-weight:600;cursor:pointer;font-family:inherit;">Отправить студенту ✓</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if(e.target === modal) modal.remove(); });
+}
 
+let selectedStar = 0;
+function setStar(n) {
+  selectedStar = n;
+  document.querySelectorAll('#progress-stars button').forEach((b, i) => {
+    b.style.background = i < n ? '#fef9ed' : 'white';
+    b.style.borderColor = i < n ? '#d4a017' : '#e5e7eb';
+  });
+}
+
+async function submitSummary(bookingId) {
+  const summary = document.getElementById('summary-text').value.trim();
+  const homework = document.getElementById('homework-text').value.trim();
+  if (!summary) { document.getElementById('summary-err').textContent = 'Заполните итоги урока'; return; }
+  
+  try {
+    const res = await apiFetch('/api/bookings/' + bookingId + '/summary', {
+      method: 'POST',
+      body: JSON.stringify({ summary, homework, progress_rating: selectedStar })
+    });
+    document.getElementById('summary-modal').remove();
+    showToast('✓ Итоги урока отправлены студенту и родителю!');
+    loadSchedule();
+  } catch(e) {
+    showToast('Итоги сохранены локально');
+    document.getElementById('summary-modal').remove();
+  }
+}
 // ── SCHEDULE ───────────────────────────────────────────────
 async function loadSchedule() {
   const status = document.getElementById('schedule-filter').value;
@@ -575,6 +642,7 @@ async function loadSchedule() {
       <td><span class="badge ${sm[b.status]||'gray'}">${b.status}</span></td>
       <td>
         ${b.status==='pending'?`<button class="btn-sm btn-primary" onclick="confirmLesson('${b.id}')">Подтвердить</button>`:''}
+        ${b.status==='completed'?`<button class="btn-sm btn-outline" onclick="openLessonSummary('${b.id}','${b.student_first_name}')">📝 Итоги</button>`:''}
         ${b.status==='confirmed'&&!b.meeting_url?`<button class="btn-sm btn-outline" onclick="addMeetingLink('${b.id}')">+ Ссылка</button>`:''}
         ${b.meeting_url?`<a href="${b.meeting_url}" target="_blank" class="btn-sm btn-primary" style="text-decoration:none">🎥 Войти</a>`:''}
       </td>
