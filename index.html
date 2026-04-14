@@ -184,6 +184,9 @@ footer{background:var(--ink);color:rgba(255,255,255,0.5);padding:48px 5% 24px;}
   <option value="ky">🇰🇬 КЫ</option>
   <option value="en">🇬🇧 EN</option>
 </select>
+    <a id="nav-messages" href="#" onclick="openMessagesPage()" style="display:none;position:relative;background:none;border:1.5px solid var(--border);border-radius:8px;padding:7px 12px;font-size:0.85rem;font-weight:500;color:var(--ink);text-decoration:none;white-space:nowrap;">
+  💬 <span id="unread-count" style="display:none;position:absolute;top:-6px;right:-6px;background:var(--coral);color:white;border-radius:50%;width:18px;height:18px;font-size:0.65rem;font-weight:700;display:flex;align-items:center;justify-content:center;"></span>
+</a>
    <div id="nav-auth" style="display:flex;gap:6px;flex-shrink:0;">
   <button class="btn-ghost" onclick="openAuth('login')" style="padding:7px 12px;font-size:0.8rem;white-space:nowrap">Войти</button>
   <button class="btn-primary" onclick="openAuth('register')" style="padding:7px 12px;font-size:0.8rem;white-space:nowrap">Начать</button>
@@ -485,6 +488,8 @@ function updateNavAuth() {
     document.getElementById('nav-auth').style.display = 'none';
     document.getElementById('nav-user').style.display = 'flex';
     document.getElementById('nav-username').textContent = user.first_name + ' ' + user.last_name;
+    document.getElementById('nav-messages').style.display = 'flex';
+    loadUnreadCount();
   } else {
     document.getElementById('nav-auth').style.display = 'flex';
     document.getElementById('nav-user').style.display = 'none';
@@ -921,7 +926,29 @@ function setLang(lang) {
     );
   });
 }
+async function loadUnreadCount() {
+  try {
+    const res = await fetch(API + '/api/messages/unread', {
+      headers: {'Authorization': 'Bearer ' + getToken()}
+    });
+    const data = await res.json();
+    if (data.unread > 0) {
+      const badge = document.getElementById('unread-count');
+      badge.textContent = data.unread;
+      badge.style.display = 'flex';
+    }
+  } catch(e) {}
+}
 
+function openMessagesPage() {
+  const user = getUser();
+  if (!user) return;
+  if (user.role === 'tutor') {
+    window.location.href = 'tutor-dashboard.html#messages';
+  } else {
+    window.location.href = 'dashboard.html#messages';
+  }
+}
 // Init
 loadTutors();
 loadSubjects();
