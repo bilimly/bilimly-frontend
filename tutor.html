@@ -464,8 +464,18 @@ function openMessage() {
     showToast('Войдите чтобы написать репетитору');
     return;
   }
-  toggleChat();
-  document.getElementById('chat-input').placeholder = `Написать ${tutor?.first_name}...`;
+  // Start real conversation with tutor
+  fetch('https://bilimly-backend-0zbt.onrender.com/api/messages/conversations', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json','Authorization':'Bearer '+getToken()},
+    body: JSON.stringify({other_user_id: tutor.id})
+  }).then(r => r.json()).then(data => {
+    if (data.id) {
+      window.location.href = 'messages.html';
+    }
+  }).catch(() => {
+    window.location.href = 'messages.html';
+  });
 }
 
 // CHAT
