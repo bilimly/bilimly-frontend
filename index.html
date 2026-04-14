@@ -462,15 +462,18 @@ footer{background:var(--ink);color:rgba(255,255,255,0.5);padding:48px 5% 24px;}
 <div id="toast"></div>
 
 // Handle Google OAuth callback
-const urlParams = new URLSearchParams(window.location.search);
-const googleToken = urlParams.get('token');
-const googleUser = urlParams.get('user');
-if (googleToken && googleUser) {
-  localStorage.setItem('bilimly_token', googleToken);
-  localStorage.setItem('bilimly_user', decodeURIComponent(googleUser));
-  window.history.replaceState({}, document.title, '/');
-  updateNavAuth();
-}
+window.addEventListener('load', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const googleToken = urlParams.get('token');
+  const googleUser = urlParams.get('user');
+  if (googleToken && googleUser) {
+    localStorage.setItem('bilimly_token', googleToken);
+    localStorage.setItem('bilimly_user', decodeURIComponent(googleUser));
+    window.history.replaceState({}, document.title, '/');
+    updateNavAuth();
+    showToast('✓ Добро пожаловать!');
+  }
+});
   
 <script>
   let allSubjects = [];
