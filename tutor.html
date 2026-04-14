@@ -468,7 +468,7 @@ function openMessage() {
   fetch('https://bilimly-backend-0zbt.onrender.com/api/messages/conversations', {
     method: 'POST',
     headers: {'Content-Type':'application/json','Authorization':'Bearer '+getToken()},
-    body: JSON.stringify({other_user_id: tutor.id})
+    body: JSON.stringify({other_user_id: tutor.user_id || tutor.id})
   }).then(r => r.json()).then(data => {
     if (data.id) {
       window.location.href = 'messages.html';
