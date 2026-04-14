@@ -452,6 +452,7 @@ footer{background:var(--ink);color:rgba(255,255,255,0.5);padding:48px 5% 24px;}
 <div id="toast"></div>
 
 <script>
+  let allSubjects = [];
 const API = 'https://bilimly-backend-0zbt.onrender.com';
 let currentLang = 'ru';
 let selectedTutor = null;
@@ -570,8 +571,6 @@ function filterBy(cat, btn) {
   renderTutors(currentTutors);
   document.getElementById('tutors-section').scrollIntoView({behavior:'smooth'});
 }
-
-let allSubjects = [];
 
 async function loadSubjects() {
   try {
