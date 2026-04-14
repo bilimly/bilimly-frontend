@@ -140,7 +140,7 @@ h2{font-family:'Unbounded',sans-serif;font-size:1.1rem;font-weight:700;margin-bo
       </div>
       <div class="booking-right">
         <span class="badge green">Подтверждён</span><br>
-        <button class="btn-join" onclick="joinLesson()">🎥 Войти</button>
+        ${b.meeting_url ? `<a href="${b.meeting_url}" target="_blank" class="btn-join" style="text-decoration:none;display:inline-block">🎥 Войти</a>` : `<button class="btn-join" onclick="showToast('Ссылка появится за 30 минут до урока')">🎥 Войти</button>`}
       </div>
     </div>
     <div class="booking-item">
@@ -327,14 +327,83 @@ h2{font-family:'Unbounded',sans-serif;font-size:1.1rem;font-weight:700;margin-bo
 
 <script>
 const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3001' : '';
+function isWithin30Min(lessonDate, startTime) {
+  const now = new Date();
+  const lesson = new Date(lessonDate + 'T' + startTime);
+  const diff = lesson - now;
+  return diff > 0 && diff < 30 * 60 * 1000;
+}
 
+function isUpcoming(lessonDate, startTime) {
+  const now = new Date();
+  const lesson = new Date(lessonDate + 'T' + startTime);
+  return lesson > now;
+}
 function showPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.ntab').forEach(t => t.classList.remove('active'));
   document.getElementById(`page-${name}`).classList.add('active');
   event?.target?.classList.add('active');
 }
+async function loadMyBookings() {
+  const token = localStorage.getItem('bilimly_token');
+  if (!token) return;
+  
+  try {
+    const res = await fetch('https://bilimly-backend-0zbt.onrender.com/api/bookings/my', {
+      headers: {'Authorization': 'Bearer ' + token}
+    });
+    const bookings = await res.json();
+    if (!bookings.length) return;
 
+    const now = new Date();
+    const upcoming = bookings.filter(b => new Date(b.lesson_date) >= new Date().setHours(0,0,0,0));
+    
+    // Find next lesson for countdown
+    const next = upcoming[0];
+    if (next) {
+      document.getElementById('upcoming-lesson').style.display = 'block';
+      document.querySelector('#upcoming-lesson h3').textContent = `Урок ${next.subject} начинается скоро!`;
+      document.querySelector('#upcoming-lesson p').textContent = `Репетитор: ${next.tutor_first_name} ${next.tutor_last_name} · ${new Date(next.lesson_date).toLocaleDateString('ru-RU')} ${next.start_time}`;
+      
+      if (next.meeting_url) {
+        document.querySelector('#upcoming-lesson .btn-join-big').onclick = () => window.open(next.meeting_url, '_blank');
+      }
+    }
+
+    // Render bookings list
+    const list = document.querySelector('.card');
+    list.innerHTML = upcoming.slice(0,5).map(b => {
+      const lessonTime = new Date(b.lesson_date + 'T' + b.start_time);
+      const diff = lessonTime - now;
+      const canJoin = diff > 0 && diff < 30 * 60 * 1000;
+      const statusMap = {confirmed:'green',pending:'gold',completed:'gray',cancelled:'red'};
+      
+      return `
+        <div class="booking-item">
+          <div class="booking-avatar">👨‍🏫</div>
+          <div class="booking-info">
+            <div class="booking-name">${b.tutor_first_name} ${b.tutor_last_name}</div>
+            <div class="booking-meta">📚 ${b.subject} · ${new Date(b.lesson_date).toLocaleDateString('ru-RU')} ${b.start_time}</div>
+          </div>
+          <div class="booking-right">
+            <span class="badge ${statusMap[b.status]||'gray'}">${b.status}</span><br>
+            ${canJoin && b.meeting_url ? 
+              `<a href="${b.meeting_url}" target="_blank" class="btn-join" style="text-decoration:none;margin-top:6px;display:inline-block">🎥 Войти</a>` :
+              b.status==='confirmed' ?
+              `<button class="btn-outline" style="margin-top:6px">💬 Написать</button>` :
+              b.status==='pending' ?
+              `<button class="btn-join" style="background:var(--gold);margin-top:6px">💳 Оплатить</button>` :
+              `<button class="btn-outline" style="margin-top:6px">⭐ Отзыв</button>`
+            }
+          </div>
+        </div>
+      `;
+    }).join('');
+  } catch(e) {
+    console.log('Bookings load error:', e);
+  }
+}
 // ── COUNTDOWN TIMER ────────────────────────────────────────
 function updateCountdown() {
   const target = new Date();
@@ -354,6 +423,7 @@ function updateCountdown() {
 }
 setInterval(updateCountdown, 1000);
 updateCountdown();
+  loadMyBookings();
 
 // ── JOIN LESSON ────────────────────────────────────────────
 function joinLesson() {
