@@ -941,13 +941,8 @@ async function loadUnreadCount() {
 }
 
 function openMessagesPage() {
-  const user = getUser();
-  if (!user) return;
-  if (user.role === 'tutor') {
-    window.location.href = 'tutor-dashboard.html#messages';
-  } else {
-    window.location.href = 'dashboard.html#messages';
-  }
+  if (!getToken()) { openAuth('login'); return; }
+  window.location.href = 'messages.html';
 }
 // Init
 loadTutors();
