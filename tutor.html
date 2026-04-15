@@ -296,6 +296,8 @@ function renderProfile(t){
             <div class="avatar">${t.avatar_url?`<img src="${t.avatar_url}" alt="${t.first_name}">`:'👨‍🏫'}</div>
             <div class="ph-info">
               <div class="tutor-name">${t.first_name} ${t.last_name} 🇰🇬</div>
+              <div class="tutor-name">${t.first_name} ${t.last_name} 🇰🇬</div>
+${t.badge?`<div style="display:inline-flex;align-items:center;gap:6px;background:var(--gold-light);color:#7a5a00;border:1px solid var(--gold);padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:600;margin-bottom:8px;">${t.badge==='Elite'?'💎':t.badge==='Top Tutor'?'🥇':t.badge==='Experienced'?'🥈':'🥉'} ${t.badge}</div>`:''}
               <div class="tutor-subject">${subjects.join(' · ')||'Репетитор'}</div>
               <div class="tutor-meta">
                 <span class="meta-item"><span style="color:var(--gold)">${stars}</span> <strong>${rating.toFixed(1)}</strong></span>
