@@ -350,7 +350,7 @@ async function loadDashboard(){
   // Attention items
   const pending=await get('/api/admin/users?role=tutor&limit=100');
   const attList=document.getElementById('attention-list');
-  const needApproval=pending?.filter?.(u=>!u.tutor_approved)||[];
+  const needApproval=pending?.filter?.(u=>u.tutor_approved===false||u.tutor_approved===null||u.approval_status==='pending')||[];
   if(!needApproval.length){
     attList.innerHTML='<div style="text-align:center;padding:24px;color:var(--ink-60);font-size:0.85rem">✅ Всё в порядке</div>';
   } else {
