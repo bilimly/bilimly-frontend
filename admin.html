@@ -517,10 +517,29 @@ async function loadApplications(){
             </div>` : 
             `<div style="background:#fff8e1;border-radius:8px;padding:10px;margin-bottom:12px;font-size:0.8rem;color:#7a5a00;">⚠️ Биография не заполнена</div>`
           }
-          <div style="display:flex;gap:8px;">
-            <button class="btn-sm btn-success" style="flex:1" onclick="approveTutor('${t.user_id}')">✓ Одобрить</button>
-            <button class="btn-sm btn-danger" onclick="rejectTutor('${t.user_id}')">✗ Отклонить</button>
-          </div>
+          return `
+  <div style="background:white;border-radius:14px;border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;cursor:pointer;" onclick="openTutorModal('${t.user_id}','${t.first_name} ${t.last_name}','${(t.subjects||[]).join(',')}','${t.email}','${t.hourly_rate||500}','${t.trial_rate||200}','${t.city||'Бишкек'}','${(t.bio_ru||'').replace(/'/g,'').replace(/\n/g,' ').substring(0,500)}','${t.video_intro_url||''}','${t.created_at}')">
+    ${embedUrl ? 
+      `<iframe src="${embedUrl}" style="width:100%;height:200px;border:none;" allowfullscreen onclick="event.stopPropagation()"></iframe>` :
+      `<div style="width:100%;height:100px;background:var(--tiffany-pale);display:flex;align-items:center;justify-content:center;color:var(--ink-60);font-size:0.85rem;">🎥 Видео не добавлено</div>`
+    }
+    <div style="padding:16px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;margin-bottom:4px;">${t.first_name} ${t.last_name}</div>
+      <div style="font-size:0.78rem;color:var(--tiffany);margin-bottom:6px;">${(t.subjects||[]).join(' · ')||'Предметы не указаны'}</div>
+      <div style="font-size:0.78rem;color:var(--ink-60);margin-bottom:4px;">📧 ${t.email}</div>
+      <div style="font-size:0.78rem;color:var(--ink-60);margin-bottom:8px;">💰 ${t.hourly_rate||500} сом/час · 📍 ${t.city||'Бишкек'}</div>
+      ${t.bio_ru ? 
+        `<div style="font-size:0.82rem;color:var(--ink);line-height:1.6;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">${t.bio_ru}</div>
+        <div style="font-size:0.75rem;color:var(--tiffany);margin-bottom:12px;">Нажмите чтобы прочитать полностью →</div>` :
+        `<div style="background:#fff8e1;border-radius:8px;padding:8px;margin-bottom:12px;font-size:0.78rem;color:#7a5a00;">⚠️ Биография не заполнена</div>`
+      }
+      <div style="display:flex;gap:8px;" onclick="event.stopPropagation()">
+        <button class="btn-sm btn-success" style="flex:1" onclick="approveTutor('${t.user_id}')">✓ Одобрить</button>
+        <button class="btn-sm btn-danger" onclick="rejectTutor('${t.user_id}')">✗ Отклонить</button>
+      </div>
+      <div style="margin-top:8px;font-size:0.72rem;color:var(--ink-60)">Зарегистрирован: ${new Date(t.created_at).toLocaleDateString('ru-RU')}</div>
+    </div>
+  </div>`;
           <div style="margin-top:8px;font-size:0.72rem;color:var(--ink-60)">Зарегистрирован: ${new Date(t.created_at).toLocaleDateString('ru-RU')}</div>
         </div>
       </div>`;
@@ -573,8 +592,67 @@ async function loadRevenue(){
       <td><span class="badge ${b.status==='completed'?'badge-green':b.status==='confirmed'?'badge-blue':'badge-gold'}">${b.status}</span></td>
     </tr>`).join('');
 }
+function openTutorModal(userId,name,subjects,email,rate,trial,city,bio,videoUrl,createdAt){
+  document.getElementById('modal-tutor-name').textContent=name;
+  document.getElementById('modal-subjects').textContent=subjects||'—';
+  document.getElementById('modal-rate').textContent=rate+' сом/час · Пробный: '+trial+' сом';
+  document.getElementById('modal-email').textContent=email;
+  document.getElementById('modal-city').textContent=city;
+  document.getElementById('modal-bio').textContent=bio||'Биография не заполнена';
 
+  const videoEl=document.getElementById('modal-video');
+  if(videoUrl){
+    let embedUrl=videoUrl;
+    if(videoUrl.includes('youtube.com/watch')){const id=videoUrl.split('v=')[1]?.split('&')[0];embedUrl='https://www.youtube.com/embed/'+id;}
+    else if(videoUrl.includes('youtu.be/')){const id=videoUrl.split('youtu.be/')[1]?.split('?')[0];embedUrl='https://www.youtube.com/embed/'+id;}
+    videoEl.innerHTML=`<iframe src="${embedUrl}" style="width:100%;height:100%;border:none;" allowfullscreen></iframe>`;
+  } else {
+    videoEl.innerHTML='<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);font-size:0.85rem;">🎥 Видео не добавлено</div>';
+  }
+
+  document.getElementById('modal-actions').innerHTML=`
+    <button class="btn-sm btn-success" style="flex:1;padding:12px" onclick="approveTutor('${userId}');document.getElementById('tutorModal').classList.remove('open')">✓ Одобрить репетитора</button>
+    <button class="btn-sm btn-danger" style="padding:12px" onclick="rejectTutor('${userId}');document.getElementById('tutorModal').classList.remove('open')">✗ Отклонить</button>
+  `;
+
+  document.getElementById('tutorModal').classList.add('open');
+}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',3500);}
 </script>
+  <!-- TUTOR DETAIL MODAL -->
+<div class="overlay" id="tutorModal">
+  <div style="background:white;border-radius:20px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,0.25);">
+    <div style="background:linear-gradient(135deg,#0a1a1a,#0d2d2b);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:white;" id="modal-tutor-name">—</div>
+      <button onclick="document.getElementById('tutorModal').classList.remove('open')" style="background:rgba(255,255,255,0.15);border:none;color:white;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;">✕</button>
+    </div>
+    <div id="modal-video" style="width:100%;height:280px;background:#0a1a1a;"></div>
+    <div style="padding:24px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+        <div style="background:var(--tiffany-pale);border-radius:10px;padding:12px;">
+          <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:4px;">Предметы</div>
+          <div style="font-weight:600;font-size:0.85rem;" id="modal-subjects">—</div>
+        </div>
+        <div style="background:var(--tiffany-pale);border-radius:10px;padding:12px;">
+          <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:4px;">Ставка</div>
+          <div style="font-weight:600;font-size:0.85rem;" id="modal-rate">—</div>
+        </div>
+        <div style="background:var(--tiffany-pale);border-radius:10px;padding:12px;">
+          <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:4px;">Email</div>
+          <div style="font-weight:600;font-size:0.85rem;" id="modal-email">—</div>
+        </div>
+        <div style="background:var(--tiffany-pale);border-radius:10px;padding:12px;">
+          <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:4px;">Город</div>
+          <div style="font-weight:600;font-size:0.85rem;" id="modal-city">—</div>
+        </div>
+      </div>
+      <div style="margin-bottom:20px;">
+        <div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink-60);margin-bottom:8px;">О себе</div>
+        <div style="font-size:0.88rem;line-height:1.8;color:var(--ink);" id="modal-bio">—</div>
+      </div>
+      <div style="display:flex;gap:10px;" id="modal-actions"></div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
