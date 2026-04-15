@@ -618,7 +618,7 @@ async function loadTutors(){
         price:parseInt(t.hourly_rate)||500,
         trial:parseInt(t.trial_rate)||200,
         bio:t.bio_ru||t.bio_en||'Опытный репетитор',
-        badge:t.is_featured?'Топ':'',
+        badge:t.badge||(t.is_featured?'Топ':''),
         avatar:t.avatar_url||null,
         city:t.city||'Бишкек',
       }));
@@ -634,7 +634,7 @@ function renderTutors(list){
   grid.innerHTML=list.map((t,i)=>`
     <div class="tcard" onclick="window.location.href='tutor.html?id='+encodeURIComponent('${t.tutor_id||t.id}')" style="animation:popIn 0.4s ease ${i*0.05}s both">
       <div class="tc-photo">
-        ${t.badge?`<span class="tc-badge ${t.badge==='Топ'?'':'gold-badge'}">${t.badge}</span>`:''}
+        ${t.badge?`<span class="tc-badge ${t.badge==='Elite'||t.badge==='Top Tutor'?'gold-badge':''}">${t.badge==='Elite'?'💎 Elite':t.badge==='Top Tutor'?'🥇 Top Tutor':t.badge==='Experienced'?'🥈 Experienced':t.badge==='Rising Star'?'🥉 Rising Star':t.badge}</span>`:''}
         ${t.avatar?`<img src="${t.avatar}" alt="${t.name}">`:'👨‍🏫'}
       </div>
       <div class="tc-body">
