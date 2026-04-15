@@ -4,126 +4,147 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bilimly — Профиль репетитора</title>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--primary:#1a5c3a;--primary-light:#e8f5ee;--gold:#d4a017;--coral:#e8533a;--ink:#111827;--muted:#6b7280;--border:#e5e7eb;--bg:#f3f4f6;--white:#fff;--shadow:0 2px 12px rgba(0,0,0,0.08);}
+:root{
+  --tiffany:#0ABAB5;--tiffany-dark:#089490;--tiffany-light:#e0f7f6;--tiffany-pale:#f0fbfb;
+  --gold:#c9a84c;--gold-light:#fdf6e3;
+  --ink:#0a0a0a;--ink-60:rgba(10,10,10,0.6);--ink-30:rgba(10,10,10,0.3);--ink-10:rgba(10,10,10,0.06);
+  --white:#ffffff;--border:rgba(10,10,10,0.08);
+  --shadow:0 2px 16px rgba(10,186,181,0.08);--shadow-lg:0 16px 48px rgba(10,186,181,0.15);
+  --radius:16px;
+}
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{overflow-x:hidden;max-width:100vw;}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);}
-nav{background:white;border-bottom:1px solid var(--border);padding:0 5%;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
-.logo{font-family:'Unbounded',sans-serif;font-size:1.1rem;font-weight:700;color:var(--primary);text-decoration:none;}
+body{font-family:'DM Sans',sans-serif;background:#f8fafa;color:var(--ink);line-height:1.6;}
+nav{background:rgba(255,255,255,0.95);border-bottom:1px solid var(--border);padding:0 5%;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);}
+.logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--tiffany);text-decoration:none;}
 .logo span{color:var(--gold);}
-.back-btn{font-size:0.82rem;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:6px;}
-.back-btn:hover{color:var(--primary);}
+.back-btn{display:flex;align-items:center;gap:6px;font-size:0.82rem;color:var(--ink-60);text-decoration:none;transition:color 0.2s;}
+.back-btn:hover{color:var(--tiffany);}
 
 /* VIDEO HERO */
-.video-hero{width:100%;background:#000;position:relative;max-height:420px;overflow:hidden;}
+.video-hero{width:100%;background:linear-gradient(135deg,#0a1a1a,#0d2d2b);position:relative;overflow:hidden;}
 .video-hero iframe{width:100%;height:420px;border:none;display:block;}
-.video-placeholder{width:100%;height:280px;background:linear-gradient(135deg,var(--primary) 0%,#0d3d28 100%);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:white;}
-.video-placeholder .play-btn{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;font-size:1.5rem;cursor:pointer;}
-.video-placeholder p{font-size:0.85rem;opacity:0.7;}
+.video-placeholder{width:100%;height:320px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;color:white;position:relative;}
+.video-placeholder::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(10,186,181,0.1) 0%,transparent 70%);}
+.vp-avatar{width:80px;height:80px;border-radius:50%;background:var(--tiffany);display:flex;align-items:center;justify-content:center;font-size:2.5rem;position:relative;}
+.vp-name{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;position:relative;}
+.vp-subject{font-size:0.85rem;opacity:0.6;position:relative;}
 
-/* MAIN LAYOUT */
-.profile-wrap{max-width:900px;margin:0 auto;padding:24px 5%;}
-.profile-top{background:white;border-radius:14px;padding:24px;box-shadow:var(--shadow);margin-bottom:20px;}
-.profile-header{display:flex;gap:18px;align-items:flex-start;margin-bottom:20px;}
-.avatar{width:80px;height:80px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:2.5rem;flex-shrink:0;overflow:hidden;}
+/* LAYOUT */
+.profile-wrap{max-width:960px;margin:0 auto;padding:28px 5% 100px;}
+.profile-layout{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start;}
+
+/* MAIN COLUMN */
+.profile-card{background:white;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;margin-bottom:20px;}
+.profile-header{padding:24px;}
+.ph-top{display:flex;gap:18px;align-items:flex-start;margin-bottom:20px;}
+.avatar{width:72px;height:72px;border-radius:50%;background:var(--tiffany-light);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;overflow:hidden;border:3px solid var(--tiffany-light);}
 .avatar img{width:100%;height:100%;object-fit:cover;}
-.profile-info{flex:1;}
-.tutor-name{font-family:'Unbounded',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:4px;}
-.tutor-subject{color:var(--primary);font-weight:600;font-size:0.9rem;margin-bottom:8px;}
+.ph-info{flex:1;}
+.tutor-name{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;line-height:1.1;margin-bottom:4px;}
+.tutor-subject{color:var(--tiffany);font-weight:600;font-size:0.9rem;margin-bottom:10px;}
 .tutor-meta{display:flex;gap:16px;flex-wrap:wrap;}
-.meta-item{display:flex;align-items:center;gap:5px;font-size:0.82rem;color:var(--muted);}
+.meta-item{display:flex;align-items:center;gap:5px;font-size:0.8rem;color:var(--ink-60);}
 .meta-item strong{color:var(--ink);}
 
-/* STATS ROW */
-.stats-row{display:flex;gap:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:20px 0;}
-.stat-item{flex:1;text-align:center;padding:14px 8px;border-right:1px solid var(--border);}
-.stat-item:last-child{border-right:none;}
-.stat-val{font-family:'Unbounded',sans-serif;font-size:1.2rem;font-weight:700;color:var(--ink);display:block;}
-.stat-label{font-size:0.72rem;color:var(--muted);margin-top:2px;}
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);}
+.stat-cell{padding:16px;text-align:center;border-right:1px solid var(--border);}
+.stat-cell:last-child{border-right:none;}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--ink);display:block;}
+.stat-lbl{font-size:0.7rem;color:var(--ink-60);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px;}
 
-/* ACTION BUTTONS */
-.action-btns{display:flex;gap:10px;}
-.btn-book-trial{flex:1;background:var(--coral);color:white;border:none;padding:14px;border-radius:10px;font-size:0.95rem;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;}
-.btn-book-trial:hover{background:#c94228;}
-.btn-message{background:white;border:1.5px solid var(--border);color:var(--ink);padding:14px 20px;border-radius:10px;font-size:0.9rem;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px;}
-.btn-message:hover{border-color:var(--primary);color:var(--primary);}
-.response-time{text-align:center;font-size:0.75rem;color:var(--muted);margin-top:8px;}
-
-/* CONTENT SECTIONS */
-.section-card{background:white;border-radius:14px;padding:24px;box-shadow:var(--shadow);margin-bottom:16px;}
-.section-card h3{font-family:'Unbounded',sans-serif;font-size:0.95rem;font-weight:700;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);}
-.bio-text{font-size:0.88rem;line-height:1.7;color:var(--ink);}
-.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
-.tag{background:var(--primary-light);color:var(--primary);font-size:0.75rem;font-weight:600;padding:4px 12px;border-radius:20px;}
+/* SECTION CARDS */
+.sec-card{background:white;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;margin-bottom:16px;}
+.sec-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.sec-head h3{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;}
+.sec-body{padding:20px;}
+.bio-text{font-size:0.9rem;line-height:1.8;color:var(--ink);}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px;}
+.tag{background:var(--tiffany-pale);color:var(--tiffany-dark);font-size:0.75rem;font-weight:600;padding:4px 12px;border-radius:20px;}
 
 /* AVAILABILITY */
-.avail-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:12px;}
-.avail-day{text-align:center;padding:8px 4px;border-radius:8px;font-size:0.72rem;font-weight:600;}
-.avail-day.active{background:var(--primary-light);color:var(--primary);}
-.avail-day.inactive{background:#f3f4f6;color:var(--muted);}
-.time-slots{display:flex;gap:6px;flex-wrap:wrap;}
-.tslot{padding:6px 12px;border:1.5px solid var(--border);border-radius:7px;font-size:0.78rem;cursor:pointer;transition:all 0.15s;}
-.tslot:hover,.tslot.sel{background:var(--primary);border-color:var(--primary);color:white;}
+.days-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.day-chip{padding:6px 14px;border-radius:20px;font-size:0.78rem;font-weight:600;}
+.day-chip.on{background:var(--tiffany-pale);color:var(--tiffany-dark);}
+.day-chip.off{background:var(--ink-10);color:var(--ink-30);}
+.time-grid{display:flex;gap:6px;flex-wrap:wrap;}
+.tslot{padding:7px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:0.78rem;cursor:pointer;transition:all 0.15s;font-family:inherit;}
+.tslot:hover,.tslot.sel{background:var(--tiffany);border-color:var(--tiffany);color:white;}
 
 /* REVIEWS */
-.review-item{padding:16px 0;border-bottom:1px solid var(--border);}
+.review-item{padding:18px 0;border-bottom:1px solid var(--border);}
 .review-item:last-child{border-bottom:none;}
-.review-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
-.reviewer{display:flex;align-items:center;gap:10px;}
-.reviewer-av{width:36px;height:36px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;}
-.reviewer-name{font-weight:600;font-size:0.85rem;}
-.reviewer-date{font-size:0.72rem;color:var(--muted);}
-.stars{color:var(--gold);font-size:0.85rem;}
-.review-text{font-size:0.83rem;color:var(--muted);line-height:1.6;font-style:italic;}
-.no-reviews{text-align:center;color:var(--muted);padding:30px;font-size:0.85rem;}
+.rev-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+.rev-author{display:flex;align-items:center;gap:10px;}
+.rev-av{width:38px;height:38px;border-radius:50%;background:var(--tiffany);color:white;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;font-weight:600;}
+.rev-name{font-weight:600;font-size:0.85rem;}
+.rev-date{font-size:0.72rem;color:var(--ink-60);}
+.rev-stars{color:var(--gold);letter-spacing:2px;}
+.rev-text{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--ink-60);line-height:1.7;font-style:italic;}
+.no-reviews{text-align:center;padding:40px;color:var(--ink-60);}
 
-/* STICKY BOOKING BAR (mobile) */
-.sticky-bar{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--border);padding:12px 5%;display:flex;gap:10px;align-items:center;z-index:200;box-shadow:0 -4px 20px rgba(0,0,0,0.08);}
-.sticky-price{font-family:'Unbounded',sans-serif;font-size:1rem;font-weight:700;flex-shrink:0;}
-.sticky-price small{font-family:'Inter',sans-serif;font-size:0.7rem;color:var(--muted);font-weight:400;display:block;}
-.sticky-book{flex:1;background:var(--coral);color:white;border:none;padding:12px;border-radius:10px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:inherit;}
+/* BOOKING SIDEBAR */
+.booking-sidebar{position:sticky;top:80px;}
+.book-card{background:white;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow-lg);overflow:hidden;}
+.book-head{padding:20px;background:linear-gradient(135deg,#0a1a1a,#0d2d2b);color:white;}
+.book-price{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:600;color:white;display:block;line-height:1;}
+.book-price-label{font-size:0.75rem;opacity:0.5;text-transform:uppercase;letter-spacing:0.06em;}
+.book-trial{background:rgba(10,186,181,0.15);border:1px solid rgba(10,186,181,0.3);border-radius:8px;padding:8px 14px;margin-top:12px;display:flex;justify-content:space-between;align-items:center;}
+.book-trial-label{font-size:0.78rem;color:rgba(255,255,255,0.6);}
+.book-trial-price{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--tiffany);}
+.book-body{padding:20px;}
+.btn-book-trial{width:100%;background:var(--tiffany);color:white;border:none;padding:14px;border-radius:10px;font-size:0.95rem;font-weight:600;cursor:pointer;font-family:inherit;margin-bottom:10px;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-book-trial:hover{background:var(--tiffany-dark);transform:translateY(-1px);}
+.btn-msg{width:100%;background:white;border:1.5px solid var(--border);color:var(--ink);padding:13px;border-radius:10px;font-size:0.88rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-msg:hover{border-color:var(--tiffany);color:var(--tiffany);}
+.response-info{text-align:center;font-size:0.75rem;color:var(--ink-60);margin-top:12px;}
+.book-features{padding:0 20px 20px;}
+.book-feature{display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--ink-60);padding:6px 0;}
+.book-feature-icon{color:var(--tiffany);font-size:0.9rem;}
 
-/* BOOKING MODAL */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:500;align-items:center;justify-content:center;padding:16px;}
+/* STICKY BOTTOM (mobile) */
+.sticky-bottom{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--border);padding:12px 5%;display:flex;gap:10px;align-items:center;z-index:200;box-shadow:0 -4px 20px rgba(0,0,0,0.06);}
+.sticky-price-info{flex-shrink:0;}
+.sticky-price-val{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;display:block;}
+.sticky-price-lbl{font-size:0.68rem;color:var(--ink-60);}
+.sticky-book-btn{flex:1;background:var(--tiffany);color:white;border:none;padding:13px;border-radius:10px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:inherit;}
+
+/* MODALS */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);z-index:500;align-items:center;justify-content:center;padding:16px;}
 .overlay.open{display:flex;}
-.modal{background:white;border-radius:20px;max-width:480px;width:100%;box-shadow:0 32px 80px rgba(0,0,0,0.25);overflow:hidden;}
-.modal-head{background:var(--primary);padding:20px 24px;color:white;position:relative;}
-.modal-close{position:absolute;top:12px;right:14px;background:rgba(255,255,255,0.15);border:none;color:white;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;}
-.modal-head h2{font-family:'Unbounded',sans-serif;font-size:1rem;margin-bottom:2px;}
+.modal{background:white;border-radius:20px;max-width:480px;width:100%;box-shadow:0 32px 80px rgba(0,0,0,0.25);overflow:hidden;animation:popIn 0.3s ease;}
+@keyframes popIn{from{transform:scale(0.92) translateY(20px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+.modal-head{background:var(--tiffany);padding:20px 24px;color:white;position:relative;}
+.modal-close{position:absolute;top:12px;right:14px;background:rgba(255,255,255,0.15);border:none;color:white;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;}
+.modal-head h2{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;margin-bottom:2px;}
 .modal-head p{opacity:0.7;font-size:0.8rem;}
 .modal-body{padding:20px 24px;}
 .fgroup{margin-bottom:12px;}
 .fgroup label{display:block;font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:5px;}
-.fcontrol{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;font-family:inherit;font-size:0.875rem;outline:none;}
-.fcontrol:focus{border-color:var(--primary);}
+.fcontrol{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-family:inherit;font-size:0.875rem;outline:none;transition:border-color 0.2s;}
+.fcontrol:focus{border-color:var(--tiffany);}
+.time-slots-modal{display:flex;gap:6px;flex-wrap:wrap;}
 .modal-foot{padding:0 24px 20px;display:flex;gap:10px;}
-.btn-confirm{flex:1;background:var(--coral);color:white;border:none;padding:13px;border-radius:10px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:inherit;}
-.btn-ghost{background:none;border:1.5px solid var(--border);color:var(--ink);padding:13px 20px;border-radius:10px;font-size:0.85rem;cursor:pointer;font-family:inherit;}
-.qr-box{background:var(--primary-light);border-radius:12px;padding:20px;text-align:center;margin-bottom:14px;}
-.qr-amount{font-family:'Unbounded',sans-serif;font-size:1.6rem;font-weight:700;color:var(--primary);}
+.btn-confirm{flex:1;background:var(--tiffany);color:white;border:none;padding:13px;border-radius:10px;font-size:0.9rem;font-weight:600;cursor:pointer;font-family:inherit;}
+.btn-confirm:hover{background:var(--tiffany-dark);}
+.btn-cancel{background:none;border:1.5px solid var(--border);color:var(--ink);padding:13px 20px;border-radius:10px;font-size:0.85rem;cursor:pointer;font-family:inherit;}
+.qr-box{background:var(--tiffany-pale);border-radius:12px;padding:20px;text-align:center;margin-bottom:14px;}
+.qr-amount{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--tiffany);}
 .qr-box img{width:160px;height:160px;border-radius:8px;margin:12px auto;display:block;border:3px solid white;}
 
-/* CHAT WIDGET */
-.chat-fab{position:fixed;bottom:80px;right:20px;z-index:400;width:52px;height:52px;border-radius:50%;background:var(--primary);color:white;border:none;font-size:1.3rem;cursor:pointer;box-shadow:0 6px 20px rgba(26,92,58,0.4);}
-.chat-box{position:fixed;bottom:144px;right:16px;z-index:400;width:300px;background:white;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.15);border:1px solid var(--border);display:none;flex-direction:column;overflow:hidden;}
-.chat-box.open{display:flex;}
-.chat-head{background:var(--primary);color:white;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;}
-.chat-head-info{display:flex;align-items:center;gap:8px;}
-.chat-av-sm{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:0.9rem;}
-.chat-head h4{font-size:0.85rem;font-weight:600;}
-.chat-close{background:none;border:none;color:white;cursor:pointer;font-size:0.9rem;opacity:0.7;}
-.chat-msgs{max-height:220px;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;}
-.cmsg{max-width:80%;padding:7px 11px;border-radius:10px;font-size:0.8rem;line-height:1.5;}
-.cmsg.bot{background:var(--primary-light);align-self:flex-start;border-radius:10px 10px 10px 3px;}
-.cmsg.user{background:var(--primary);color:white;align-self:flex-end;border-radius:10px 10px 3px 10px;}
-.chat-inp{padding:10px;border-top:1px solid var(--border);display:flex;gap:6px;}
-.chat-text{flex:1;border:1.5px solid var(--border);border-radius:7px;padding:7px 10px;font-family:inherit;font-size:0.8rem;outline:none;}
-.chat-send{background:var(--primary);color:white;border:none;width:32px;height:32px;border-radius:7px;cursor:pointer;}
+#toast{display:none;position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--tiffany);color:white;padding:11px 22px;border-radius:10px;font-weight:600;z-index:9999;font-size:0.875rem;box-shadow:var(--shadow-lg);}
+.loading-state{text-align:center;padding:80px;color:var(--ink-60);}
 
-#toast{display:none;position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--primary);color:white;padding:11px 22px;border-radius:10px;font-weight:600;z-index:9999;font-size:0.875rem;}
-.loading{text-align:center;padding:60px;color:var(--muted);}
+@media(max-width:768px){
+  .profile-layout{grid-template-columns:1fr;}
+  .booking-sidebar{display:none;}
+  .stats-row{grid-template-columns:repeat(2,1fr);}
+  .video-hero iframe{height:240px;}
+  .video-placeholder{height:200px;}
+}
 </style>
 </head>
 <body>
@@ -134,26 +155,26 @@ nav{background:white;border-bottom:1px solid var(--border);padding:0 5%;height:5
   <div style="width:120px"></div>
 </nav>
 
-<!-- VIDEO -->
 <div class="video-hero" id="video-section">
   <div class="video-placeholder" id="video-placeholder">
-    <div class="play-btn">▶</div>
-    <p>Видео-презентация загружается...</p>
+    <div class="vp-avatar" id="vp-avatar">👨‍🏫</div>
+    <div class="vp-name" id="vp-name">Загрузка...</div>
+    <div class="vp-subject" id="vp-subject">Репетитор</div>
   </div>
 </div>
 
-<!-- PROFILE -->
 <div class="profile-wrap">
-  <div id="profile-content" class="loading">Загрузка профиля...</div>
+  <div class="profile-layout" id="profile-layout">
+    <div class="loading-state">Загрузка профиля...</div>
+  </div>
 </div>
 
-<!-- STICKY BAR -->
-<div class="sticky-bar" id="sticky-bar" style="display:none">
-  <div class="sticky-price">
-    <span id="sticky-price-val">500 сом</span>
-    <small>за 60 мин</small>
+<div class="sticky-bottom" id="sticky-bottom" style="display:none">
+  <div class="sticky-price-info">
+    <span class="sticky-price-val" id="sticky-price">200 сом</span>
+    <span class="sticky-price-lbl">Пробный урок</span>
   </div>
-  <button class="sticky-book" onclick="openBooking()">⚡ Записаться на пробный урок</button>
+  <button class="sticky-book-btn" onclick="openBooking()">⚡ Записаться</button>
 </div>
 
 <!-- BOOKING MODAL -->
@@ -161,18 +182,17 @@ nav{background:white;border-bottom:1px solid var(--border);padding:0 5%;height:5
   <div class="modal">
     <div class="modal-head">
       <button class="modal-close" onclick="closeModal()">✕</button>
-      <h2 id="bm-title">Записаться на пробный урок</h2>
-      <p id="bm-sub">Познакомьтесь с репетитором</p>
+      <h2 id="bm-title">Записаться на урок</h2>
+      <p id="bm-sub">Пробный урок</p>
     </div>
     <div id="bm-step1">
       <div class="modal-body">
-        <div id="bm-login-notice" style="display:none;background:#fef9ed;border:1px solid var(--gold);border-radius:8px;padding:10px;margin-bottom:12px;font-size:0.8rem;color:#92400e">
-          Для бронирования нужно <a href="index.html" style="color:var(--primary);font-weight:600">войти или зарегистрироваться</a>
+        <div id="bm-notice" style="display:none;background:var(--gold-light);border:1px solid var(--gold);border-radius:8px;padding:10px;margin-bottom:12px;font-size:0.8rem;color:#7a5a00">
+          Для бронирования нужно <a href="index.html" style="color:var(--tiffany);font-weight:600">войти</a>
         </div>
         <div class="fgroup"><label>Дата урока</label><input class="fcontrol" type="date" id="bm-date"></div>
-        <div class="fgroup">
-          <label>Время</label>
-          <div class="time-slots" id="modal-slots">
+        <div class="fgroup"><label>Время</label>
+          <div class="time-slots-modal">
             <div class="tslot" onclick="selSlot(this)">09:00</div>
             <div class="tslot" onclick="selSlot(this)">10:00</div>
             <div class="tslot" onclick="selSlot(this)">11:00</div>
@@ -191,10 +211,12 @@ nav{background:white;border-bottom:1px solid var(--border);padding:0 5%;height:5
             <option>С нуля</option>
           </select>
         </div>
-        <div class="fgroup"><label>Комментарий</label><input class="fcontrol" type="text" id="bm-notes" placeholder="Что хотите изучить?"></div>
+        <div class="fgroup"><label>Комментарий</label>
+          <input class="fcontrol" type="text" id="bm-notes" placeholder="Что хотите изучить?">
+        </div>
       </div>
       <div class="modal-foot">
-        <button class="btn-ghost" onclick="closeModal()">Отмена</button>
+        <button class="btn-cancel" onclick="closeModal()">Отмена</button>
         <button class="btn-confirm" onclick="submitBooking()">Продолжить →</button>
       </div>
     </div>
@@ -202,38 +224,19 @@ nav{background:white;border-bottom:1px solid var(--border);padding:0 5%;height:5
       <div class="modal-body">
         <div class="qr-box">
           <div class="qr-amount" id="qr-amount">200 сом</div>
-          <p style="color:var(--muted);font-size:0.75rem;margin-bottom:8px">Пробный урок · 50 минут</p>
+          <p style="color:var(--ink-60);font-size:0.75rem;margin-bottom:8px">Пробный урок · 50 минут</p>
           <img id="qr-img" src="" alt="QR">
-          <p style="font-size:0.78rem;color:var(--muted)">Оплатите через <strong>MBANK</strong></p>
+          <p style="font-size:0.78rem;color:var(--ink-60)">Оплатите через <strong>MBANK</strong></p>
         </div>
-        <div style="background:#f0f7f4;border-radius:8px;padding:10px;font-size:0.78rem;color:var(--muted);text-align:center">
+        <div style="background:var(--tiffany-pale);border-radius:8px;padding:10px;font-size:0.78rem;color:var(--tiffany-dark);text-align:center">
           ✅ После оплаты репетитор пришлёт ссылку на урок
         </div>
       </div>
       <div class="modal-foot">
-        <button class="btn-ghost" onclick="closeModal()">Закрыть</button>
+        <button class="btn-cancel" onclick="closeModal()">Закрыть</button>
         <button class="btn-confirm" onclick="confirmPaid()">✓ Оплачено</button>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- CHAT -->
-<button class="chat-fab" onclick="toggleChat()" id="chat-fab">💬</button>
-<div class="chat-box" id="chat-box">
-  <div class="chat-head">
-    <div class="chat-head-info">
-      <div class="chat-av-sm">🤖</div>
-      <div><h4>Билим · Помощник</h4></div>
-    </div>
-    <button class="chat-close" onclick="toggleChat()">✕</button>
-  </div>
-  <div class="chat-msgs" id="chat-msgs">
-    <div class="cmsg bot">Привет! Хотите узнать больше об этом репетиторе или записаться на урок? 😊</div>
-  </div>
-  <div class="chat-inp">
-    <input class="chat-text" id="chat-input" placeholder="Написать..." onkeydown="if(event.key==='Enter')sendChat()">
-    <button class="chat-send" onclick="sendChat()">➤</button>
   </div>
 </div>
 
@@ -243,287 +246,202 @@ nav{background:white;border-bottom:1px solid var(--border);padding:0 5%;height:5
 const API = 'https://bilimly-backend-0zbt.onrender.com';
 let tutor = null;
 let selectedSlot = null;
-let bookingStep = 1;
 
-function getToken() { return localStorage.getItem('bilimly_token'); }
-function getUser() { return JSON.parse(localStorage.getItem('bilimly_user') || 'null'); }
+function getToken(){return localStorage.getItem('bilimly_token');}
+function getUser(){return JSON.parse(localStorage.getItem('bilimly_user')||'null');}
 
-// Get tutor ID from URL
 const urlParams = new URLSearchParams(window.location.search);
 const tutorId = urlParams.get('id');
+if(!tutorId) window.location.href='index.html';
 
-if (!tutorId) {
-  window.location.href = 'index.html';
-}
-
-// Load tutor profile
-async function loadTutor() {
-  try {
-    const res = await fetch(API + '/api/tutors/' + tutorId);
-console.log('Loading tutor:', tutorId);
+async function loadTutor(){
+  try{
+    const res = await fetch(API+'/api/tutors/'+tutorId);
     const data = await res.json();
-    if (data.error) { console.log('Tutor error:', data.error, 'ID:', tutorId); return; }
+    if(data.error){console.log('Tutor error:',data.error,'ID:',tutorId);return;}
     tutor = data;
     renderProfile(data);
-  } catch(e) {
-    document.getElementById('profile-content').innerHTML = '<p style="text-align:center;color:var(--muted);padding:40px">Ошибка загрузки профиля</p>';
+  }catch(e){
+    document.getElementById('profile-layout').innerHTML='<p style="text-align:center;color:var(--ink-60);padding:48px">Ошибка загрузки профиля</p>';
   }
 }
 
-function renderProfile(t) {
-  // Video
-  const videoSection = document.getElementById('video-section');
-  if (t.video_intro_url) {
-    let embedUrl = t.video_intro_url;
-    if (t.video_intro_url.includes('youtube.com/watch')) {
-      const id = t.video_intro_url.split('v=')[1]?.split('&')[0];
-      embedUrl = 'https://www.youtube.com/embed/' + id + '?autoplay=0&rel=0';
-    } else if (t.video_intro_url.includes('youtu.be/')) {
-      const id = t.video_intro_url.split('youtu.be/')[1]?.split('?')[0];
-      embedUrl = 'https://www.youtube.com/embed/' + id;
-    }
-    videoSection.innerHTML = `<iframe src="${embedUrl}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
+function renderProfile(t){
+  // Video section
+  if(t.video_intro_url){
+    let embedUrl=t.video_intro_url;
+    if(t.video_intro_url.includes('youtube.com/watch')){const id=t.video_intro_url.split('v=')[1]?.split('&')[0];embedUrl='https://www.youtube.com/embed/'+id+'?rel=0';}
+    else if(t.video_intro_url.includes('youtu.be/')){const id=t.video_intro_url.split('youtu.be/')[1]?.split('?')[0];embedUrl='https://www.youtube.com/embed/'+id;}
+    document.getElementById('video-section').innerHTML=`<iframe src="${embedUrl}" allowfullscreen allow="autoplay; encrypted-media"></iframe>`;
   } else {
-    document.getElementById('video-placeholder').innerHTML = `
-      <div style="font-size:3rem;margin-bottom:8px">👨‍🏫</div>
-      <p style="font-size:1rem;font-weight:600">${t.first_name} ${t.last_name}</p>
-      <p style="opacity:0.6;font-size:0.85rem">${(t.subjects||[]).join(' · ') || 'Репетитор'}</p>
-    `;
+    document.getElementById('vp-name').textContent=t.first_name+' '+t.last_name;
+    document.getElementById('vp-subject').textContent=(t.subjects||[]).join(' · ')||'Репетитор';
+    if(t.avatar_url){document.getElementById('vp-avatar').innerHTML=`<img src="${t.avatar_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;}
   }
 
   // Sticky bar
-  document.getElementById('sticky-price-val').textContent = Math.round(t.trial_rate || 200) + ' сом';
-  document.getElementById('sticky-bar').style.display = 'flex';
+  document.getElementById('sticky-price').textContent=Math.round(t.trial_rate||200)+' сом';
+  document.getElementById('sticky-bottom').style.display='flex';
 
-  // Stars
-  const rating = parseFloat(t.rating) || 0;
-  const stars = '★'.repeat(Math.round(rating)) + '☆'.repeat(5 - Math.round(rating));
+  const rating=parseFloat(t.rating)||0;
+  const stars='★'.repeat(Math.round(rating))+'☆'.repeat(5-Math.round(rating));
+  const subjects=t.subjects||[];
 
-  document.getElementById('profile-content').innerHTML = `
-    <div class="profile-top">
-      <div class="profile-header">
-        <div class="avatar">${t.avatar_url ? `<img src="${t.avatar_url}" alt="${t.first_name}">` : '👨‍🏫'}</div>
-        <div class="profile-info">
-          <div class="tutor-name">${t.first_name} ${t.last_name} 🇰🇬</div>
-          <div class="tutor-subject">${(t.subjects||[]).join(' · ') || 'Репетитор'}</div>
-          <div class="tutor-meta">
-            <span class="meta-item"><strong style="color:var(--gold)">${stars}</strong> <strong>${rating.toFixed(1)}</strong></span>
-            <span class="meta-item">👥 <strong>${t.total_students || 0}</strong> студентов</span>
-            <span class="meta-item">📚 <strong>${t.total_lessons || 0}</strong> уроков</span>
-            <span class="meta-item">📍 <strong>${t.city || 'Бишкек'}</strong></span>
-          </div>
-        </div>
-      </div>
-
-      <div class="stats-row">
-        <div class="stat-item"><span class="stat-val">${rating.toFixed(1)} ★</span><span class="stat-label">Рейтинг</span></div>
-        <div class="stat-item"><span class="stat-val">${t.review_count || 0}</span><span class="stat-label">Отзывов</span></div>
-        <div class="stat-item"><span class="stat-val">${t.total_lessons || 0}</span><span class="stat-label">Уроков</span></div>
-        <div class="stat-item"><span class="stat-val">${Math.round(t.hourly_rate || 500)} сом</span><span class="stat-label">За урок</span></div>
-      </div>
-
-      <div class="action-btns">
-        <button class="btn-message" onclick="openMessage()">💬 Написать</button>
-        <button class="btn-book-trial" onclick="openBooking()">⚡ Пробный урок — ${Math.round(t.trial_rate || 200)} сом</button>
-      </div>
-      <div class="response-time">Обычно отвечает в течение 2 часов</div>
-    </div>
-
-    <div class="section-card">
-      <h3>О репетиторе</h3>
-      <div class="bio-text">${t.bio_ru || t.bio_en || 'Опытный репетитор. Заполню профиль скоро.'}</div>
-      ${t.subjects?.length ? `<div class="tags">${t.subjects.map(s=>`<span class="tag">${s}</span>`).join('')}</div>` : ''}
-    </div>
-
-    ${renderAvailability(t.availability)}
-    ${renderReviews(t.reviews)}
-  `;
-
-  document.title = `${t.first_name} ${t.last_name} — Bilimly.kg`;
-}
-
-function renderAvailability(availability) {
-  if (!availability?.length) return '';
-  const days = ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
-  const activeDays = new Set(availability.map(a => a.day_of_week));
-  const activeTimes = [...new Set(availability.map(a => a.start_time.substring(0,5)))].sort();
-
-  return `
-    <div class="section-card">
-      <h3>Расписание</h3>
-      <div class="avail-grid">
-        ${days.map((d,i) => `<div class="avail-day ${activeDays.has(i)?'active':'inactive'}">${d}</div>`).join('')}
-      </div>
-      <div class="time-slots">
-        ${activeTimes.map(t => `<div class="tslot" onclick="selSlot(this)">${t}</div>`).join('')}
-      </div>
-    </div>
-  `;
-}
-
-function renderReviews(reviews) {
-  if (!reviews?.length) {
-    return `<div class="section-card"><h3>Отзывы</h3><div class="no-reviews">Пока нет отзывов. Станьте первым!</div></div>`;
-  }
-  return `
-    <div class="section-card">
-      <h3>Отзывы студентов (${reviews.length})</h3>
-      ${reviews.map(r => `
-        <div class="review-item">
-          <div class="review-header">
-            <div class="reviewer">
-              <div class="reviewer-av">${r.first_name?.[0] || '👤'}</div>
-              <div>
-                <div class="reviewer-name">${r.first_name} ${r.last_name}</div>
-                <div class="reviewer-date">${new Date(r.created_at).toLocaleDateString('ru-RU')}</div>
+  document.getElementById('profile-layout').innerHTML=`
+    <div>
+      <!-- MAIN PROFILE CARD -->
+      <div class="profile-card">
+        <div class="profile-header">
+          <div class="ph-top">
+            <div class="avatar">${t.avatar_url?`<img src="${t.avatar_url}" alt="${t.first_name}">`:'👨‍🏫'}</div>
+            <div class="ph-info">
+              <div class="tutor-name">${t.first_name} ${t.last_name} 🇰🇬</div>
+              <div class="tutor-subject">${subjects.join(' · ')||'Репетитор'}</div>
+              <div class="tutor-meta">
+                <span class="meta-item"><span style="color:var(--gold)">${stars}</span> <strong>${rating.toFixed(1)}</strong></span>
+                <span class="meta-item">📍 <strong>${t.city||'Бишкек'}</strong></span>
+                ${t.total_students?`<span class="meta-item">👥 <strong>${t.total_students}</strong> студентов</span>`:''}
               </div>
             </div>
-            <div class="stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
           </div>
-          <div class="review-text">"${r.comment || 'Отличный репетитор!'}"</div>
         </div>
-      `).join('')}
+        <div class="stats-row">
+          <div class="stat-cell"><span class="stat-val">${rating.toFixed(1)} ★</span><span class="stat-lbl">Рейтинг</span></div>
+          <div class="stat-cell"><span class="stat-val">${t.review_count||0}</span><span class="stat-lbl">Отзывов</span></div>
+          <div class="stat-cell"><span class="stat-val">${t.total_lessons||0}</span><span class="stat-lbl">Уроков</span></div>
+          <div class="stat-cell"><span class="stat-val">${Math.round(t.hourly_rate||500)}</span><span class="stat-lbl">Сом / час</span></div>
+        </div>
+      </div>
+
+      <!-- BIO -->
+      <div class="sec-card">
+        <div class="sec-head"><h3>О репетиторе</h3></div>
+        <div class="sec-body">
+          <div class="bio-text">${t.bio_ru||t.bio_en||'Опытный репетитор. Профиль скоро будет заполнен.'}</div>
+          ${subjects.length?`<div class="tags">${subjects.map(s=>`<span class="tag">${s}</span>`).join('')}</div>`:''}
+        </div>
+      </div>
+
+      ${renderAvailability(t.availability)}
+      ${renderReviews(t.reviews)}
+    </div>
+
+    <!-- BOOKING SIDEBAR -->
+    <div class="booking-sidebar">
+      <div class="book-card">
+        <div class="book-head">
+          <span class="book-price">${Math.round(t.hourly_rate||500)} <span style="font-size:1rem;opacity:0.6">сом</span></span>
+          <span class="book-price-label">за 60 минут</span>
+          <div class="book-trial">
+            <span class="book-trial-label">Пробный урок</span>
+            <span class="book-trial-price">${Math.round(t.trial_rate||200)} сом</span>
+          </div>
+        </div>
+        <div class="book-body">
+          <button class="btn-book-trial" onclick="openBooking()">⚡ Записаться на пробный урок</button>
+          <button class="btn-msg" onclick="openMessage()">💬 Написать репетитору</button>
+          <div class="response-info">Обычно отвечает в течение 2 часов</div>
+        </div>
+        <div class="book-features">
+          <div class="book-feature"><span class="book-feature-icon">✅</span> Проверенный репетитор</div>
+          <div class="book-feature"><span class="book-feature-icon">🎥</span> Урок онлайн</div>
+          <div class="book-feature"><span class="book-feature-icon">🔒</span> Безопасная оплата</div>
+          <div class="book-feature"><span class="book-feature-icon">📝</span> Отчёт после урока</div>
+        </div>
+      </div>
     </div>
   `;
+
+  document.title=`${t.first_name} ${t.last_name} — Bilimly.kg`;
 }
 
-// BOOKING
-function openBooking() {
-  if (!getToken()) {
-    document.getElementById('bm-login-notice').style.display = 'block';
-  }
-  bookingStep = 1;
-  document.getElementById('bm-step1').style.display = 'block';
-  document.getElementById('bm-step2').style.display = 'none';
-  document.getElementById('bm-date').min = new Date().toISOString().split('T')[0];
-  if (tutor) {
-    document.getElementById('bm-title').textContent = `Урок с ${tutor.first_name}`;
-    document.getElementById('bm-sub').textContent = `Пробный урок · ${Math.round(tutor.trial_rate || 200)} сом`;
+function renderAvailability(availability){
+  if(!availability?.length) return '';
+  const days=['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
+  const activeDays=new Set(availability.map(a=>a.day_of_week));
+  const activeTimes=[...new Set(availability.map(a=>a.start_time.substring(0,5)))].sort();
+  return `
+    <div class="sec-card">
+      <div class="sec-head"><h3>Расписание</h3></div>
+      <div class="sec-body">
+        <div class="days-row">${days.map((d,i)=>`<div class="day-chip ${activeDays.has(i)?'on':'off'}">${d}</div>`).join('')}</div>
+        <div class="time-grid">${activeTimes.map(t=>`<div class="tslot" onclick="selSlot(this)">${t}</div>`).join('')}</div>
+      </div>
+    </div>`;
+}
+
+function renderReviews(reviews){
+  if(!reviews?.length) return `<div class="sec-card"><div class="sec-head"><h3>Отзывы</h3></div><div class="no-reviews"><div style="font-size:2rem;margin-bottom:8px">⭐</div><div>Пока нет отзывов. Станьте первым!</div></div></div>`;
+  return `
+    <div class="sec-card">
+      <div class="sec-head"><h3>Отзывы студентов</h3><span style="font-size:0.8rem;color:var(--ink-60)">${reviews.length} отзывов</span></div>
+      <div class="sec-body" style="padding:0 20px;">
+        ${reviews.map(r=>`
+          <div class="review-item">
+            <div class="rev-header">
+              <div class="rev-author">
+                <div class="rev-av">${r.first_name?.[0]||'?'}</div>
+                <div><div class="rev-name">${r.first_name} ${r.last_name}</div><div class="rev-date">${new Date(r.created_at).toLocaleDateString('ru-RU')}</div></div>
+              </div>
+              <div class="rev-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+            </div>
+            <div class="rev-text">"${r.comment||'Отличный репетитор!'}"</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>`;
+}
+
+function selSlot(el){
+  document.querySelectorAll('.tslot').forEach(s=>s.classList.remove('sel'));
+  el.classList.add('sel');
+  selectedSlot=el.textContent.trim();
+}
+
+function openBooking(){
+  if(!getToken()){document.getElementById('bm-notice').style.display='block';}
+  else{document.getElementById('bm-notice').style.display='none';}
+  document.getElementById('bm-step1').style.display='block';
+  document.getElementById('bm-step2').style.display='none';
+  document.getElementById('bm-date').min=new Date().toISOString().split('T')[0];
+  if(tutor){
+    document.getElementById('bm-title').textContent='Урок с '+tutor.first_name;
+    document.getElementById('bm-sub').textContent='Пробный урок · '+Math.round(tutor.trial_rate||200)+' сом';
   }
   document.getElementById('bookingModal').classList.add('open');
 }
 
-function selSlot(el) {
-  document.querySelectorAll('.tslot').forEach(s => s.classList.remove('sel'));
-  el.classList.add('sel');
-  selectedSlot = el.textContent.trim();
+async function submitBooking(){
+  if(!getToken()){showToast('Войдите чтобы забронировать');closeModal();return;}
+  const date=document.getElementById('bm-date').value;
+  if(!date){showToast('Выберите дату');return;}
+  if(!selectedSlot){showToast('Выберите время');return;}
+  try{
+    await fetch(API+'/api/bookings',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()},body:JSON.stringify({tutor_id:tutor.tutor_id||tutor.id,lesson_date:date,start_time:selectedSlot+':00',end_time:(parseInt(selectedSlot)+1).toString().padStart(2,'0')+':00:00',lesson_type:'trial',subject:(tutor.subjects||[])[0]||'Урок',student_notes:document.getElementById('bm-notes').value})});
+  }catch(e){}
+  document.getElementById('bm-step1').style.display='none';
+  document.getElementById('bm-step2').style.display='block';
+  document.getElementById('qr-amount').textContent=Math.round(tutor?.trial_rate||200)+' сом';
+  document.getElementById('qr-img').src=`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=BILIMLY_${tutor?.tutor_id}_${tutor?.trial_rate}KGS&bgcolor=ffffff&color=0ABAB5`;
 }
 
-async function submitBooking() {
-  if (!getToken()) {
-    showToast('Войдите чтобы забронировать урок');
-    closeModal();
-    return;
-  }
-  const date = document.getElementById('bm-date').value;
-  if (!date) { showToast('Выберите дату'); return; }
-  if (!selectedSlot) { showToast('Выберите время'); return; }
+function confirmPaid(){closeModal();showToast('🎉 Урок забронирован! Подтверждение придёт на email');}
 
-  try {
-    const res = await fetch(API + '/api/bookings', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json','Authorization':'Bearer '+getToken()},
-      body: JSON.stringify({
-        tutor_id: tutor.tutor_id,
-        lesson_date: date,
-        start_time: selectedSlot + ':00',
-        end_time: (parseInt(selectedSlot)+1).toString().padStart(2,'0') + ':00:00',
-        lesson_type: 'trial',
-        subject: tutor.subjects?.[0] || 'Урок',
-        student_notes: document.getElementById('bm-notes').value
-      })
-    });
-    const data = await res.json();
-    bookingStep = 2;
-    document.getElementById('bm-step1').style.display = 'none';
-    document.getElementById('bm-step2').style.display = 'block';
-    document.getElementById('qr-amount').textContent = Math.round(tutor.trial_rate || 200) + ' сом';
-    document.getElementById('qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=BILIMLY_${tutor.tutor_id}_${tutor.trial_rate}KGS&bgcolor=ffffff&color=1a5c3a`;
-  } catch(e) {
-    bookingStep = 2;
-    document.getElementById('bm-step1').style.display = 'none';
-    document.getElementById('bm-step2').style.display = 'block';
-    document.getElementById('qr-amount').textContent = Math.round(tutor?.trial_rate || 200) + ' сом';
-    document.getElementById('qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=BILIMLY_DEMO_${Date.now()}&bgcolor=ffffff&color=1a5c3a`;
-  }
-}
-
-function confirmPaid() {
-  closeModal();
-  showToast('🎉 Урок забронирован! Репетитор свяжется с вами');
-}
-
-function closeModal() {
+function closeModal(){
   document.getElementById('bookingModal').classList.remove('open');
-  selectedSlot = null;
-  document.querySelectorAll('.tslot').forEach(s => s.classList.remove('sel'));
+  selectedSlot=null;
+  document.querySelectorAll('.tslot').forEach(s=>s.classList.remove('sel'));
 }
 
-function openMessage() {
-  if (!getToken()) {
-    showToast('Войдите чтобы написать репетитору');
-    return;
-  }
-  // Start real conversation with tutor
-  fetch('https://bilimly-backend-0zbt.onrender.com/api/messages/conversations', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json','Authorization':'Bearer '+getToken()},
-    body: JSON.stringify({other_user_id: tutor.user_id || tutor.id})
-  }).then(r => r.json()).then(data => {
-    if (data.id) {
-      window.location.href = 'messages.html';
-    }
-  }).catch(() => {
-    window.location.href = 'messages.html';
-  });
+function openMessage(){
+  if(!getToken()){showToast('Войдите чтобы написать репетитору');return;}
+  fetch(API+'/api/messages/conversations',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()},body:JSON.stringify({other_user_id:tutor.user_id||tutor.id})})
+  .then(r=>r.json()).then(()=>{window.location.href='messages.html';}).catch(()=>{window.location.href='messages.html';});
 }
 
-// CHAT
-let chatOpen = false;
-function toggleChat() {
-  chatOpen = !chatOpen;
-  document.getElementById('chat-box').classList.toggle('open', chatOpen);
-  document.getElementById('chat-fab').textContent = chatOpen ? '✕' : '💬';
-}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',3000);}
 
-async function sendChat() {
-  const input = document.getElementById('chat-input');
-  const msg = input.value.trim();
-  if (!msg) return;
-  input.value = '';
-  addMsg(msg, 'user');
-  const thinking = addMsg('...', 'bot');
-  try {
-    const res = await fetch(API + '/api/support/chat', {
-      method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({message: msg})
-    });
-    const data = await res.json();
-    thinking.textContent = data.reply || 'Спасибо за вопрос! Нажмите "Записаться" чтобы забронировать урок.';
-  } catch {
-    thinking.textContent = 'Нажмите "Записаться на пробный урок" чтобы начать! 😊';
-  }
-  document.getElementById('chat-msgs').scrollTop = 9999;
-}
-
-function addMsg(text, type) {
-  const div = document.createElement('div');
-  div.className = `cmsg ${type}`;
-  div.textContent = text;
-  document.getElementById('chat-msgs').appendChild(div);
-  document.getElementById('chat-msgs').scrollTop = 9999;
-  return div;
-}
-
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.style.display = 'block';
-  setTimeout(() => t.style.display = 'none', 3000);
-}
-
-document.getElementById('bookingModal').addEventListener('click', e => {
-  if (e.target === document.getElementById('bookingModal')) closeModal();
-});
+document.getElementById('bookingModal').addEventListener('click',e=>{if(e.target===document.getElementById('bookingModal'))closeModal();});
 
 loadTutor();
 </script>
