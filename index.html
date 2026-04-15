@@ -234,7 +234,7 @@ footer{background:var(--ink);color:rgba(255,255,255,0.45);padding:56px 5% 28px;}
   <ul class="nav-links">
     <li><a href="#tutors-section">Репетиторы</a></li>
     <li><a href="#subjects">Предметы</a></li>
-    <li><a href="#" onclick="openApply();return false;">Стать репетитором</a></li>
+    <li><a href="#" onclick="window.location.href='tutor-onboarding.html';return false;">Стать репетитором</a></li>
     <li><a href="#how">О платформе</a></li>
   </ul>
   <div class="nav-right">
@@ -379,7 +379,7 @@ footer{background:var(--ink);color:rgba(255,255,255,0.45);padding:56px 5% 28px;}
   <h2>Ты репетитор? Зарабатывай на Bilimly</h2>
   <p>Устанавливай свою ставку. Работай в удобное время. До 60,000 сом в месяц.</p>
   <div class="cta-btns">
-    <button class="btn-white" onclick="openApply()">Стать репетитором</button>
+    <button class="btn-white" onclick="window.location.href='tutor-onboarding.html'">Стать репетитором</button>
     <button class="btn-outline-white" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">Узнать подробнее</button>
   </div>
 </section>
@@ -388,7 +388,7 @@ footer{background:var(--ink);color:rgba(255,255,255,0.45);padding:56px 5% 28px;}
   <div class="footer-grid">
     <div class="footer-brand"><span class="footer-logo">Bilimly<span>.kg</span></span><p>Репетиторская платформа №1 в Кыргызстане. Качественное образование для каждого.</p></div>
     <div class="footer-col"><h4>Студентам</h4><ul><li><a href="#tutors-section">Найти репетитора</a></li><li><a href="#how">Как работает</a></li><li><a href="#subjects">Предметы</a></li></ul></div>
-    <div class="footer-col"><h4>Репетиторам</h4><ul><li><a href="#" onclick="openApply()">Стать репетитором</a></li><li><a href="tutor-dashboard.html">Войти в кабинет</a></li></ul></div>
+    <div class="footer-col"><h4>Репетиторам</h4><ul><li><a href="#" onclick="window.location.href='tutor-onboarding.html'">Стать репетитором</a></li><li><a href="tutor-dashboard.html">Войти в кабинет</a></li></ul></div>
     <div class="footer-col"><h4>Компания</h4><ul><li><a href="#">О нас</a></li><li><a href="#">Контакты</a></li><li><a href="#">Конфиденциальность</a></li></ul></div>
   </div>
   <div class="footer-bottom"><span>© 2026 Bilimly.kg · Бишкек, Кыргызстан</span><span style="color:rgba(255,255,255,0.2)">Образование без границ</span></div>
@@ -770,7 +770,7 @@ async function bookingNext(){
 }
 
 // ── APPLY ──────────────────────────────────────────────────
-function openApply(){document.getElementById('apply-err').textContent='';document.getElementById('applyModal').classList.add('open');}
+function window.location.href='tutor-onboarding.html'{document.getElementById('apply-err').textContent='';document.getElementById('applyModal').classList.add('open');}
 
 async function submitApplication(){
   const full_name=document.getElementById('ap-name').value.trim();
