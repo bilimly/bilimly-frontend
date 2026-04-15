@@ -4,137 +4,167 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bilimly — Кабинет репетитора</title>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--primary:#1a5c3a;--primary-light:#e8f5ee;--primary-dark:#134428;--gold:#d4a017;--coral:#e8533a;--ink:#111827;--muted:#6b7280;--border:#e5e7eb;--bg:#f3f4f6;--white:#fff;--shadow:0 2px 12px rgba(0,0,0,0.06);}
+:root{
+  --tiffany:#0ABAB5;--tiffany-dark:#089490;--tiffany-light:#e0f7f6;--tiffany-pale:#f0fbfb;
+  --gold:#c9a84c;--gold-light:#fdf6e3;
+  --ink:#0a0a0a;--ink-60:rgba(10,10,10,0.6);--ink-30:rgba(10,10,10,0.3);--ink-10:rgba(10,10,10,0.06);
+  --white:#ffffff;--border:rgba(10,10,10,0.08);--bg:#f8fafa;
+  --shadow:0 2px 12px rgba(0,0,0,0.06);--shadow-lg:0 16px 48px rgba(10,186,181,0.12);
+  --radius:14px;--sidebar:240px;
+}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);}
+html,body{overflow-x:hidden;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);}
 
 /* LOGIN */
-.login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--ink);}
-.login-box{background:white;padding:40px;border-radius:16px;width:400px;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
-.login-logo{font-family:'Unbounded',sans-serif;font-size:1.4rem;font-weight:700;color:var(--primary);margin-bottom:4px;}
+.login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#0a1a1a,#0d2d2b);}
+.login-box{background:white;padding:40px;border-radius:20px;width:400px;box-shadow:0 32px 80px rgba(0,0,0,0.3);}
+.login-logo{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:var(--tiffany);margin-bottom:4px;}
 .login-logo span{color:var(--gold);}
-.login-sub{color:var(--muted);font-size:0.85rem;margin-bottom:24px;}
+.login-sub{color:var(--ink-60);font-size:0.85rem;margin-bottom:28px;}
 .fgroup{margin-bottom:14px;}
-.fgroup label{display:block;font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:5px;}
+.fgroup label{display:block;font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:5px;}
 .fcontrol{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 14px;font-family:inherit;font-size:0.9rem;outline:none;transition:border-color 0.2s;}
-.fcontrol:focus{border-color:var(--primary);}
-.btn-login{width:100%;background:var(--primary);color:white;border:none;padding:13px;border-radius:10px;font-size:0.95rem;font-weight:600;cursor:pointer;font-family:inherit;margin-top:4px;}
-.err{color:var(--coral);font-size:0.82rem;margin-top:8px;}
+.fcontrol:focus{border-color:var(--tiffany);}
+.btn-login{width:100%;background:var(--tiffany);color:white;border:none;padding:13px;border-radius:10px;font-size:0.95rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;}
+.btn-login:hover{background:var(--tiffany-dark);}
+.err{color:#e74c3c;font-size:0.82rem;margin-top:8px;}
 
-/* LAYOUT */
-.sidebar{width:240px;background:var(--ink);min-height:100vh;position:fixed;left:0;top:0;display:flex;flex-direction:column;z-index:100;}
-.slogo{padding:20px;border-bottom:1px solid rgba(255,255,255,0.08);}
-.slogo a{font-family:'Unbounded',sans-serif;font-size:1.1rem;font-weight:700;color:white;text-decoration:none;}
+/* SIDEBAR */
+.sidebar{width:var(--sidebar);background:linear-gradient(180deg,#0a1a1a 0%,#0d2d2b 100%);min-height:100vh;position:fixed;left:0;top:0;display:flex;flex-direction:column;z-index:100;}
+.slogo{padding:22px 20px;border-bottom:1px solid rgba(255,255,255,0.06);}
+.slogo a{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--tiffany);text-decoration:none;}
 .slogo a span{color:var(--gold);}
-.slogo small{display:block;color:rgba(255,255,255,0.3);font-size:0.65rem;margin-top:2px;text-transform:uppercase;letter-spacing:0.06em;}
-.snav{flex:1;padding:16px 0;}
-.snav a{display:flex;align-items:center;gap:10px;padding:10px 20px;color:rgba(255,255,255,0.6);text-decoration:none;font-size:0.85rem;font-weight:500;cursor:pointer;transition:all 0.15s;}
-.snav a:hover,.snav a.active{background:rgba(255,255,255,0.08);color:white;}
-.snav a.active{background:var(--primary);color:white;}
-.sfooter{padding:16px;border-top:1px solid rgba(255,255,255,0.08);}
-.tutor-av{width:40px;height:40px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
-.tutor-info .name{font-size:0.85rem;font-weight:600;color:white;}
-.tutor-info .role{font-size:0.72rem;color:rgba(255,255,255,0.4);}
-.main{margin-left:240px;padding:28px;}
+.slogo small{display:block;color:rgba(255,255,255,0.25);font-size:0.65rem;margin-top:2px;text-transform:uppercase;letter-spacing:0.08em;}
+.snav{flex:1;padding:12px 0;}
+.snav a{display:flex;align-items:center;gap:10px;padding:11px 20px;color:rgba(255,255,255,0.5);text-decoration:none;font-size:0.84rem;font-weight:500;cursor:pointer;transition:all 0.15s;border-left:3px solid transparent;}
+.snav a:hover{background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.8);}
+.snav a.active{background:rgba(10,186,181,0.1);color:var(--tiffany);border-left-color:var(--tiffany);}
+.snav-icon{font-size:1rem;width:20px;text-align:center;}
+.sfooter{padding:16px;border-top:1px solid rgba(255,255,255,0.06);}
+.suser{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.suser-av{width:38px;height:38px;border-radius:50%;background:var(--tiffany);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.suser-name{font-size:0.84rem;font-weight:600;color:white;}
+.suser-role{font-size:0.7rem;color:rgba(255,255,255,0.3);}
+.btn-logout{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.4);padding:8px;border-radius:8px;font-size:0.78rem;cursor:pointer;font-family:inherit;transition:all 0.2s;}
+.btn-logout:hover{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);}
+
+/* MAIN */
+.main{margin-left:var(--sidebar);padding:28px 32px;}
 .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;}
-.topbar h1{font-family:'Unbounded',sans-serif;font-size:1rem;font-weight:700;}
+.topbar h1{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;}
 .topbar-right{display:flex;gap:10px;align-items:center;}
-.rbtn{background:none;border:1.5px solid var(--border);color:var(--muted);padding:6px 14px;border-radius:7px;font-size:0.78rem;cursor:pointer;font-family:inherit;}
-.rbtn:hover{border-color:var(--primary);color:var(--primary);}
+.topbar-date{font-size:0.78rem;color:var(--ink-60);}
+.btn-sm{padding:7px 14px;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;border:none;transition:all 0.2s;}
+.btn-tiffany{background:var(--tiffany);color:white;}
+.btn-tiffany:hover{background:var(--tiffany-dark);}
+.btn-outline{background:none;border:1.5px solid var(--border);color:var(--ink-60);}
+.btn-outline:hover{border-color:var(--tiffany);color:var(--tiffany);}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:24px;}
+.stat-card{background:white;border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);border:1px solid var(--border);position:relative;overflow:hidden;}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--tiffany);}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--ink);display:block;line-height:1;}
+.stat-label{font-size:0.73rem;color:var(--ink-60);margin-top:6px;text-transform:uppercase;letter-spacing:0.05em;}
+.stat-sub{font-size:0.72rem;color:var(--tiffany);margin-top:4px;font-weight:500;}
 
 /* CARDS */
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:24px;}
-.stat{background:white;border-radius:12px;padding:20px;box-shadow:var(--shadow);border:1px solid var(--border);}
-.stat-val{font-family:'Unbounded',sans-serif;font-size:1.6rem;font-weight:700;color:var(--primary);}
-.stat-label{font-size:0.75rem;color:var(--muted);margin-top:4px;}
-.stat-sub{font-size:0.72rem;color:var(--primary);margin-top:2px;font-weight:600;}
-.card{background:white;border-radius:12px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:20px;overflow:hidden;}
+.card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:20px;overflow:hidden;}
 .card-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
-.card-head h3{font-family:'Unbounded',sans-serif;font-size:0.88rem;font-weight:700;}
+.card-head h3{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;}
 .card-body{padding:20px;}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
 
 /* TABLE */
 table{width:100%;border-collapse:collapse;}
-th{padding:10px 16px;text-align:left;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);background:#f9fafb;border-bottom:1px solid var(--border);}
+th{padding:10px 16px;text-align:left;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-60);background:#f8fafa;border-bottom:1px solid var(--border);}
 td{padding:12px 16px;font-size:0.82rem;border-bottom:1px solid var(--border);}
 tr:last-child td{border-bottom:none;}
-tr:hover td{background:#f9fafb;}
-.badge{display:inline-block;padding:3px 9px;border-radius:8px;font-size:0.7rem;font-weight:700;}
-.badge.green{background:#dcfce7;color:#166534;}
-.badge.gold{background:#fef9ed;color:#92400e;}
-.badge.blue{background:#eff6ff;color:#1e40af;}
-.badge.red{background:#fee2e2;color:#991b1b;}
-.badge.gray{background:#f3f4f6;color:var(--muted);}
+tr:hover td{background:#f8fafa;}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:0.68rem;font-weight:700;}
+.badge-green{background:#dcfce7;color:#166534;}
+.badge-gold{background:var(--gold-light);color:#7a5a00;}
+.badge-blue{background:#eff6ff;color:#1e40af;}
+.badge-red{background:#fee2e2;color:#991b1b;}
+.badge-gray{background:var(--ink-10);color:var(--ink-60);}
 
-/* PROFILE EDIT */
-.avatar-wrap{display:flex;align-items:center;gap:20px;margin-bottom:24px;}
-.avatar-big{width:80px;height:80px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:2.5rem;flex-shrink:0;position:relative;overflow:hidden;}
-.avatar-big img{width:100%;height:100%;object-fit:cover;}
-.avatar-upload-btn{background:none;border:1.5px solid var(--border);padding:7px 14px;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;}
-.video-preview{width:100%;max-width:400px;height:200px;background:#000;border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-size:0.85rem;margin-bottom:12px;}
-.video-preview iframe{width:100%;height:100%;border:none;border-radius:10px;}
+/* LESSONS */
+.lesson-item{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border);transition:background 0.15s;}
+.lesson-item:last-child{border-bottom:none;}
+.lesson-item:hover{background:#f8fafa;}
+.lesson-av{width:40px;height:40px;border-radius:50%;background:var(--tiffany-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.lesson-info{flex:1;}
+.lesson-name{font-weight:600;font-size:0.88rem;}
+.lesson-meta{font-size:0.75rem;color:var(--ink-60);}
+.lesson-right{text-align:right;}
+
+/* PROFILE */
+.avatar-big{width:80px;height:80px;border-radius:50%;background:var(--tiffany-light);display:flex;align-items:center;justify-content:center;font-size:2.5rem;overflow:hidden;border:3px solid var(--tiffany-light);}
+.avatar-big img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
 
 /* AVAILABILITY */
 .days-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:16px;}
-.day-btn{padding:8px 4px;border:1.5px solid var(--border);border-radius:8px;text-align:center;cursor:pointer;font-size:0.75rem;font-weight:600;transition:all 0.15s;background:white;}
-.day-btn.active{background:var(--primary);border-color:var(--primary);color:white;}
+.day-btn{padding:8px 4px;border:1.5px solid var(--border);border-radius:8px;text-align:center;cursor:pointer;font-size:0.75rem;font-weight:600;transition:all 0.15s;background:white;font-family:inherit;}
+.day-btn.active{background:var(--tiffany);border-color:var(--tiffany);color:white;}
 .time-grid{display:flex;gap:8px;flex-wrap:wrap;}
-.time-chip{padding:6px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:0.78rem;font-weight:500;cursor:pointer;transition:all 0.15s;background:white;}
-.time-chip.active{background:var(--primary);border-color:var(--primary);color:white;}
-
-/* LESSON CARDS */
-.lesson-item{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border);}
-.lesson-item:last-child{border-bottom:none;}
-.lesson-av{width:40px;height:40px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
-.lesson-info{flex:1;}
-.lesson-name{font-weight:600;font-size:0.88rem;}
-.lesson-meta{font-size:0.75rem;color:var(--muted);}
-.lesson-right{text-align:right;}
-.btn-sm{padding:6px 14px;border-radius:7px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;border:none;transition:all 0.2s;}
-.btn-primary{background:var(--primary);color:white;}
-.btn-primary:hover{background:var(--primary-dark);}
-.btn-outline{background:none;border:1.5px solid var(--border);color:var(--ink);}
-.btn-outline:hover{border-color:var(--primary);color:var(--primary);}
+.time-chip{padding:7px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:0.78rem;font-weight:500;cursor:pointer;transition:all 0.15s;background:white;font-family:inherit;}
+.time-chip.active{background:var(--tiffany);border-color:var(--tiffany);color:white;}
 
 /* MESSAGES */
-.conv-list{width:260px;border-right:1px solid var(--border);flex-shrink:0;}
 .chat-layout{display:flex;height:460px;overflow:hidden;}
+.conv-list{width:260px;border-right:1px solid var(--border);flex-shrink:0;overflow-y:auto;}
 .conv-item{padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s;}
-.conv-item:hover,.conv-item.active{background:var(--primary-light);}
+.conv-item:hover,.conv-item.active{background:var(--tiffany-pale);}
 .conv-row{display:flex;align-items:center;gap:10px;}
-.conv-av{width:36px;height:36px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.conv-av{width:36px;height:36px;border-radius:50%;background:var(--tiffany);color:white;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
 .conv-name{font-size:0.85rem;font-weight:600;}
-.conv-preview{font-size:0.75rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.chat-main{flex:1;display:flex;flex-direction:column;background:#f9fafb;}
+.conv-preview{font-size:0.75rem;color:var(--ink-60);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px;}
+.chat-main{flex:1;display:flex;flex-direction:column;background:#f8fafa;}
 .chat-hdr{padding:12px 16px;background:white;border-bottom:1px solid var(--border);font-weight:600;font-size:0.88rem;}
 .chat-msgs{flex:1;padding:14px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;}
-.cmsg{max-width:75%;padding:8px 12px;border-radius:10px;font-size:0.82rem;line-height:1.5;}
-.cmsg.mine{background:var(--primary);color:white;align-self:flex-end;border-radius:10px 10px 3px 10px;}
+.cmsg{max-width:75%;padding:9px 13px;border-radius:10px;font-size:0.82rem;line-height:1.5;}
+.cmsg.mine{background:var(--tiffany);color:white;align-self:flex-end;border-radius:10px 10px 3px 10px;}
 .cmsg.theirs{background:white;border:1px solid var(--border);align-self:flex-start;border-radius:10px 10px 10px 3px;}
 .chat-inp{padding:10px 14px;background:white;border-top:1px solid var(--border);display:flex;gap:8px;}
 .chat-text{flex:1;border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;font-family:inherit;font-size:0.82rem;outline:none;}
-.chat-text:focus{border-color:var(--primary);}
-.chat-send{background:var(--primary);color:white;border:none;width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:1rem;}
+.chat-text:focus{border-color:var(--tiffany);}
+.chat-send{background:var(--tiffany);color:white;border:none;width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:1rem;}
 
 /* EARNINGS CHART */
-.chart-bars{display:flex;align-items:flex-end;gap:8px;height:140px;padding:0 4px;}
-.bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
-.bar{width:100%;background:var(--primary);border-radius:4px 4px 0 0;min-height:4px;transition:height 0.5s;}
-.bar-label{font-size:0.68rem;color:var(--muted);}
-.bar-val{font-size:0.7rem;color:var(--primary);font-weight:600;}
+.chart-wrap{display:flex;align-items:flex-end;gap:8px;height:140px;}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.bar{width:100%;background:var(--tiffany);border-radius:4px 4px 0 0;min-height:4px;transition:height 0.5s;opacity:0.85;}
+.bar-val{font-size:0.68rem;color:var(--tiffany);font-weight:600;}
+.bar-lbl{font-size:0.68rem;color:var(--ink-60);}
+
+/* REVIEWS */
+.rev-item{padding:16px 20px;border-bottom:1px solid var(--border);}
+.rev-item:last-child{border-bottom:none;}
 
 /* PAGES */
 .page{display:none;}
 .page.active{display:block;}
 #app{display:none;}
 
-/* TOAST */
-#toast{display:none;position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--primary);color:white;padding:12px 24px;border-radius:10px;font-weight:600;z-index:9999;font-size:0.875rem;box-shadow:0 8px 24px rgba(0,0,0,0.15);}
+/* SUMMARY MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);z-index:500;align-items:center;justify-content:center;padding:16px;}
+.overlay.open{display:flex;}
+.modal{background:white;border-radius:20px;max-width:500px;width:100%;box-shadow:0 32px 80px rgba(0,0,0,0.25);overflow:hidden;}
+.modal-head{background:var(--tiffany);padding:20px 24px;color:white;position:relative;}
+.modal-close{position:absolute;top:12px;right:14px;background:rgba(255,255,255,0.15);border:none;color:white;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;}
+.modal-head h2{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;margin-bottom:2px;}
+.modal-head p{opacity:0.7;font-size:0.8rem;}
+.modal-body{padding:20px 24px;}
+.modal-foot{padding:0 24px 20px;display:flex;gap:10px;}
+.btn-confirm{flex:1;background:var(--tiffany);color:white;border:none;padding:12px;border-radius:10px;font-size:0.9rem;font-weight:600;cursor:pointer;font-family:inherit;}
+.btn-ghost{background:none;border:1.5px solid var(--border);color:var(--ink);padding:12px 18px;border-radius:10px;font-size:0.85rem;cursor:pointer;font-family:inherit;}
 
-@media(max-width:768px){.sidebar{transform:translateX(-100%);}.main{margin-left:0;}.grid2{grid-template-columns:1fr;}.days-grid{grid-template-columns:repeat(4,1fr);}}
+#toast{display:none;position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--tiffany);color:white;padding:12px 24px;border-radius:12px;font-weight:600;z-index:9999;font-size:0.875rem;box-shadow:var(--shadow-lg);}
+
+@media(max-width:768px){.sidebar{display:none;}.main{margin-left:0;padding:16px;}.grid2{grid-template-columns:1fr;}.days-grid{grid-template-columns:repeat(4,1fr);}}
 </style>
 </head>
 <body>
@@ -148,9 +178,7 @@ tr:hover td{background:#f9fafb;}
     <div class="fgroup"><label>Пароль</label><input class="fcontrol" type="password" id="l-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')login()"></div>
     <button class="btn-login" onclick="login()">Войти в кабинет</button>
     <div class="err" id="l-err"></div>
-    <div style="margin-top:16px;text-align:center;font-size:0.82rem;color:var(--muted)">
-      <a href="index.html" style="color:var(--primary)">← Вернуться на сайт</a>
-    </div>
+    <div style="margin-top:16px;text-align:center;font-size:0.82rem;color:var(--ink-60)"><a href="index.html" style="color:var(--tiffany)">← Вернуться на сайт</a></div>
   </div>
 </div>
 
@@ -162,23 +190,20 @@ tr:hover td{background:#f9fafb;}
       <small>Кабинет репетитора</small>
     </div>
     <nav class="snav">
-      <a class="active" onclick="showPage('dashboard',this)">📊 Главная</a>
-      <a onclick="showPage('schedule',this)">📅 Расписание</a>
-      <a onclick="showPage('earnings',this)">💰 Заработок</a>
-      <a onclick="showPage('messages',this)">💬 Сообщения</a>
-      <a onclick="showPage('availability',this)">🕐 Доступность</a>
-      <a onclick="showPage('profile',this)">👤 Профиль</a>
-      <a onclick="showPage('reviews',this)">⭐ Отзывы</a>
+      <a class="active" onclick="showPage('dashboard',this)"><span class="snav-icon">📊</span> Главная</a>
+      <a onclick="showPage('schedule',this)"><span class="snav-icon">📅</span> Расписание</a>
+      <a onclick="showPage('earnings',this)"><span class="snav-icon">💰</span> Заработок</a>
+      <a onclick="showPage('messages',this)"><span class="snav-icon">💬</span> Сообщения</a>
+      <a onclick="showPage('availability',this)"><span class="snav-icon">🕐</span> Доступность</a>
+      <a onclick="showPage('profile',this)"><span class="snav-icon">👤</span> Профиль</a>
+      <a onclick="showPage('reviews',this)"><span class="snav-icon">⭐</span> Отзывы</a>
     </nav>
     <div class="sfooter">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-        <div class="tutor-av" id="sidebar-av">👨‍🏫</div>
-        <div class="tutor-info">
-          <div class="name" id="sidebar-name">Загрузка...</div>
-          <div class="role">Репетитор</div>
-        </div>
+      <div class="suser">
+        <div class="suser-av">👨‍🏫</div>
+        <div><div class="suser-name" id="sidebar-name">Загрузка...</div><div class="suser-role">Репетитор</div></div>
       </div>
-      <a onclick="logout()" style="color:rgba(255,255,255,0.4);font-size:0.75rem;cursor:pointer;">🚪 Выйти</a>
+      <button class="btn-logout" onclick="logout()">🚪 Выйти</button>
     </div>
   </div>
 
@@ -186,127 +211,75 @@ tr:hover td{background:#f9fafb;}
     <div class="topbar">
       <h1 id="page-title">Главная</h1>
       <div class="topbar-right">
-        <span id="topbar-date" style="font-size:0.78rem;color:var(--muted)"></span>
-        <button class="rbtn" onclick="refreshPage()">↻ Обновить</button>
-        <a href="index.html" class="rbtn" style="text-decoration:none">← Сайт</a>
+        <span class="topbar-date" id="topbar-date"></span>
+        <button class="btn-sm btn-outline" onclick="refreshPage()">↻</button>
+        <a href="index.html" class="btn-sm btn-outline" style="text-decoration:none">← Сайт</a>
       </div>
     </div>
 
-    <!-- DASHBOARD PAGE -->
+    <!-- DASHBOARD -->
     <div id="page-dashboard" class="page active">
-      <div class="stats">
-        <div class="stat">
-          <div class="stat-val" id="s-lessons-month">—</div>
-          <div class="stat-label">Уроков в этом месяце</div>
-        </div>
-        <div class="stat">
-          <div class="stat-val" id="s-earnings-month">—</div>
-          <div class="stat-label">Заработок (сом)</div>
-          <div class="stat-sub" id="s-earnings-net"></div>
-        </div>
-        <div class="stat">
-          <div class="stat-val" id="s-total-lessons">—</div>
-          <div class="stat-label">Всего уроков</div>
-        </div>
-        <div class="stat">
-          <div class="stat-val" id="s-rating">—</div>
-          <div class="stat-label">Рейтинг</div>
-        </div>
-        <div class="stat">
-          <div class="stat-val" id="s-upcoming">—</div>
-          <div class="stat-label">Предстоящих уроков</div>
-        </div>
+      <div class="stats-grid">
+        <div class="stat-card"><span class="stat-val" id="s-lessons-month">—</span><div class="stat-label">Уроков в месяце</div></div>
+        <div class="stat-card"><span class="stat-val" id="s-earnings-month">—</span><div class="stat-label">Заработок (сом)</div><div class="stat-sub" id="s-earnings-net"></div></div>
+        <div class="stat-card"><span class="stat-val" id="s-total-lessons">—</span><div class="stat-label">Всего уроков</div></div>
+        <div class="stat-card"><span class="stat-val" id="s-rating">—</span><div class="stat-label">Рейтинг</div></div>
+        <div class="stat-card"><span class="stat-val" id="s-upcoming">—</span><div class="stat-label">Предстоящих</div></div>
       </div>
-
       <div class="grid2">
-        <div class="card">
-          <div class="card-head"><h3>Ближайшие уроки</h3></div>
-          <div id="upcoming-lessons-list">
-            <div style="text-align:center;color:var(--muted);padding:30px;font-size:0.85rem">Загрузка...</div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head"><h3>Последние отзывы</h3></div>
-          <div id="recent-reviews-list">
-            <div style="text-align:center;color:var(--muted);padding:30px;font-size:0.85rem">Загрузка...</div>
-          </div>
-        </div>
+        <div class="card"><div class="card-head"><h3>Ближайшие уроки</h3></div><div id="upcoming-list"><div style="text-align:center;color:var(--ink-60);padding:30px;font-size:0.85rem">Загрузка...</div></div></div>
+        <div class="card"><div class="card-head"><h3>Последние отзывы</h3></div><div id="reviews-preview"><div style="text-align:center;color:var(--ink-60);padding:30px;font-size:0.85rem">Загрузка...</div></div></div>
       </div>
     </div>
 
-    <!-- SCHEDULE PAGE -->
+    <!-- SCHEDULE -->
     <div id="page-schedule" class="page">
       <div class="card">
         <div class="card-head"><h3>Все уроки</h3>
           <select class="fcontrol" style="width:auto;padding:6px 12px;font-size:0.82rem" id="schedule-filter" onchange="loadSchedule()">
-            <option value="">Все</option>
-            <option value="confirmed">Подтверждённые</option>
-            <option value="pending">Ожидают</option>
-            <option value="completed">Завершённые</option>
-            <option value="cancelled">Отменённые</option>
+            <option value="">Все</option><option value="confirmed">Подтверждённые</option>
+            <option value="pending">Ожидают</option><option value="completed">Завершённые</option>
           </select>
         </div>
-        <table>
-          <thead><tr><th>Студент</th><th>Предмет</th><th>Дата</th><th>Время</th><th>Тип</th><th>Сумма</th><th>Статус</th><th>Действие</th></tr></thead>
-          <tbody id="schedule-tbody"></tbody>
-        </table>
+        <table><thead><tr><th>Студент</th><th>Предмет</th><th>Дата</th><th>Время</th><th>Тип</th><th>Сумма</th><th>Статус</th><th>Действие</th></tr></thead>
+        <tbody id="schedule-tbody"></tbody></table>
       </div>
     </div>
 
-    <!-- EARNINGS PAGE -->
+    <!-- EARNINGS -->
     <div id="page-earnings" class="page">
-      <div class="stats">
-        <div class="stat"><div class="stat-val" id="e-total">—</div><div class="stat-label">Всего заработано (брутто)</div></div>
-        <div class="stat"><div class="stat-val" id="e-net">—</div><div class="stat-label">Чистый заработок (−15%)</div></div>
-        <div class="stat"><div class="stat-val" id="e-month">—</div><div class="stat-label">В этом месяце</div></div>
-        <div class="stat"><div class="stat-val" id="e-pending" style="color:var(--gold)">—</div><div class="stat-label">Ожидает выплаты</div></div>
+      <div class="stats-grid">
+        <div class="stat-card"><span class="stat-val" id="e-total">—</span><div class="stat-label">Всего заработано</div></div>
+        <div class="stat-card"><span class="stat-val" id="e-net">—</span><div class="stat-label">Чистый (−15%)</div></div>
+        <div class="stat-card"><span class="stat-val" id="e-month">—</span><div class="stat-label">В этом месяце</div></div>
+        <div class="stat-card"><span class="stat-val" id="e-pending" style="color:var(--gold)">—</span><div class="stat-label">К выплате</div></div>
       </div>
-
+      <div class="card"><div class="card-head"><h3>График заработка</h3></div>
+        <div class="card-body"><div class="chart-wrap" id="earnings-chart"></div></div></div>
       <div class="card">
-        <div class="card-head"><h3>График заработка</h3></div>
-        <div class="card-body">
-          <div class="chart-bars" id="earnings-chart"></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-head">
-          <h3>История транзакций</h3>
-          <button class="btn-sm btn-outline" onclick="requestPayout()">💸 Запросить выплату</button>
-        </div>
-        <table>
-          <thead><tr><th>Студент</th><th>Предмет</th><th>Дата урока</th><th>Брутто</th><th>Комиссия</th><th>Чистый</th><th>Статус</th></tr></thead>
-          <tbody id="transactions-tbody"></tbody>
-        </table>
+        <div class="card-head"><h3>Транзакции</h3><button class="btn-sm btn-tiffany" onclick="requestPayout()">💸 Запросить выплату</button></div>
+        <table><thead><tr><th>Студент</th><th>Предмет</th><th>Дата</th><th>Брутто</th><th>Комиссия</th><th>Чистый</th><th>Статус</th></tr></thead>
+        <tbody id="transactions-tbody"></tbody></table>
       </div>
     </div>
 
-    <!-- MESSAGES PAGE -->
+    <!-- MESSAGES -->
     <div id="page-messages" class="page">
       <div class="card" style="padding:0">
         <div class="chat-layout">
-          <div class="conv-list" id="conv-list">
-            <div style="padding:12px 16px;border-bottom:1px solid var(--border);font-weight:700;font-size:0.85rem">Сообщения</div>
-            <div id="conversations-list"></div>
-          </div>
+          <div class="conv-list"><div style="padding:12px 16px;border-bottom:1px solid var(--border);font-weight:700;font-size:0.85rem">Сообщения</div><div id="conversations-list"></div></div>
           <div class="chat-main">
             <div class="chat-hdr" id="chat-header">Выберите диалог</div>
-            <div class="chat-msgs" id="chat-msgs">
-              <div style="text-align:center;color:var(--muted);margin:auto;font-size:0.85rem">Выберите диалог слева</div>
-            </div>
-            <div class="chat-inp">
-              <input class="chat-text" id="chat-input" placeholder="Написать сообщение..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}">
-              <button class="chat-send" onclick="sendMessage()">➤</button>
-            </div>
+            <div class="chat-msgs" id="chat-msgs"><div style="text-align:center;color:var(--ink-60);margin:auto;font-size:0.85rem">Выберите диалог</div></div>
+            <div class="chat-inp"><input class="chat-text" id="chat-input" placeholder="Написать..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"><button class="chat-send" onclick="sendMessage()">➤</button></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- AVAILABILITY PAGE -->
+    <!-- AVAILABILITY -->
     <div id="page-availability" class="page">
-      <div class="card">
-        <div class="card-head"><h3>Дни недели</h3></div>
+      <div class="card"><div class="card-head"><h3>Рабочие дни</h3></div>
         <div class="card-body">
           <div class="days-grid">
             <div class="day-btn" onclick="toggleDay(this,1)" data-day="1">Пн</div>
@@ -317,647 +290,450 @@ tr:hover td{background:#f9fafb;}
             <div class="day-btn" onclick="toggleDay(this,6)" data-day="6">Сб</div>
             <div class="day-btn" onclick="toggleDay(this,0)" data-day="0">Вс</div>
           </div>
-          <div style="margin-bottom:16px">
-            <label style="font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:10px">Рабочие часы</label>
-            <div class="time-grid" id="time-grid"></div>
-          </div>
-          <button class="btn-sm btn-primary" onclick="saveAvailability()">Сохранить расписание</button>
+          <label style="font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:10px">Рабочие часы</label>
+          <div class="time-grid" id="time-grid"></div>
+          <button class="btn-sm btn-tiffany" style="margin-top:16px" onclick="saveAvailability()">Сохранить расписание</button>
         </div>
       </div>
     </div>
 
-    <!-- PROFILE PAGE -->
+    <!-- PROFILE -->
     <div id="page-profile" class="page">
       <div class="grid2">
-        <div class="card">
-          <div class="card-head"><h3>Основная информация</h3></div>
+        <div class="card"><div class="card-head"><h3>Основная информация</h3></div>
           <div class="card-body">
-            <div class="avatar-wrap">
+            <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
               <div class="avatar-big" id="profile-avatar">👨‍🏫</div>
-              <div>
-                <div style="font-weight:600;margin-bottom:6px" id="profile-name-display">Загрузка...</div>
-                <button class="avatar-upload-btn" onclick="document.getElementById('avatar-file').click()">📷 Загрузить фото</button>
+              <div><div style="font-weight:600;margin-bottom:6px" id="profile-name-display">—</div>
+                <button class="btn-sm btn-outline" onclick="document.getElementById('avatar-file').click()">📷 Загрузить фото</button>
                 <input type="file" id="avatar-file" accept="image/*" style="display:none" onchange="uploadAvatar(this)">
               </div>
             </div>
             <div class="fgroup"><label>Имя</label><input class="fcontrol" id="p-fname" type="text"></div>
             <div class="fgroup"><label>Фамилия</label><input class="fcontrol" id="p-lname" type="text"></div>
             <div class="fgroup"><label>Телефон</label><input class="fcontrol" id="p-phone" type="tel" placeholder="+996 XXX XXX XXX"></div>
-            <button class="btn-sm btn-primary" onclick="saveProfile()">Сохранить</button>
+            <button class="btn-sm btn-tiffany" onclick="saveProfile()">Сохранить</button>
           </div>
         </div>
-
-        <div class="card">
-          <div class="card-head"><h3>Профиль репетитора</h3></div>
+        <div class="card"><div class="card-head"><h3>Профиль репетитора</h3></div>
           <div class="card-body">
             <div class="fgroup"><label>Предметы (через запятую)</label><input class="fcontrol" id="p-subjects" placeholder="Математика, Физика"></div>
-            <div class="fgroup">
-              <label>Ставка (сом/час)</label>
-              <input class="fcontrol" id="p-rate" type="number" min="200">
-            </div>
-            <div class="fgroup">
-              <label>Пробный урок (сом)</label>
-              <input class="fcontrol" id="p-trial" type="number" min="100">
-            </div>
-            <div class="fgroup"><label>О себе (на русском)</label><textarea class="fcontrol" id="p-bio-ru" rows="4" placeholder="Расскажите о своём опыте и подходе..."></textarea></div>
+            <div class="fgroup"><label>Ставка (сом/час)</label><input class="fcontrol" id="p-rate" type="number" min="200"></div>
+            <div class="fgroup"><label>Пробный урок (сом)</label><input class="fcontrol" id="p-trial" type="number" min="100"></div>
+            <div class="fgroup"><label>О себе (по-русски)</label><textarea class="fcontrol" id="p-bio-ru" rows="4" placeholder="Расскажите о своём опыте..."></textarea></div>
             <div class="fgroup"><label>About (English)</label><textarea class="fcontrol" id="p-bio-en" rows="3" placeholder="Tell about your experience..."></textarea></div>
-            <div class="fgroup"><label>Өзүңүз жөнүндө (Кыргызча)</label><textarea class="fcontrol" id="p-bio-ky" rows="3" placeholder="Тажрыйбаңыз жөнүндө..."></textarea></div>
-            <button class="btn-sm btn-primary" onclick="saveTutorProfile()">Сохранить профиль</button>
+            <button class="btn-sm btn-tiffany" onclick="saveTutorProfile()">Сохранить профиль</button>
           </div>
         </div>
       </div>
-
-      <div class="card">
-        <div class="card-head"><h3>Видео-презентация</h3></div>
+      <div class="card"><div class="card-head"><h3>Видео-презентация</h3></div>
         <div class="card-body">
-          <p style="font-size:0.85rem;color:var(--muted);margin-bottom:16px">Добавьте короткое видео (1-2 минуты) чтобы студенты могли познакомиться с вами перед уроком</p>
-          <div class="video-preview" id="video-preview">
-            <div style="text-align:center">
-              <div style="font-size:2rem;margin-bottom:8px">🎥</div>
-              <div>Видео не добавлено</div>
-            </div>
-          </div>
-          <div class="fgroup">
-            <label>Ссылка на YouTube или Vimeo</label>
-            <input class="fcontrol" id="p-video" placeholder="https://youtube.com/watch?v=..." type="url">
-          </div>
-          <button class="btn-sm btn-primary" onclick="saveVideo()">Сохранить видео</button>
+          <p style="font-size:0.85rem;color:var(--ink-60);margin-bottom:16px">Добавьте короткое видео (1-2 минуты) — студенты увидят его на вашей странице</p>
+          <div id="video-preview" style="width:100%;max-width:400px;height:200px;background:var(--ink-10);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--ink-60);font-size:0.85rem;margin-bottom:14px;overflow:hidden;">🎥 Видео не добавлено</div>
+          <div class="fgroup"><label>Ссылка на YouTube или Vimeo</label><input class="fcontrol" id="p-video" placeholder="https://youtube.com/watch?v=..." type="url"></div>
+          <button class="btn-sm btn-tiffany" onclick="saveVideo()">Сохранить видео</button>
         </div>
       </div>
     </div>
 
-    <!-- REVIEWS PAGE -->
+    <!-- REVIEWS -->
     <div id="page-reviews" class="page">
-      <div class="stats" style="margin-bottom:20px">
-        <div class="stat"><div class="stat-val" id="r-avg">—</div><div class="stat-label">Средний рейтинг</div></div>
-        <div class="stat"><div class="stat-val" id="r-count">—</div><div class="stat-label">Всего отзывов</div></div>
+      <div class="stats-grid" style="grid-template-columns:1fr 1fr;max-width:400px;margin-bottom:20px">
+        <div class="stat-card"><span class="stat-val" id="r-avg">—</span><div class="stat-label">Средний рейтинг</div></div>
+        <div class="stat-card"><span class="stat-val" id="r-count">—</span><div class="stat-label">Всего отзывов</div></div>
       </div>
-      <div class="card">
-        <div class="card-head"><h3>Отзывы студентов</h3></div>
-        <div id="reviews-list">
-          <div style="text-align:center;color:var(--muted);padding:40px;font-size:0.85rem">Загрузка отзывов...</div>
+      <div class="card"><div class="card-head"><h3>Отзывы студентов</h3></div><div id="reviews-list"><div style="text-align:center;color:var(--ink-60);padding:40px;font-size:0.85rem">Загрузка...</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SUMMARY MODAL -->
+<div class="overlay" id="summaryModal">
+  <div class="modal">
+    <div class="modal-head">
+      <button class="modal-close" onclick="document.getElementById('summaryModal').classList.remove('open')">✕</button>
+      <h2>Итоги урока</h2>
+      <p id="summary-student-name">Студент</p>
+    </div>
+    <div class="modal-body">
+      <div class="fgroup">
+        <label>Прогресс студента</label>
+        <div style="display:flex;gap:8px" id="progress-stars">
+          ${[1,2,3,4,5].map(n=>`<button onclick="setStar(${n})" data-star="${n}" style="width:36px;height:36px;border:1.5px solid var(--border);border-radius:8px;background:white;font-size:1.2rem;cursor:pointer;font-family:inherit;">⭐</button>`).join('')}
         </div>
       </div>
+      <div class="fgroup"><label>Что изучали сегодня</label><textarea class="fcontrol" id="summary-text" rows="3" placeholder="Тема урока..."></textarea></div>
+      <div class="fgroup"><label>Домашнее задание</label><textarea class="fcontrol" id="homework-text" rows="2" placeholder="Что задали на дом..."></textarea></div>
+      <div class="fgroup">
+        <label>Прикрепить файл (PDF)</label>
+        <input type="file" id="homework-file" accept=".pdf,.doc,.docx,.jpg,.png" class="fcontrol">
+      </div>
+      <div style="color:#e74c3c;font-size:0.78rem" id="summary-err"></div>
     </div>
-
+    <div class="modal-foot">
+      <button class="btn-ghost" onclick="document.getElementById('summaryModal').classList.remove('open')">Отмена</button>
+      <button class="btn-confirm" onclick="submitSummary()">Отправить студенту ✓</button>
+    </div>
   </div>
 </div>
 
 <div id="toast"></div>
 
 <script>
-const API = 'https://bilimly-backend-0zbt.onrender.com';
-let token = localStorage.getItem('bilimly_token');
-let currentUser = JSON.parse(localStorage.getItem('bilimly_user') || 'null');
-let currentPage = 'dashboard';
-let selectedConvId = null;
-let activeDays = new Set();
-let activeTimes = new Set();
+const API='https://bilimly-backend-0zbt.onrender.com';
+let token=localStorage.getItem('bilimly_token');
+let currentUser=JSON.parse(localStorage.getItem('bilimly_user')||'null');
+let currentPage='dashboard';
+let selectedConvId=null;
+let activeDays=new Set();
+let activeTimes=new Set();
+let currentBookingId=null;
+let selectedStar=0;
 
-// Check if logged in as tutor
-if (token && currentUser) {
-  if (currentUser.role !== 'tutor') {
-    // Not a tutor — redirect
-    window.location.href = 'index.html';
-  } else {
-    initApp();
-  }
+if(token&&currentUser){
+  if(currentUser.role!=='tutor'){window.location.href='index.html';}
+  else{initApp();}
 }
 
-async function login() {
-  const email = document.getElementById('l-email').value.trim();
-  const password = document.getElementById('l-pass').value;
-  document.getElementById('l-err').textContent = '';
-  try {
-    const res = await fetch(API + '/api/auth/login', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({email, password})
-    });
-    const data = await res.json();
-    if (data.token) {
-      if (data.user.role !== 'tutor') {
-        document.getElementById('l-err').textContent = 'Этот аккаунт не является репетитором';
-        return;
-      }
-      token = data.token;
-      currentUser = data.user;
-      localStorage.setItem('bilimly_token', token);
-      localStorage.setItem('bilimly_user', JSON.stringify(data.user));
+async function login(){
+  const email=document.getElementById('l-email').value.trim();
+  const password=document.getElementById('l-pass').value;
+  document.getElementById('l-err').textContent='';
+  try{
+    const res=await fetch(API+'/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+    const data=await res.json();
+    if(data.token){
+      if(data.user.role!=='tutor'){document.getElementById('l-err').textContent='Этот аккаунт не является репетитором';return;}
+      token=data.token;currentUser=data.user;
+      localStorage.setItem('bilimly_token',token);localStorage.setItem('bilimly_user',JSON.stringify(data.user));
       initApp();
-    } else {
-      document.getElementById('l-err').textContent = data.error || 'Неверный email или пароль';
-    }
-  } catch(e) {
-    document.getElementById('l-err').textContent = 'Ошибка соединения';
-  }
+    } else {document.getElementById('l-err').textContent=data.error||'Неверный email или пароль';}
+  }catch(e){document.getElementById('l-err').textContent='Ошибка соединения';}
 }
 
-function initApp() {
-  document.getElementById('loginWrap').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  document.getElementById('sidebar-name').textContent = currentUser.first_name + ' ' + currentUser.last_name;
-  document.getElementById('topbar-date').textContent = new Date().toLocaleDateString('ru-RU', {weekday:'long', day:'numeric', month:'long'});
-  initTimeGrid();
-  loadDashboard();
+function initApp(){
+  document.getElementById('loginWrap').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('sidebar-name').textContent=currentUser.first_name+' '+currentUser.last_name;
+  document.getElementById('topbar-date').textContent=new Date().toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long'});
+  initTimeGrid();loadDashboard();
 }
 
-function logout() {
-  localStorage.removeItem('bilimly_token');
-  localStorage.removeItem('bilimly_user');
-  window.location.reload();
-}
+function logout(){localStorage.removeItem('bilimly_token');localStorage.removeItem('bilimly_user');window.location.reload();}
 
-async function apiFetch(path, options = {}) {
-  const res = await fetch(API + path, {
-    ...options,
-    headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json', ...(options.headers || {}) }
-  });
-  if (res.status === 401) { logout(); return null; }
+async function apiFetch(path,options={}){
+  const res=await fetch(API+path,{...options,headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json',...(options.headers||{})}});
+  if(res.status===401){logout();return null;}
   return res.json();
 }
 
-function showPage(name, el) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.snav a').forEach(a => a.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
-  if (el) el.classList.add('active');
-  currentPage = name;
-  const titles = {dashboard:'Главная',schedule:'Расписание',earnings:'Заработок',messages:'Сообщения',availability:'Доступность',profile:'Профиль',reviews:'Отзывы'};
-  document.getElementById('page-title').textContent = titles[name] || name;
+function showPage(name,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.snav a').forEach(a=>a.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  if(el)el.classList.add('active');
+  currentPage=name;
+  const titles={dashboard:'Главная',schedule:'Расписание',earnings:'Заработок',messages:'Сообщения',availability:'Доступность',profile:'Профиль',reviews:'Отзывы'};
+  document.getElementById('page-title').textContent=titles[name]||name;
   loadPage(name);
 }
 
-function refreshPage() { loadPage(currentPage); }
-
-function loadPage(name) {
-  if (name === 'dashboard') loadDashboard();
-  else if (name === 'schedule') loadSchedule();
-  else if (name === 'earnings') loadEarnings();
-  else if (name === 'messages') loadMessages();
-  else if (name === 'profile') loadProfile();
-  else if (name === 'reviews') loadReviews();
-  else if (name === 'availability') loadAvailability();
+function refreshPage(){loadPage(currentPage);}
+function loadPage(name){
+  if(name==='dashboard')loadDashboard();
+  else if(name==='schedule')loadSchedule();
+  else if(name==='earnings')loadEarnings();
+  else if(name==='messages')loadMessages();
+  else if(name==='profile')loadProfile();
+  else if(name==='reviews')loadReviews();
+  else if(name==='availability')loadAvailability();
 }
 
 // ── DASHBOARD ──────────────────────────────────────────────
-async function loadDashboard() {
-  const [earnings, schedule] = await Promise.all([
-    apiFetch('/api/earnings/overview'),
-    apiFetch('/api/earnings/schedule')
-  ]);
-
-  if (earnings) {
-    document.getElementById('s-lessons-month').textContent = earnings.monthly_breakdown?.slice(-1)[0]?.lessons || 0;
-    document.getElementById('s-earnings-month').textContent = Math.round(earnings.earnings?.this_month_gross || 0).toLocaleString('ru');
-    document.getElementById('s-earnings-net').textContent = 'Чистый: ' + Math.round(earnings.earnings?.this_month_net || 0).toLocaleString('ru') + ' сом';
-    document.getElementById('s-total-lessons').textContent = earnings.upcoming_lessons || 0;
-    document.getElementById('s-upcoming').textContent = earnings.upcoming_lessons || 0;
-    document.getElementById('s-rating').textContent = currentUser.rating || '—';
+async function loadDashboard(){
+  const[earnings,schedule]=await Promise.all([apiFetch('/api/earnings/overview'),apiFetch('/api/earnings/schedule')]);
+  if(earnings){
+    document.getElementById('s-lessons-month').textContent=earnings.monthly_breakdown?.slice(-1)[0]?.lessons||0;
+    document.getElementById('s-earnings-month').textContent=Math.round(earnings.earnings?.this_month_gross||0).toLocaleString('ru');
+    document.getElementById('s-earnings-net').textContent='Чистый: '+Math.round(earnings.earnings?.this_month_net||0).toLocaleString('ru')+' сом';
+    document.getElementById('s-total-lessons').textContent=earnings.total_lessons||0;
+    document.getElementById('s-upcoming').textContent=earnings.upcoming_lessons||0;
+    document.getElementById('s-rating').textContent=currentUser.rating||'—';
   }
-
-  if (schedule) {
-    const list = document.getElementById('upcoming-lessons-list');
-    if (!schedule.length) {
-      list.innerHTML = '<div style="text-align:center;color:var(--muted);padding:30px;font-size:0.85rem">Нет предстоящих уроков</div>';
-    } else {
-      list.innerHTML = schedule.slice(0,5).map(b => `
-        <div class="lesson-item">
-          <div class="lesson-av">👩‍🎓</div>
-          <div class="lesson-info">
-            <div class="lesson-name">${b.student_first_name} ${b.student_last_name}</div>
-            <div class="lesson-meta">${b.subject || '—'} · ${new Date(b.lesson_date).toLocaleDateString('ru-RU')} ${b.start_time}</div>
-          </div>
-          <div class="lesson-right">
-            <span class="badge ${b.status==='confirmed'?'green':'gold'}">${b.status==='confirmed'?'Подтверждён':'Ожидает'}</span>
-            ${b.meeting_url ? `<br><a href="${b.meeting_url}" target="_blank" style="font-size:0.72rem;color:var(--primary)">🎥 Войти</a>` : ''}
-          </div>
+  if(schedule){
+    const list=document.getElementById('upcoming-list');
+    if(!schedule.length){list.innerHTML='<div style="text-align:center;color:var(--ink-60);padding:30px;font-size:0.85rem">Нет предстоящих уроков</div>';return;}
+    list.innerHTML=schedule.slice(0,5).map(b=>`
+      <div class="lesson-item">
+        <div class="lesson-av">👩‍🎓</div>
+        <div class="lesson-info">
+          <div class="lesson-name">${b.student_first_name} ${b.student_last_name}</div>
+          <div class="lesson-meta">${b.subject||'—'} · ${new Date(b.lesson_date).toLocaleDateString('ru-RU')} ${b.start_time}</div>
         </div>
-      `).join('');
-    }
+        <div class="lesson-right">
+          <span class="badge ${b.status==='confirmed'?'badge-green':'badge-gold'}">${b.status==='confirmed'?'Подтверждён':'Ожидает'}</span>
+          ${b.meeting_url?`<br><a href="${b.meeting_url}" target="_blank" style="font-size:0.72rem;color:var(--tiffany)">🎥 Войти</a>`:''}
+        </div>
+      </div>`).join('');
   }
-
-  // Reviews
-  const reviews = await apiFetch('/api/tutors/' + currentUser.id + '/reviews').catch(() => null);
-  const rList = document.getElementById('recent-reviews-list');
-  if (!reviews?.length) {
-    rList.innerHTML = '<div style="text-align:center;color:var(--muted);padding:30px;font-size:0.85rem">Пока нет отзывов</div>';
-  } else {
-    rList.innerHTML = reviews.slice(0,3).map(r => `
-      <div style="padding:14px 20px;border-bottom:1px solid var(--border)">
-        <div style="display:flex;justify-content:space-between;margin-bottom:4px">
-          <div style="font-weight:600;font-size:0.85rem">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
-          <div style="font-size:0.72rem;color:var(--muted)">${new Date(r.created_at).toLocaleDateString('ru-RU')}</div>
-        </div>
-        <div style="font-size:0.82rem;color:var(--muted)">${r.comment || 'Без комментария'}</div>
+  const reviews=await apiFetch('/api/tutors/'+currentUser.id+'/reviews').catch(()=>null);
+  const rList=document.getElementById('reviews-preview');
+  if(!reviews?.length){rList.innerHTML='<div style="text-align:center;color:var(--ink-60);padding:30px;font-size:0.85rem">Пока нет отзывов</div>';return;}
+  rList.innerHTML=reviews.slice(0,3).map(r=>`
+    <div style="padding:12px 20px;border-bottom:1px solid var(--border)">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <div style="color:var(--gold);font-size:0.85rem">${'★'.repeat(r.rating)}</div>
+        <div style="font-size:0.72rem;color:var(--ink-60)">${new Date(r.created_at).toLocaleDateString('ru-RU')}</div>
       </div>
-    `).join('');
-  }
-}
-async function openLessonSummary(bookingId, studentName) {
-  const modal = document.createElement('div');
-  modal.id = 'summary-modal';
-  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:500;display:flex;align-items:center;justify-content:center;padding:16px;';
-  modal.innerHTML = `
-    <div style="background:white;border-radius:16px;max-width:500px;width:100%;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,0.25);">
-      <div style="background:#1a5c3a;padding:20px 24px;color:white;">
-        <h2 style="font-family:'Unbounded',sans-serif;font-size:1rem;margin-bottom:4px;">Итоги урока</h2>
-        <p style="opacity:0.7;font-size:0.82rem;">Студент: ${studentName}</p>
-      </div>
-      <div style="padding:20px 24px;">
-        <div style="margin-bottom:14px;">
-          <label style="display:block;font-size:0.75rem;font-weight:600;text-transform:uppercase;margin-bottom:5px;">Прогресс студента</label>
-          <div style="display:flex;gap:8px;" id="progress-stars">
-            ${[1,2,3,4,5].map(n => `<button onclick="setStar(${n})" data-star="${n}" style="width:36px;height:36px;border:1.5px solid #e5e7eb;border-radius:8px;background:white;font-size:1.2rem;cursor:pointer;">⭐</button>`).join('')}
-          </div>
-        </div>
-        <div style="margin-bottom:14px;">
-          <label style="display:block;font-size:0.75rem;font-weight:600;text-transform:uppercase;margin-bottom:5px;">Что изучали сегодня</label>
-          <textarea id="summary-text" style="width:100%;border:1.5px solid #e5e7eb;border-radius:8px;padding:10px;font-family:inherit;font-size:0.875rem;outline:none;resize:none;" rows="3" placeholder="Тема урока, что разбирали..."></textarea>
-        </div>
-        <div style="margin-bottom:14px;">
-          <label style="display:block;font-size:0.75rem;font-weight:600;text-transform:uppercase;margin-bottom:5px;">Домашнее задание</label>
-          <textarea id="homework-text" style="width:100%;border:1.5px solid #e5e7eb;border-radius:8px;padding:10px;font-family:inherit;font-size:0.875rem;outline:none;resize:none;" rows="2" placeholder="Что задали на дом..."></textarea>
-        </div>
-        <div style="margin-bottom:14px;">
-          <label style="display:block;font-size:0.75rem;font-weight:600;text-transform:uppercase;margin-bottom:5px;">Прикрепить файл (PDF)</label>
-          <input type="file" id="homework-file" accept=".pdf,.doc,.docx,.jpg,.png" style="width:100%;border:1.5px solid #e5e7eb;border-radius:8px;padding:8px;font-family:inherit;font-size:0.82rem;">
-        </div>
-        <div id="summary-err" style="color:#e8533a;font-size:0.78rem;margin-bottom:8px;"></div>
-      </div>
-      <div style="padding:0 24px 20px;display:flex;gap:10px;">
-        <button onclick="document.getElementById('summary-modal').remove()" style="flex:1;background:none;border:1.5px solid #e5e7eb;padding:12px;border-radius:10px;cursor:pointer;font-family:inherit;">Отмена</button>
-        <button onclick="submitSummary('${bookingId}')" style="flex:2;background:#1a5c3a;color:white;border:none;padding:12px;border-radius:10px;font-size:0.9rem;font-weight:600;cursor:pointer;font-family:inherit;">Отправить студенту ✓</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(modal);
-  modal.addEventListener('click', e => { if(e.target === modal) modal.remove(); });
+      <div style="font-size:0.82rem;color:var(--ink-60);font-style:italic">"${r.comment||'Без комментария'}"</div>
+    </div>`).join('');
 }
 
-let selectedStar = 0;
-function setStar(n) {
-  selectedStar = n;
-  document.querySelectorAll('#progress-stars button').forEach((b, i) => {
-    b.style.background = i < n ? '#fef9ed' : 'white';
-    b.style.borderColor = i < n ? '#d4a017' : '#e5e7eb';
-  });
-}
-
-async function submitSummary(bookingId) {
-  const summary = document.getElementById('summary-text').value.trim();
-  const homework = document.getElementById('homework-text').value.trim();
-  if (!summary) { document.getElementById('summary-err').textContent = 'Заполните итоги урока'; return; }
-  
-  try {
-    const res = await apiFetch('/api/bookings/' + bookingId + '/summary', {
-      method: 'POST',
-      body: JSON.stringify({ summary, homework, progress_rating: selectedStar })
-    });
-    document.getElementById('summary-modal').remove();
-    showToast('✓ Итоги урока отправлены студенту и родителю!');
-    loadSchedule();
-  } catch(e) {
-    showToast('Итоги сохранены локально');
-    document.getElementById('summary-modal').remove();
-  }
-}
 // ── SCHEDULE ───────────────────────────────────────────────
-async function loadSchedule() {
-  const status = document.getElementById('schedule-filter').value;
-  const data = await apiFetch('/api/bookings/my' + (status ? '?status=' + status : ''));
-  const tbody = document.getElementById('schedule-tbody');
-  if (!data?.length) {
-    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:30px">Нет уроков</td></tr>';
-    return;
-  }
-  const sm = {pending:'gold',confirmed:'green',completed:'blue',cancelled:'red'};
-  tbody.innerHTML = data.map(b => `
+async function loadSchedule(){
+  const status=document.getElementById('schedule-filter').value;
+  const data=await apiFetch('/api/bookings/my'+(status?'?status='+status:''));
+  const tbody=document.getElementById('schedule-tbody');
+  if(!data?.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--ink-60);padding:30px">Нет уроков</td></tr>';return;}
+  const sm={pending:'badge-gold',confirmed:'badge-green',completed:'badge-blue',cancelled:'badge-red'};
+  tbody.innerHTML=data.map(b=>`
     <tr>
       <td>${b.student_first_name} ${b.student_last_name}</td>
-      <td>${b.subject || '—'}</td>
+      <td>${b.subject||'—'}</td>
       <td>${new Date(b.lesson_date).toLocaleDateString('ru-RU')}</td>
       <td>${b.start_time}</td>
-      <td><span class="badge ${b.lesson_type==='trial'?'gold':'gray'}">${b.lesson_type==='trial'?'Пробный':'Обычный'}</span></td>
+      <td><span class="badge ${b.lesson_type==='trial'?'badge-gold':'badge-gray'}">${b.lesson_type==='trial'?'Пробный':'Обычный'}</span></td>
       <td>${b.amount} сом</td>
-      <td><span class="badge ${sm[b.status]||'gray'}">${b.status}</span></td>
-      <td>
-        ${b.status==='pending'?`<button class="btn-sm btn-primary" onclick="confirmLesson('${b.id}')">Подтвердить</button>`:''}
-        ${b.status==='completed'?`<button class="btn-sm btn-outline" onclick="openLessonSummary('${b.id}','${b.student_first_name}')">📝 Итоги</button>`:''}
-        ${b.status==='confirmed'&&!b.meeting_url?`<button class="btn-sm btn-outline" onclick="addMeetingLink('${b.id}')">+ Ссылка</button>`:''}
-        ${b.meeting_url?`<a href="${b.meeting_url}" target="_blank" class="btn-sm btn-primary" style="text-decoration:none">🎥 Войти</a>`:''}
+      <td><span class="badge ${sm[b.status]||'badge-gray'}">${b.status}</span></td>
+      <td style="display:flex;gap:6px;flex-wrap:wrap">
+        ${b.status==='pending'?`<button class="btn-sm btn-tiffany" onclick="confirmLesson('${b.id}')">Подтвердить</button>`:''}
+        ${b.status==='confirmed'?`<button class="btn-sm btn-outline" onclick="openSummaryModal('${b.id}','${b.student_first_name} ${b.student_last_name}')">📝 Итоги</button>`:''}
+        ${b.meeting_url?`<a href="${b.meeting_url}" target="_blank" class="btn-sm btn-tiffany" style="text-decoration:none">🎥</a>`:''}
       </td>
-    </tr>
-  `).join('');
+    </tr>`).join('');
 }
 
-async function confirmLesson(id) {
-  const url = prompt('Введите ссылку на видеоурок (Zoom, Google Meet, Jitsi):');
-  if (!url) return;
-  await apiFetch('/api/bookings/' + id + '/confirm', {
-    method: 'PUT',
-    body: JSON.stringify({meeting_url: url})
-  });
-  showToast('✓ Урок подтверждён! Студент получит уведомление');
-  loadSchedule();
+async function confirmLesson(id){
+  const url=prompt('Введите ссылку на видеоурок (Zoom, Google Meet, Jitsi):');
+  if(!url)return;
+  await apiFetch('/api/bookings/'+id+'/confirm',{method:'PUT',body:JSON.stringify({meeting_url:url})});
+  showToast('✓ Урок подтверждён!');loadSchedule();
 }
 
-async function addMeetingLink(id) {
-  const url = prompt('Введите ссылку на видеоурок:');
-  if (!url) return;
-  await apiFetch('/api/bookings/' + id + '/confirm', {
-    method: 'PUT',
-    body: JSON.stringify({meeting_url: url})
-  });
-  showToast('✓ Ссылка добавлена');
-  loadSchedule();
+// ── SUMMARY ────────────────────────────────────────────────
+function openSummaryModal(bookingId,studentName){
+  currentBookingId=bookingId;
+  document.getElementById('summary-student-name').textContent='Студент: '+studentName;
+  document.getElementById('summary-text').value='';
+  document.getElementById('homework-text').value='';
+  document.getElementById('summary-err').textContent='';
+  selectedStar=0;
+  document.querySelectorAll('#progress-stars button').forEach(b=>{b.style.background='white';b.style.borderColor='var(--border)';});
+  document.getElementById('summaryModal').classList.add('open');
 }
+
+function setStar(n){
+  selectedStar=n;
+  document.querySelectorAll('#progress-stars button').forEach((b,i)=>{
+    b.style.background=i<n?'var(--gold-light)':'white';
+    b.style.borderColor=i<n?'var(--gold)':'var(--border)';
+  });
+}
+
+async function submitSummary(){
+  const summary=document.getElementById('summary-text').value.trim();
+  const homework=document.getElementById('homework-text').value.trim();
+  if(!summary){document.getElementById('summary-err').textContent='Заполните итоги урока';return;}
+  try{
+    await apiFetch('/api/bookings/'+currentBookingId+'/summary',{method:'POST',body:JSON.stringify({summary,homework,progress_rating:selectedStar})});
+    document.getElementById('summaryModal').classList.remove('open');
+    showToast('✓ Итоги урока отправлены студенту и родителю!');
+    loadSchedule();
+  }catch(e){showToast('Ошибка отправки');}}
 
 // ── EARNINGS ───────────────────────────────────────────────
-async function loadEarnings() {
-  const [overview, transactions] = await Promise.all([
-    apiFetch('/api/earnings/overview'),
-    apiFetch('/api/earnings/transactions')
-  ]);
-
-  if (overview) {
-    document.getElementById('e-total').textContent = Math.round(overview.earnings?.total_gross || 0).toLocaleString('ru') + ' сом';
-    document.getElementById('e-net').textContent = Math.round(overview.earnings?.total_net || 0).toLocaleString('ru') + ' сом';
-    document.getElementById('e-month').textContent = Math.round(overview.earnings?.this_month_gross || 0).toLocaleString('ru') + ' сом';
-    document.getElementById('e-pending').textContent = Math.round(overview.earnings?.pending || 0).toLocaleString('ru') + ' сом';
-
-    // Chart
-    const months = overview.monthly_breakdown || [];
-    const maxEarnings = Math.max(...months.map(m => m.earnings || 0), 1);
-    document.getElementById('earnings-chart').innerHTML = months.length ?
-      months.map(m => `
-        <div class="bar-wrap">
-          <div class="bar-val">${Math.round((m.earnings||0)/1000)}к</div>
-          <div class="bar" style="height:${Math.round(((m.earnings||0)/maxEarnings)*100)}%"></div>
-          <div class="bar-label">${m.month}</div>
-        </div>
-      `).join('') :
-      '<div style="text-align:center;color:var(--muted);width:100%;font-size:0.85rem">Нет данных</div>';
+async function loadEarnings(){
+  const[overview,transactions]=await Promise.all([apiFetch('/api/earnings/overview'),apiFetch('/api/earnings/transactions')]);
+  if(overview){
+    document.getElementById('e-total').textContent=Math.round(overview.earnings?.total_gross||0).toLocaleString('ru')+' сом';
+    document.getElementById('e-net').textContent=Math.round(overview.earnings?.total_net||0).toLocaleString('ru')+' сом';
+    document.getElementById('e-month').textContent=Math.round(overview.earnings?.this_month_gross||0).toLocaleString('ru')+' сом';
+    document.getElementById('e-pending').textContent=Math.round(overview.earnings?.pending||0).toLocaleString('ru')+' сом';
+    const months=overview.monthly_breakdown||[];
+    const maxE=Math.max(...months.map(m=>m.earnings||0),1);
+    document.getElementById('earnings-chart').innerHTML=months.length?
+      months.map(m=>`<div class="bar-col"><div class="bar-val">${Math.round((m.earnings||0)/1000)}к</div><div class="bar" style="height:${Math.round(((m.earnings||0)/maxE)*100)}%"></div><div class="bar-lbl">${m.month}</div></div>`).join(''):
+      '<div style="text-align:center;color:var(--ink-60);width:100%;font-size:0.85rem">Нет данных</div>';
   }
-
-  if (transactions) {
-    const tbody = document.getElementById('transactions-tbody');
-    if (!transactions.length) {
-      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:30px">Нет транзакций</td></tr>';
-    } else {
-      tbody.innerHTML = transactions.map(t => `
-        <tr>
-          <td>${t.student_first_name} ${t.student_last_name}</td>
-          <td>${t.subject || '—'}</td>
-          <td>${new Date(t.lesson_date).toLocaleDateString('ru-RU')}</td>
-          <td>${t.amount} сом</td>
-          <td style="color:var(--coral)">−${Math.round(t.amount * 0.15)} сом</td>
-          <td style="color:var(--primary);font-weight:600">${Math.round(t.amount * 0.85)} сом</td>
-          <td><span class="badge ${t.status==='completed'?'green':'gold'}">${t.status==='completed'?'Оплачено':'Ожидает'}</span></td>
-        </tr>
-      `).join('');
-    }
+  if(transactions){
+    const tbody=document.getElementById('transactions-tbody');
+    if(!transactions.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--ink-60);padding:30px">Нет транзакций</td></tr>';return;}
+    tbody.innerHTML=transactions.map(t=>`
+      <tr>
+        <td>${t.student_first_name} ${t.student_last_name}</td>
+        <td>${t.subject||'—'}</td>
+        <td>${new Date(t.lesson_date).toLocaleDateString('ru-RU')}</td>
+        <td>${t.amount} сом</td>
+        <td style="color:#e74c3c">−${Math.round(t.amount*0.15)} сом</td>
+        <td style="color:var(--tiffany);font-weight:600">${Math.round(t.amount*0.85)} сом</td>
+        <td><span class="badge ${t.status==='completed'?'badge-green':'badge-gold'}">${t.status==='completed'?'Оплачено':'Ожидает'}</span></td>
+      </tr>`).join('');
   }
 }
 
-async function requestPayout() {
-  const amount = prompt('Сумма для вывода (сом):');
-  const account = prompt('Ваш номер телефона Mbank:');
-  if (!amount || !account) return;
-  await apiFetch('/api/earnings/payout', {
-    method: 'POST',
-    body: JSON.stringify({amount: parseInt(amount), mbank_account: account})
-  });
+async function requestPayout(){
+  const amount=prompt('Сумма для вывода (сом):');
+  const account=prompt('Ваш номер телефона Mbank:');
+  if(!amount||!account)return;
+  await apiFetch('/api/earnings/payout',{method:'POST',body:JSON.stringify({amount:parseInt(amount),mbank_account:account})});
   showToast('✓ Запрос на выплату отправлен. Обработка в течение 24 часов');
 }
 
 // ── MESSAGES ───────────────────────────────────────────────
-async function loadMessages() {
-  const data = await apiFetch('/api/messages/conversations');
-  const list = document.getElementById('conversations-list');
-  if (!data?.length) {
-    list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted);font-size:0.82rem">Нет сообщений</div>';
-    return;
-  }
-  list.innerHTML = data.map(c => `
+async function loadMessages(){
+  const data=await apiFetch('/api/messages/conversations');
+  const list=document.getElementById('conversations-list');
+  if(!data?.length){list.innerHTML='<div style="padding:20px;text-align:center;color:var(--ink-60);font-size:0.82rem">Нет сообщений</div>';return;}
+  list.innerHTML=data.map(c=>`
     <div class="conv-item ${c.id===selectedConvId?'active':''}" onclick="openConv('${c.id}','${c.student_first_name} ${c.student_last_name}')">
       <div class="conv-row">
         <div class="conv-av">👩‍🎓</div>
         <div style="flex:1;min-width:0">
           <div class="conv-name">${c.student_first_name} ${c.student_last_name}</div>
-          <div class="conv-preview">${c.last_message || 'Нет сообщений'}</div>
+          <div class="conv-preview">${c.last_message||'Нет сообщений'}</div>
         </div>
-        ${c.my_unread > 0 ? `<span style="background:var(--primary);color:white;border-radius:10px;font-size:0.65rem;padding:1px 6px">${c.my_unread}</span>` : ''}
+        ${c.tutor_unread>0?`<span style="background:var(--tiffany);color:white;border-radius:10px;font-size:0.65rem;padding:1px 6px">${c.tutor_unread}</span>`:''}
       </div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 
-async function openConv(convId, name) {
-  selectedConvId = convId;
-  document.getElementById('chat-header').textContent = name;
+async function openConv(convId,name){
+  selectedConvId=convId;
+  document.getElementById('chat-header').textContent=name;
   loadMessages();
-
-  const msgs = await apiFetch('/api/messages/conversations/' + convId + '/messages');
-  const area = document.getElementById('chat-msgs');
-  if (!msgs?.length) {
-    area.innerHTML = '<div style="text-align:center;color:var(--muted);margin:auto;font-size:0.85rem">Нет сообщений</div>';
-    return;
-  }
-  area.innerHTML = msgs.map(m => `
-    <div class="cmsg ${m.sender_id === currentUser.id ? 'mine' : 'theirs'}">
-      ${m.content}
-    </div>
-  `).join('');
-  area.scrollTop = 9999;
+  const msgs=await apiFetch('/api/messages/conversations/'+convId+'/messages');
+  const area=document.getElementById('chat-msgs');
+  if(!msgs?.length){area.innerHTML='<div style="text-align:center;color:var(--ink-60);margin:auto;font-size:0.85rem">Нет сообщений</div>';return;}
+  area.innerHTML=msgs.map(m=>`<div class="cmsg ${m.sender_id===currentUser.id?'mine':'theirs'}">${m.content}</div>`).join('');
+  area.scrollTop=9999;
 }
 
-async function sendMessage() {
-  if (!selectedConvId) return;
-  const input = document.getElementById('chat-input');
-  const text = input.value.trim();
-  if (!text) return;
-  input.value = '';
-
-  await apiFetch('/api/messages/conversations/' + selectedConvId + '/messages', {
-    method: 'POST',
-    body: JSON.stringify({content: text})
-  });
-  openConv(selectedConvId, document.getElementById('chat-header').textContent);
+async function sendMessage(){
+  if(!selectedConvId)return;
+  const input=document.getElementById('chat-input');
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  await apiFetch('/api/messages/conversations/'+selectedConvId+'/messages',{method:'POST',body:JSON.stringify({content:text})});
+  openConv(selectedConvId,document.getElementById('chat-header').textContent);
 }
 
 // ── AVAILABILITY ───────────────────────────────────────────
-function initTimeGrid() {
-  const grid = document.getElementById('time-grid');
-  const hours = ['08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00'];
-  grid.innerHTML = hours.map(h => `
-    <div class="time-chip" onclick="toggleTime(this,'${h}')" data-time="${h}">${h}</div>
-  `).join('');
+function initTimeGrid(){
+  const grid=document.getElementById('time-grid');
+  const hours=['08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00'];
+  grid.innerHTML=hours.map(h=>`<div class="time-chip" onclick="toggleTime(this,'${h}')" data-time="${h}">${h}</div>`).join('');
 }
 
-function toggleDay(el, day) {
-  el.classList.toggle('active');
-  if (activeDays.has(day)) activeDays.delete(day);
-  else activeDays.add(day);
-}
+function toggleDay(el,day){el.classList.toggle('active');if(activeDays.has(day))activeDays.delete(day);else activeDays.add(day);}
+function toggleTime(el,time){el.classList.toggle('active');if(activeTimes.has(time))activeTimes.delete(time);else activeTimes.add(time);}
 
-function toggleTime(el, time) {
-  el.classList.toggle('active');
-  if (activeTimes.has(time)) activeTimes.delete(time);
-  else activeTimes.add(time);
-}
-
-async function loadAvailability() {
-  const data = await apiFetch('/api/tutors/' + currentUser.id);
-  if (data?.availability) {
-    data.availability.forEach(slot => {
+async function loadAvailability(){
+  const data=await apiFetch('/api/tutors/'+currentUser.id);
+  if(data?.availability){
+    data.availability.forEach(slot=>{
       activeDays.add(slot.day_of_week);
       document.querySelector(`[data-day="${slot.day_of_week}"]`)?.classList.add('active');
-      const startH = slot.start_time.substring(0,5);
+      const startH=slot.start_time.substring(0,5);
       activeTimes.add(startH);
       document.querySelector(`[data-time="${startH}"]`)?.classList.add('active');
     });
   }
 }
 
-async function saveAvailability() {
-  const availability = [];
-  activeDays.forEach(day => {
-    activeTimes.forEach(time => {
-      const [h] = time.split(':');
-      availability.push({
-        day_of_week: day,
-        start_time: time + ':00',
-        end_time: (parseInt(h)+1).toString().padStart(2,'0') + ':00:00'
-      });
-    });
-  });
-
-  await apiFetch('/api/tutors/availability', {
-    method: 'POST',
-    body: JSON.stringify({availability})
-  });
+async function saveAvailability(){
+  const availability=[];
+  activeDays.forEach(day=>{activeTimes.forEach(time=>{const[h]=time.split(':');availability.push({day_of_week:day,start_time:time+':00',end_time:(parseInt(h)+1).toString().padStart(2,'0')+':00:00'});});});
+  await apiFetch('/api/tutors/availability',{method:'POST',body:JSON.stringify({availability})});
   showToast('✓ Расписание сохранено');
 }
 
 // ── PROFILE ────────────────────────────────────────────────
-async function loadProfile() {
-  const data = await apiFetch('/api/auth/me');
-  if (!data) return;
-
-  document.getElementById('p-fname').value = data.first_name || '';
-  document.getElementById('p-lname').value = data.last_name || '';
-  document.getElementById('p-phone').value = data.phone || '';
-  document.getElementById('profile-name-display').textContent = data.first_name + ' ' + data.last_name;
-
-  if (data.tutor_profile_id) {
-    document.getElementById('p-rate').value = data.hourly_rate || '';
-    document.getElementById('p-trial').value = data.trial_rate || '';
-    document.getElementById('p-bio-ru').value = data.bio_ru || '';
-    document.getElementById('p-bio-en').value = data.bio_en || '';
-    document.getElementById('p-bio-ky').value = data.bio_ky || '';
-    if (data.subjects) document.getElementById('p-subjects').value = data.subjects.join(', ');
-    if (data.video_intro_url) {
-      document.getElementById('p-video').value = data.video_intro_url;
-      updateVideoPreview(data.video_intro_url);
-    }
+async function loadProfile(){
+  const data=await apiFetch('/api/auth/me');
+  if(!data)return;
+  document.getElementById('p-fname').value=data.first_name||'';
+  document.getElementById('p-lname').value=data.last_name||'';
+  document.getElementById('p-phone').value=data.phone||'';
+  document.getElementById('profile-name-display').textContent=data.first_name+' '+data.last_name;
+  if(data.tutor_profile_id){
+    document.getElementById('p-rate').value=data.hourly_rate||'';
+    document.getElementById('p-trial').value=data.trial_rate||'';
+    document.getElementById('p-bio-ru').value=data.bio_ru||'';
+    document.getElementById('p-bio-en').value=data.bio_en||'';
+    if(data.subjects)document.getElementById('p-subjects').value=data.subjects.join(', ');
+    if(data.video_intro_url){document.getElementById('p-video').value=data.video_intro_url;updateVideoPreview(data.video_intro_url);}
   }
 }
 
-async function saveProfile() {
-  const data = {
-    first_name: document.getElementById('p-fname').value,
-    last_name: document.getElementById('p-lname').value,
-    phone: document.getElementById('p-phone').value,
-  };
-  await apiFetch('/api/auth/me', {method:'PUT', body: JSON.stringify(data)});
-  currentUser.first_name = data.first_name;
-  currentUser.last_name = data.last_name;
-  localStorage.setItem('bilimly_user', JSON.stringify(currentUser));
-  document.getElementById('sidebar-name').textContent = data.first_name + ' ' + data.last_name;
+async function saveProfile(){
+  const data={first_name:document.getElementById('p-fname').value,last_name:document.getElementById('p-lname').value,phone:document.getElementById('p-phone').value};
+  await apiFetch('/api/auth/me',{method:'PUT',body:JSON.stringify(data)});
+  currentUser.first_name=data.first_name;currentUser.last_name=data.last_name;
+  localStorage.setItem('bilimly_user',JSON.stringify(currentUser));
+  document.getElementById('sidebar-name').textContent=data.first_name+' '+data.last_name;
   showToast('✓ Профиль сохранён');
 }
 
-async function saveTutorProfile() {
-  const subjects = document.getElementById('p-subjects').value.split(',').map(s=>s.trim()).filter(Boolean);
-  const data = {
-    bio_ru: document.getElementById('p-bio-ru').value,
-    bio_en: document.getElementById('p-bio-en').value,
-    bio_ky: document.getElementById('p-bio-ky').value,
-    hourly_rate: parseFloat(document.getElementById('p-rate').value) || 500,
-    trial_rate: parseFloat(document.getElementById('p-trial').value) || 200,
-    subjects,
-  };
-  await apiFetch('/api/tutors/profile/me', {method:'PUT', body: JSON.stringify(data)});
+async function saveTutorProfile(){
+  const subjects=document.getElementById('p-subjects').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const data={bio_ru:document.getElementById('p-bio-ru').value,bio_en:document.getElementById('p-bio-en').value,hourly_rate:parseFloat(document.getElementById('p-rate').value)||500,trial_rate:parseFloat(document.getElementById('p-trial').value)||200,subjects};
+  await apiFetch('/api/tutors/profile/me',{method:'PUT',body:JSON.stringify(data)});
   showToast('✓ Профиль репетитора сохранён');
 }
 
-async function saveVideo() {
-  const url = document.getElementById('p-video').value.trim();
-  if (!url) return;
-  await apiFetch('/api/tutors/profile/me', {method:'PUT', body: JSON.stringify({video_intro_url: url})});
-  updateVideoPreview(url);
-  showToast('✓ Видео сохранено');
+async function saveVideo(){
+  const url=document.getElementById('p-video').value.trim();
+  if(!url)return;
+  await apiFetch('/api/tutors/profile/me',{method:'PUT',body:JSON.stringify({video_intro_url:url})});
+  updateVideoPreview(url);showToast('✓ Видео сохранено');
 }
 
-function updateVideoPreview(url) {
-  const preview = document.getElementById('video-preview');
-  let embedUrl = url;
-  if (url.includes('youtube.com/watch')) {
-    const id = url.split('v=')[1]?.split('&')[0];
-    embedUrl = 'https://www.youtube.com/embed/' + id;
-  } else if (url.includes('youtu.be/')) {
-    const id = url.split('youtu.be/')[1]?.split('?')[0];
-    embedUrl = 'https://www.youtube.com/embed/' + id;
-  } else if (url.includes('vimeo.com/')) {
-    const id = url.split('vimeo.com/')[1];
-    embedUrl = 'https://player.vimeo.com/video/' + id;
-  }
-  preview.innerHTML = `<iframe src="${embedUrl}" allowfullscreen></iframe>`;
+function updateVideoPreview(url){
+  const preview=document.getElementById('video-preview');
+  let embedUrl=url;
+  if(url.includes('youtube.com/watch')){const id=url.split('v=')[1]?.split('&')[0];embedUrl='https://www.youtube.com/embed/'+id;}
+  else if(url.includes('youtu.be/')){const id=url.split('youtu.be/')[1]?.split('?')[0];embedUrl='https://www.youtube.com/embed/'+id;}
+  else if(url.includes('vimeo.com/')){const id=url.split('vimeo.com/')[1];embedUrl='https://player.vimeo.com/video/'+id;}
+  preview.innerHTML=`<iframe src="${embedUrl}" style="width:100%;height:100%;border:none;border-radius:10px;" allowfullscreen></iframe>`;
 }
 
-function uploadAvatar(input) {
-  const file = input.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    const av = document.getElementById('profile-avatar');
-    av.innerHTML = `<img src="${e.target.result}" alt="Avatar">`;
-    showToast('Фото обновлено (сохранится после подключения хранилища)');
-  };
+function uploadAvatar(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=(e)=>{const av=document.getElementById('profile-avatar');av.innerHTML=`<img src="${e.target.result}" alt="Avatar">`;showToast('Фото обновлено');};
   reader.readAsDataURL(file);
 }
 
 // ── REVIEWS ────────────────────────────────────────────────
-async function loadReviews() {
-  const data = await apiFetch('/api/auth/me');
-  document.getElementById('r-avg').textContent = data?.rating || '—';
-  document.getElementById('r-count').textContent = data?.review_count || 0;
-
-  const reviews = await apiFetch('/api/tutors/' + currentUser.id).catch(() => null);
-  const list = document.getElementById('reviews-list');
-
-  if (!reviews?.reviews?.length) {
-    list.innerHTML = '<div style="text-align:center;color:var(--muted);padding:40px;font-size:0.85rem">Пока нет отзывов. Они появятся после завершённых уроков.</div>';
-    return;
-  }
-
-  list.innerHTML = reviews.reviews.map(r => `
-    <div style="padding:18px 20px;border-bottom:1px solid var(--border)">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <div style="color:var(--gold);font-size:1rem">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
-        <div style="font-size:0.72rem;color:var(--muted)">${new Date(r.created_at).toLocaleDateString('ru-RU')}</div>
+async function loadReviews(){
+  const data=await apiFetch('/api/auth/me');
+  document.getElementById('r-avg').textContent=data?.rating||'—';
+  document.getElementById('r-count').textContent=data?.review_count||0;
+  const reviews=await apiFetch('/api/tutors/'+currentUser.id).catch(()=>null);
+  const list=document.getElementById('reviews-list');
+  if(!reviews?.reviews?.length){list.innerHTML='<div style="text-align:center;color:var(--ink-60);padding:40px;font-size:0.85rem">Пока нет отзывов</div>';return;}
+  list.innerHTML=reviews.reviews.map(r=>`
+    <div class="rev-item">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+        <div style="color:var(--gold)">${'★'.repeat(r.rating)}</div>
+        <div style="font-size:0.72rem;color:var(--ink-60)">${new Date(r.created_at).toLocaleDateString('ru-RU')}</div>
       </div>
-      <div style="font-size:0.85rem;color:var(--ink);font-style:italic">"${r.comment || 'Без комментария'}"</div>
-    </div>
-  `).join('');
+      <div style="font-size:0.85rem;color:var(--ink-60);font-style:italic">"${r.comment||'Без комментария'}"</div>
+    </div>`).join('');
 }
 
-// ── UTILS ──────────────────────────────────────────────────
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.style.display = 'block';
-  setTimeout(() => t.style.display = 'none', 3500);
-}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',3500);}
 </script>
 </body>
 </html>
