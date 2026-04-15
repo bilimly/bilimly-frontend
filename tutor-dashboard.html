@@ -164,7 +164,13 @@ tr:hover td{background:#f8fafa;}
 
 #toast{display:none;position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--tiffany);color:white;padding:12px 24px;border-radius:12px;font-weight:600;z-index:9999;font-size:0.875rem;box-shadow:var(--shadow-lg);}
 
-@media(max-width:768px){.sidebar{display:none;}.main{margin-left:0;padding:16px;}.grid2{grid-template-columns:1fr;}.days-grid{grid-template-columns:repeat(4,1fr);}}
+@media(max-width:768px){
+  .sidebar{display:none;}
+  .main{margin-left:0;padding:16px;padding-bottom:80px;}
+  .grid2{grid-template-columns:1fr;}
+  .days-grid{grid-template-columns:repeat(4,1fr);}
+  .mobile-nav{display:flex!important;}
+}
 </style>
 </head>
 <body>
@@ -761,5 +767,27 @@ async function loadReviews(){
 
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',3500);}
 </script>
+  <div class="mobile-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--border);z-index:200;padding:8px 0;">
+  <div style="display:flex;justify-content:space-around;width:100%;">
+    <button onclick="showPage('dashboard',this)" style="background:none;border:none;cursor:pointer;font-size:0.65rem;color:var(--ink-60);display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 8px;font-family:inherit;">
+      <span style="font-size:1.2rem;">📊</span>Главная
+    </button>
+    <button onclick="showPage('schedule',this)" style="background:none;border:none;cursor:pointer;font-size:0.65rem;color:var(--ink-60);display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 8px;font-family:inherit;">
+      <span style="font-size:1.2rem;">📅</span>Уроки
+    </button>
+    <button onclick="showPage('earnings',this)" style="background:none;border:none;cursor:pointer;font-size:0.65rem;color:var(--ink-60);display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 8px;font-family:inherit;">
+      <span style="font-size:1.2rem;">💰</span>Доход
+    </button>
+    <button onclick="showPage('messages',this)" style="background:none;border:none;cursor:pointer;font-size:0.65rem;color:var(--ink-60);display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 8px;font-family:inherit;">
+      <span style="font-size:1.2rem;">💬</span>Чаты
+    </button>
+    <button onclick="showPage('profile',this)" style="background:none;border:none;cursor:pointer;font-size:0.65rem;color:var(--ink-60);display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 8px;font-family:inherit;">
+      <span style="font-size:1.2rem;">👤</span>Профиль
+    </button>
+    <button onclick="showPage('availability',this)" style="background:none;border:none;cursor:pointer;font-size:0.65rem;color:var(--ink-60);display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 8px;font-family:inherit;">
+      <span style="font-size:1.2rem;">🕐</span>Время
+    </button>
+  </div>
+</div>
 </body>
 </html>
