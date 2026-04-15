@@ -323,6 +323,8 @@ tr:hover td{background:#f8fafa;}
             <div class="fgroup"><label>О себе (по-русски)</label><textarea class="fcontrol" id="p-bio-ru" rows="4" placeholder="Расскажите о своём опыте..."></textarea></div>
             <div class="fgroup"><label>About (English)</label><textarea class="fcontrol" id="p-bio-en" rows="3" placeholder="Tell about your experience..."></textarea></div>
             <button class="btn-sm btn-tiffany" onclick="saveTutorProfile()">Сохранить профиль</button>
+<button class="btn-sm btn-outline" id="submit-review-btn" onclick="submitForReview()" style="margin-top:10px;width:100%">📋 Отправить на проверку</button>
+<div id="submit-status" style="margin-top:8px;font-size:0.78rem;color:var(--ink-60)"></div>
           </div>
         </div>
       </div>
@@ -691,6 +693,30 @@ async function saveTutorProfile(){
   await apiFetch('/api/tutors/profile/me',{method:'PUT',body:JSON.stringify(data)});
   showToast('✓ Профиль репетитора сохранён');
 }
+
+async function submitForReview() {
+  const bio = document.getElementById('p-bio-ru').value.trim();
+  const video = document.getElementById('p-video').value.trim();
+  const subjects = document.getElementById('p-subjects').value.trim();
+  const statusEl = document.getElementById('submit-status');
+
+  if (!bio) { statusEl.textContent = '❌ Заполните раздел "О себе"'; statusEl.style.color = '#e74c3c'; return; }
+  if (!subjects) { statusEl.textContent = '❌ Добавьте предметы'; statusEl.style.color = '#e74c3c'; return; }
+  if (!video) { statusEl.textContent = '❌ Добавьте видео-презентацию'; statusEl.style.color = '#e74c3c'; return; }
+
+  await saveTutorProfile();
+  await saveVideo();
+
+  await apiFetch('/api/tutors/submit-review', {
+    method: 'POST',
+    body: JSON.stringify({ message: 'Ready for review' })
+  });
+
+  statusEl.textContent = '✅ Профиль отправлен на проверку! Мы ответим в течение 24 часов.';
+  statusEl.style.color = 'var(--tiffany)';
+  document.getElementById('submit-review-btn').disabled = true;
+  showToast('✅ Профиль отправлен на проверку!');
+}  
 
 async function saveVideo(){
   const url=document.getElementById('p-video').value.trim();
