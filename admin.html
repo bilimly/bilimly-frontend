@@ -486,64 +486,44 @@ async function cancelBooking(id){
 // ── APPLICATIONS ───────────────────────────────────────────
 async function loadApplications(){
   const data = await get('/api/admin/applications/full');
+  window.tutorCache = {};
   const grid = document.getElementById('applications-grid');
   if(!data?.length){
     grid.innerHTML='<div style="background:white;border-radius:14px;padding:40px;text-align:center;color:var(--ink-60);grid-column:1/-1">Нет заявок на проверку</div>';
     return;
   }
   grid.innerHTML = data.map(t => {
-    let embedUrl = '';
-    if(t.video_intro_url) {
-      if(t.video_intro_url.includes('youtube.com/watch')){const id=t.video_intro_url.split('v=')[1]?.split('&')[0];embedUrl='https://www.youtube.com/embed/'+id;}
-      else if(t.video_intro_url.includes('youtu.be/')){const id=t.video_intro_url.split('youtu.be/')[1]?.split('?')[0];embedUrl='https://www.youtube.com/embed/'+id;}
-      else embedUrl = t.video_intro_url;
-    }
-    return `
-      <div style="background:white;border-radius:14px;border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;">
-        ${embedUrl ? 
-          `<iframe src="${embedUrl}" style="width:100%;height:200px;border:none;" allowfullscreen></iframe>` :
-          `<div style="width:100%;height:120px;background:var(--tiffany-pale);display:flex;align-items:center;justify-content:center;color:var(--ink-60);font-size:0.85rem;">🎥 Видео не добавлено</div>`
-        }
-        <div style="padding:16px;">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;margin-bottom:4px;">${t.first_name} ${t.last_name}</div>
-          <div style="font-size:0.78rem;color:var(--tiffany);margin-bottom:8px;">${(t.subjects||[]).join(' · ')||'Предметы не указаны'}</div>
-          <div style="font-size:0.78rem;color:var(--ink-60);margin-bottom:4px;">📧 ${t.email}</div>
-          <div style="font-size:0.78rem;color:var(--ink-60);margin-bottom:4px;">💰 ${t.hourly_rate||500} сом/час · Пробный: ${t.trial_rate||200} сом</div>
-          <div style="font-size:0.78rem;color:var(--ink-60);margin-bottom:12px;">📍 ${t.city||'Бишкек'}</div>
-          ${t.bio_ru ? `
-            <div style="background:var(--bg);border-radius:8px;padding:10px;margin-bottom:12px;">
-              <div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink-60);margin-bottom:4px;">О себе</div>
-              <div style="font-size:0.82rem;line-height:1.6;">${t.bio_ru.substring(0,200)}${t.bio_ru.length>200?'...':''}</div>
-            </div>` : 
-            `<div style="background:#fff8e1;border-radius:8px;padding:10px;margin-bottom:12px;font-size:0.8rem;color:#7a5a00;">⚠️ Биография не заполнена</div>`
-          }
-          return `
-  <div style="background:white;border-radius:14px;border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;cursor:pointer;" onclick="openTutorModal('${t.user_id}','${t.first_name} ${t.last_name}','${(t.subjects||[]).join(',')}','${t.email}','${t.hourly_rate||500}','${t.trial_rate||200}','${t.city||'Бишкек'}','${(t.bio_ru||'').replace(/'/g,'').replace(/\n/g,' ').substring(0,500)}','${t.video_intro_url||''}','${t.created_at}')">
-    ${embedUrl ? 
-      `<iframe src="${embedUrl}" style="width:100%;height:200px;border:none;" allowfullscreen onclick="event.stopPropagation()"></iframe>` :
-      `<div style="width:100%;height:100px;background:var(--tiffany-pale);display:flex;align-items:center;justify-content:center;color:var(--ink-60);font-size:0.85rem;">🎥 Видео не добавлено</div>`
-    }
-    <div style="padding:16px;">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;margin-bottom:4px;">${t.first_name} ${t.last_name}</div>
-      <div style="font-size:0.78rem;color:var(--tiffany);margin-bottom:6px;">${(t.subjects||[]).join(' · ')||'Предметы не указаны'}</div>
-      <div style="font-size:0.78rem;color:var(--ink-60);margin-bottom:4px;">📧 ${t.email}</div>
-      <div style="font-size:0.78rem;color:var(--ink-60);margin-bottom:8px;">💰 ${t.hourly_rate||500} сом/час · 📍 ${t.city||'Бишкек'}</div>
-      ${t.bio_ru ? 
-        `<div style="font-size:0.82rem;color:var(--ink);line-height:1.6;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">${t.bio_ru}</div>
-        <div style="font-size:0.75rem;color:var(--tiffany);margin-bottom:12px;">Нажмите чтобы прочитать полностью →</div>` :
-        `<div style="background:#fff8e1;border-radius:8px;padding:8px;margin-bottom:12px;font-size:0.78rem;color:#7a5a00;">⚠️ Биография не заполнена</div>`
+  window.tutorCache[t.user_id] = t;
+  let embedUrl = '';
+  if(t.video_intro_url) {
+    if(t.video_intro_url.includes('youtube.com/watch')){const id=t.video_intro_url.split('v=')[1]?.split('&')[0];embedUrl='https://www.youtube.com/embed/'+id;}
+    else if(t.video_intro_url.includes('youtu.be/')){const id=t.video_intro_url.split('youtu.be/')[1]?.split('?')[0];embedUrl='https://www.youtube.com/embed/'+id;}
+    else embedUrl = t.video_intro_url;
+  }
+  return `
+    <div style="background:white;border-radius:14px;border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;cursor:pointer;" onclick="openTutorModalById('${t.user_id}')">
+      ${embedUrl ? 
+        `<iframe src="${embedUrl}" style="width:100%;height:200px;border:none;" allowfullscreen onclick="event.stopPropagation()"></iframe>` :
+        `<div style="width:100%;height:100px;background:var(--tiffany-pale);display:flex;align-items:center;justify-content:center;color:var(--ink-60);font-size:0.85rem;">🎥 Видео не добавлено</div>`
       }
-      <div style="display:flex;gap:8px;" onclick="event.stopPropagation()">
-        <button class="btn-sm btn-success" style="flex:1" onclick="approveTutor('${t.user_id}')">✓ Одобрить</button>
-        <button class="btn-sm btn-danger" onclick="rejectTutor('${t.user_id}')">✗ Отклонить</button>
-      </div>
-      <div style="margin-top:8px;font-size:0.72rem;color:var(--ink-60)">Зарегистрирован: ${new Date(t.created_at).toLocaleDateString('ru-RU')}</div>
-    </div>
-  </div>`;
-          <div style="margin-top:8px;font-size:0.72rem;color:var(--ink-60)">Зарегистрирован: ${new Date(t.created_at).toLocaleDateString('ru-RU')}</div>
+      <div style="padding:16px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;margin-bottom:4px;">${t.first_name} ${t.last_name}</div>
+        <div style="font-size:0.78rem;color:var(--tiffany);margin-bottom:6px;">${(t.subjects||[]).join(' · ')||'Предметы не указаны'}</div>
+        <div style="font-size:0.78rem;color:var(--ink-60);margin-bottom:4px;">📧 ${t.email}</div>
+        <div style="font-size:0.78rem;color:var(--ink-60);margin-bottom:8px;">💰 ${t.hourly_rate||500} сом/час · 📍 ${t.city||'Бишкек'}</div>
+        ${t.bio_ru ? 
+          `<div style="font-size:0.82rem;color:var(--ink);line-height:1.6;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">${t.bio_ru}</div>
+          <div style="font-size:0.75rem;color:var(--tiffany);margin-bottom:12px;">Нажмите чтобы прочитать полностью →</div>` :
+          `<div style="background:#fff8e1;border-radius:8px;padding:8px;margin-bottom:12px;font-size:0.78rem;color:#7a5a00;">⚠️ Биография не заполнена</div>`
+        }
+        <div style="display:flex;gap:8px;" onclick="event.stopPropagation()">
+          <button class="btn-sm btn-success" style="flex:1" onclick="approveTutor('${t.user_id}')">✓ Одобрить</button>
+          <button class="btn-sm btn-danger" onclick="rejectTutor('${t.user_id}')">✗ Отклонить</button>
         </div>
-      </div>`;
-  }).join('');
+        <div style="margin-top:8px;font-size:0.72rem;color:var(--ink-60)">Зарегистрирован: ${new Date(t.created_at).toLocaleDateString('ru-RU')}</div>
+      </div>
+    </div>`;
+}).join('');
 }
 
 async function rejectTutor(userId){
@@ -592,27 +572,30 @@ async function loadRevenue(){
       <td><span class="badge ${b.status==='completed'?'badge-green':b.status==='confirmed'?'badge-blue':'badge-gold'}">${b.status}</span></td>
     </tr>`).join('');
 }
-function openTutorModal(userId,name,subjects,email,rate,trial,city,bio,videoUrl,createdAt){
-  document.getElementById('modal-tutor-name').textContent=name;
-  document.getElementById('modal-subjects').textContent=subjects||'—';
-  document.getElementById('modal-rate').textContent=rate+' сом/час · Пробный: '+trial+' сом';
-  document.getElementById('modal-email').textContent=email;
-  document.getElementById('modal-city').textContent=city;
-  document.getElementById('modal-bio').textContent=bio||'Биография не заполнена';
+function openTutorModalById(userId) {
+  const t = window.tutorCache[userId];
+  if(!t) return;
 
-  const videoEl=document.getElementById('modal-video');
-  if(videoUrl){
-    let embedUrl=videoUrl;
-    if(videoUrl.includes('youtube.com/watch')){const id=videoUrl.split('v=')[1]?.split('&')[0];embedUrl='https://www.youtube.com/embed/'+id;}
-    else if(videoUrl.includes('youtu.be/')){const id=videoUrl.split('youtu.be/')[1]?.split('?')[0];embedUrl='https://www.youtube.com/embed/'+id;}
+  document.getElementById('modal-tutor-name').textContent = t.first_name + ' ' + t.last_name;
+  document.getElementById('modal-subjects').textContent = (t.subjects||[]).join(', ')||'—';
+  document.getElementById('modal-rate').textContent = (t.hourly_rate||500) + ' сом/час · Пробный: ' + (t.trial_rate||200) + ' сом';
+  document.getElementById('modal-email').textContent = t.email;
+  document.getElementById('modal-city').textContent = t.city||'Бишкек';
+  document.getElementById('modal-bio').textContent = t.bio_ru||'Биография не заполнена';
+
+  const videoEl = document.getElementById('modal-video');
+  if(t.video_intro_url){
+    let embedUrl = t.video_intro_url;
+    if(t.video_intro_url.includes('youtube.com/watch')){const id=t.video_intro_url.split('v=')[1]?.split('&')[0];embedUrl='https://www.youtube.com/embed/'+id;}
+    else if(t.video_intro_url.includes('youtu.be/')){const id=t.video_intro_url.split('youtu.be/')[1]?.split('?')[0];embedUrl='https://www.youtube.com/embed/'+id;}
     videoEl.innerHTML=`<iframe src="${embedUrl}" style="width:100%;height:100%;border:none;" allowfullscreen></iframe>`;
   } else {
     videoEl.innerHTML='<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);font-size:0.85rem;">🎥 Видео не добавлено</div>';
   }
 
   document.getElementById('modal-actions').innerHTML=`
-    <button class="btn-sm btn-success" style="flex:1;padding:12px" onclick="approveTutor('${userId}');document.getElementById('tutorModal').classList.remove('open')">✓ Одобрить репетитора</button>
-    <button class="btn-sm btn-danger" style="padding:12px" onclick="rejectTutor('${userId}');document.getElementById('tutorModal').classList.remove('open')">✗ Отклонить</button>
+    <button class="btn-sm btn-success" style="flex:1;padding:12px" onclick="approveTutor('${t.user_id}');document.getElementById('tutorModal').classList.remove('open')">✓ Одобрить</button>
+    <button class="btn-sm btn-danger" style="padding:12px" onclick="rejectTutor('${t.user_id}');document.getElementById('tutorModal').classList.remove('open')">✗ Отклонить</button>
   `;
 
   document.getElementById('tutorModal').classList.add('open');
