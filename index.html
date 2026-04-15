@@ -248,8 +248,8 @@ footer{background:var(--ink);color:rgba(255,255,255,0.45);padding:56px 5% 28px;}
       <span class="unread-dot" id="unread-count" style="display:none"></span>
     </button>
     <div id="nav-auth" style="display:flex;gap:6px;">
-      <button class="btn-ghost" onclick="openAuth('login')">Войти</button>
-      <button class="btn-primary" onclick="openAuth('register')">Начать</button>
+      <button class="btn-ghost" onclick="document.getElementById('authModal').classList.add('open');switchAuth('login')">Войти</button>
+<button class="btn-primary" onclick="document.getElementById('authModal').classList.add('open');switchAuth('register')">Начать</button>
     </div>
     <div class="user-nav" id="nav-user">
       <span class="user-chip" id="nav-username"></span>
