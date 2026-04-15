@@ -571,7 +571,7 @@ async function doAuth(){
       const res=await fetch(API+'/api/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({first_name,last_name,email,password,role})});
       const data=await res.json();
       if(data.token){localStorage.setItem('bilimly_token',data.token);localStorage.setItem('bilimly_user',JSON.stringify(data.user));closeModal('authModal');updateNavAuth();showToast('✓ Добро пожаловать, '+data.user.first_name+'!');}
-      else{document.getElementById('auth-err').textContent=data.errors?.[0]?.msg||data.error||'Ошибка регистрации';}
+      else{document.getElementById('auth-err').textContent=(data.errors&&data.errors[0]?data.errors[0].msg:null)||data.error||'Ошибка регистрации';}
     } else {
       const email=document.getElementById('l-email').value.trim();
       const password=document.getElementById('l-pass').value;
