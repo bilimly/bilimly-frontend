@@ -236,17 +236,9 @@ tr:hover td{background:#f8fafa;}
     </div>
 
     <!-- APPLICATIONS -->
-    <div id="page-applications" class="page">
-      <div class="card">
-        <div class="card-head"><h3>Заявки репетиторов</h3></div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Имя</th><th>Email</th><th>Предметы</th><th>Опыт</th><th>Ставка</th><th>Дата</th><th>Статус</th><th>Действие</th></tr></thead>
-            <tbody id="applications-tbody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+<div id="page-applications" class="page">
+  <div id="applications-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px;"></div>
+</div>
 
     <!-- REVENUE -->
     <div id="page-revenue" class="page">
@@ -493,25 +485,58 @@ async function cancelBooking(id){
 
 // ── APPLICATIONS ───────────────────────────────────────────
 async function loadApplications(){
-  const data=await get('/api/admin/applications');
-  const tbody=document.getElementById('applications-tbody');
-  if(!data?.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--ink-60);padding:30px">Нет заявок</td></tr>';return;}
-  tbody.innerHTML=data.map(a=>`
-    <tr>
-      <td><div style="font-weight:600">${a.full_name}</div></td>
-      <td>${a.email}</td>
-      <td>${(a.subjects||[]).join(', ')||'—'}</td>
-      <td>${a.experience_years||0} лет</td>
-      <td>${a.hourly_rate||500} сом</td>
-      <td>${new Date(a.created_at).toLocaleDateString('ru-RU')}</td>
-      <td><span class="badge ${a.status==='approved'?'badge-green':a.status==='rejected'?'badge-red':'badge-gold'}">${a.status==='approved'?'Одобрена':a.status==='rejected'?'Отклонена':'Новая'}</span></td>
-      <td style="display:flex;gap:6px">
-        ${a.status==='pending'?`
-          <button class="btn-sm btn-success" onclick="approveApplication('${a.id}')">✓ Одобрить</button>
-          <button class="btn-sm btn-danger" onclick="rejectApplication('${a.id}')">✗</button>
-        `:'—'}
-      </td>
-    </tr>`).join('');
+  const data = await get('/api/admin/applications/full');
+  const grid = document.getElementById('applications-grid');
+  if(!data?.length){
+    grid.innerHTML='<div style="background:white;border-radius:14px;padding:40px;text-align:center;color:var(--ink-60);grid-column:1/-1">Нет заявок на проверку</div>';
+    return;
+  }
+  grid.innerHTML = data.map(t => {
+    let embedUrl = '';
+    if(t.video_intro_url) {
+      if(t.video_intro_url.includes('youtube.com/watch')){const id=t.video_intro_url.split('v=')[1]?.split('&')[0];embedUrl='https://www.youtube.com/embed/'+id;}
+      else if(t.video_intro_url.includes('youtu.be/')){const id=t.video_intro_url.split('youtu.be/')[1]?.split('?')[0];embedUrl='https://www.youtube.com/embed/'+id;}
+      else embedUrl = t.video_intro_url;
+    }
+    return `
+      <div style="background:white;border-radius:14px;border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;">
+        ${embedUrl ? 
+          `<iframe src="${embedUrl}" style="width:100%;height:200px;border:none;" allowfullscreen></iframe>` :
+          `<div style="width:100%;height:120px;background:var(--tiffany-pale);display:flex;align-items:center;justify-content:center;color:var(--ink-60);font-size:0.85rem;">🎥 Видео не добавлено</div>`
+        }
+        <div style="padding:16px;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;margin-bottom:4px;">${t.first_name} ${t.last_name}</div>
+          <div style="font-size:0.78rem;color:var(--tiffany);margin-bottom:8px;">${(t.subjects||[]).join(' · ')||'Предметы не указаны'}</div>
+          <div style="font-size:0.78rem;color:var(--ink-60);margin-bottom:4px;">📧 ${t.email}</div>
+          <div style="font-size:0.78rem;color:var(--ink-60);margin-bottom:4px;">💰 ${t.hourly_rate||500} сом/час · Пробный: ${t.trial_rate||200} сом</div>
+          <div style="font-size:0.78rem;color:var(--ink-60);margin-bottom:12px;">📍 ${t.city||'Бишкек'}</div>
+          ${t.bio_ru ? `
+            <div style="background:var(--bg);border-radius:8px;padding:10px;margin-bottom:12px;">
+              <div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink-60);margin-bottom:4px;">О себе</div>
+              <div style="font-size:0.82rem;line-height:1.6;">${t.bio_ru.substring(0,200)}${t.bio_ru.length>200?'...':''}</div>
+            </div>` : 
+            `<div style="background:#fff8e1;border-radius:8px;padding:10px;margin-bottom:12px;font-size:0.8rem;color:#7a5a00;">⚠️ Биография не заполнена</div>`
+          }
+          <div style="display:flex;gap:8px;">
+            <button class="btn-sm btn-success" style="flex:1" onclick="approveTutor('${t.user_id}')">✓ Одобрить</button>
+            <button class="btn-sm btn-danger" onclick="rejectTutor('${t.user_id}')">✗ Отклонить</button>
+          </div>
+          <div style="margin-top:8px;font-size:0.72rem;color:var(--ink-60)">Зарегистрирован: ${new Date(t.created_at).toLocaleDateString('ru-RU')}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+async function rejectTutor(userId){
+  const reason = prompt('Причина отказа (будет отправлена репетитору):');
+  if(!reason) return;
+  await fetch(API+'/api/admin/tutors/'+userId+'/reject', {
+    method:'PUT',
+    headers:{'Authorization':'Bearer '+tok,'Content-Type':'application/json'},
+    body: JSON.stringify({reason})
+  });
+  showToast('Репетитор отклонён');
+  loadApplications();
 }
 
 async function approveApplication(id){
