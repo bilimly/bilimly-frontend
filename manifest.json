@@ -1,0 +1,22 @@
+{
+  "name": "Bilimly.kg",
+  "short_name": "Bilimly",
+  "description": "Репетиторская платформа №1 в Кыргызстане",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0ABAB5",
+  "theme_color": "#0ABAB5",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://via.placeholder.com/192x192/0ABAB5/ffffff?text=B",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://via.placeholder.com/512x512/0ABAB5/ffffff?text=B",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
