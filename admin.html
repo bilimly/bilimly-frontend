@@ -4,240 +4,552 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bilimly — Админ панель</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:#f3f4f6;color:#111}
-.login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#111827}
-.login-box{background:white;padding:40px;border-radius:16px;width:380px}
-.logo{font-size:1.5rem;font-weight:700;color:#1a5c3a;margin-bottom:8px}
-.logo span{color:#d4a017}
-h2{color:#6b7280;font-size:0.95rem;margin-bottom:24px;font-weight:400}
-input{width:100%;border:1.5px solid #e5e7eb;border-radius:8px;padding:10px 14px;font-size:0.9rem;margin-bottom:12px;outline:none}
-input:focus{border-color:#1a5c3a}
-.btn{width:100%;background:#1a5c3a;color:white;border:none;padding:13px;border-radius:10px;font-size:0.95rem;font-weight:600;cursor:pointer}
-.err{color:#e8533a;font-size:0.82rem;margin-top:8px}
-.sidebar{width:220px;background:#111827;min-height:100vh;position:fixed;left:0;top:0}
-.slogo{padding:20px;color:white;font-size:1.1rem;font-weight:700;border-bottom:1px solid rgba(255,255,255,0.08)}
-.slogo span{color:#d4a017}
-.nav a{display:block;padding:10px 20px;color:rgba(255,255,255,0.6);text-decoration:none;font-size:0.85rem;cursor:pointer}
-.nav a:hover,.nav a.active{background:rgba(255,255,255,0.1);color:white}
-.nav a.active{background:#1a5c3a;color:white}
-.sfooter{position:absolute;bottom:0;left:0;right:0;padding:16px;border-top:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.4);font-size:0.78rem}
-.main{margin-left:220px;padding:28px}
-.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
-.topbar h1{font-size:1.1rem;font-weight:700}
-.rbtn{background:none;border:1.5px solid #e5e7eb;color:#6b7280;padding:6px 14px;border-radius:7px;font-size:0.78rem;cursor:pointer}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:24px}
-.stat{background:white;border-radius:12px;padding:18px;border:1px solid #e5e7eb}
-.sv{font-size:1.8rem;font-weight:700;color:#1a5c3a}
-.sl{font-size:0.75rem;color:#6b7280;margin-top:3px}
-.card{background:white;border-radius:12px;border:1px solid #e5e7eb;margin-bottom:18px;overflow:hidden}
-.ch{padding:14px 18px;border-bottom:1px solid #e5e7eb;font-weight:700;font-size:0.88rem}
-table{width:100%;border-collapse:collapse}
-th{padding:9px 14px;text-align:left;font-size:0.7rem;text-transform:uppercase;color:#6b7280;background:#f9fafb;border-bottom:1px solid #e5e7eb}
-td{padding:11px 14px;font-size:0.82rem;border-bottom:1px solid #e5e7eb}
-tr:last-child td{border-bottom:none}
-tr:hover td{background:#f9fafb}
-.b{display:inline-block;padding:2px 8px;border-radius:6px;font-size:0.7rem;font-weight:700}
-.bg{background:#dcfce7;color:#166534}
-.bb{background:#eff6ff;color:#1e40af}
-.br{background:#fee2e2;color:#991b1b}
-.bo{background:#fef9ed;color:#92400e}
-.bx{background:#f3f4f6;color:#6b7280}
-.ab{background:#1a5c3a;color:white;border:none;padding:4px 10px;border-radius:6px;font-size:0.75rem;cursor:pointer;margin-right:4px}
-.rb{background:#e8533a;color:white;border:none;padding:4px 10px;border-radius:6px;font-size:0.75rem;cursor:pointer}
-.empty{text-align:center;color:#6b7280;padding:36px;font-size:0.85rem}
-.page{display:none}
-.page.active{display:block}
-#app{display:none}
+:root{
+  --tiffany:#0ABAB5;--tiffany-dark:#089490;--tiffany-light:#e0f7f6;--tiffany-pale:#f0fbfb;
+  --gold:#c9a84c;--gold-light:#fdf6e3;
+  --ink:#0a0a0a;--ink-60:rgba(10,10,10,0.6);--ink-10:rgba(10,10,10,0.06);
+  --white:#fff;--border:rgba(10,10,10,0.08);--bg:#f8fafa;
+  --shadow:0 2px 12px rgba(0,0,0,0.06);--shadow-lg:0 16px 48px rgba(10,186,181,0.12);
+  --radius:14px;--sidebar:240px;
+  --coral:#e8533a;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{overflow-x:hidden;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);}
+
+/* LOGIN */
+.login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#0a1a1a,#0d2d2b);}
+.login-box{background:white;padding:40px;border-radius:20px;width:380px;box-shadow:0 32px 80px rgba(0,0,0,0.3);}
+.login-logo{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:var(--tiffany);margin-bottom:4px;}
+.login-logo span{color:var(--gold);}
+.login-sub{color:var(--ink-60);font-size:0.85rem;margin-bottom:24px;}
+.fgroup{margin-bottom:12px;}
+.fgroup label{display:block;font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:5px;}
+.fcontrol{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 14px;font-family:inherit;font-size:0.9rem;outline:none;transition:border-color 0.2s;}
+.fcontrol:focus{border-color:var(--tiffany);}
+.btn-login{width:100%;background:var(--tiffany);color:white;border:none;padding:13px;border-radius:10px;font-size:0.95rem;font-weight:600;cursor:pointer;font-family:inherit;}
+.err{color:#e74c3c;font-size:0.82rem;margin-top:8px;}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar);background:linear-gradient(180deg,#0a1a1a,#0d2d2b);min-height:100vh;position:fixed;left:0;top:0;display:flex;flex-direction:column;z-index:100;}
+.slogo{padding:22px 20px;border-bottom:1px solid rgba(255,255,255,0.06);}
+.slogo-text{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--tiffany);}
+.slogo-text span{color:var(--gold);}
+.slogo small{display:block;color:rgba(255,255,255,0.25);font-size:0.65rem;margin-top:2px;text-transform:uppercase;letter-spacing:0.08em;}
+.snav{flex:1;padding:12px 0;}
+.snav a{display:flex;align-items:center;gap:10px;padding:11px 20px;color:rgba(255,255,255,0.5);text-decoration:none;font-size:0.84rem;font-weight:500;cursor:pointer;transition:all 0.15s;border-left:3px solid transparent;}
+.snav a:hover{background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.8);}
+.snav a.active{background:rgba(10,186,181,0.1);color:var(--tiffany);border-left-color:var(--tiffany);}
+.sfooter{padding:16px;border-top:1px solid rgba(255,255,255,0.06);}
+.btn-logout{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.4);padding:8px;border-radius:8px;font-size:0.78rem;cursor:pointer;font-family:inherit;}
+
+/* MAIN */
+.main{margin-left:var(--sidebar);padding:28px 32px;}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;}
+.topbar h1{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;}
+.btn-sm{padding:7px 14px;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;border:none;transition:all 0.2s;}
+.btn-tiffany{background:var(--tiffany);color:white;}
+.btn-tiffany:hover{background:var(--tiffany-dark);}
+.btn-success{background:#22c55e;color:white;}
+.btn-success:hover{background:#16a34a;}
+.btn-danger{background:var(--coral);color:white;}
+.btn-danger:hover{background:#c94228;}
+.btn-outline{background:none;border:1.5px solid var(--border);color:var(--ink-60);}
+.btn-outline:hover{border-color:var(--tiffany);color:var(--tiffany);}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:24px;}
+.stat-card{background:white;border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);border:1px solid var(--border);position:relative;overflow:hidden;}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--tiffany);}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--ink);display:block;line-height:1;}
+.stat-label{font-size:0.72rem;color:var(--ink-60);margin-top:6px;text-transform:uppercase;letter-spacing:0.05em;}
+.stat-sub{font-size:0.72rem;color:var(--tiffany);margin-top:4px;font-weight:500;}
+
+/* CARDS */
+.card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:20px;overflow:hidden;}
+.card-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.card-head h3{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;}
+
+/* TABLE */
+.table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;min-width:600px;}
+th{padding:10px 16px;text-align:left;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-60);background:#f8fafa;border-bottom:1px solid var(--border);white-space:nowrap;}
+td{padding:12px 16px;font-size:0.82rem;border-bottom:1px solid var(--border);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#f8fafa;}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:0.68rem;font-weight:700;white-space:nowrap;}
+.badge-green{background:#dcfce7;color:#166534;}
+.badge-gold{background:var(--gold-light);color:#7a5a00;}
+.badge-blue{background:#eff6ff;color:#1e40af;}
+.badge-red{background:#fee2e2;color:#991b1b;}
+.badge-gray{background:var(--ink-10);color:var(--ink-60);}
+.badge-tiffany{background:var(--tiffany-pale);color:var(--tiffany-dark);}
+
+/* TUTOR CARD IN TABLE */
+.tutor-row{display:flex;align-items:center;gap:10px;}
+.tutor-av{width:36px;height:36px;border-radius:50%;background:var(--tiffany-pale);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.tutor-name{font-weight:600;font-size:0.85rem;}
+.tutor-email{font-size:0.72rem;color:var(--ink-60);}
+
+/* PAGES */
+.page{display:none;}
+.page.active{display:block;}
+#app{display:none;}
+
+/* SEARCH */
+.table-search{border:1.5px solid var(--border);border-radius:8px;padding:7px 12px;font-family:inherit;font-size:0.82rem;outline:none;width:220px;transition:border-color 0.2s;}
+.table-search:focus{border-color:var(--tiffany);}
+
+#toast{display:none;position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--tiffany);color:white;padding:12px 24px;border-radius:12px;font-weight:600;z-index:9999;font-size:0.875rem;box-shadow:var(--shadow-lg);}
+
+@media(max-width:768px){.sidebar{display:none;}.main{margin-left:0;padding:16px;}}
 </style>
 </head>
 <body>
 
+<!-- LOGIN -->
 <div class="login-wrap" id="loginWrap">
-<div class="login-box">
-  <div class="logo">Bilimly<span>.kg</span></div>
-  <h2>Панель администратора</h2>
-  <input type="email" id="em" value="admin@bilimly.kg">
-  <input type="password" id="pw" placeholder="Пароль" onkeydown="if(event.key==='Enter')login()">
-  <button class="btn" onclick="login()">Войти</button>
-  <div class="err" id="er"></div>
-</div>
+  <div class="login-box">
+    <div class="login-logo">Bilimly<span>.kg</span></div>
+    <div class="login-sub">Панель администратора</div>
+    <div class="fgroup"><label>Email</label><input class="fcontrol" type="email" id="l-email" value="admin@bilimly.kg"></div>
+    <div class="fgroup"><label>Пароль</label><input class="fcontrol" type="password" id="l-pass" onkeydown="if(event.key==='Enter')login()"></div>
+    <button class="btn-login" onclick="login()">Войти</button>
+    <div class="err" id="l-err"></div>
+  </div>
 </div>
 
+<!-- APP -->
 <div id="app">
-<div class="sidebar">
-  <div class="slogo">Bilimly<span>.kg</span></div>
-  <div class="nav">
-    <a class="active" onclick="show('dashboard',this)">📊 Дашборд</a>
-    <a onclick="show('users',this)">👥 Пользователи</a>
-    <a onclick="show('bookings',this)">📅 Бронирования</a>
-    <a onclick="show('applications',this)">📋 Заявки</a>
-    <a onclick="show('messages',this)">💬 Сообщения</a>
-    <a onclick="logout()" style="margin-top:20px;color:rgba(255,255,255,0.3)">🚪 Выйти</a>
+  <div class="sidebar">
+    <div class="slogo">
+      <div class="slogo-text">Bilimly<span>.kg</span></div>
+      <small>Администратор</small>
+    </div>
+    <nav class="snav">
+      <a class="active" onclick="showPage('dashboard',this)">📊 Дашборд</a>
+      <a onclick="showPage('tutors',this)">👨‍🏫 Репетиторы</a>
+      <a onclick="showPage('students',this)">👩‍🎓 Студенты</a>
+      <a onclick="showPage('bookings',this)">📅 Бронирования</a>
+      <a onclick="showPage('applications',this)">📋 Заявки</a>
+      <a onclick="showPage('revenue',this)">💰 Выручка</a>
+    </nav>
+    <div class="sfooter">
+      <button class="btn-logout" onclick="logout()">🚪 Выйти</button>
+    </div>
   </div>
-  <div class="sfooter" id="aname"></div>
+
+  <div class="main">
+    <div class="topbar">
+      <h1 id="page-title">Дашборд</h1>
+      <div style="display:flex;gap:8px">
+        <span id="topbar-date" style="font-size:0.78rem;color:var(--ink-60);align-self:center"></span>
+        <button class="btn-sm btn-outline" onclick="loadPage(currentPage)">↻ Обновить</button>
+        <a href="index.html" class="btn-sm btn-outline" style="text-decoration:none">← Сайт</a>
+      </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="page-dashboard" class="page active">
+      <div class="stats-grid">
+        <div class="stat-card"><span class="stat-val" id="d-students">—</span><div class="stat-label">Студентов</div></div>
+        <div class="stat-card"><span class="stat-val" id="d-tutors">—</span><div class="stat-label">Репетиторов</div></div>
+        <div class="stat-card"><span class="stat-val" id="d-bookings">—</span><div class="stat-label">Бронирований</div></div>
+        <div class="stat-card"><span class="stat-val" id="d-revenue">—</span><div class="stat-label">Выручка (сом)</div></div>
+        <div class="stat-card"><span class="stat-val" id="d-pending" style="color:var(--gold)">—</span><div class="stat-label">Ожидают одобрения</div></div>
+        <div class="stat-card"><span class="stat-val" id="d-applications">—</span><div class="stat-label">Новых заявок</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        <div class="card">
+          <div class="card-head"><h3>Последние бронирования</h3></div>
+          <div id="recent-bookings-list"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>⚡ Требуют внимания</h3></div>
+          <div id="attention-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TUTORS -->
+    <div id="page-tutors" class="page">
+      <div class="card">
+        <div class="card-head">
+          <h3>Все репетиторы</h3>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <input class="table-search" type="text" placeholder="Поиск..." id="tutor-search" oninput="filterTutors(this.value)">
+            <select class="fcontrol" style="width:auto;padding:6px 12px;font-size:0.82rem" id="tutor-filter" onchange="loadTutors()">
+              <option value="">Все</option>
+              <option value="approved">Одобренные</option>
+              <option value="pending">Ожидают</option>
+              <option value="rejected">Отклонённые</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Репетитор</th><th>Предметы</th><th>Уроков</th><th>Рейтинг</th><th>Ставка</th><th>Статус</th><th>Бейдж</th><th>Действие</th></tr></thead>
+            <tbody id="tutors-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- STUDENTS -->
+    <div id="page-students" class="page">
+      <div class="card">
+        <div class="card-head">
+          <h3>Все студенты</h3>
+          <input class="table-search" type="text" placeholder="Поиск..." id="student-search" oninput="filterStudents(this.value)">
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Студент</th><th>Email</th><th>Телефон</th><th>Уроков</th><th>Дата регистрации</th><th>Статус</th><th>Действие</th></tr></thead>
+            <tbody id="students-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOOKINGS -->
+    <div id="page-bookings" class="page">
+      <div class="card">
+        <div class="card-head">
+          <h3>Все бронирования</h3>
+          <select class="fcontrol" style="width:auto;padding:6px 12px;font-size:0.82rem" id="booking-filter" onchange="loadBookings()">
+            <option value="">Все</option>
+            <option value="pending">Ожидают</option>
+            <option value="confirmed">Подтверждённые</option>
+            <option value="completed">Завершённые</option>
+            <option value="cancelled">Отменённые</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Студент</th><th>Репетитор</th><th>Предмет</th><th>Дата</th><th>Тип</th><th>Сумма</th><th>Статус</th><th>Действие</th></tr></thead>
+            <tbody id="bookings-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- APPLICATIONS -->
+    <div id="page-applications" class="page">
+      <div class="card">
+        <div class="card-head"><h3>Заявки репетиторов</h3></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Имя</th><th>Email</th><th>Предметы</th><th>Опыт</th><th>Ставка</th><th>Дата</th><th>Статус</th><th>Действие</th></tr></thead>
+            <tbody id="applications-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- REVENUE -->
+    <div id="page-revenue" class="page">
+      <div class="stats-grid">
+        <div class="stat-card"><span class="stat-val" id="r-total">—</span><div class="stat-label">Общая выручка</div></div>
+        <div class="stat-card"><span class="stat-val" id="r-commission">—</span><div class="stat-label">Комиссия (15%)</div></div>
+        <div class="stat-card"><span class="stat-val" id="r-month">—</span><div class="stat-label">В этом месяце</div></div>
+        <div class="stat-card"><span class="stat-val" id="r-bookings">—</span><div class="stat-label">Оплаченных уроков</div></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Транзакции</h3></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Студент</th><th>Репетитор</th><th>Предмет</th><th>Дата</th><th>Сумма</th><th>Комиссия</th><th>Статус</th></tr></thead>
+            <tbody id="revenue-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
-<div class="main">
-  <div class="topbar">
-    <h1 id="ptitle">Дашборд</h1>
-    <button class="rbtn" onclick="reload()">↻ Обновить</button>
-  </div>
-
-  <div id="page-dashboard" class="page active">
-    <div class="stats">
-      <div class="stat"><div class="sv" id="ss">—</div><div class="sl">Студентов</div></div>
-      <div class="stat"><div class="sv" id="st">—</div><div class="sl">Репетиторов</div></div>
-      <div class="stat"><div class="sv" id="sl">—</div><div class="sl">Уроков</div></div>
-      <div class="stat"><div class="sv" id="sr">—</div><div class="sl">Выручка сом</div></div>
-      <div class="stat"><div class="sv" id="sp" style="color:#e8533a">—</div><div class="sl">Заявок ждут</div></div>
-    </div>
-    <div class="card"><div class="ch">Последние бронирования</div>
-      <table><thead><tr><th>Студент</th><th>Репетитор</th><th>Предмет</th><th>Дата</th><th>Сумма</th><th>Статус</th></tr></thead>
-      <tbody id="rb"></tbody></table>
-    </div>
-  </div>
-
-  <div id="page-users" class="page">
-    <div class="card"><div class="ch">Пользователи</div>
-      <table><thead><tr><th>Имя</th><th>Email</th><th>Телефон</th><th>Роль</th><th>Дата</th><th>Статус</th></tr></thead>
-      <tbody id="ut"></tbody></table>
-    </div>
-  </div>
-
-  <div id="page-bookings" class="page">
-    <div class="card"><div class="ch">Все бронирования</div>
-      <table><thead><tr><th>Студент</th><th>Репетитор</th><th>Предмет</th><th>Дата</th><th>Сумма</th><th>Оплата</th><th>Статус</th></tr></thead>
-      <tbody id="bt"></tbody></table>
-    </div>
-  </div>
-
-  <div id="page-applications" class="page">
-    <div class="card"><div class="ch">Заявки репетиторов</div>
-      <table><thead><tr><th>Имя</th><th>Email</th><th>Предметы</th><th>Опыт</th><th>AI</th><th>Статус</th><th>Действие</th></tr></thead>
-      <tbody id="at"></tbody></table>
-    </div>
-  </div>
-
-  <div id="page-messages" class="page">
-    <div class="card"><div class="ch">Сообщения</div>
-      <table><thead><tr><th>Канал</th><th>Сообщение</th><th>Тип</th><th>Время</th></tr></thead>
-      <tbody id="mt"></tbody></table>
-    </div>
-  </div>
-
-</div>
-</div>
+<div id="toast"></div>
 
 <script>
-const API = 'https://bilimly-backend-0zbt.onrender.com';
-let tok=localStorage.getItem('bt');
-let cp='dashboard';
-if(tok)init();
+const API='https://bilimly-backend-0zbt.onrender.com';
+let tok=null;
+let currentPage='dashboard';
+let allTutors=[];
+let allStudents=[];
 
 async function login(){
-  const e=document.getElementById('em').value;
-  const p=document.getElementById('pw').value;
-  document.getElementById('er').textContent='';
+  const email=document.getElementById('l-email').value.trim();
+  const password=document.getElementById('l-pass').value;
+  document.getElementById('l-err').textContent='';
   try{
-    const r=await fetch(API+'/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e,password:p})});
-    const d=await r.json();
-    if(d.token){
-      if(d.user.role!=='admin'){document.getElementById('er').textContent='Нет прав администратора';return;}
-      tok=d.token;
-      localStorage.setItem('bt',tok);
-      localStorage.setItem('bu',JSON.stringify(d.user));
-      init();
-    }else{document.getElementById('er').textContent='Неверный email или пароль';}
-  }catch(e){document.getElementById('er').textContent='Ошибка соединения';}
+    const res=await fetch(API+'/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+    const data=await res.json();
+    if(data.token){
+      if(data.user.role!=='admin'){document.getElementById('l-err').textContent='Доступ только для администраторов';return;}
+      tok=data.token;
+      document.getElementById('loginWrap').style.display='none';
+      document.getElementById('app').style.display='block';
+      document.getElementById('topbar-date').textContent=new Date().toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long'});
+      loadDashboard();
+    } else {document.getElementById('l-err').textContent=data.error||'Неверные данные';}
+  }catch(e){document.getElementById('l-err').textContent='Ошибка соединения';}
 }
 
-function init(){
-  const u=JSON.parse(localStorage.getItem('bu')||'{}');
-  document.getElementById('aname').textContent=u.first_name+' '+u.last_name;
-  document.getElementById('loginWrap').style.display='none';
-  document.getElementById('app').style.display='block';
-  loadDash();
-}
-
-function logout(){localStorage.removeItem('bt');localStorage.removeItem('bu');location.reload();}
+function logout(){tok=null;document.getElementById('loginWrap').style.display='flex';document.getElementById('app').style.display='none';}
 
 async function get(path){
-  const r=await fetch(API+path,{headers:{'Authorization':'Bearer '+tok}});
-  if(r.status===401){logout();return null;}
-  return r.json();
+  const res=await fetch(API+path,{headers:{'Authorization':'Bearer '+tok}});
+  return res.json();
 }
 
-function show(name,el){
+async function put(path,body){
+  const res=await fetch(API+path,{method:'PUT',headers:{'Authorization':'Bearer '+tok,'Content-Type':'application/json'},body:JSON.stringify(body)});
+  return res.json();
+}
+
+function showPage(name,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav a').forEach(a=>a.classList.remove('active'));
+  document.querySelectorAll('.snav a').forEach(a=>a.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
   if(el)el.classList.add('active');
-  cp=name;
-  const t={dashboard:'Дашборд',users:'Пользователи',bookings:'Бронирования',applications:'Заявки',messages:'Сообщения'};
-  document.getElementById('ptitle').textContent=t[name]||name;
-  if(name==='users')loadUsers();
+  currentPage=name;
+  const titles={dashboard:'Дашборд',tutors:'Репетиторы',students:'Студенты',bookings:'Бронирования',applications:'Заявки',revenue:'Выручка'};
+  document.getElementById('page-title').textContent=titles[name]||name;
+  loadPage(name);
+}
+
+function loadPage(name){
+  if(name==='dashboard')loadDashboard();
+  else if(name==='tutors')loadTutors();
+  else if(name==='students')loadStudents();
   else if(name==='bookings')loadBookings();
-  else if(name==='applications')loadApps();
-  else if(name==='messages')loadMsgs();
-  else loadDash();
+  else if(name==='applications')loadApplications();
+  else if(name==='revenue')loadRevenue();
 }
 
-function reload(){show(cp,null);}
+// ── DASHBOARD ──────────────────────────────────────────────
+async function loadDashboard(){
+  const[stats,bookings]=await Promise.all([get('/api/admin/stats'),get('/api/admin/bookings?limit=5')]);
+  if(stats){
+    document.getElementById('d-students').textContent=stats.students||0;
+    document.getElementById('d-tutors').textContent=stats.approved_tutors||0;
+    document.getElementById('d-bookings').textContent=stats.bookings||0;
+    document.getElementById('d-revenue').textContent=Math.round(stats.revenue||0).toLocaleString('ru');
+    document.getElementById('d-pending').textContent=stats.pending_tutors||0;
+    document.getElementById('d-applications').textContent=stats.pending_applications||0;
+  }
+  if(bookings?.bookings){
+    const list=document.getElementById('recent-bookings-list');
+    list.innerHTML=bookings.bookings.slice(0,5).map(b=>`
+      <div style="padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-weight:600;font-size:0.85rem">${b.student_first_name} → ${b.tutor_first_name}</div>
+          <div style="font-size:0.75rem;color:var(--ink-60)">${b.subject||'—'} · ${new Date(b.lesson_date).toLocaleDateString('ru-RU')}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-weight:600;font-size:0.85rem">${b.amount} сом</div>
+          <span class="badge ${b.status==='confirmed'?'badge-green':b.status==='pending'?'badge-gold':'badge-gray'}">${b.status}</span>
+        </div>
+      </div>`).join('');
+  }
 
-async function loadDash(){
-  const d=await get('/api/admin/stats');
-  if(!d)return;
-  document.getElementById('ss').textContent=d.stats?.total_students??0;
-  document.getElementById('st').textContent=d.stats?.total_tutors??0;
-  document.getElementById('sl').textContent=d.stats?.completed_lessons??0;
-  document.getElementById('sr').textContent=Math.round(d.stats?.total_revenue_kgs??0).toLocaleString('ru');
-  document.getElementById('sp').textContent=d.stats?.pending_applications??0;
-  const b=await get('/api/admin/bookings?limit=5');
-  if(b)renderB(b,'rb');
+  // Attention items
+  const pending=await get('/api/admin/users?role=tutor&limit=100');
+  const attList=document.getElementById('attention-list');
+  const needApproval=pending?.filter?.(u=>!u.tutor_approved)||[];
+  if(!needApproval.length){
+    attList.innerHTML='<div style="text-align:center;padding:24px;color:var(--ink-60);font-size:0.85rem">✅ Всё в порядке</div>';
+  } else {
+    attList.innerHTML=needApproval.slice(0,5).map(u=>`
+      <div style="padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-weight:600;font-size:0.85rem">${u.first_name} ${u.last_name}</div>
+          <div style="font-size:0.75rem;color:var(--gold)">⚠️ Ожидает одобрения</div>
+        </div>
+        <button class="btn-sm btn-success" onclick="approveTutor('${u.id}')">✓ Одобрить</button>
+      </div>`).join('');
+  }
 }
 
-async function loadUsers(){
-  const d=await get('/api/admin/users?limit=100');
-  if(!d)return;
-  const tb=document.getElementById('ut');
-  if(!d.length){tb.innerHTML='<tr><td colspan="6" class="empty">Нет пользователей</td></tr>';return;}
-  tb.innerHTML=d.map(u=>`<tr><td>${u.first_name} ${u.last_name}</td><td>${u.email}</td><td>${u.phone||'—'}</td><td><span class="b ${u.role==='admin'?'br':u.role==='tutor'?'bb':'bg'}">${u.role}</span></td><td>${new Date(u.created_at).toLocaleDateString('ru-RU')}</td><td><span class="b ${u.is_active?'bg':'br'}">${u.is_active?'Активен':'Заблок.'}</span></td></tr>`).join('');
+// ── TUTORS ─────────────────────────────────────────────────
+async function loadTutors(){
+  const data=await get('/api/admin/users?role=tutor&limit=100');
+  if(!data)return;
+  allTutors=data;
+  renderTutors(data);
 }
 
+function renderTutors(list){
+  const tbody=document.getElementById('tutors-tbody');
+  if(!list.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--ink-60);padding:30px">Нет репетиторов</td></tr>';return;}
+  tbody.innerHTML=list.map(u=>`
+    <tr>
+      <td>
+        <div class="tutor-row">
+          <div class="tutor-av">👨‍🏫</div>
+          <div><div class="tutor-name">${u.first_name} ${u.last_name}</div><div class="tutor-email">${u.email}</div></div>
+        </div>
+      </td>
+      <td>${(u.subjects||[]).join(', ')||'—'}</td>
+      <td>${u.total_lessons||0}</td>
+      <td>${parseFloat(u.rating||0).toFixed(1)} ★</td>
+      <td>${u.hourly_rate||500} сом</td>
+      <td><span class="badge ${u.tutor_approved?'badge-green':'badge-gold'}">${u.tutor_approved?'Одобрен':'Ожидает'}</span></td>
+      <td>${u.badge?`<span class="badge badge-tiffany">${u.badge}</span>`:'—'}</td>
+      <td style="display:flex;gap:6px;flex-wrap:wrap">
+        ${!u.tutor_approved?`<button class="btn-sm btn-success" onclick="approveTutor('${u.id}')">✓</button>`:''}
+        <button class="btn-sm btn-danger" onclick="blockUser('${u.id}','${u.first_name}')">✗</button>
+        <a href="tutor.html?id=${u.tutor_profile_id}" target="_blank" class="btn-sm btn-outline" style="text-decoration:none">👁</a>
+      </td>
+    </tr>`).join('');
+}
+
+function filterTutors(q){
+  if(!q){renderTutors(allTutors);return;}
+  renderTutors(allTutors.filter(u=>(u.first_name+' '+u.last_name+u.email).toLowerCase().includes(q.toLowerCase())));
+}
+
+async function approveTutor(userId){
+  await fetch(API+'/api/admin/tutors/'+userId+'/approve',{method:'PUT',headers:{'Authorization':'Bearer '+tok}});
+  showToast('✓ Репетитор одобрен!');
+  loadPage(currentPage);
+}
+
+async function blockUser(userId,name){
+  if(!confirm('Заблокировать '+name+'?'))return;
+  await fetch(API+'/api/admin/users/'+userId+'/toggle-active',{method:'PUT',headers:{'Authorization':'Bearer '+tok}});
+  showToast('Пользователь заблокирован');
+  loadPage(currentPage);
+}
+
+// ── STUDENTS ───────────────────────────────────────────────
+async function loadStudents(){
+  const data=await get('/api/admin/users?role=student&limit=100');
+  if(!data)return;
+  allStudents=data;
+  renderStudents(data);
+}
+
+function renderStudents(list){
+  const tbody=document.getElementById('students-tbody');
+  if(!list.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--ink-60);padding:30px">Нет студентов</td></tr>';return;}
+  tbody.innerHTML=list.map(u=>`
+    <tr>
+      <td>
+        <div class="tutor-row">
+          <div class="tutor-av">👩‍🎓</div>
+          <div><div class="tutor-name">${u.first_name} ${u.last_name}</div></div>
+        </div>
+      </td>
+      <td>${u.email}</td>
+      <td>${u.phone||'—'}</td>
+      <td>${u.total_lessons||0}</td>
+      <td>${new Date(u.created_at).toLocaleDateString('ru-RU')}</td>
+      <td><span class="badge ${u.is_active?'badge-green':'badge-red'}">${u.is_active?'Активен':'Заблокирован'}</span></td>
+      <td><button class="btn-sm btn-danger" onclick="blockUser('${u.id}','${u.first_name}')">Блок</button></td>
+    </tr>`).join('');
+}
+
+function filterStudents(q){
+  if(!q){renderStudents(allStudents);return;}
+  renderStudents(allStudents.filter(u=>(u.first_name+' '+u.last_name+u.email).toLowerCase().includes(q.toLowerCase())));
+}
+
+// ── BOOKINGS ───────────────────────────────────────────────
 async function loadBookings(){
-  const d=await get('/api/admin/bookings?limit=50');
-  if(d)renderB(d,'bt');
+  const status=document.getElementById('booking-filter').value;
+  const data=await get('/api/admin/bookings?limit=100'+(status?'&status='+status:''));
+  const tbody=document.getElementById('bookings-tbody');
+  if(!data?.bookings?.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--ink-60);padding:30px">Нет бронирований</td></tr>';return;}
+  const sm={pending:'badge-gold',confirmed:'badge-green',completed:'badge-blue',cancelled:'badge-red'};
+  tbody.innerHTML=data.bookings.map(b=>`
+    <tr>
+      <td>${b.student_first_name} ${b.student_last_name}</td>
+      <td>${b.tutor_first_name} ${b.tutor_last_name}</td>
+      <td>${b.subject||'—'}</td>
+      <td>${new Date(b.lesson_date).toLocaleDateString('ru-RU')}</td>
+      <td><span class="badge ${b.lesson_type==='trial'?'badge-gold':'badge-gray'}">${b.lesson_type==='trial'?'Пробный':'Обычный'}</span></td>
+      <td style="font-weight:600">${b.amount} сом</td>
+      <td><span class="badge ${sm[b.status]||'badge-gray'}">${b.status}</span></td>
+      <td>
+        ${b.status==='pending'?`<button class="btn-sm btn-success" onclick="confirmBooking('${b.id}')">✓ Подтвердить</button>`:''}
+        ${b.status!=='cancelled'?`<button class="btn-sm btn-danger" onclick="cancelBooking('${b.id}')">✗</button>`:''}
+      </td>
+    </tr>`).join('');
 }
 
-function renderB(d,id){
-  const tb=document.getElementById(id);
-  if(!d.length){tb.innerHTML='<tr><td colspan="7" class="empty">Нет бронирований</td></tr>';return;}
-  const sm={pending:'bo',confirmed:'bb',completed:'bg',cancelled:'br'};
-  tb.innerHTML=d.map(b=>`<tr><td>${b.student_name||'—'}</td><td>${b.tutor_name||'—'}</td><td>${b.subject||'—'}</td><td>${new Date(b.lesson_date).toLocaleDateString('ru-RU')}</td><td>${b.amount} сом</td><td><span class="b ${b.payment_status==='completed'?'bg':'bo'}">${b.payment_status||'pending'}</span></td><td><span class="b ${sm[b.status]||'bx'}">${b.status}</span></td></tr>`).join('');
+async function confirmBooking(id){
+  await put('/api/admin/bookings/'+id+'/confirm',{});
+  showToast('✓ Бронирование подтверждено');loadBookings();
 }
 
-async function loadApps(){
-  const d=await get('/api/admin/applications');
-  if(!d)return;
-  const tb=document.getElementById('at');
-  if(!d.length){tb.innerHTML='<tr><td colspan="7" class="empty">Нет заявок</td></tr>';return;}
-  tb.innerHTML=d.map(a=>`<tr><td>${a.full_name}</td><td>${a.email}</td><td>${(a.subjects||[]).join(', ')||'—'}</td><td>${a.experience_years||'—'} лет</td><td><b style="color:${(a.ai_review_score||0)>=80?'#166534':'#92400e'}">${a.ai_review_score||'—'}</b></td><td><span class="b ${a.status==='approved'?'bg':a.status==='rejected'?'br':'bb'}">${a.status}</span></td><td>${a.status==='pending'||a.status==='ai_reviewed'?`<button class="ab" onclick="rev('${a.id}','approve')">✓</button><button class="rb" onclick="rev('${a.id}','reject')">✗</button>`:'—'}</td></tr>`).join('');
+async function cancelBooking(id){
+  if(!confirm('Отменить бронирование?'))return;
+  await put('/api/admin/bookings/'+id+'/cancel',{});
+  showToast('Бронирование отменено');loadBookings();
 }
 
-async function rev(id,action){
-  await fetch(API+'/api/admin/applications/'+id+'/review',{method:'PUT',headers:{'Authorization':'Bearer '+tok,'Content-Type':'application/json'},body:JSON.stringify({action})});
-  loadApps();
+// ── APPLICATIONS ───────────────────────────────────────────
+async function loadApplications(){
+  const data=await get('/api/admin/applications');
+  const tbody=document.getElementById('applications-tbody');
+  if(!data?.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--ink-60);padding:30px">Нет заявок</td></tr>';return;}
+  tbody.innerHTML=data.map(a=>`
+    <tr>
+      <td><div style="font-weight:600">${a.full_name}</div></td>
+      <td>${a.email}</td>
+      <td>${(a.subjects||[]).join(', ')||'—'}</td>
+      <td>${a.experience_years||0} лет</td>
+      <td>${a.hourly_rate||500} сом</td>
+      <td>${new Date(a.created_at).toLocaleDateString('ru-RU')}</td>
+      <td><span class="badge ${a.status==='approved'?'badge-green':a.status==='rejected'?'badge-red':'badge-gold'}">${a.status==='approved'?'Одобрена':a.status==='rejected'?'Отклонена':'Новая'}</span></td>
+      <td style="display:flex;gap:6px">
+        ${a.status==='pending'?`
+          <button class="btn-sm btn-success" onclick="approveApplication('${a.id}')">✓ Одобрить</button>
+          <button class="btn-sm btn-danger" onclick="rejectApplication('${a.id}')">✗</button>
+        `:'—'}
+      </td>
+    </tr>`).join('');
 }
 
-async function loadMsgs(){
-  const d=await get('/api/admin/messages');
-  if(!d)return;
-  const tb=document.getElementById('mt');
-  if(!d.length){tb.innerHTML='<tr><td colspan="4" class="empty">Нет сообщений</td></tr>';return;}
-  tb.innerHTML=d.map(m=>`<tr><td><span class="b ${m.channel==='whatsapp'?'bg':m.channel==='instagram'?'bo':'bb'}">${m.channel}</span></td><td>${(m.message||'').substring(0,80)}</td><td><span class="b ${m.is_ai_response?'bg':'bx'}">${m.is_ai_response?'ИИ':'Человек'}</span></td><td>${new Date(m.created_at).toLocaleDateString('ru-RU')}</td></tr>`).join('');
+async function approveApplication(id){
+  await put('/api/admin/applications/'+id+'/approve',{});
+  showToast('✓ Заявка одобрена');loadApplications();
 }
+
+async function rejectApplication(id){
+  await put('/api/admin/applications/'+id+'/reject',{});
+  showToast('Заявка отклонена');loadApplications();
+}
+
+// ── REVENUE ────────────────────────────────────────────────
+async function loadRevenue(){
+  const data=await get('/api/admin/bookings?limit=200');
+  if(!data?.bookings)return;
+  const completed=data.bookings.filter(b=>b.status==='completed'||b.status==='confirmed');
+  const total=completed.reduce((s,b)=>s+parseFloat(b.amount||0),0);
+  const now=new Date();
+  const monthTotal=completed.filter(b=>new Date(b.lesson_date).getMonth()===now.getMonth()).reduce((s,b)=>s+parseFloat(b.amount||0),0);
+  document.getElementById('r-total').textContent=Math.round(total).toLocaleString('ru')+' сом';
+  document.getElementById('r-commission').textContent=Math.round(total*0.15).toLocaleString('ru')+' сом';
+  document.getElementById('r-month').textContent=Math.round(monthTotal).toLocaleString('ru')+' сом';
+  document.getElementById('r-bookings').textContent=completed.length;
+  const tbody=document.getElementById('revenue-tbody');
+  tbody.innerHTML=data.bookings.slice(0,50).map(b=>`
+    <tr>
+      <td>${b.student_first_name} ${b.student_last_name}</td>
+      <td>${b.tutor_first_name} ${b.tutor_last_name}</td>
+      <td>${b.subject||'—'}</td>
+      <td>${new Date(b.lesson_date).toLocaleDateString('ru-RU')}</td>
+      <td style="font-weight:600">${b.amount} сом</td>
+      <td style="color:var(--tiffany)">${Math.round(b.amount*0.15)} сом</td>
+      <td><span class="badge ${b.status==='completed'?'badge-green':b.status==='confirmed'?'badge-blue':'badge-gold'}">${b.status}</span></td>
+    </tr>`).join('');
+}
+
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',3500);}
 </script>
 </body>
 </html>
