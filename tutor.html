@@ -203,6 +203,32 @@ nav{background:rgba(255,255,255,0.95);border-bottom:1px solid var(--border);padd
             <div class="tslot" onclick="selSlot(this)">20:00</div>
           </div>
         </div>
+        <div class="fgroup">
+  <label>Тип записи</label>
+  <div style="display:flex;gap:8px;margin-bottom:8px;">
+    <button onclick="setBookingType('single',this)" id="type-single" style="flex:1;padding:10px;border:1.5px solid var(--tiffany);border-radius:8px;background:var(--tiffany);color:white;cursor:pointer;font-family:inherit;font-size:0.82rem;font-weight:600;">Один урок</button>
+    <button onclick="setBookingType('recurring',this)" id="type-recurring" style="flex:1;padding:10px;border:1.5px solid var(--border);border-radius:8px;background:white;color:var(--ink);cursor:pointer;font-family:inherit;font-size:0.82rem;font-weight:600;">Каждую неделю 🔄</button>
+  </div>
+</div>
+
+<div id="recurring-options" style="display:none;background:var(--tiffany-pale);border-radius:10px;padding:14px;margin-bottom:12px;">
+  <div style="font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;">Дни недели</div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
+    <button onclick="toggleDay(this,1)" style="padding:6px 12px;border:1.5px solid var(--border);border-radius:8px;background:white;cursor:pointer;font-family:inherit;font-size:0.78rem;">Пн</button>
+    <button onclick="toggleDay(this,2)" style="padding:6px 12px;border:1.5px solid var(--border);border-radius:8px;background:white;cursor:pointer;font-family:inherit;font-size:0.78rem;">Вт</button>
+    <button onclick="toggleDay(this,3)" style="padding:6px 12px;border:1.5px solid var(--border);border-radius:8px;background:white;cursor:pointer;font-family:inherit;font-size:0.78rem;">Ср</button>
+    <button onclick="toggleDay(this,4)" style="padding:6px 12px;border:1.5px solid var(--border);border-radius:8px;background:white;cursor:pointer;font-family:inherit;font-size:0.78rem;">Чт</button>
+    <button onclick="toggleDay(this,5)" style="padding:6px 12px;border:1.5px solid var(--border);border-radius:8px;background:white;cursor:pointer;font-family:inherit;font-size:0.78rem;">Пт</button>
+    <button onclick="toggleDay(this,6)" style="padding:6px 12px;border:1.5px solid var(--border);border-radius:8px;background:white;cursor:pointer;font-family:inherit;font-size:0.78rem;">Сб</button>
+    <button onclick="toggleDay(this,0)" style="padding:6px 12px;border:1.5px solid var(--border);border-radius:8px;background:white;cursor:pointer;font-family:inherit;font-size:0.78rem;">Вс</button>
+  </div>
+  <div style="font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">На сколько недель</div>
+  <select id="recurring-weeks" style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;font-family:inherit;font-size:0.85rem;outline:none;">
+    <option value="4">1 месяц (4 недели)</option>
+    <option value="8">2 месяца (8 недель)</option>
+    <option value="12">3 месяца (12 недель)</option>
+  </select>
+</div>
         <div class="fgroup"><label>Ваша цель</label>
           <select class="fcontrol" id="bm-goal">
             <option>Общее улучшение</option>
@@ -413,13 +439,69 @@ function openBooking(){
   document.getElementById('bookingModal').classList.add('open');
 }
 
+let bookingType = 'single';
+let selectedDays = new Set();
+
+function setBookingType(type, btn) {
+  bookingType = type;
+  document.getElementById('type-single').style.background = type==='single' ? 'var(--tiffany)' : 'white';
+  document.getElementById('type-single').style.color = type==='single' ? 'white' : 'var(--ink)';
+  document.getElementById('type-single').style.borderColor = type==='single' ? 'var(--tiffany)' : 'var(--border)';
+  document.getElementById('type-recurring').style.background = type==='recurring' ? 'var(--tiffany)' : 'white';
+  document.getElementById('type-recurring').style.color = type==='recurring' ? 'white' : 'var(--ink)';
+  document.getElementById('type-recurring').style.borderColor = type==='recurring' ? 'var(--tiffany)' : 'var(--border)';
+  document.getElementById('recurring-options').style.display = type==='recurring' ? 'block' : 'none';
+}
+
+function toggleDay(el, day) {
+  el.classList.toggle('sel');
+  if(selectedDays.has(day)) selectedDays.delete(day);
+  else selectedDays.add(day);
+  el.style.background = selectedDays.has(day) ? 'var(--tiffany)' : 'white';
+  el.style.color = selectedDays.has(day) ? 'white' : 'var(--ink)';
+  el.style.borderColor = selectedDays.has(day) ? 'var(--tiffany)' : 'var(--border)';
+}
+
 async function submitBooking(){
   if(!getToken()){showToast('Войдите чтобы забронировать');closeModal();return;}
+
+  if(bookingType === 'recurring') {
+    if(selectedDays.size === 0){showToast('Выберите дни недели');return;}
+    if(!selectedSlot){showToast('Выберите время');return;}
+    
+    try{
+      const weeks = parseInt(document.getElementById('recurring-weeks').value);
+      const res = await fetch(API+'/api/bookings/recurring',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()},
+        body:JSON.stringify({
+          tutor_id: tutor.user_id||tutor.id,
+          days: [...selectedDays],
+          start_time: selectedSlot+':00',
+          end_time: (parseInt(selectedSlot)+1).toString().padStart(2,'0')+':00:00',
+          subject: (tutor.subjects||[])[0]||'Урок',
+          weeks: weeks,
+          student_notes: document.getElementById('bm-notes').value
+        })
+      });
+      const data = await res.json();
+      document.getElementById('bm-step1').style.display='none';
+      document.getElementById('bm-step2').style.display='block';
+      document.getElementById('qr-amount').textContent = Math.round((tutor.hourly_rate||500) * data.total) + ' сом';
+      document.getElementById('qr-img').src=`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=BILIMLY_RECURRING_${data.total}LESSONS_${Date.now()}&bgcolor=ffffff&color=0ABAB5`;
+      showToast(`✅ ${data.total} уроков забронировано!`);
+    }catch(e){
+      showToast('Ошибка бронирования');
+    }
+    return;
+  }
+
+  // Single booking
   const date=document.getElementById('bm-date').value;
   if(!date){showToast('Выберите дату');return;}
   if(!selectedSlot){showToast('Выберите время');return;}
   try{
-    await fetch(API+'/api/bookings',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()},body:JSON.stringify({tutor_id:tutor.tutor_id||tutor.id,lesson_date:date,start_time:selectedSlot+':00',end_time:(parseInt(selectedSlot)+1).toString().padStart(2,'0')+':00:00',lesson_type:'trial',subject:(tutor.subjects||[])[0]||'Урок',student_notes:document.getElementById('bm-notes').value})});
+    await fetch(API+'/api/bookings',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()},body:JSON.stringify({tutor_id:tutor.user_id||tutor.id,lesson_date:date,start_time:selectedSlot+':00',end_time:(parseInt(selectedSlot)+1).toString().padStart(2,'0')+':00:00',lesson_type:'trial',subject:(tutor.subjects||[])[0]||'Урок',student_notes:document.getElementById('bm-notes').value})});
   }catch(e){}
   document.getElementById('bm-step1').style.display='none';
   document.getElementById('bm-step2').style.display='block';
