@@ -492,6 +492,9 @@ async function submitBooking(){
       document.getElementById('qr-amount').textContent = Math.round((tutor.hourly_rate||500) * data.total) + ' сом';
       document.getElementById('qr-img').src=`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=BILIMLY_RECURRING_${data.total}LESSONS_${Date.now()}&bgcolor=ffffff&color=0ABAB5`;
       showToast(`✅ ${data.total} уроков забронировано!`);
+const msg = encodeURIComponent(`Здравствуйте! Я записался на ${data.total} уроков через Bilimly.kg. Жду подтверждения! 🎓`);
+const phone = tutor?.phone?.replace(/\D/g,'');
+if(phone) setTimeout(()=>window.open(`https://wa.me/${phone}?text=${msg}`,'_blank'),1500);
     }catch(e){
       showToast('Ошибка бронирования');
     }
@@ -511,7 +514,23 @@ async function submitBooking(){
   document.getElementById('qr-img').src=`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=BILIMLY_${tutor?.tutor_id}_${tutor?.trial_rate}KGS&bgcolor=ffffff&color=0ABAB5`;
 }
 
-function confirmPaid(){closeModal();showToast('🎉 Урок забронирован! Подтверждение придёт на email');}
+function confirmPaid(){
+  closeModal();
+  showToast('🎉 Урок забронирован!');
+  
+  // Open WhatsApp with booking confirmation
+  const tutorName = tutor?.first_name + ' ' + tutor?.last_name;
+  const subject = (tutor?.subjects||[])[0] || 'урок';
+  const msg = encodeURIComponent(
+    `Здравствуйте! Я только что записался к вам на ${subject} через Bilimly.kg. Жду подтверждения! 🎓`
+  );
+  const phone = tutor?.phone?.replace(/\D/g,'');
+  if(phone){
+    setTimeout(() => {
+      window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+    }, 1500);
+  }
+}
 
 function closeModal(){
   document.getElementById('bookingModal').classList.remove('open');
