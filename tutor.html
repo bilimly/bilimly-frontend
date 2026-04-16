@@ -174,7 +174,8 @@ nav{background:rgba(255,255,255,0.95);border-bottom:1px solid var(--border);padd
     <span class="sticky-price-val" id="sticky-price">200 сом</span>
     <span class="sticky-price-lbl">Пробный урок</span>
   </div>
-  <button class="sticky-book-btn" onclick="openBooking()">⚡ Записаться</button>
+  <button class="sticky-book-btn" onclick="openBooking()" style="flex:1">⚡ Записаться</button>
+<button onclick="openPackages()" style="background:var(--gold);color:white;border:none;padding:13px 16px;border-radius:10px;font-size:0.82rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;">🎁 Пакет</button>
 </div>
 
 <!-- BOOKING MODAL -->
@@ -367,7 +368,8 @@ ${t.badge?`<div style="display:inline-flex;align-items:center;gap:6px;background
         </div>
         <div class="book-body">
           <button class="btn-book-trial" onclick="openBooking()">⚡ Записаться на пробный урок</button>
-          <button class="btn-msg" onclick="openMessage()">💬 Написать репетитору</button>
+<button onclick="openPackages()" style="width:100%;background:var(--gold-light);color:#7a5a00;border:1.5px solid var(--gold);padding:13px;border-radius:10px;font-size:0.88rem;font-weight:600;cursor:pointer;font-family:inherit;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px;">🎁 Купить пакет уроков</button>
+<button class="btn-msg" onclick="openMessage()">💬 Написать репетитору</button>
           <div class="response-info">Обычно отвечает в течение 2 часов</div>
         </div>
         <div class="book-features">
@@ -528,6 +530,88 @@ function showToast(msg){const t=document.getElementById('toast');t.textContent=m
 document.getElementById('bookingModal').addEventListener('click',e=>{if(e.target===document.getElementById('bookingModal'))closeModal();});
 
 loadTutor();
+  function openPackages(){
+  if(!getToken()){showToast('Войдите чтобы купить пакет');return;}
+  document.getElementById('pkg-tutor-name').textContent = 'Репетитор: ' + (tutor?.first_name||'') + ' ' + (tutor?.last_name||'');
+  document.getElementById('pkg-qr').style.display='none';
+  
+  const rate = tutor?.hourly_rate || 500;
+  const packages = [
+    {lessons:5, discount:5, icon:'📦'},
+    {lessons:10, discount:8, icon:'📦📦'},
+    {lessons:20, discount:11, icon:'💎'},
+  ];
+
+  document.getElementById('packages-list').innerHTML = packages.map(pkg => {
+    const price = Math.round(rate * (1 - pkg.discount/100));
+    const total = Math.round(price * pkg.lessons);
+    const savings = Math.round(rate * pkg.lessons - total);
+    return `
+      <div onclick="selectPackage(${pkg.lessons},${total},${price})" style="background:var(--tiffany-pale);border:1.5px solid var(--tiffany-light);border-radius:12px;padding:16px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--tiffany)'" onmouseout="this.style.borderColor='var(--tiffany-light)'">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;">${pkg.icon} ${pkg.lessons} уроков</div>
+            <div style="font-size:0.78rem;color:var(--tiffany-dark);font-weight:600;">Скидка ${pkg.discount}% · Экономия ${savings} сом</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--tiffany);">${total} сом</div>
+            <div style="font-size:0.72rem;color:var(--ink-60);">${price} сом/урок</div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('packagesModal').classList.add('open');
+}
+
+async function selectPackage(lessons, total, pricePerLesson){
+  try{
+    const res = await fetch(API+'/api/bookings/packages/buy',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()},
+      body:JSON.stringify({
+        tutor_id: tutor.user_id||tutor.id,
+        subject: (tutor.subjects||[])[0]||'Урок',
+        lessons
+      })
+    });
+    const data = await res.json();
+    document.getElementById('packages-list').style.display='none';
+    document.getElementById('pkg-qr').style.display='block';
+    document.getElementById('pkg-amount').textContent = total + ' сом';
+    document.getElementById('pkg-qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=BILIMLY_PKG_${lessons}LESSONS_${total}KGS_${Date.now()}&bgcolor=ffffff&color=0ABAB5`;
+    document.getElementById('pkg-footer').innerHTML = `
+      <button class="btn-cancel" onclick="document.getElementById('packagesModal').classList.remove('open')">Закрыть</button>
+      <button class="btn-confirm" onclick="document.getElementById('packagesModal').classList.remove('open');showToast('🎉 Пакет активирован!')">✓ Оплачено</button>
+    `;
+  }catch(e){
+    showToast('Ошибка. Попробуйте снова.');
+  }
+}
 </script>
+  <!-- PACKAGES MODAL -->
+<div class="overlay" id="packagesModal">
+  <div class="modal">
+    <div class="modal-head">
+      <button class="modal-close" onclick="document.getElementById('packagesModal').classList.remove('open')">✕</button>
+      <h2>Пакеты уроков</h2>
+      <p id="pkg-tutor-name">Выберите пакет и сэкономьте</p>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;flex-direction:column;gap:12px;" id="packages-list"></div>
+      <div id="pkg-qr" style="display:none;margin-top:16px;">
+        <div class="qr-box">
+          <div class="qr-amount" id="pkg-amount">—</div>
+          <p style="color:var(--ink-60);font-size:0.75rem;margin-bottom:8px">Оплатите через MBANK</p>
+          <img id="pkg-qr-img" src="" alt="QR" style="width:160px;height:160px;border-radius:8px;margin:12px auto;display:block;border:3px solid white;">
+          <p style="font-size:0.78rem;color:var(--ink-60)">После оплаты уроки активируются автоматически</p>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot" id="pkg-footer">
+      <button class="btn-cancel" onclick="document.getElementById('packagesModal').classList.remove('open')">Закрыть</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
