@@ -516,20 +516,11 @@ if(phone) setTimeout(()=>window.open(`https://wa.me/${phone}?text=${msg}`,'_blan
 
 function confirmPaid(){
   closeModal();
-  showToast('🎉 Урок забронирован!');
-  
-  // Open WhatsApp with booking confirmation
-  const tutorName = tutor?.first_name + ' ' + tutor?.last_name;
-  const subject = (tutor?.subjects||[])[0] || 'урок';
-  const msg = encodeURIComponent(
-    `Здравствуйте! Я только что записался к вам на ${subject} через Bilimly.kg. Жду подтверждения! 🎓`
-  );
-  const phone = tutor?.phone?.replace(/\D/g,'');
-  if(phone){
-    setTimeout(() => {
-      window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
-    }, 1500);
-  }
+  showToast('🎉 Урок забронирован! Репетитор скоро свяжется с вами.');
+  // Open platform messages instead of WhatsApp
+  setTimeout(() => {
+    window.location.href = 'messages.html';
+  }, 2000);
 }
 
 function closeModal(){
