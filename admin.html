@@ -381,7 +381,8 @@ function renderTutors(list){
       <td>
         <div class="tutor-row">
           <div class="tutor-av">👨‍🏫</div>
-          <div><div class="tutor-name">${u.first_name} ${u.last_name}</div><div class="tutor-email">${u.email}</div></div>
+          <div><div class="tutor-name">${u.first_name} ${u.last_name}</div><div class="tutor-email">${u.email}</div>
+<div class="tutor-email">${u.phone||'Телефон не указан'}</div></div>
         </div>
       </td>
       <td>${(u.subjects||[]).join(', ')||'—'}</td>
