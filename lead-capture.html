@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0ABAB5">
+<title>Bilimly — Подберём репетитора за 2 минуты</title>
+<meta name="description" content="Найдите проверенного репетитора в Кыргызстане. Первый урок бесплатно. Ответим в WhatsApp за 2 минуты.">
+
+<!-- Open Graph for ad previews -->
+<meta property="og:title" content="Bilimly — Подберём репетитора за 2 минуты">
+<meta property="og:description" content="Проверенные репетиторы по всем предметам. Первый урок бесплатно.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bilimly.kg/lead-capture.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ── RESET ─────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #FDFBF7;
+    color: #2C2C2C;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; }
+  input { font-family: inherit; }
+
+  /* ── LAYOUT ────────────────────────────────────────── */
+  .app {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 20px 20px 32px;
+  }
+
+  .progress {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 40px;
+    padding-top: 12px;
+  }
+  .progress-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #E8E3DB;
+    transition: background 250ms ease, transform 250ms ease;
+  }
+  .progress-dot.active { background: #0ABAB5; transform: scale(1.2); }
+  .progress-dot.complete { background: #0ABAB5; }
+
+  .screen {
+    flex: 1;
+    display: none;
+    flex-direction: column;
+    animation: fadeIn 300ms ease;
+  }
+  .screen.active { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .question {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 38px;
+    line-height: 1.15;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  .question-sub {
+    font-size: 15px;
+    color: #6B6B6B;
+    margin-bottom: 32px;
+  }
+
+  /* ── OPTION BUTTONS ────────────────────────────────── */
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .option {
+    width: 100%;
+    padding: 18px 20px;
+    background: #FFFFFF;
+    border: 1.5px solid #EAE5DB;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #2C2C2C;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    transition: all 180ms ease;
+    min-height: 60px;
+  }
+  .option:hover, .option:focus-visible {
+    border-color: #0ABAB5;
+    background: #F5FBFB;
+    outline: none;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(10, 186, 181, 0.08);
+  }
+  .option:active { transform: translateY(0); }
+  .option-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+  }
+  .option-icon {
+    font-size: 22px;
+    line-height: 1;
+    width: 28px;
+    display: inline-flex;
+    justify-content: center;
+  }
+  .option-arrow {
+    color: #0ABAB5;
+    font-size: 20px;
+    opacity: 0.5;
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+  .option:hover .option-arrow { opacity: 1; transform: translateX(2px); }
+
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #0ABAB5;
+    background: #E6F8F7;
+    padding: 3px 8px;
+    border-radius: 6px;
+    margin-left: 8px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  /* Subject grid (screen 2) */
+  .subject-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .subject-grid .option {
+    min-height: 74px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 14px 14px;
+    justify-content: center;
+  }
+  .subject-grid .option-label { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .subject-grid .option-icon { font-size: 24px; width: auto; }
+  .subject-grid .option-text { font-size: 15px; font-weight: 500; }
+  .subject-grid .option-arrow { display: none; }
+
+  /* ── PHONE SCREEN ──────────────────────────────────── */
+  .phone-wrap {
+    display: flex;
+    align-items: center;
+    background: #FFFFFF;
+    border: 1.5px solid #EAE5DB;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+    margin-bottom: 20px;
+  }
+  .phone-wrap:focus-within {
+    border-color: #0ABAB5;
+    box-shadow: 0 0 0 3px rgba(10, 186, 181, 0.12);
+  }
+  .phone-prefix {
+    padding: 18px 4px 18px 18px;
+    font-size: 17px;
+    font-weight: 500;
+    color: #2C2C2C;
+    user-select: none;
+  }
+  .phone-input {
+    flex: 1;
+    padding: 18px 16px 18px 8px;
+    font-size: 17px;
+    font-weight: 500;
+    color: #2C2C2C;
+    border: none;
+    outline: none
