@@ -201,4 +201,530 @@
     font-weight: 500;
     color: #2C2C2C;
     border: none;
-    outline: none
+    outline: none;
+    background: transparent;
+    letter-spacing: 0.5px;
+  }
+  .phone-input::placeholder { color: #B8B3A8; font-weight: 400; letter-spacing: 0.5px; }
+
+  .primary-btn {
+    width: 100%;
+    padding: 18px 24px;
+    background: #0ABAB5;
+    color: #FFFFFF;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    transition: all 180ms ease;
+    min-height: 58px;
+  }
+  .primary-btn:hover:not(:disabled) {
+    background: #089B97;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(10, 186, 181, 0.25);
+  }
+  .primary-btn:active:not(:disabled) { transform: translateY(0); }
+  .primary-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .error-msg {
+    color: #C0392B;
+    font-size: 14px;
+    margin-top: -12px;
+    margin-bottom: 12px;
+    min-height: 20px;
+  }
+
+  /* ── TRUST LINE ────────────────────────────────────── */
+  .trust {
+    margin-top: auto;
+    padding-top: 28px;
+    text-align: center;
+    font-size: 12px;
+    color: #9C9689;
+  }
+  .trust-icon { display: inline-block; margin-right: 4px; }
+
+  /* ── BACK BUTTON ───────────────────────────────────── */
+  .back {
+    align-self: flex-start;
+    padding: 8px 0;
+    margin-bottom: 16px;
+    font-size: 14px;
+    color: #6B6B6B;
+    font-weight: 500;
+    transition: color 180ms ease;
+  }
+  .back:hover { color: #0ABAB5; }
+
+  /* ── CONFIRMATION SCREEN ───────────────────────────── */
+  .confirm-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 34px;
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  .confirm-sub {
+    font-size: 15px;
+    color: #6B6B6B;
+    margin-bottom: 28px;
+  }
+  .tutor-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .tutor-card {
+    background: #FFFFFF;
+    border: 1.5px solid #EAE5DB;
+    border-radius: 16px;
+    padding: 18px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    position: relative;
+  }
+  .tutor-card.recommended::before {
+    content: 'Также рекомендуем';
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #9C9689;
+    background: #F5F2EC;
+    padding: 3px 7px;
+    border-radius: 5px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .tutor-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #E6F8F7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: #0ABAB5;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .tutor-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .tutor-info { flex: 1; min-width: 0; }
+  .tutor-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #2C2C2C;
+  }
+  .tutor-meta {
+    font-size: 13px;
+    color: #6B6B6B;
+    margin-bottom: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+  .tutor-rating { color: #2C2C2C; font-weight: 500; }
+  .tutor-rating-star { color: #F5A623; }
+  .tutor-price {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0ABAB5;
+  }
+  .tutor-bio {
+    font-size: 13px;
+    color: #6B6B6B;
+    line-height: 1.4;
+    margin-top: 4px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .call-line {
+    text-align: center;
+    font-size: 14px;
+    color: #6B6B6B;
+    padding: 16px;
+    background: #F5F2EC;
+    border-radius: 12px;
+  }
+  .call-line a { color: #0ABAB5; font-weight: 600; text-decoration: none; }
+
+  /* ── LOADING STATE ─────────────────────────────────── */
+  .spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: #FFFFFF;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── DESKTOP ADJUSTMENTS ───────────────────────────── */
+  @media (min-width: 640px) {
+    .app { padding: 40px 24px 40px; }
+    .question { font-size: 48px; }
+    .progress { margin-bottom: 52px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- Progress indicator -->
+  <div class="progress" id="progress" aria-hidden="true">
+    <div class="progress-dot active"></div>
+    <div class="progress-dot"></div>
+    <div class="progress-dot"></div>
+    <div class="progress-dot"></div>
+  </div>
+
+  <!-- ─── SCREEN 1: GRADE ─────────────────────────────── -->
+  <section class="screen active" id="screen-grade">
+    <h1 class="question">В каком классе учится ребёнок?</h1>
+    <p class="question-sub">Подберём репетитора с опытом работы с этим возрастом</p>
+    <div class="options">
+      <button class="option" data-grade="primary">
+        <span class="option-label"><span class="option-icon">✏️</span><span>Начальная школа (1–4 класс)</span></span>
+        <span class="option-arrow">→</span>
+      </button>
+      <button class="option" data-grade="middle">
+        <span class="option-label"><span class="option-icon">📚</span><span>Средняя школа (5–9 класс)</span></span>
+        <span class="option-arrow">→</span>
+      </button>
+      <button class="option" data-grade="high">
+        <span class="option-label"><span class="option-icon">🎓</span><span>Старшая школа (10–11 класс)</span></span>
+        <span class="option-arrow">→</span>
+      </button>
+      <button class="option" data-grade="ort_university">
+        <span class="option-label"><span class="option-icon">🎯</span><span>ОРТ / Университет</span></span>
+        <span class="option-arrow">→</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ─── SCREEN 2: SUBJECT ───────────────────────────── -->
+  <section class="screen" id="screen-subject">
+    <button class="back" data-back="grade">← Назад</button>
+    <h1 class="question">Какой предмет нужен?</h1>
+    <p class="question-sub">Покажем лучших репетиторов по этому предмету</p>
+    <div class="options subject-grid">
+      <button class="option" data-subject="Математика">
+        <span class="option-label"><span class="option-icon">🔢</span><span class="option-text">Математика</span></span>
+      </button>
+      <button class="option" data-subject="Физика">
+        <span class="option-label"><span class="option-icon">⚛️</span><span class="option-text">Физика</span></span>
+      </button>
+      <button class="option" data-subject="Химия">
+        <span class="option-label"><span class="option-icon">🧪</span><span class="option-text">Химия</span></span>
+      </button>
+      <button class="option" data-subject="Биология">
+        <span class="option-label"><span class="option-icon">🧬</span><span class="option-text">Биология</span></span>
+      </button>
+      <button class="option" data-subject="Английский">
+        <span class="option-label"><span class="option-icon">🇬🇧</span><span class="option-text">Английский</span></span>
+      </button>
+      <button class="option" data-subject="Русский">
+        <span class="option-label"><span class="option-icon">📖</span><span class="option-text">Русский</span></span>
+      </button>
+      <button class="option" data-subject="Кыргыз тили">
+        <span class="option-label"><span class="option-icon">🇰🇬</span><span class="option-text">Кыргыз тили</span></span>
+      </button>
+      <button class="option" data-subject="Подготовка к ОРТ">
+        <span class="option-label"><span class="option-icon">🎯</span><span class="option-text">Подготовка к ОРТ</span></span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ─── SCREEN 3: URGENCY ───────────────────────────── -->
+  <section class="screen" id="screen-urgency">
+    <button class="back" data-back="subject">← Назад</button>
+    <h1 class="question">Когда хотите начать?</h1>
+    <p class="question-sub">Подстроимся под ваш график</p>
+    <div class="options">
+      <button class="option" data-urgency="this_week">
+        <span class="option-label"><span class="option-icon">⚡</span><span>На этой неделе</span></span>
+        <span class="option-arrow">→</span>
+      </button>
+      <button class="option" data-urgency="this_month">
+        <span class="option-label"><span class="option-icon">📅</span><span>В течение месяца</span></span>
+        <span class="option-arrow">→</span>
+      </button>
+      <button class="option" data-urgency="exploring">
+        <span class="option-label"><span class="option-icon">👀</span><span>Просто изучаю варианты</span></span>
+        <span class="option-arrow">→</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ─── SCREEN 4: PHONE ─────────────────────────────── -->
+  <section class="screen" id="screen-phone">
+    <button class="back" data-back="urgency">← Назад</button>
+    <h1 class="question">Куда отправить подборку?</h1>
+    <p class="question-sub">Напишем в WhatsApp за 2 минуты. Без спама.</p>
+
+    <div class="phone-wrap">
+      <span class="phone-prefix">+996</span>
+      <input
+        type="tel"
+        inputmode="numeric"
+        class="phone-input"
+        id="phone-input"
+        placeholder="555 12 34 56"
+        maxlength="12"
+        autocomplete="tel"
+      >
+    </div>
+    <div class="error-msg" id="phone-error"></div>
+
+    <button class="primary-btn" id="submit-btn" disabled>
+      Получить репетиторов
+    </button>
+  </section>
+
+  <!-- ─── SCREEN 5: CONFIRMATION ──────────────────────── -->
+  <section class="screen" id="screen-confirm">
+    <h1 class="confirm-headline" id="confirm-headline">Нашли репетиторов для вас</h1>
+    <p class="confirm-sub">Свяжемся с вами в WhatsApp в ближайшие минуты</p>
+
+    <div class="tutor-list" id="tutor-list">
+      <!-- Populated by JS -->
+    </div>
+
+    <div class="call-line">
+      Не пришло сообщение? Позвоните нам:
+      <a href="tel:+996506354444">+996 506 354 444</a>
+    </div>
+  </section>
+
+  <!-- Trust line (hidden on confirmation screen) -->
+  <div class="trust" id="trust-line">
+    <span class="trust-icon">🔒</span>Ваш номер не передаётся третьим лицам
+  </div>
+
+</div>
+
+<script>
+  // ─── CONFIG ─────────────────────────────────────────
+  const API_URL = 'https://bilimly-backend-0zbt.onrender.com';
+
+  // ─── STATE ──────────────────────────────────────────
+  const state = {
+    grade_band: null,
+    subject: null,
+    urgency: null,
+    phone: null,
+  };
+
+  const SCREEN_ORDER = ['grade', 'subject', 'urgency', 'phone', 'confirm'];
+  let currentScreenIndex = 0;
+
+  // ─── SCREEN NAVIGATION ──────────────────────────────
+  function showScreen(name) {
+    const newIndex = SCREEN_ORDER.indexOf(name);
+    if (newIndex === -1) return;
+
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + name).classList.add('active');
+    currentScreenIndex = newIndex;
+    updateProgress();
+
+    // Hide trust line on confirmation screen (it has its own call-line)
+    const trust = document.getElementById('trust-line');
+    trust.style.display = name === 'confirm' ? 'none' : '';
+
+    // Scroll to top for the new screen
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Focus phone input when reaching that screen
+    if (name === 'phone') {
+      setTimeout(() => document.getElementById('phone-input').focus(), 350);
+    }
+  }
+
+  function updateProgress() {
+    // Progress shows 4 dots (confirm screen doesn't count as a step)
+    const dots = document.querySelectorAll('.progress-dot');
+    const stepIndex = Math.min(currentScreenIndex, 3);
+    dots.forEach((dot, i) => {
+      dot.classList.remove('active', 'complete');
+      if (i < stepIndex) dot.classList.add('complete');
+      else if (i === stepIndex) dot.classList.add('active');
+    });
+  }
+
+  // ─── OPTION HANDLERS ────────────────────────────────
+  document.querySelectorAll('#screen-grade .option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.grade_band = btn.dataset.grade;
+      showScreen('subject');
+    });
+  });
+
+  document.querySelectorAll('#screen-subject .option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.subject = btn.dataset.subject;
+      showScreen('urgency');
+    });
+  });
+
+  document.querySelectorAll('#screen-urgency .option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.urgency = btn.dataset.urgency;
+      showScreen('phone');
+    });
+  });
+
+  // Back buttons
+  document.querySelectorAll('.back').forEach(btn => {
+    btn.addEventListener('click', () => showScreen(btn.dataset.back));
+  });
+
+  // ─── PHONE FORMATTING & VALIDATION ──────────────────
+  const phoneInput = document.getElementById('phone-input');
+  const submitBtn = document.getElementById('submit-btn');
+  const phoneError = document.getElementById('phone-error');
+
+  function formatPhone(digits) {
+    // Format as "XXX XX XX XX"
+    const d = digits.slice(0, 9);
+    let out = '';
+    if (d.length > 0) out += d.slice(0, 3);
+    if (d.length > 3) out += ' ' + d.slice(3, 5);
+    if (d.length > 5) out += ' ' + d.slice(5, 7);
+    if (d.length > 7) out += ' ' + d.slice(7, 9);
+    return out;
+  }
+
+  phoneInput.addEventListener('input', (e) => {
+    const digits = e.target.value.replace(/\D/g, '');
+    e.target.value = formatPhone(digits);
+    submitBtn.disabled = digits.length !== 9;
+    phoneError.textContent = '';
+  });
+
+  phoneInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !submitBtn.disabled) {
+      submitLead();
+    }
+  });
+
+  // ─── SUBMISSION ─────────────────────────────────────
+  submitBtn.addEventListener('click', submitLead);
+
+  async function submitLead() {
+    const digits = phoneInput.value.replace(/\D/g, '');
+    if (digits.length !== 9) {
+      phoneError.textContent = 'Введите 9 цифр после +996';
+      return;
+    }
+    state.phone = '+996' + digits;
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner"></span>Ищем репетиторов...';
+
+    try {
+      const response = await fetch(API_URL + '/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone: state.phone,
+          grade_band: state.grade_band,
+          subject: state.subject,
+          urgency: state.urgency,
+          source: 'lead_capture_page',
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        phoneError.textContent = data.error || 'Что-то пошло не так. Попробуйте ещё раз.';
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Получить репетиторов';
+        return;
+      }
+
+      renderTutors(data.matched_tutors || []);
+      showScreen('confirm');
+    } catch (err) {
+      console.error('Lead submission failed:', err);
+      phoneError.textContent = 'Ошибка соединения. Проверьте интернет.';
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Получить репетиторов';
+    }
+  }
+
+  // ─── TUTOR CARDS ON CONFIRMATION ────────────────────
+  function renderTutors(tutors) {
+    const list = document.getElementById('tutor-list');
+    const headline = document.getElementById('confirm-headline');
+
+    if (!tutors.length) {
+      headline.textContent = 'Заявка принята!';
+      list.innerHTML = '<div class="call-line">Свяжемся с вами в WhatsApp и подберём репетитора лично.</div>';
+      return;
+    }
+
+    headline.textContent = `Нашли ${tutors.length} ${pluralize(tutors.length, 'репетитора', 'репетиторов', 'репетиторов')} для вас`;
+
+    list.innerHTML = tutors.map(t => {
+      const fullName = `${t.first_name || ''} ${t.last_name ? t.last_name[0] + '.' : ''}`.trim();
+      const initials = ((t.first_name || '?')[0] + (t.last_name ? t.last_name[0] : '')).toUpperCase();
+      const rating = Number(t.rating) > 0 ? Number(t.rating).toFixed(1) : null;
+      const reviewCount = t.review_count || 0;
+      const price = Math.round(Number(t.hourly_rate) || 0);
+      const bio = (t.bio_ru || '').slice(0, 140);
+      const avatarHtml = t.avatar_url
+        ? `<img src="${escapeHtml(t.avatar_url)}" alt="">`
+        : escapeHtml(initials);
+
+      return `
+        <div class="tutor-card ${t.match_type === 'recommended' ? 'recommended' : ''}">
+          <div class="tutor-avatar">${avatarHtml}</div>
+          <div class="tutor-info">
+            <div class="tutor-name">${escapeHtml(fullName) || 'Репетитор'}</div>
+            <div class="tutor-meta">
+              ${rating ? `<span class="tutor-rating"><span class="tutor-rating-star">★</span> ${rating} ${reviewCount > 0 ? `(${reviewCount})` : ''}</span>` : ''}
+              <span class="tutor-price">${price} сом/час</span>
+            </div>
+            ${bio ? `<div class="tutor-bio">${escapeHtml(bio)}</div>` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function pluralize(n, one, few, many) {
+    const mod10 = n % 10;
+    const mod100 = n % 100;
+    if (mod10 === 1 && mod100 !== 11) return one;
+    if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return few;
+    return many;
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+</script>
+</body>
+</html>
