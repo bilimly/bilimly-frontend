@@ -285,6 +285,34 @@
     gap: 14px;
     align-items: flex-start;
     position: relative;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+  }
+  .tutor-card:hover, .tutor-card:focus-visible {
+    border-color: #0ABAB5;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(10, 186, 181, 0.12);
+    outline: none;
+  }
+  .tutor-card:active { transform: translateY(0); }
+
+  .tutor-card-cta {
+    display: block;
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #0ABAB5;
+    letter-spacing: 0.01em;
+  }
+  .tutor-card-cta::after {
+    content: ' →';
+    transition: transform 180ms ease;
+    display: inline-block;
+  }
+  .tutor-card:hover .tutor-card-cta::after {
+    transform: translateX(3px);
   }
   .tutor-card.recommended::before {
     content: 'Также рекомендуем';
@@ -694,7 +722,7 @@
         : escapeHtml(initials);
 
       return `
-        <div class="tutor-card ${t.match_type === 'recommended' ? 'recommended' : ''}">
+        <a href="tutor.html?id=${encodeURIComponent(t.id)}" class="tutor-card ${t.match_type === 'recommended' ? 'recommended' : ''}">
           <div class="tutor-avatar">${avatarHtml}</div>
           <div class="tutor-info">
             <div class="tutor-name">${escapeHtml(fullName) || 'Репетитор'}</div>
@@ -703,8 +731,9 @@
               <span class="tutor-price">${price} сом/час</span>
             </div>
             ${bio ? `<div class="tutor-bio">${escapeHtml(bio)}</div>` : ''}
+            <span class="tutor-card-cta">Посмотреть профиль</span>
           </div>
-        </div>
+        </a>
       `;
     }).join('');
   }
