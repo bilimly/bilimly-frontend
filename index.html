@@ -3,273 +3,784 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0ABAB5">
+<meta name="theme-color" content="#0ABAB5">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Bilimly">
 <link rel="manifest" href="/manifest.json">
-<title>Bilimly.kg — Найди своего репетитора</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Bilimly.kg — Подберём репетитора для вашего ребёнка</title>
+<meta name="description" content="Проверенные репетиторы в Бишкеке. Математика, физика, английский, подготовка к ОРТ. Первый урок — 200 сом.">
+
+<meta property="og:title" content="Bilimly — Подберём репетитора для вашего ребёнка">
+<meta property="og:description" content="Проверенные репетиторы в Бишкеке. Первый урок — 200 сом.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bilimly.kg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-:root{
-  --tiffany:#0ABAB5;
-  --tiffany-dark:#089490;
-  --tiffany-light:#e0f7f6;
-  --tiffany-pale:#f0fbfb;
-  --gold:#c9a84c;
-  --gold-light:#fdf6e3;
-  --ink:#0a0a0a;
-  --ink-60:rgba(10,10,10,0.6);
-  --ink-30:rgba(10,10,10,0.3);
-  --ink-10:rgba(10,10,10,0.08);
-  --white:#ffffff;
-  --border:rgba(10,10,10,0.08);
-  --shadow:0 2px 16px rgba(10,186,181,0.08);
-  --shadow-lg:0 16px 48px rgba(10,186,181,0.15);
-  --radius:16px;
-  --radius-sm:10px;
+:root {
+  --tiffany: #0ABAB5;
+  --tiffany-dark: #089490;
+  --tiffany-light: #E0F7F6;
+  --tiffany-pale: #F0FBFB;
+  --gold: #C9A84C;
+  --ink: #0A0A0A;
+  --ink-70: rgba(10,10,10,0.7);
+  --ink-60: rgba(10,10,10,0.6);
+  --ink-40: rgba(10,10,10,0.4);
+  --ink-20: rgba(10,10,10,0.15);
+  --ink-10: rgba(10,10,10,0.08);
+  --cream: #FDFBF7;
+  --white: #FFFFFF;
+  --border: rgba(10,10,10,0.08);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 2px 16px rgba(10,186,181,0.06);
+  --shadow-lg: 0 16px 48px rgba(10,186,181,0.12);
 }
-*{margin:0;padding:0;box-sizing:border-box;}
-html,body{overflow-x:hidden;max-width:100vw;scroll-behavior:smooth;}
-body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);line-height:1.6;}
-
-/* ── NAV ── */
-nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 5%;height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
-.logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--tiffany);text-decoration:none;letter-spacing:-0.5px;flex-shrink:0;}
-.logo span{color:var(--gold);}
-.nav-links{display:flex;gap:28px;list-style:none;}
-.nav-links a{text-decoration:none;color:var(--ink-60);font-size:0.875rem;font-weight:500;transition:color 0.2s;white-space:nowrap;}
-.nav-links a:hover{color:var(--tiffany);}
-.nav-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
-.lang-select{border:1px solid var(--border);border-radius:8px;padding:5px 8px;font-family:inherit;font-size:0.78rem;font-weight:500;color:var(--ink);background:white;cursor:pointer;outline:none;}
-.lang-select:focus{border-color:var(--tiffany);}
-.btn-ghost{background:none;border:1.5px solid var(--border);color:var(--ink);padding:8px 16px;border-radius:8px;font-size:0.82rem;font-weight:500;cursor:pointer;font-family:inherit;transition:all 0.2s;white-space:nowrap;}
-.btn-ghost:hover{border-color:var(--tiffany);color:var(--tiffany);}
-.btn-primary{background:var(--tiffany);color:white;border:none;padding:9px 18px;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;white-space:nowrap;}
-.btn-primary:hover{background:var(--tiffany-dark);transform:translateY(-1px);}
-.nav-messages-btn{position:relative;background:none;border:1.5px solid var(--border);color:var(--ink);padding:8px 14px;border-radius:8px;font-size:0.82rem;cursor:pointer;font-family:inherit;transition:all 0.2s;display:none;white-space:nowrap;}
-.nav-messages-btn:hover{border-color:var(--tiffany);color:var(--tiffany);}
-.unread-dot{position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:var(--gold);border-radius:50%;font-size:0.6rem;font-weight:700;color:white;display:flex;align-items:center;justify-content:center;}
-.user-nav{display:none;align-items:center;gap:8px;}
-.user-chip{font-size:0.82rem;font-weight:600;color:var(--tiffany);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-
-/* ── HERO ── */
-.hero{background:linear-gradient(135deg,#0a1a1a 0%,#0d2d2b 50%,#0a2020 100%);min-height:88vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:80px 5%;}
-.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 70% 50%,rgba(10,186,181,0.12) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 20% 80%,rgba(201,168,76,0.08) 0%,transparent 60%);}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(10,186,181,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(10,186,181,0.04) 1px,transparent 1px);background-size:60px 60px;}
-.hero-inner{position:relative;max-width:680px;z-index:1;text-align:center;margin:0 auto;}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(10,186,181,0.1);color:var(--tiffany);border:1px solid rgba(10,186,181,0.2);padding:6px 16px;border-radius:24px;font-size:0.75rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:28px;}
-.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,6vw,5rem);font-weight:600;color:white;line-height:1.1;margin-bottom:20px;letter-spacing:-1px;}
-.hero h1 em{color:var(--tiffany);font-style:italic;}
-.hero-sub{font-size:1.05rem;color:rgba(255,255,255,0.55);margin-bottom:40px;max-width:500px;line-height:1.7;}
-.search-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius);padding:6px;backdrop-filter:blur(10px);max-width:560px;display:flex;gap:6px;}
-.search-inner{flex:1;position:relative;}
-.search-input{width:100%;background:white;border:none;outline:none;padding:14px 18px;font-family:inherit;font-size:0.9rem;border-radius:10px;color:var(--ink);}
-.search-input::placeholder{color:var(--ink-30);}
-#suggestions{display:none;position:absolute;top:calc(100% + 6px);left:0;right:0;background:white;border:1px solid var(--border);border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,0.12);z-index:9999;max-height:260px;overflow-y:auto;}
-.sug-item{padding:11px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;font-size:0.85rem;border-bottom:1px solid var(--border);transition:background 0.15s;}
-.sug-item:last-child{border-bottom:none;}
-.sug-item:hover{background:var(--tiffany-pale);}
-.sug-icon{font-size:1.1rem;width:24px;text-align:center;}
-.sug-name{font-weight:600;}
-.sug-cat{font-size:0.72rem;color:var(--ink-60);}
-.search-btn{background:var(--tiffany);color:white;border:none;padding:0 24px;border-radius:10px;font-size:0.9rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;white-space:nowrap;flex-shrink:0;}
-.search-btn:hover{background:var(--tiffany-dark);}
-.hero-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;justify-content:center;}
-.htag{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.1);padding:5px 14px;border-radius:20px;font-size:0.78rem;cursor:pointer;transition:all 0.2s;}
-.htag:hover{background:rgba(10,186,181,0.15);color:var(--tiffany);border-color:rgba(10,186,181,0.3);}
-.hero-stats{position:absolute;bottom:40px;right:5%;display:flex;gap:32px;z-index:1;}
-.hstat{text-align:right;}
-.hstat-n{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:white;display:block;line-height:1;}
-.hstat-l{font-size:0.72rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.08em;}
-
-/* ── SECTIONS ── */
-.section{padding:72px 5%;}
-.section-header{text-align:center;margin-bottom:48px;}
-.eyebrow{font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--tiffany);margin-bottom:10px;}
-.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:600;color:var(--ink);letter-spacing:-0.5px;line-height:1.2;}
-.section-sub{margin-top:12px;color:var(--ink-60);font-size:0.9rem;}
-
-/* ── FILTERS ── */
-.filters{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:36px;}
-.fbtn{background:white;border:1.5px solid var(--border);color:var(--ink);padding:8px 20px;border-radius:24px;font-size:0.82rem;font-weight:500;cursor:pointer;transition:all 0.2s;font-family:inherit;}
-.fbtn:hover,.fbtn.active{background:var(--tiffany);border-color:var(--tiffany);color:white;}
-
-/* ── TUTOR CARDS ── */
-.tutor-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px;max-width:1140px;margin:0 auto;}
-.tcard{background:white;border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:all 0.3s;display:flex;position:relative;}
-.tcard:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:var(--tiffany);}
-.tc-photo{width:110px;min-height:160px;background:var(--tiffany-light);display:flex;align-items:center;justify-content:center;font-size:3.2rem;flex-shrink:0;overflow:hidden;position:relative;}
-.tc-photo img{width:100%;height:100%;object-fit:cover;}
-.tc-badge{position:absolute;top:8px;left:8px;background:var(--tiffany);color:white;font-size:0.6rem;font-weight:700;padding:2px 7px;border-radius:6px;text-transform:uppercase;letter-spacing:0.05em;}
-.tc-badge.gold-badge{background:var(--gold);}
-.tc-body{flex:1;padding:16px;display:flex;flex-direction:column;justify-content:space-between;min-width:0;}
-.tc-top{}
-.tc-name{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;color:var(--ink);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.tc-subject{font-size:0.78rem;color:var(--tiffany);font-weight:600;margin-bottom:8px;}
-.tc-metrics{display:flex;gap:12px;margin-bottom:8px;}
-.tc-metric{font-size:0.75rem;color:var(--ink-60);display:flex;align-items:center;gap:3px;}
-.tc-metric strong{color:var(--ink);font-weight:600;}
-.tc-desc{font-size:0.78rem;color:var(--ink-60);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:10px;}
-.tc-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:12px;}
-.tc-tag{background:var(--tiffany-pale);color:var(--tiffany-dark);font-size:0.68rem;font-weight:600;padding:3px 8px;border-radius:6px;}
-.tc-footer{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid var(--border);}
-.tc-price{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--ink);}
-.tc-price small{font-family:'DM Sans',sans-serif;font-size:0.7rem;color:var(--ink-60);font-weight:400;}
-.tc-trial{font-size:0.68rem;color:var(--gold);font-weight:600;display:block;}
-.btn-book{background:var(--tiffany);color:white;border:none;padding:8px 16px;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;white-space:nowrap;}
-.btn-book:hover{background:var(--tiffany-dark);}
-
-/* ── SUBJECTS ── */
-.subjects-section{background:var(--tiffany-pale);}
-.subject-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;max-width:900px;margin:0 auto;}
-.scard{background:white;border-radius:12px;padding:18px 12px;text-align:center;cursor:pointer;transition:all 0.25s;border:1.5px solid var(--border);}
-.scard:hover{transform:translateY(-4px);border-color:var(--tiffany);box-shadow:0 8px 24px rgba(10,186,181,0.12);}
-.scard-icon{font-size:1.8rem;margin-bottom:8px;}
-.scard-name{font-size:0.8rem;font-weight:600;color:var(--ink);}
-.scard-count{font-size:0.7rem;color:var(--ink-60);margin-top:2px;}
-
-/* ── HOW IT WORKS ── */
-.how-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px;max-width:900px;margin:0 auto;}
-.how-step{text-align:center;}
-.step-num{width:52px;height:52px;border-radius:50%;background:var(--tiffany);color:white;font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;}
-.how-step h3{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;margin-bottom:8px;}
-.how-step p{font-size:0.82rem;color:var(--ink-60);line-height:1.6;}
-
-/* ── TESTIMONIALS ── */
-.testi-section{background:var(--ink);}
-.testi-section .section-title,.testi-section .eyebrow{color:white;}
-.testi-section .eyebrow{color:var(--tiffany);}
-.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:960px;margin:0 auto;}
-.tcard2{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius);padding:28px;}
-.tcard2-stars{color:var(--gold);margin-bottom:14px;font-size:0.9rem;letter-spacing:2px;}
-.tcard2-text{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:rgba(255,255,255,0.75);line-height:1.7;margin-bottom:20px;font-style:italic;}
-.tcard2-author{display:flex;align-items:center;gap:12px;}
-.tcard2-av{width:38px;height:38px;border-radius:50%;background:var(--tiffany);display:flex;align-items:center;justify-content:center;font-size:1rem;color:white;}
-.tcard2-name{font-size:0.85rem;font-weight:600;color:white;}
-.tcard2-detail{font-size:0.72rem;color:rgba(255,255,255,0.35);}
-
-/* ── CTA ── */
-.cta-section{background:linear-gradient(135deg,var(--tiffany) 0%,var(--tiffany-dark) 100%);padding:80px 5%;text-align:center;position:relative;overflow:hidden;}
-.cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(255,255,255,0.06) 0%,transparent 70%);}
-.cta-section h2{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,3rem);color:white;margin-bottom:14px;position:relative;font-weight:600;}
-.cta-section p{color:rgba(255,255,255,0.7);margin-bottom:32px;position:relative;font-size:1rem;}
-.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative;}
-.btn-white{background:white;color:var(--tiffany);border:none;padding:14px 32px;border-radius:10px;font-size:0.95rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all 0.2s;}
-.btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.15);}
-.btn-outline-white{background:transparent;color:white;border:2px solid rgba(255,255,255,0.4);padding:14px 32px;border-radius:10px;font-size:0.95rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;}
-.btn-outline-white:hover{border-color:white;}
-
-/* ── FOOTER ── */
-footer{background:var(--ink);color:rgba(255,255,255,0.45);padding:56px 5% 28px;}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px;}
-.footer-logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--tiffany);margin-bottom:12px;display:block;}
-.footer-logo span{color:var(--gold);}
-.footer-brand p{font-size:0.82rem;line-height:1.7;max-width:240px;}
-.footer-col h4{color:white;font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;}
-.footer-col ul{list-style:none;}
-.footer-col li{margin-bottom:10px;}
-.footer-col a{color:rgba(255,255,255,0.4);text-decoration:none;font-size:0.82rem;transition:color 0.2s;}
-.footer-col a:hover{color:var(--tiffany);}
-.footer-bottom{border-top:1px solid rgba(255,255,255,0.06);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;font-size:0.78rem;}
-
-/* ── MODALS ── */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);z-index:500;align-items:center;justify-content:center;padding:16px;}
-.overlay.open{display:flex;}
-.modal{background:white;border-radius:20px;max-width:500px;width:100%;box-shadow:0 32px 80px rgba(0,0,0,0.25);overflow:hidden;animation:popIn 0.3s ease;}
-@keyframes popIn{from{transform:scale(0.92) translateY(20px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
-.modal-head{background:var(--tiffany);padding:24px;color:white;position:relative;}
-.modal-close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.15);border:none;color:white;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;}
-.modal-head h2{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;margin-bottom:3px;}
-.modal-head p{opacity:0.75;font-size:0.82rem;}
-.modal-body{padding:24px;}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
-.fgroup{margin-bottom:12px;}
-.fgroup label{display:block;font-size:0.72rem;font-weight:600;color:var(--ink);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.05em;}
-.fcontrol{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-family:inherit;font-size:0.875rem;outline:none;transition:border-color 0.2s;}
-.fcontrol:focus{border-color:var(--tiffany);}
-.time-slots{display:flex;gap:6px;flex-wrap:wrap;}
-.tslot{border:1.5px solid var(--border);padding:6px 12px;border-radius:7px;font-size:0.78rem;font-weight:500;cursor:pointer;transition:all 0.15s;}
-.tslot:hover,.tslot.sel{background:var(--tiffany);border-color:var(--tiffany);color:white;}
-.modal-foot{padding:0 24px 24px;display:flex;gap:10px;}
-.btn-confirm{flex:1;background:var(--tiffany);color:white;border:none;padding:13px;border-radius:10px;font-size:0.9rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;}
-.btn-confirm:hover{background:var(--tiffany-dark);}
-.auth-tabs{display:flex;margin-bottom:20px;border-bottom:1px solid var(--border);}
-.auth-tab{flex:1;padding:10px;text-align:center;font-size:0.85rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;color:var(--ink-60);transition:all 0.2s;}
-.auth-tab.active{color:var(--tiffany);border-bottom-color:var(--tiffany);}
-.google-btn{width:100%;background:white;border:1.5px solid var(--border);border-radius:8px;padding:11px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:0.88rem;font-weight:600;cursor:pointer;margin-bottom:14px;font-family:inherit;transition:all 0.2s;}
-.google-btn:hover{border-color:var(--tiffany);color:var(--tiffany);}
-.divider{text-align:center;color:var(--ink-60);font-size:0.75rem;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
-.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border);}
-.qr-box{background:var(--tiffany-pale);border-radius:12px;padding:24px;text-align:center;margin-bottom:14px;}
-.qr-amount{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--tiffany);margin-bottom:4px;}
-.qr-box img{width:180px;height:180px;border-radius:8px;margin:16px auto;display:block;border:4px solid white;}
-.err-msg{color:#e74c3c;font-size:0.78rem;margin-top:6px;}
-
-/* ── LOADING SKELETON ── */
-.skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px;}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.skel-card{background:white;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;display:flex;height:165px;}
-.skel-photo{width:110px;background:#f0f0f0;}
-.skel-body{flex:1;padding:16px;display:flex;flex-direction:column;gap:10px;}
-
-/* ── TOAST ── */
-#toast{display:none;position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:var(--tiffany);color:white;padding:13px 28px;border-radius:12px;font-weight:600;z-index:9999;box-shadow:var(--shadow-lg);font-size:0.875rem;white-space:nowrap;}
-
-/* ── RESPONSIVE ── */
-@media(max-width:768px){
-  .nav-links{display:none;}
-  .footer-grid{grid-template-columns:1fr 1fr;}
-  .form-row{grid-template-columns:1fr;}
-  .hero-stats{display:none;}
-  .hero{min-height:auto;padding:80px 5% 60px;}
-  .search-card{flex-direction:column;}
-  .search-btn{padding:14px;}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { overflow-x: hidden; max-width: 100vw; scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+/* ── NAV ─────────────────────────────────────────────── */
+nav {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(253,251,247,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem; font-weight: 600;
+  color: var(--tiffany);
+  letter-spacing: -0.5px;
+  flex-shrink: 0;
+}
+.logo span { color: var(--gold); }
+.nav-links {
+  display: flex; gap: 28px; list-style: none;
+}
+.nav-links a {
+  color: var(--ink-70); font-size: 0.9rem; font-weight: 500;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--tiffany); }
+.nav-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.btn-ghost {
+  background: none; border: 1.5px solid var(--border);
+  color: var(--ink); padding: 9px 16px; border-radius: 9px;
+  font-size: 0.85rem; font-weight: 500;
+  transition: all 0.2s; white-space: nowrap;
+}
+.btn-ghost:hover { border-color: var(--tiffany); color: var(--tiffany); }
+.btn-primary {
+  background: var(--tiffany); color: white;
+  padding: 10px 18px; border-radius: 9px;
+  font-size: 0.85rem; font-weight: 600;
+  transition: all 0.2s; white-space: nowrap;
+}
+.btn-primary:hover { background: var(--tiffany-dark); transform: translateY(-1px); }
+
+.hamburger {
+  display: none;
+  width: 40px; height: 40px;
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  align-items: center; justify-content: center;
+  flex-direction: column; gap: 4px;
+  cursor: pointer;
+}
+.hamburger span {
+  width: 18px; height: 2px; background: var(--ink);
+  border-radius: 1px; transition: all 0.2s;
+}
+.mobile-menu {
+  display: none;
+  position: fixed; top: 64px; left: 0; right: 0;
+  background: var(--cream);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 24px;
+  z-index: 199;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+}
+.mobile-menu.open { display: block; }
+.mobile-menu a {
+  display: block; padding: 14px 0;
+  font-size: 1rem; font-weight: 500;
+  border-bottom: 1px solid var(--border);
+}
+.mobile-menu a:last-child { border-bottom: none; }
+
+/* ── HERO ────────────────────────────────────────────── */
+.hero {
+  padding: 56px 24px 64px;
+  max-width: 1100px; margin: 0 auto;
+}
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 56px; align-items: center;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.78rem; font-weight: 600;
+  color: var(--tiffany);
+  letter-spacing: 0.05em; text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.hero-eyebrow::before {
+  content: ''; width: 32px; height: 1.5px;
+  background: var(--tiffany); display: inline-block;
+}
+h1.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin-bottom: 20px;
+  color: var(--ink);
+}
+h1.hero-title em {
+  font-style: italic; color: var(--tiffany);
+  font-weight: 600;
+}
+.hero-sub {
+  font-size: 1.05rem; color: var(--ink-70);
+  margin-bottom: 32px; max-width: 520px;
+  line-height: 1.6;
+}
+.hero-cta-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.btn-hero-primary {
+  background: var(--tiffany); color: white;
+  padding: 16px 28px; border-radius: 12px;
+  font-size: 1rem; font-weight: 600;
+  transition: all 0.2s; white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 8px;
+  box-shadow: 0 8px 20px rgba(10,186,181,0.18);
+}
+.btn-hero-primary:hover {
+  background: var(--tiffany-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(10,186,181,0.25);
+}
+.btn-hero-primary::after {
+  content: '→'; transition: transform 0.2s;
+}
+.btn-hero-primary:hover::after { transform: translateX(3px); }
+.hero-secondary-link {
+  color: var(--ink-70); font-size: 0.9rem; font-weight: 500;
+  padding: 14px 8px; border-bottom: 1.5px solid transparent;
+  transition: all 0.2s;
+}
+.hero-secondary-link:hover {
+  color: var(--tiffany); border-bottom-color: var(--tiffany);
+}
+.hero-trust {
+  margin-top: 28px; display: flex; gap: 22px; flex-wrap: wrap;
+  font-size: 0.85rem; color: var(--ink-60);
+}
+.hero-trust-item { display: flex; align-items: center; gap: 6px; }
+.hero-trust-item span:first-child { color: var(--tiffany); font-weight: 600; }
+
+.hero-visual {
+  aspect-ratio: 4 / 5;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--tiffany-light) 0%, #D4F0EF 100%);
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 24px 60px rgba(10,186,181,0.15);
+}
+.hero-visual img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.hero-visual-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 6rem; color: var(--tiffany);
+  font-style: italic;
+}
+
+/* ── SECTIONS ────────────────────────────────────────── */
+.section { padding: 72px 24px; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+.section-header { text-align: center; margin-bottom: 48px; max-width: 680px; margin-left: auto; margin-right: auto; }
+.eyebrow {
+  font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--tiffany); margin-bottom: 12px;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  font-weight: 600; line-height: 1.2;
+  color: var(--ink); letter-spacing: -0.01em;
+}
+.section-sub {
+  margin-top: 14px; color: var(--ink-60);
+  font-size: 1rem; line-height: 1.6;
+}
+
+/* ── WHY US ──────────────────────────────────────────── */
+.why-section { background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  max-width: 960px; margin: 0 auto;
+}
+.why-card {
+  padding: 8px;
+}
+.why-icon {
+  width: 52px; height: 52px;
+  background: var(--tiffany-pale);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; margin-bottom: 20px;
+}
+.why-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem; font-weight: 600;
+  margin-bottom: 10px; color: var(--ink);
+}
+.why-card p {
+  font-size: 0.95rem; color: var(--ink-70);
+  line-height: 1.6;
+}
+
+/* ── FOUNDER NOTE ────────────────────────────────────── */
+.founder-section { background: var(--cream); }
+.founder-card {
+  max-width: 820px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 32px; align-items: center;
+  padding: 40px;
+  background: var(--white);
+  border-radius: 24px;
+  border: 1px solid var(--border);
+}
+.founder-photo {
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  background: var(--tiffany-light);
+  overflow: hidden;
+  border: 4px solid var(--white);
+  box-shadow: 0 8px 24px rgba(10,186,181,0.15);
+  flex-shrink: 0;
+}
+.founder-photo img { width: 100%; height: 100%; object-fit: cover; }
+.founder-photo-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem; color: var(--tiffany); font-weight: 600;
+}
+.founder-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem; font-weight: 600;
+  margin-bottom: 4px;
+}
+.founder-title {
+  font-size: 0.85rem; color: var(--tiffany); font-weight: 600;
+  letter-spacing: 0.02em; text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.founder-text {
+  font-size: 1rem; color: var(--ink-70);
+  line-height: 1.7; margin-bottom: 18px;
+}
+.founder-text strong { color: var(--ink); font-weight: 600; }
+.founder-contact {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px;
+  background: var(--tiffany-pale);
+  color: var(--tiffany-dark);
+  border-radius: 100px;
+  font-size: 0.9rem; font-weight: 600;
+  transition: all 0.2s;
+}
+.founder-contact:hover {
+  background: var(--tiffany);
+  color: var(--white);
+  transform: translateY(-1px);
+}
+
+/* ── HOW IT WORKS ────────────────────────────────────── */
+.how-section { background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  max-width: 900px; margin: 0 auto;
+  position: relative;
+}
+.how-step { text-align: center; position: relative; }
+.how-num {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--tiffany);
+  color: var(--white);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+  box-shadow: 0 8px 20px rgba(10,186,181,0.25);
+}
+.how-step h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem; font-weight: 600;
+  margin-bottom: 10px;
+}
+.how-step p {
+  font-size: 0.95rem; color: var(--ink-70);
+  line-height: 1.6;
+}
+
+/* ── BROWSE TUTORS (SECONDARY) ───────────────────────── */
+.browse-section { background: var(--cream); }
+.search-card {
+  max-width: 640px; margin: 0 auto 40px;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 6px;
+  display: flex; gap: 6px;
+  box-shadow: var(--shadow);
+}
+.search-inner { flex: 1; position: relative; }
+.search-input {
+  width: 100%;
+  border: none; outline: none;
+  padding: 14px 18px;
+  font-family: inherit; font-size: 0.95rem;
+  background: transparent;
+  color: var(--ink);
+}
+.search-input::placeholder { color: var(--ink-40); }
+.search-btn {
+  background: var(--tiffany); color: white;
+  padding: 0 24px; border-radius: 10px;
+  font-size: 0.95rem; font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.search-btn:hover { background: var(--tiffany-dark); }
+#suggestions {
+  display: none;
+  position: absolute; top: calc(100% + 8px); left: 0; right: 0;
+  background: white;
+  border: 1px solid var(--border); border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+  z-index: 99; max-height: 280px; overflow-y: auto;
+}
+.sug-item {
+  padding: 12px 16px; cursor: pointer;
+  display: flex; align-items: center; gap: 12px;
+  font-size: 0.9rem;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.sug-item:last-child { border-bottom: none; }
+.sug-item:hover { background: var(--tiffany-pale); }
+.sug-icon { font-size: 1.1rem; width: 24px; text-align: center; }
+.sug-name { font-weight: 600; }
+.sug-cat { font-size: 0.75rem; color: var(--ink-60); }
+
+.tutor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 18px; max-width: 1040px; margin: 0 auto;
+}
+.tcard {
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.25s;
+  display: flex; flex-direction: column;
+}
+.tcard:hover {
+  transform: translateY(-3px);
+  border-color: var(--tiffany);
+  box-shadow: var(--shadow-lg);
+}
+.tc-photo {
+  height: 180px;
+  background: var(--tiffany-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3.6rem;
+  overflow: hidden; position: relative;
+}
+.tc-photo img { width: 100%; height: 100%; object-fit: cover; }
+.tc-body {
+  padding: 18px; flex: 1;
+  display: flex; flex-direction: column;
+}
+.tc-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem; font-weight: 600;
+  margin-bottom: 4px;
+}
+.tc-subject {
+  font-size: 0.78rem; color: var(--tiffany);
+  font-weight: 600; margin-bottom: 12px;
+  letter-spacing: 0.01em;
+}
+.tc-bio {
+  font-size: 0.85rem; color: var(--ink-70);
+  line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; overflow: hidden;
+  margin-bottom: 14px;
+}
+.tc-footer {
+  margin-top: auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 14px; border-top: 1px solid var(--border);
+}
+.tc-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem; font-weight: 600;
+}
+.tc-price small {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem; color: var(--ink-60); font-weight: 400;
+}
+.tc-cta {
+  color: var(--tiffany); font-size: 0.85rem; font-weight: 600;
+}
+
+.browse-more {
+  text-align: center; margin-top: 36px;
+}
+.browse-more a {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--tiffany); font-weight: 600; font-size: 0.95rem;
+  border-bottom: 1.5px solid transparent;
+  padding: 4px 0;
+  transition: border-color 0.2s;
+}
+.browse-more a:hover { border-bottom-color: var(--tiffany); }
+
+/* ── SUBJECTS ────────────────────────────────────────── */
+.subjects-section { background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.subject-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px; max-width: 900px; margin: 0 auto;
+}
+.scard {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 22px 14px;
+  text-align: center; cursor: pointer;
+  transition: all 0.2s;
+  border: 1.5px solid var(--border);
+}
+.scard:hover {
+  transform: translateY(-3px);
+  border-color: var(--tiffany);
+  background: var(--tiffany-pale);
+}
+.scard-icon { font-size: 2rem; margin-bottom: 8px; }
+.scard-name { font-size: 0.9rem; font-weight: 600; }
+
+/* ── STATUS NOTE ─────────────────────────────────────── */
+.status-section {
+  background: var(--cream);
+  padding: 48px 24px;
+  text-align: center;
+}
+.status-note {
+  max-width: 580px; margin: 0 auto;
+  font-size: 0.95rem; color: var(--ink-60);
+  line-height: 1.7;
+  font-style: italic;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+}
+
+/* ── FOR TUTORS ──────────────────────────────────────── */
+.for-tutors-section {
+  background: linear-gradient(135deg, var(--tiffany) 0%, var(--tiffany-dark) 100%);
+  padding: 64px 24px;
+  text-align: center;
+  color: white;
+}
+.for-tutors-section h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 600; margin-bottom: 12px;
+}
+.for-tutors-section p {
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 24px; max-width: 520px; margin-left: auto; margin-right: auto;
+}
+.btn-white {
+  background: white; color: var(--tiffany);
+  padding: 14px 28px; border-radius: 12px;
+  font-size: 0.95rem; font-weight: 700;
+  transition: all 0.2s;
+  display: inline-block;
+}
+.btn-white:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(0,0,0,0.15); }
+
+/* ── FOOTER ──────────────────────────────────────────── */
+footer {
+  background: var(--ink); color: rgba(255,255,255,0.55);
+  padding: 56px 24px 28px;
+}
+.footer-grid {
+  max-width: 1100px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px; margin-bottom: 40px;
+}
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem; font-weight: 600;
+  color: var(--tiffany); margin-bottom: 12px; display: block;
+}
+.footer-logo span { color: var(--gold); }
+.footer-brand p { font-size: 0.88rem; line-height: 1.7; max-width: 280px; }
+.footer-col h4 {
+  color: white; font-size: 0.78rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: 10px; }
+.footer-col a {
+  color: rgba(255,255,255,0.5);
+  font-size: 0.88rem;
+  transition: color 0.2s;
+}
+.footer-col a:hover { color: var(--tiffany); }
+.footer-bottom {
+  max-width: 1100px; margin: 0 auto;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 24px;
+  display: flex; justify-content: space-between; flex-wrap: wrap;
+  gap: 10px; font-size: 0.82rem;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────── */
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-visual { max-width: 420px; margin: 0 auto; }
+  .founder-card {
+    grid-template-columns: 1fr;
+    text-align: center; padding: 32px 24px;
+  }
+  .founder-photo { margin: 0 auto; }
+  .why-grid, .how-grid { grid-template-columns: 1fr; gap: 40px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .hero { padding: 40px 20px 48px; }
+  .section { padding: 56px 20px; }
+  .section-header { margin-bottom: 36px; }
+  .search-card { flex-direction: column; padding: 8px; }
+  .search-btn { padding: 12px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+}
+
+/* ── TOAST ───────────────────────────────────────────── */
+#toast {
+  display: none;
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%);
+  background: var(--ink); color: white;
+  padding: 14px 28px; border-radius: 12px;
+  font-weight: 500; z-index: 9999;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.2);
+  font-size: 0.9rem;
+}
+
+/* ── SKELETON ────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.skel-tcard {
+  background: white; border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  height: 340px;
+}
+.skel-photo { height: 180px; background: #f0f0f0; }
+.skel-body { padding: 18px; display: flex; flex-direction: column; gap: 12px; }
 </style>
 </head>
 <body>
 
+<!-- ── NAV ─────────────────────────────────────────── -->
 <nav>
-  <a class="logo" href="#">Bilimly<span>.kg</span></a>
+  <a class="logo" href="/">Bilimly<span>.kg</span></a>
   <ul class="nav-links">
-    <li><a href="#tutors-section">Репетиторы</a></li>
-    <li><a href="#subjects">Предметы</a></li>
-    <li><a href="#" onclick="window.location.href='tutor-onboarding.html';return false;">Стать репетитором</a></li>
-    <li><a href="#how">О платформе</a></li>
+    <li><a href="#how">Как это работает</a></li>
+    <li><a href="#browse">Репетиторы</a></li>
+    <li><a href="tutor-onboarding.html">Для репетиторов</a></li>
   </ul>
   <div class="nav-right">
-    <select onchange="setLang(this.value)" class="lang-select">
-      <option value="ru" selected>🇷🇺 РУ</option>
-      <option value="ky">🇰🇬 КЫ</option>
-      <option value="en">🇬🇧 EN</option>
-    </select>
-    <button class="nav-messages-btn" id="nav-messages" onclick="openMessagesPage()">
-      💬 Сообщения
-      <span class="unread-dot" id="unread-count" style="display:none"></span>
-    </button>
-    <div id="nav-auth" style="display:flex;gap:6px;">
-      <button class="btn-ghost" onclick="document.getElementById('authModal').classList.add('open');switchAuth('login')">Войти</button>
-<button class="btn-primary" onclick="document.getElementById('authModal').classList.add('open');switchAuth('register')">Начать</button>
-    </div>
-    <div class="user-nav" id="nav-user">
-      <span class="user-chip" id="nav-username"></span>
-      <button class="btn-ghost" onclick="logout()">Выйти</button>
+    <button class="btn-ghost" onclick="window.location.href='dashboard.html'">Войти</button>
+    <button class="btn-primary" onclick="scrollToHero()">Подобрать</button>
+    <div class="hamburger" onclick="toggleMobileMenu()">
+      <span></span><span></span><span></span>
     </div>
   </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#how" onclick="toggleMobileMenu()">Как это работает</a>
+  <a href="#browse" onclick="toggleMobileMenu()">Репетиторы</a>
+  <a href="tutor-onboarding.html">Для репетиторов</a>
+  <a href="dashboard.html">Войти</a>
+</div>
+
+<!-- ── HERO ────────────────────────────────────────── -->
+<section class="hero" id="top">
   <div class="hero-inner">
-    <div class="hero-badge">🇰🇬 Платформа №1 в Кыргызстане</div>
-    <h1>Найди репетитора и <em>учись быстрее</em></h1>
-    <p class="hero-sub">Проверенные репетиторы. Уроки онлайн. Оплата через MBANK. Пробный урок от 200 сом.</p>
+    <div>
+      <div class="hero-eyebrow">Репетиторы в Бишкеке</div>
+      <h1 class="hero-title">Репетитор, которому можно <em>доверить</em> ребёнка.</h1>
+      <p class="hero-sub">
+        Отвечаете на 3 коротких вопроса — и мы подбираем вам проверенных репетиторов по математике, физике, английскому, подготовке к ОРТ и другим предметам. Первый урок — всего 200 сом.
+      </p>
+      <div class="hero-cta-row">
+        <a class="btn-hero-primary" href="lead-capture.html">Подобрать репетитора</a>
+        <a class="hero-secondary-link" href="#browse">Или посмотреть всех</a>
+      </div>
+      <div class="hero-trust">
+        <div class="hero-trust-item"><span>✓</span><span>Проверенные репетиторы</span></div>
+        <div class="hero-trust-item"><span>✓</span><span>Пробный урок от 200 сом</span></div>
+        <div class="hero-trust-item"><span>✓</span><span>Оплата через MBANK</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-visual-placeholder">Bilimly</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHY BILIMLY ─────────────────────────────────── -->
+<section class="section why-section">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="eyebrow">Почему Bilimly</div>
+      <h2 class="section-title">Как мы помогаем</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">🔎</div>
+        <h3>Проверяем каждого репетитора</h3>
+        <p>Мы лично смотрим опыт, образование и видео-представление каждого репетитора перед тем, как он появится на платформе.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">💬</div>
+        <h3>Подбираем под вас</h3>
+        <p>Вы отвечаете на 3 простых вопроса — класс, предмет, сроки. Мы рекомендуем подходящих репетиторов в течение 24 часов.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🤝</div>
+        <h3>Поддержка до и после</h3>
+        <p>Не подошёл репетитор? Напишите нам — подберём другого. Мы следим, чтобы занятия приносили результат.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOUNDER NOTE ────────────────────────────────── -->
+<section class="section founder-section">
+  <div class="founder-card">
+    <div class="founder-photo">
+      <img src="kairat.jpg" alt="Кайрат — основатель Bilimly.kg" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'founder-photo-placeholder\'>К</div>';">
+    </div>
+    <div>
+      <div class="founder-name">Кайрат</div>
+      <div class="founder-title">Основатель Bilimly</div>
+      <p class="founder-text">
+        Я занимаюсь репетиторством с <strong>2017 года</strong>, <strong>чемпион Кыргызстана по математике 2013–2014</strong>. За эти годы я увидел две вещи: отличных репетиторов, которым не хватает учеников, и родителей, которым сложно найти тех, кому можно доверять.
+      </p>
+      <p class="founder-text">
+        Bilimly — это моя попытка свести их вместе. <strong>Я лично проверяю каждого репетитора</strong> перед тем, как он начнёт работать на платформе. Если у вас есть вопрос — напишите мне напрямую.
+      </p>
+      <a class="founder-contact" href="https://wa.me/996506748888?text=Здравствуйте%2C%20Кайрат%21" target="_blank" rel="noopener">
+        <span>💬</span><span>Написать Кайрату в WhatsApp</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ────────────────────────────────── -->
+<section class="section how-section" id="how">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="eyebrow">Как это работает</div>
+      <h2 class="section-title">Три шага до первого урока</h2>
+    </div>
+    <div class="how-grid">
+      <div class="how-step">
+        <div class="how-num">1</div>
+        <h3>Расскажите, что нужно</h3>
+        <p>Класс ребёнка, предмет и когда хотите начать — 3 коротких вопроса.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">2</div>
+        <h3>Получите рекомендации</h3>
+        <p>Мы подбираем проверенных репетиторов под ваш запрос и присылаем их профили.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">3</div>
+        <h3>Пробный урок — 200 сом</h3>
+        <p>Познакомьтесь с репетитором на первом уроке. Понравится — продолжайте.</p>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:40px;">
+      <a class="btn-hero-primary" href="lead-capture.html">Подобрать репетитора</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── BROWSE (SECONDARY) ──────────────────────────── -->
+<section class="section browse-section" id="browse">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="eyebrow">Или самостоятельно</div>
+      <h2 class="section-title">Посмотрите наших репетиторов</h2>
+      <p class="section-sub">Все репетиторы лично проверены. Если не уверены в выборе — нажмите «Подобрать» выше.</p>
+    </div>
     <div class="search-card">
       <div class="search-inner">
         <input class="search-input" id="searchQ" type="text"
-          placeholder="Введите предмет или имя репетитора..."
+          placeholder="Введите предмет или имя..."
           oninput="showSuggestions(this.value)"
           onkeydown="if(event.key==='Enter')doSearch()"
           autocomplete="off">
@@ -277,242 +788,86 @@ footer{background:var(--ink);color:rgba(255,255,255,0.45);padding:56px 5% 28px;}
       </div>
       <button class="search-btn" onclick="doSearch()">Найти</button>
     </div>
-    <div class="hero-tags">
-      <span class="htag" onclick="filterBy('Английский')">🇬🇧 Английский</span>
-      <span class="htag" onclick="filterBy('Математика')">📐 Математика</span>
-      <span class="htag" onclick="filterBy('Python')">💻 Python</span>
-      <span class="htag" onclick="filterBy('ОРТ')">📝 ОРТ</span>
-      <span class="htag" onclick="filterBy('Русский')">🇷🇺 Русский</span>
-      <span class="htag" onclick="filterBy('Кыргызский')">🇰🇬 Кыргызский</span>
+    <div class="tutor-grid" id="tutor-grid">
+      <div class="skel-tcard"><div class="skel-photo"></div><div class="skel-body"><div class="skeleton" style="height:18px;width:70%"></div><div class="skeleton" style="height:12px;width:50%"></div><div class="skeleton" style="height:12px;width:80%"></div></div></div>
+      <div class="skel-tcard"><div class="skel-photo"></div><div class="skel-body"><div class="skeleton" style="height:18px;width:70%"></div><div class="skeleton" style="height:12px;width:50%"></div><div class="skeleton" style="height:12px;width:80%"></div></div></div>
+      <div class="skel-tcard"><div class="skel-photo"></div><div class="skel-body"><div class="skeleton" style="height:18px;width:70%"></div><div class="skeleton" style="height:12px;width:50%"></div><div class="skeleton" style="height:12px;width:80%"></div></div></div>
+    </div>
+    <div class="browse-more" id="browseMoreWrap" style="display:none;">
+      <a href="#" onclick="showAllTutors();return false;">Показать всех репетиторов →</a>
     </div>
   </div>
-  <div class="hero-stats">
-    <div class="hstat"><span class="hstat-n" id="hs-tutors">—</span><span class="hstat-l">Репетиторов</span></div>
-    <div class="hstat"><span class="hstat-n">4.9★</span><span class="hstat-l">Средний рейтинг</span></div>
-    <div class="hstat"><span class="hstat-n">от 200</span><span class="hstat-l">Пробный урок (сом)</span></div>
-  </div>
 </section>
 
-<!-- TUTORS -->
-<section class="section" id="tutors-section">
-  <div class="section-header">
-    <div class="eyebrow">Топ репетиторы</div>
-    <h2 class="section-title">Познакомьтесь с нашими репетиторами</h2>
-    <p class="section-sub">Все репетиторы проверены и имеют подтверждённую квалификацию</p>
-  </div>
-  <div class="filters" id="filters">
-    <button class="fbtn active" onclick="filterBy('all',this)">Все</button>
-    <button class="fbtn" onclick="filterBy('Языки',this)">Языки</button>
-    <button class="fbtn" onclick="filterBy('Математика',this)">Математика</button>
-    <button class="fbtn" onclick="filterBy('Науки',this)">Науки</button>
-    <button class="fbtn" onclick="filterBy('Программирование',this)">Программирование</button>
-    <button class="fbtn" onclick="filterBy('ОРТ',this)">ОРТ/ЕГЭ</button>
-  </div>
-  <div class="tutor-grid" id="tutor-grid">
-    <!-- Skeleton loaders -->
-    ${[1,2,3,4,5,6].map(()=>`
-    <div class="skel-card">
-      <div class="skel-photo"></div>
-      <div class="skel-body">
-        <div class="skeleton" style="height:18px;width:70%"></div>
-        <div class="skeleton" style="height:12px;width:50%"></div>
-        <div class="skeleton" style="height:12px;width:80%"></div>
-        <div class="skeleton" style="height:12px;width:60%"></div>
-        <div style="margin-top:auto;display:flex;justify-content:space-between">
-          <div class="skeleton" style="height:28px;width:80px"></div>
-          <div class="skeleton" style="height:28px;width:90px;border-radius:8px"></div>
-        </div>
-      </div>
-    </div>`).join('')}
-  </div>
-</section>
-
-<!-- SUBJECTS -->
+<!-- ── SUBJECTS ────────────────────────────────────── -->
 <section class="section subjects-section" id="subjects">
-  <div class="section-header">
-    <div class="eyebrow">Все направления</div>
-    <h2 class="section-title">Выбери свой предмет</h2>
-  </div>
-  <div class="subject-grid">
-    <div class="scard" onclick="filterBy('Английский')"><div class="scard-icon">🇬🇧</div><div class="scard-name">Английский</div><div class="scard-count">420 репетиторов</div></div>
-    <div class="scard" onclick="filterBy('Математика')"><div class="scard-icon">📐</div><div class="scard-name">Математика</div><div class="scard-count">310 репетиторов</div></div>
-    <div class="scard" onclick="filterBy('Физика')"><div class="scard-icon">⚛️</div><div class="scard-name">Физика</div><div class="scard-count">180 репетиторов</div></div>
-    <div class="scard" onclick="filterBy('Химия')"><div class="scard-icon">🧪</div><div class="scard-name">Химия</div><div class="scard-count">155 репетиторов</div></div>
-    <div class="scard" onclick="filterBy('Python')"><div class="scard-icon">💻</div><div class="scard-name">Программирование</div><div class="scard-count">210 репетиторов</div></div>
-    <div class="scard" onclick="filterBy('ОРТ')"><div class="scard-icon">📝</div><div class="scard-name">ОРТ / ЕГЭ</div><div class="scard-count">280 репетиторов</div></div>
-    <div class="scard" onclick="filterBy('Русский')"><div class="scard-icon">🇷🇺</div><div class="scard-name">Русский язык</div><div class="scard-count">190 репетиторов</div></div>
-    <div class="scard" onclick="filterBy('Кыргызский')"><div class="scard-icon">🇰🇬</div><div class="scard-name">Кыргызский</div><div class="scard-count">145 репетиторов</div></div>
-    <div class="scard"><div class="scard-icon">🎵</div><div class="scard-name">Музыка</div><div class="scard-count">88 репетиторов</div></div>
-    <div class="scard"><div class="scard-icon">🎨</div><div class="scard-name">Рисование</div><div class="scard-count">64 репетитора</div></div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="section" id="how">
-  <div class="section-header">
-    <div class="eyebrow">Просто и быстро</div>
-    <h2 class="section-title">Как это работает</h2>
-  </div>
-  <div class="how-grid">
-    <div class="how-step"><div class="step-num">1</div><h3>Найди репетитора</h3><p>Ищи по предмету, смотри отзывы и рейтинги. Все репетиторы проверены.</p></div>
-    <div class="how-step"><div class="step-num">2</div><h3>Забронируй урок</h3><p>Пробный урок от 200 сом — познакомься с репетитором перед полным курсом.</p></div>
-    <div class="how-step"><div class="step-num">3</div><h3>Оплати через MBANK</h3><p>Сканируй QR-код. Быстро и безопасно. Автоматическое подтверждение.</p></div>
-    <div class="how-step"><div class="step-num">4</div><h3>Учись и расти</h3><p>Уроки онлайн. Домашние задания. Отчёты для родителей.</p></div>
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="eyebrow">Все направления</div>
+      <h2 class="section-title">Выберите предмет</h2>
+    </div>
+    <div class="subject-grid">
+      <div class="scard" onclick="toLeadWithSubject('Математика')"><div class="scard-icon">📐</div><div class="scard-name">Математика</div></div>
+      <div class="scard" onclick="toLeadWithSubject('Физика')"><div class="scard-icon">⚛️</div><div class="scard-name">Физика</div></div>
+      <div class="scard" onclick="toLeadWithSubject('Химия')"><div class="scard-icon">🧪</div><div class="scard-name">Химия</div></div>
+      <div class="scard" onclick="toLeadWithSubject('Биология')"><div class="scard-icon">🧬</div><div class="scard-name">Биология</div></div>
+      <div class="scard" onclick="toLeadWithSubject('Английский')"><div class="scard-icon">🇬🇧</div><div class="scard-name">Английский</div></div>
+      <div class="scard" onclick="toLeadWithSubject('Русский')"><div class="scard-icon">🇷🇺</div><div class="scard-name">Русский</div></div>
+      <div class="scard" onclick="toLeadWithSubject('Кыргыз тили')"><div class="scard-icon">🇰🇬</div><div class="scard-name">Кыргыз тили</div></div>
+      <div class="scard" onclick="toLeadWithSubject('Подготовка к ОРТ')"><div class="scard-icon">🎯</div><div class="scard-name">Подготовка к ОРТ</div></div>
+    </div>
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
-<section class="section testi-section">
-  <div class="section-header">
-    <div class="eyebrow">Отзывы</div>
-    <h2 class="section-title">Реальные результаты</h2>
-  </div>
-  <div class="testi-grid">
-    <div class="tcard2"><div class="tcard2-stars">★★★★★</div><p class="tcard2-text">"Сдала ОРТ на 180 баллов после 3 месяцев занятий по математике!"</p><div class="tcard2-author"><div class="tcard2-av">👩</div><div><div class="tcard2-name">Айгерим К.</div><div class="tcard2-detail">Бишкек · 24 урока</div></div></div></div>
-    <div class="tcard2"><div class="tcard2-stars">★★★★★</div><p class="tcard2-text">"Сынымдын математикадан баасы C'ден A'га чейин жогорулады."</p><div class="tcard2-author"><div class="tcard2-av">👨</div><div><div class="tcard2-name">Бакыт А.</div><div class="tcard2-detail">Ош · 36 уроков</div></div></div></div>
-    <div class="tcard2"><div class="tcard2-stars">★★★★★</div><p class="tcard2-text">"Learned Python from scratch in 2 months. Now I have my first freelance client!"</p><div class="tcard2-author"><div class="tcard2-av">👩‍💻</div><div><div class="tcard2-name">Nazira T.</div><div class="tcard2-detail">Bishkek · 18 lessons</div></div></div></div>
-  </div>
+<!-- ── STATUS NOTE ─────────────────────────────────── -->
+<section class="status-section">
+  <p class="status-note">
+    Bilimly запущен в 2026 году. Мы работаем с тщательно отобранной группой репетиторов. Первые отзывы появятся на сайте после первых занятий.
+  </p>
 </section>
 
-<!-- CTA -->
-<section class="cta-section">
-  <h2>Ты репетитор? Зарабатывай на Bilimly</h2>
-  <p>Устанавливай свою ставку. Работай в удобное время. До 60,000 сом в месяц.</p>
-  <div class="cta-btns">
-    <button class="btn-white" onclick="window.location.href='tutor-onboarding.html'">Стать репетитором</button>
-    <button class="btn-outline-white" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">Узнать подробнее</button>
-  </div>
+<!-- ── FOR TUTORS ──────────────────────────────────── -->
+<section class="for-tutors-section">
+  <h2>Вы репетитор?</h2>
+  <p>Присоединяйтесь к Bilimly. Мы приводим учеников — вы занимаетесь любимым делом.</p>
+  <a class="btn-white" href="tutor-onboarding.html">Стать репетитором</a>
 </section>
 
+<!-- ── FOOTER ──────────────────────────────────────── -->
 <footer>
   <div class="footer-grid">
-    <div class="footer-brand"><span class="footer-logo">Bilimly<span>.kg</span></span><p>Репетиторская платформа №1 в Кыргызстане. Качественное образование для каждого.</p></div>
-    <div class="footer-col"><h4>Студентам</h4><ul><li><a href="#tutors-section">Найти репетитора</a></li><li><a href="#how">Как работает</a></li><li><a href="#subjects">Предметы</a></li></ul></div>
-    <div class="footer-col"><h4>Репетиторам</h4><ul><li><a href="#" onclick="window.location.href='tutor-onboarding.html'">Стать репетитором</a></li><li><a href="tutor-dashboard.html">Войти в кабинет</a></li></ul></div>
-    <div class="footer-col"><h4>Компания</h4><ul><li><a href="#">О нас</a></li><li><a href="#">Контакты</a></li><li><a href="#">Конфиденциальность</a></li></ul></div>
+    <div class="footer-brand">
+      <span class="footer-logo">Bilimly<span>.kg</span></span>
+      <p>Подбор проверенных репетиторов в Бишкеке. Математика, физика, английский, подготовка к ОРТ и другие предметы.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Родителям</h4>
+      <ul>
+        <li><a href="lead-capture.html">Подобрать репетитора</a></li>
+        <li><a href="#browse">Посмотреть всех</a></li>
+        <li><a href="#how">Как это работает</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Репетиторам</h4>
+      <ul>
+        <li><a href="tutor-onboarding.html">Стать репетитором</a></li>
+        <li><a href="tutor-dashboard.html">Войти в кабинет</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Связаться</h4>
+      <ul>
+        <li><a href="https://wa.me/996506748888" target="_blank" rel="noopener">WhatsApp</a></li>
+        <li><a href="mailto:hi@bilimly.kg">hi@bilimly.kg</a></li>
+      </ul>
+    </div>
   </div>
-  <div class="footer-bottom"><span>© 2026 Bilimly.kg · Бишкек, Кыргызстан</span><span style="color:rgba(255,255,255,0.2)">Образование без границ</span></div>
+  <div class="footer-bottom">
+    <span>© 2026 Bilimly.kg · Бишкек, Кыргызстан</span>
+    <span style="color: rgba(255,255,255,0.25);">Образование без границ</span>
+  </div>
 </footer>
-
-<!-- BOOKING MODAL -->
-<div class="overlay" id="bookingModal">
-  <div class="modal">
-    <div class="modal-head">
-      <button class="modal-close" onclick="closeModal('bookingModal')">✕</button>
-      <h2 id="bm-title">Записаться на пробный урок</h2>
-      <p id="bm-sub">50 минут · Специальная цена</p>
-    </div>
-    <div class="modal-body" id="bm-step1">
-      <div id="bm-login-notice" style="display:none;background:var(--gold-light);border:1px solid var(--gold);border-radius:8px;padding:12px;margin-bottom:14px;font-size:0.82rem;color:#7a5a00">
-        Для бронирования нужно <a href="#" onclick="closeModal('bookingModal');openAuth('login')" style="color:var(--tiffany);font-weight:600">войти</a> или <a href="#" onclick="closeModal('bookingModal');openAuth('register')" style="color:var(--tiffany);font-weight:600">зарегистрироваться</a>
-      </div>
-      <div class="fgroup"><label>Дата урока</label><input class="fcontrol" type="date" id="bm-date"></div>
-      <div class="fgroup"><label>Удобное время</label>
-        <div class="time-slots">
-          <div class="tslot" onclick="selSlot(this)">09:00</div><div class="tslot" onclick="selSlot(this)">10:00</div>
-          <div class="tslot" onclick="selSlot(this)">11:00</div><div class="tslot" onclick="selSlot(this)">14:00</div>
-          <div class="tslot" onclick="selSlot(this)">15:00</div><div class="tslot" onclick="selSlot(this)">17:00</div>
-          <div class="tslot" onclick="selSlot(this)">19:00</div><div class="tslot" onclick="selSlot(this)">20:00</div>
-        </div>
-      </div>
-      <div class="fgroup"><label>Ваша цель</label>
-        <select class="fcontrol" id="bm-goal">
-          <option>Общее улучшение</option><option>Подготовка к ОРТ/ЕГЭ</option>
-          <option>Разговорная речь</option><option>С нуля</option>
-        </select>
-      </div>
-      <div class="fgroup"><label>Комментарий</label><input class="fcontrol" type="text" id="bm-notes" placeholder="Что хотите изучить?"></div>
-    </div>
-    <div class="modal-body" id="bm-step2" style="display:none">
-      <div class="qr-box">
-        <div class="qr-amount" id="qr-amount">200 сом</div>
-        <p style="color:var(--ink-60);font-size:0.78rem;margin-bottom:14px">Пробный урок</p>
-        <img id="qr-img" src="" alt="QR Code">
-        <p style="font-size:0.8rem;color:var(--ink-60)">Оплатите через <strong>MBANK</strong></p>
-      </div>
-      <div style="background:var(--tiffany-pale);border-radius:8px;padding:12px;font-size:0.8rem;color:var(--tiffany-dark);text-align:center">
-        ✅ После оплаты вы получите подтверждение на email
-      </div>
-    </div>
-    <div class="modal-foot">
-      <button class="btn-ghost" onclick="closeModal('bookingModal')" style="flex:0">Отмена</button>
-      <button class="btn-confirm" id="bm-btn" onclick="bookingNext()">Продолжить →</button>
-    </div>
-  </div>
-</div>
-
-<!-- AUTH MODAL -->
-<div class="overlay" id="authModal">
-  <div class="modal">
-    <div class="modal-head">
-      <button class="modal-close" onclick="closeModal('authModal')">✕</button>
-      <h2 id="auth-title">Добро пожаловать</h2>
-      <p id="auth-sub">Войдите в свой аккаунт</p>
-    </div>
-    <div class="modal-body">
-      <div class="auth-tabs">
-        <div class="auth-tab active" onclick="switchAuth('login')">Войти</div>
-        <div class="auth-tab" onclick="switchAuth('register')">Регистрация</div>
-      </div>
-      <button onclick="googleLogin()" class="google-btn">
-        <img src="https://www.google.com/favicon.ico" width="18" height="18">
-        Войти через Google
-      </button>
-      <div class="divider">или</div>
-      <div id="login-form">
-        <div class="fgroup"><label>Email</label><input class="fcontrol" type="email" placeholder="you@email.com" id="l-email"></div>
-        <div class="fgroup"><label>Пароль</label><input class="fcontrol" type="password" placeholder="••••••••" id="l-pass" onkeydown="if(event.key==='Enter')doAuth()"></div>
-      </div>
-      <div id="register-form" style="display:none">
-        <div class="form-row">
-          <div class="fgroup"><label>Имя</label><input class="fcontrol" type="text" placeholder="Айгерим" id="r-fname"></div>
-          <div class="fgroup"><label>Фамилия</label><input class="fcontrol" type="text" placeholder="Асанова" id="r-lname"></div>
-        </div>
-        <div class="fgroup"><label>Email</label><input class="fcontrol" type="email" placeholder="you@email.com" id="r-email"></div>
-        <div class="fgroup"><label>Пароль</label><input class="fcontrol" type="password" placeholder="Минимум 6 символов" id="r-pass"></div>
-        <div class="fgroup"><label>Я хочу</label>
-          <select class="fcontrol" id="r-role">
-            <option value="student">Найти репетитора</option>
-            <option value="tutor">Стать репетитором</option>
-          </select>
-        </div>
-      </div>
-      <div class="err-msg" id="auth-err"></div>
-    </div>
-    <div class="modal-foot">
-      <button class="btn-confirm" onclick="doAuth()" id="auth-btn">Войти</button>
-    </div>
-  </div>
-</div>
-
-<!-- APPLY MODAL -->
-<div class="overlay" id="applyModal">
-  <div class="modal">
-    <div class="modal-head">
-      <button class="modal-close" onclick="closeModal('applyModal')">✕</button>
-      <h2>Стать репетитором</h2>
-      <p>Заполните заявку — ответим в течение 24 часов</p>
-    </div>
-    <div class="modal-body">
-      <div class="form-row">
-        <div class="fgroup"><label>Полное имя</label><input class="fcontrol" type="text" id="ap-name"></div>
-        <div class="fgroup"><label>Телефон</label><input class="fcontrol" type="tel" id="ap-phone" placeholder="+996 XXX XXX XXX"></div>
-      </div>
-      <div class="fgroup"><label>Email</label><input class="fcontrol" type="email" id="ap-email"></div>
-      <div class="fgroup"><label>Предметы</label><input class="fcontrol" type="text" placeholder="Математика, Физика..." id="ap-subjects"></div>
-      <div class="form-row">
-        <div class="fgroup"><label>Опыт (лет)</label><input class="fcontrol" type="number" min="0" id="ap-exp"></div>
-        <div class="fgroup"><label>Ставка (сом/час)</label><input class="fcontrol" type="number" min="200" id="ap-rate"></div>
-      </div>
-      <div class="fgroup"><label>О себе</label><textarea class="fcontrol" rows="3" id="ap-about" placeholder="Образование и подход к преподаванию..."></textarea></div>
-      <div class="err-msg" id="apply-err"></div>
-    </div>
-    <div class="modal-foot">
-      <button class="btn-ghost" onclick="closeModal('applyModal')">Отмена</button>
-      <button class="btn-confirm" onclick="submitApplication()">Отправить заявку</button>
-    </div>
-  </div>
-</div>
 
 <div id="toast"></div>
 
@@ -520,323 +875,146 @@ footer{background:var(--ink);color:rgba(255,255,255,0.45);padding:56px 5% 28px;}
 const API = 'https://bilimly-backend-0zbt.onrender.com';
 let currentTutors = [];
 let allSubjects = [];
-let selectedSlot = null;
-let bookingStep = 1;
-let selectedTutor = null;
-let authMode = 'login';
+let displayLimit = 6;
 
-function getToken(){return localStorage.getItem('bilimly_token');}
-function getUser(){return JSON.parse(localStorage.getItem('bilimly_user')||'null');}
+function scrollToHero() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
-// ── AUTH ───────────────────────────────────────────────────
-function updateNavAuth(){
-  const user=getUser();
-  if(user&&getToken()){
-    document.getElementById('nav-auth').style.display='none';
-    document.getElementById('nav-user').style.display='flex';
-    document.getElementById('nav-username').textContent=user.first_name+' '+user.last_name;
-    document.getElementById('nav-messages').style.display='flex';
-    loadUnreadCount();
-  } else {
-    document.getElementById('nav-auth').style.display='flex';
-    document.getElementById('nav-user').style.display='none';
-    document.getElementById('nav-messages').style.display='none';
+function toggleMobileMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+function toLeadWithSubject(subject) {
+  window.location.href = 'lead-capture.html';
+}
+
+// ── TUTORS ──────────────────────────────────────────
+async function loadTutors() {
+  try {
+    const res = await fetch(API + '/api/tutors');
+    const data = await res.json();
+    if (data.tutors && data.tutors.length) {
+      currentTutors = data.tutors.map(t => ({
+        id: t.tutor_id || t.id,
+        tutor_id: t.tutor_id,
+        name: (t.first_name || '') + ' ' + (t.last_name ? t.last_name[0] + '.' : ''),
+        subjects: t.subjects || [],
+        subject: (t.subjects || []).slice(0, 2).join(' · ') || 'Репетитор',
+        price: parseInt(t.hourly_rate) || 500,
+        trial: parseInt(t.trial_rate) || 200,
+        bio: t.bio_ru || t.bio_en || 'Опытный репетитор',
+        avatar: t.avatar_url || null,
+        rating: parseFloat(t.rating) || 0,
+      }));
+      renderTutors(currentTutors.slice(0, displayLimit));
+      if (currentTutors.length > displayLimit) {
+        document.getElementById('browseMoreWrap').style.display = 'block';
+      }
+    } else {
+      renderTutors([]);
+    }
+  } catch (e) {
+    console.error('Failed to load tutors:', e);
+    renderTutors([]);
   }
 }
 
-function logout(){
-  localStorage.removeItem('bilimly_token');
-  localStorage.removeItem('bilimly_user');
-  updateNavAuth();
-  showToast('Вы вышли из аккаунта');
-}
-
-function googleLogin(){
-  window.location.href=API+'/api/auth/google';
-}
-
-async function doAuth(){
-  document.getElementById('auth-err').textContent='';
-  document.getElementById('auth-btn').textContent='Загрузка...';
-  document.getElementById('auth-btn').disabled=true;
-  try{
-    if(authMode==='register'){
-      const first_name=document.getElementById('r-fname').value.trim();
-      const last_name=document.getElementById('r-lname').value.trim();
-      const email=document.getElementById('r-email').value.trim();
-      const password=document.getElementById('r-pass').value;
-      const role=document.getElementById('r-role').value;
-      if(!first_name||!last_name||!email||!password){document.getElementById('auth-err').textContent='Заполните все поля';return;}
-      if(password.length<6){document.getElementById('auth-err').textContent='Пароль минимум 6 символов';return;}
-      const res=await fetch(API+'/api/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({first_name,last_name,email,password,role})});
-      const data=await res.json();
-      if(data.token){localStorage.setItem('bilimly_token',data.token);localStorage.setItem('bilimly_user',JSON.stringify(data.user));closeModal('authModal');updateNavAuth();showToast('✓ Добро пожаловать, '+data.user.first_name+'!');}
-      else{document.getElementById('auth-err').textContent=(data.errors&&data.errors[0]?data.errors[0].msg:null)||data.error||'Ошибка регистрации';}
-    } else {
-      const email=document.getElementById('l-email').value.trim();
-      const password=document.getElementById('l-pass').value;
-      const res=await fetch(API+'/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
-      const data=await res.json();
-      if(data.token){localStorage.setItem('bilimly_token',data.token);localStorage.setItem('bilimly_user',JSON.stringify(data.user));closeModal('authModal');updateNavAuth();showToast('✓ Добро пожаловать, '+data.user.first_name+'!');}
-      else{document.getElementById('auth-err').textContent=data.error||'Неверный email или пароль';}
-    }
-  }catch(e){document.getElementById('auth-err').textContent='Ошибка соединения';}
-  document.getElementById('auth-btn').textContent=authMode==='login'?'Войти':'Зарегистрироваться';
-  document.getElementById('auth-btn').disabled=false;
-}
-
-function openAuth(mode){
-  authMode=mode;switchAuth(mode);
-  document.getElementById('auth-err').textContent='';
-  document.getElementById('authModal').classList.add('open');
-}
-
-function switchAuth(mode){
-  authMode=mode;
-  document.getElementById('login-form').style.display=mode==='login'?'block':'none';
-  document.getElementById('register-form').style.display=mode==='register'?'block':'none';
-  document.querySelectorAll('.auth-tab').forEach((t,i)=>t.classList.toggle('active',(i===0&&mode==='login')||(i===1&&mode==='register')));
-  document.getElementById('auth-btn').textContent=mode==='login'?'Войти':'Зарегистрироваться';
-  document.getElementById('auth-title').textContent=mode==='login'?'Добро пожаловать':'Создать аккаунт';
-  document.getElementById('auth-sub').textContent=mode==='login'?'Войдите в аккаунт':'Присоединяйтесь к Bilimly';
-  document.getElementById('auth-err').textContent='';
-}
-
-// ── TUTORS ─────────────────────────────────────────────────
-async function loadTutors(){
-  try{
-    const res=await fetch(API+'/api/tutors');
-    const data=await res.json();
-    if(data.tutors&&data.tutors.length){
-      currentTutors=data.tutors.map(t=>({
-        id:t.tutor_id||t.id,
-        user_id:t.id,
-        tutor_id:t.tutor_id,
-        name:t.first_name+' '+t.last_name,
-        subject:(t.subjects||[]).join(' · ')||'Репетитор',
-        subjects:t.subjects||[],
-        cat:(t.subjects||[])[0]||'Другое',
-        rating:parseFloat(t.rating)||5.0,
-        reviews:t.review_count||0,
-        total_lessons:t.total_lessons||0,
-        price:parseInt(t.hourly_rate)||500,
-        trial:parseInt(t.trial_rate)||200,
-        bio:t.bio_ru||t.bio_en||'Опытный репетитор',
-        badge:t.badge||(t.is_featured?'Топ':''),
-        avatar:t.avatar_url||null,
-        city:t.city||'Бишкек',
-      }));
-      document.getElementById('hs-tutors').textContent=currentTutors.length+'+';
-      renderTutors(currentTutors);
-    } else {renderTutors([]);}
-  }catch(e){renderTutors([]);}
-}
-
-function renderTutors(list){
-  const grid=document.getElementById('tutor-grid');
-  if(!list.length){grid.innerHTML='<p style="text-align:center;color:var(--ink-60);grid-column:1/-1;padding:48px">Репетиторы не найдены.</p>';return;}
-  grid.innerHTML=list.map((t,i)=>`
-    <div class="tcard" onclick="window.location.href='tutor.html?id='+encodeURIComponent('${t.tutor_id||t.id}')" style="animation:popIn 0.4s ease ${i*0.05}s both">
+function renderTutors(list) {
+  const grid = document.getElementById('tutor-grid');
+  if (!list.length) {
+    grid.innerHTML = '<p style="text-align:center;color:var(--ink-60);grid-column:1/-1;padding:40px">Пока нет доступных репетиторов. <a href="lead-capture.html" style="color:var(--tiffany);font-weight:600">Оставьте заявку</a> — мы подберём лично.</p>';
+    return;
+  }
+  grid.innerHTML = list.map(t => `
+    <a class="tcard" href="tutor.html?id=${encodeURIComponent(t.tutor_id || t.id)}">
       <div class="tc-photo">
-        ${t.badge?`<span class="tc-badge ${t.badge==='Elite'||t.badge==='Top Tutor'?'gold-badge':''}">${t.badge==='Elite'?'💎 Elite':t.badge==='Top Tutor'?'🥇 Top Tutor':t.badge==='Experienced'?'🥈 Experienced':t.badge==='Rising Star'?'🥉 Rising Star':t.badge}</span>`:''}
-        ${t.avatar?`<img src="${t.avatar}" alt="${t.name}">`:'👨‍🏫'}
+        ${t.avatar ? `<img src="${t.avatar}" alt="${escapeHtml(t.name)}">` : '👨‍🏫'}
       </div>
       <div class="tc-body">
-        <div class="tc-top">
-          <div class="tc-name">${t.name} 🇰🇬</div>
-          <div class="tc-subject">${t.subject||'Репетитор'}</div>
-          <div class="tc-metrics">
-            <span class="tc-metric"><span style="color:var(--gold)">★</span> <strong>${t.rating.toFixed(1)}</strong></span>
-            <span class="tc-metric">💬 <strong>${t.reviews}</strong> отзывов</span>
-            <span class="tc-metric">📚 <strong>${t.total_lessons}</strong> уроков</span>
-          </div>
-          <div class="tc-desc">${t.bio}</div>
-          ${t.subjects.length?`<div class="tc-tags">${t.subjects.slice(0,3).map(s=>`<span class="tc-tag">${s}</span>`).join('')}</div>`:''}
-        </div>
+        <div class="tc-name">${escapeHtml(t.name) || 'Репетитор'}</div>
+        <div class="tc-subject">${escapeHtml(t.subject)}</div>
+        <div class="tc-bio">${escapeHtml(t.bio)}</div>
         <div class="tc-footer">
-          <div>
-            <div class="tc-price">${t.price} <small>сом/час</small></div>
-            <span class="tc-trial">Пробный: ${t.trial} сом</span>
-          </div>
-          <button class="btn-book" onclick="event.stopPropagation();openBooking('${t.tutor_id||t.id}')">Записаться</button>
+          <div class="tc-price">${t.price} <small>сом/час</small></div>
+          <span class="tc-cta">Подробнее →</span>
         </div>
       </div>
-    </div>
+    </a>
   `).join('');
 }
 
-function filterBy(cat,btn){
-  if(btn){document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
-  const filtered=cat==='all'?currentTutors:currentTutors.filter(t=>
-    t.cat.toLowerCase().includes(cat.toLowerCase())||
-    t.subject.toLowerCase().includes(cat.toLowerCase())||
-    t.subjects.some(s=>s.toLowerCase().includes(cat.toLowerCase()))
-  );
+function showAllTutors() {
+  displayLimit = 999;
+  renderTutors(currentTutors);
+  document.getElementById('browseMoreWrap').style.display = 'none';
+}
+
+function doSearch() {
+  const q = document.getElementById('searchQ').value.toLowerCase().trim();
+  document.getElementById('suggestions').style.display = 'none';
+  const filtered = q
+    ? currentTutors.filter(t =>
+        t.name.toLowerCase().includes(q) ||
+        t.subject.toLowerCase().includes(q) ||
+        (t.bio || '').toLowerCase().includes(q) ||
+        t.subjects.some(s => s.toLowerCase().includes(q))
+      )
+    : currentTutors;
   renderTutors(filtered);
-  document.getElementById('tutors-section').scrollIntoView({behavior:'smooth'});
+  document.getElementById('browse').scrollIntoView({ behavior: 'smooth' });
 }
 
-function doSearch(){
-  const q=document.getElementById('searchQ').value.toLowerCase().trim();
-  document.getElementById('suggestions').style.display='none';
-  const filtered=q?currentTutors.filter(t=>
-    t.name.toLowerCase().includes(q)||
-    t.subject.toLowerCase().includes(q)||
-    t.bio.toLowerCase().includes(q)||
-    t.subjects.some(s=>s.toLowerCase().includes(q))
-  ):currentTutors;
-  renderTutors(filtered);
-  document.getElementById('tutors-section').scrollIntoView({behavior:'smooth'});
+// ── SUBJECTS AUTOCOMPLETE ───────────────────────────
+async function loadSubjects() {
+  try {
+    const res = await fetch(API + '/api/subjects');
+    allSubjects = await res.json();
+  } catch (e) { /* silent */ }
 }
 
-// ── SUBJECTS SEARCH ────────────────────────────────────────
-async function loadSubjects(){
-  try{const res=await fetch(API+'/api/subjects');allSubjects=await res.json();}catch(e){}
-}
-
-function showSuggestions(query){
-  const box=document.getElementById('suggestions');
-  if(!query||query.length<1){box.style.display='none';return;}
-  const matches=allSubjects.filter(s=>s.name_ru.toLowerCase().includes(query.toLowerCase())||s.name_en.toLowerCase().includes(query.toLowerCase())).slice(0,7);
-  if(!matches.length){box.style.display='none';return;}
-  box.innerHTML=matches.map(s=>`
-    <div class="sug-item" onclick="selectSubject('${s.name_ru}')">
-      <span class="sug-icon">${s.icon}</span>
-      <div><div class="sug-name">${s.name_ru}</div><div class="sug-cat">${s.category}</div></div>
+function showSuggestions(query) {
+  const box = document.getElementById('suggestions');
+  if (!query || query.length < 1 || !allSubjects.length) { box.style.display = 'none'; return; }
+  const matches = allSubjects.filter(s =>
+    (s.name_ru || '').toLowerCase().includes(query.toLowerCase()) ||
+    (s.name_en || '').toLowerCase().includes(query.toLowerCase())
+  ).slice(0, 6);
+  if (!matches.length) { box.style.display = 'none'; return; }
+  box.innerHTML = matches.map(s => `
+    <div class="sug-item" onclick="selectSubject('${escapeAttr(s.name_ru)}')">
+      <span class="sug-icon">${s.icon || '📘'}</span>
+      <div><div class="sug-name">${escapeHtml(s.name_ru)}</div><div class="sug-cat">${escapeHtml(s.category || '')}</div></div>
     </div>
   `).join('');
-  box.style.display='block';
+  box.style.display = 'block';
 }
 
-function selectSubject(name){
-  document.getElementById('searchQ').value=name;
-  document.getElementById('suggestions').style.display='none';
+function selectSubject(name) {
+  document.getElementById('searchQ').value = name;
+  document.getElementById('suggestions').style.display = 'none';
   doSearch();
 }
 
-// ── BOOKING ────────────────────────────────────────────────
-function openBooking(tutorId){
-  selectedTutor=currentTutors.find(t=>(t.tutor_id||t.id)===tutorId)||{trial:200,price:500,name:'Репетитор'};
-  bookingStep=1;
-  document.getElementById('bm-step1').style.display='block';
-  document.getElementById('bm-step2').style.display='none';
-  document.getElementById('bm-btn').textContent='Продолжить →';
-  document.getElementById('bm-btn').disabled=false;
-  document.getElementById('bm-title').textContent='Записаться к '+selectedTutor.name;
-  document.getElementById('bm-sub').textContent=(selectedTutor.subject||'Урок')+' · Пробный урок '+selectedTutor.trial+' сом';
-  document.getElementById('bm-date').min=new Date().toISOString().split('T')[0];
-  document.getElementById('bm-login-notice').style.display=getToken()?'none':'block';
-  document.getElementById('bookingModal').classList.add('open');
+// ── UTILS ───────────────────────────────────────────
+function escapeHtml(str) {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function escapeAttr(str) {
+  return String(str ?? '').replace(/'/g, '\\\'').replace(/"/g, '&quot;');
 }
 
-function selSlot(el){
-  document.querySelectorAll('.tslot').forEach(s=>s.classList.remove('sel'));
-  el.classList.add('sel');selectedSlot=el.textContent.trim();
-}
-
-async function bookingNext(){
-  if(bookingStep===1){
-    if(!getToken()){showToast('Войдите чтобы забронировать');closeModal('bookingModal');openAuth('login');return;}
-    const date=document.getElementById('bm-date').value;
-    if(!date){showToast('Выберите дату');return;}
-    if(!selectedSlot){showToast('Выберите время');return;}
-    document.getElementById('bm-btn').textContent='Загрузка...';
-    document.getElementById('bm-btn').disabled=true;
-    try{
-      const res=await fetch(API+'/api/bookings',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()},body:JSON.stringify({tutor_id:selectedTutor.tutor_id||selectedTutor.id,lesson_date:date,start_time:selectedSlot+':00',end_time:(parseInt(selectedSlot)+1).toString().padStart(2,'0')+':00:00',lesson_type:'trial',subject:selectedTutor.subject||'Урок',student_notes:document.getElementById('bm-notes').value})});
-      const data=await res.json();
-      bookingStep=2;
-      document.getElementById('bm-step1').style.display='none';
-      document.getElementById('bm-step2').style.display='block';
-      document.getElementById('qr-amount').textContent=selectedTutor.trial+' сом';
-      document.getElementById('qr-img').src=`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=BILIMLY_${selectedTutor.tutor_id}_${selectedTutor.trial}KGS&bgcolor=ffffff&color=0ABAB5`;
-      document.getElementById('bm-btn').textContent='Оплачено ✓';
-      document.getElementById('bm-btn').disabled=false;
-    }catch(e){
-      bookingStep=2;
-      document.getElementById('bm-step1').style.display='none';
-      document.getElementById('bm-step2').style.display='block';
-      document.getElementById('qr-amount').textContent=selectedTutor.trial+' сом';
-      document.getElementById('qr-img').src=`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=BILIMLY_DEMO_${Date.now()}&bgcolor=ffffff&color=0ABAB5`;
-      document.getElementById('bm-btn').textContent='Оплачено ✓';
-      document.getElementById('bm-btn').disabled=false;
-    }
-  } else {
-    closeModal('bookingModal');
-    showToast('🎉 Урок забронирован! Подтверждение придёт на email');
-    selectedSlot=null;
-    document.querySelectorAll('.tslot').forEach(s=>s.classList.remove('sel'));
-  }
-}
-
-// ── APPLY ──────────────────────────────────────────────────
-function openApply(){window.location.href='tutor-onboarding.html';}
-
-async function submitApplication(){
-  const full_name=document.getElementById('ap-name').value.trim();
-  const email=document.getElementById('ap-email').value.trim();
-  if(!full_name||!email){document.getElementById('apply-err').textContent='Заполните имя и email';return;}
-  try{
-    const res=await fetch(API+'/api/tutors/apply',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({full_name,email,phone:document.getElementById('ap-phone').value,subjects:document.getElementById('ap-subjects').value.split(',').map(s=>s.trim()).filter(Boolean),experience_years:parseInt(document.getElementById('ap-exp').value)||0,hourly_rate:parseInt(document.getElementById('ap-rate').value)||500,about:document.getElementById('ap-about').value})});
-    closeModal('applyModal');showToast('✓ Заявка отправлена! Ответим в течение 24 часов');
-  }catch(e){closeModal('applyModal');showToast('✓ Заявка отправлена!');}
-}
-
-// ── MESSAGES ───────────────────────────────────────────────
-async function loadUnreadCount(){
-  try{
-    const res=await fetch(API+'/api/messages/unread',{headers:{'Authorization':'Bearer '+getToken()}});
-    const data=await res.json();
-    if(data.unread>0){const b=document.getElementById('unread-count');b.textContent=data.unread;b.style.display='flex';}
-  }catch(e){}
-}
-
-function openMessagesPage(){
-  if(!getToken()){openAuth('login');return;}
-  window.location.href='messages.html';
-}
-
-// ── UTILS ──────────────────────────────────────────────────
-function closeModal(id){document.getElementById(id).classList.remove('open');}
-
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.style.display='block';
-  setTimeout(()=>t.style.display='none',3500);
-}
-
-function setLang(lang){
-  document.querySelectorAll('.lang-select option').forEach(o=>{if(o.value===lang)o.selected=true;});
-}
-
-document.querySelectorAll('.overlay').forEach(o=>{
-  o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');});
-});
-
-document.addEventListener('click',e=>{
-  if(!e.target.closest('#searchQ')&&!e.target.closest('#suggestions')){
-    document.getElementById('suggestions').style.display='none';
+document.addEventListener('click', e => {
+  if (!e.target.closest('#searchQ') && !e.target.closest('#suggestions')) {
+    document.getElementById('suggestions').style.display = 'none';
   }
 });
-
-document.getElementById('searchQ').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch();});
-
-// Google OAuth callback
-(function(){
-  const urlParams=new URLSearchParams(window.location.search);
-  const googleToken=urlParams.get('token');
-  const googleUser=urlParams.get('user');
-  if(googleToken&&googleUser){
-    localStorage.setItem('bilimly_token',googleToken);
-    localStorage.setItem('bilimly_user',decodeURIComponent(googleUser));
-    window.history.replaceState({},'',window.location.pathname);
-  }
-})();
 
 // Init
 loadTutors();
 loadSubjects();
-updateNavAuth();
 </script>
 </body>
 </html>
