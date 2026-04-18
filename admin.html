@@ -135,6 +135,7 @@ tr:hover td{background:#f8fafa;}
       <a onclick="showPage('bookings',this)">📅 Бронирования</a>
       <a onclick="showPage('applications',this)">📋 Заявки</a>
       <a onclick="showPage('revenue',this)">💰 Выручка</a>
+      <a onclick="showPage('leads',this)">🎯 Лиды <span id="leads-badge" style="margin-left:auto;background:#C9A84C;color:white;font-size:0.65rem;font-weight:700;padding:2px 6px;border-radius:8px;display:none"></span></a>
     </nav>
     <div class="sfooter">
       <button class="btn-logout" onclick="logout()">🚪 Выйти</button>
@@ -257,6 +258,31 @@ tr:hover td{background:#f8fafa;}
           </table>
         </div>
       </div>
+    <div id="page-leads" class="page">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px" id="leads-stats"></div>
+      <div class="card" style="margin-bottom:18px">
+        <div class="card-head" style="gap:10px;flex-wrap:wrap">
+          <h3>Фильтр</h3>
+          <button class="lead-filter-btn" data-status="" onclick="filterLeads('')" style="background:var(--tiffany);color:white;border:none;padding:7px 14px;border-radius:8px;font-size:0.82rem;font-weight:500;cursor:pointer">Все</button>
+          <button class="lead-filter-btn" data-status="new" onclick="filterLeads('new')" style="background:white;border:1.5px solid var(--border);padding:7px 14px;border-radius:8px;font-size:0.82rem;font-weight:500;cursor:pointer">Новые</button>
+          <button class="lead-filter-btn" data-status="contacted" onclick="filterLeads('contacted')" style="background:white;border:1.5px solid var(--border);padding:7px 14px;border-radius:8px;font-size:0.82rem;font-weight:500;cursor:pointer">Связались</button>
+          <button class="lead-filter-btn" data-status="converted" onclick="filterLeads('converted')" style="background:white;border:1.5px solid var(--border);padding:7px 14px;border-radius:8px;font-size:0.82rem;font-weight:500;cursor:pointer">Конвертированы</button>
+          <button class="lead-filter-btn" data-status="dead" onclick="filterLeads('dead')" style="background:white;border:1.5px solid var(--border);padding:7px 14px;border-radius:8px;font-size:0.82rem;font-weight:500;cursor:pointer">Мёртвые</button>
+          <button onclick="loadLeads()" style="margin-left:auto;background:none;border:1.5px solid var(--border);padding:7px 14px;border-radius:8px;font-size:0.82rem;font-weight:500;cursor:pointer">Обновить</button>
+        </div>
+      </div>
+      <div class="card"><div id="leads-list"></div></div>
+    </div>
+    <div id="leadModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);z-index:500;align-items:center;justify-content:center;padding:16px" onclick="if(event.target===this)closeLeadModal()">
+      <div style="background:white;border-radius:20px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,0.25)">
+        <div style="background:var(--tiffany);padding:22px 26px;color:white;position:relative">
+          <button onclick="closeLeadModal()" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.15);border:none;color:white;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem">X</button>
+          <h2 style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600" id="lead-modal-title">Лид</h2>
+          <p id="lead-modal-sub" style="opacity:0.75;font-size:0.82rem;margin-top:3px"></p>
+        </div>
+        <div style="padding:24px" id="lead-modal-body"></div>
+      </div>
+    </div>
     </div>
 
   </div>
@@ -307,7 +333,7 @@ function showPage(name,el){
   document.getElementById('page-'+name).classList.add('active');
   if(el)el.classList.add('active');
   currentPage=name;
-  const titles={dashboard:'Дашборд',tutors:'Репетиторы',students:'Студенты',bookings:'Бронирования',applications:'Заявки',revenue:'Выручка'};
+  const titles={dashboard:'Дашборд',tutors:'Репетиторы',students:'Студенты',bookings:'Бронирования',applications:'Заявки',revenue:'Выручка',leads:'Лиды'};
   document.getElementById('page-title').textContent=titles[name]||name;
   loadPage(name);
 }
@@ -319,6 +345,7 @@ function loadPage(name){
   else if(name==='bookings')loadBookings();
   else if(name==='applications')loadApplications();
   else if(name==='revenue')loadRevenue();
+  else if(name==='leads')loadLeads();
 }
 
 // ── DASHBOARD ──────────────────────────────────────────────
@@ -602,6 +629,103 @@ function openTutorModalById(userId) {
   document.getElementById('tutorModal').classList.add('open');
 }
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',3500);}
+let leadsCurrentFilter = '';
+let leadsCurrentList = [];
+async function loadLeads(statusFilter) {
+  const status = statusFilter !== undefined ? statusFilter : leadsCurrentFilter;
+  leadsCurrentFilter = status;
+  const listEl = document.getElementById('leads-list');
+  listEl.innerHTML = '<div style="padding:40px;text-align:center;color:var(--ink-60)">Загрузка...</div>';
+  try {
+    const qs = status ? '?status=' + encodeURIComponent(status) : '';
+    const res = await fetch(API + '/api/admin/leads' + qs, { headers: { 'Authorization': 'Bearer ' + tok } });
+    if (!res.ok) { listEl.innerHTML = '<div style="padding:40px;text-align:center;color:#e74c3c">Ошибка загрузки</div>'; return; }
+    const data = await res.json();
+    leadsCurrentList = data.leads || [];
+    renderLeadStats(data.counts || {});
+    const newCount = (data.counts && data.counts.by_status && data.counts.by_status.new) || 0;
+    const badge = document.getElementById('leads-badge');
+    if (newCount > 0) { badge.textContent = newCount; badge.style.display = 'inline-block'; } else { badge.style.display = 'none'; }
+    if (!leadsCurrentList.length) { listEl.innerHTML = '<div style="padding:60px 24px;text-align:center;color:var(--ink-60)">Лидов в этой категории пока нет</div>'; return; }
+    listEl.innerHTML = leadsCurrentList.map(renderLeadRow).join('');
+  } catch (err) { console.error('loadLeads', err); listEl.innerHTML = '<div style="padding:40px;text-align:center;color:#e74c3c">Ошибка соединения</div>'; }
+}
+function renderLeadStats(counts) {
+  const byStatus = counts.by_status || {};
+  const byUrgency = counts.by_urgency || {};
+  const el = document.getElementById('leads-stats');
+  const card = (label, val, color) => '<div class="stat-card"><div style="font-size:0.68rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:' + (color||'var(--ink-60)') + ';margin-bottom:6px">' + label + '</div><div class="stat-val">' + (val||0) + '</div></div>';
+  el.innerHTML = [
+    card('Новые', byStatus.new, '#C9A84C'),
+    card('Связались', byStatus.contacted, '#0ABAB5'),
+    card('Конвертированы', byStatus.converted, '#0F8562'),
+    card('Мёртвые', byStatus.dead, 'rgba(10,10,10,0.4)'),
+    card('На этой неделе', byUrgency.this_week, '#B54340'),
+  ].join('');
+}
+function renderLeadRow(lead) {
+  const grade = ({ primary: 'Начальная', middle: 'Средняя', high: 'Старшая', ort_university: 'ОРТ/Ун.' })[lead.grade_band] || lead.grade_band;
+  const urg = ({ this_week: 'Этой неделей', this_month: 'В этом месяце', exploring: 'Изучает' })[lead.urgency] || lead.urgency;
+  const sc = {
+    new: { bg: '#FFF8E1', fg: '#B8935A', label: 'Новый' },
+    contacted: { bg: '#E0F7F6', fg: '#067571', label: 'Связались' },
+    converted: { bg: '#E8F5EF', fg: '#0F8562', label: 'Конвертирован' },
+    dead: { bg: '#F5F5F5', fg: 'rgba(10,10,10,0.4)', label: 'Мёртвый' },
+  };
+  const s = sc[lead.status] || sc.new;
+  const d = new Date(lead.created_at).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+  const hl = lead.urgency === 'this_week' && lead.status === 'new' ? 'background:#FDECEC;' : '';
+  return '<div onclick="openLeadDetail(\'' + lead.id + '\')" style="display:flex;align-items:center;gap:16px;padding:16px 22px;border-bottom:1px solid var(--border);cursor:pointer;' + hl + '"><div style="flex:1;min-width:0"><div style="font-weight:600;font-size:0.95rem;margin-bottom:3px">' + lead.phone + '</div><div style="font-size:0.8rem;color:var(--ink-60)">' + lead.subject + ' · ' + grade + ' · ' + urg + '</div></div><div style="text-align:right;display:flex;flex-direction:column;gap:6px;align-items:flex-end"><span style="background:' + s.bg + ';color:' + s.fg + ';padding:4px 10px;border-radius:12px;font-size:0.7rem;font-weight:600">' + s.label + '</span><div style="font-size:0.72rem;color:var(--ink-30)">' + d + '</div></div></div>';
+}
+function openLeadDetail(leadId) {
+  const lead = leadsCurrentList.find(l => l.id === leadId);
+  if (!lead) return;
+  document.getElementById('lead-modal-title').textContent = lead.phone;
+  const grade = ({ primary: 'Начальная школа', middle: 'Средняя школа', high: 'Старшая школа', ort_university: 'ОРТ / Университет' })[lead.grade_band] || lead.grade_band;
+  const urg = ({ this_week: 'На этой неделе', this_month: 'В течение месяца', exploring: 'Просто изучает' })[lead.urgency] || lead.urgency;
+  document.getElementById('lead-modal-sub').textContent = lead.subject + ' · ' + grade + ' · ' + urg;
+  const matched = (lead.matched_tutors && lead.matched_tutors.length)
+    ? lead.matched_tutors.map(t => '<div style="padding:10px 14px;background:#F0FBFB;border-radius:8px;margin-bottom:6px;font-size:0.88rem">' + t.name + ' — ' + t.hourly_rate + ' сом/ч</div>').join('')
+    : '<div style="color:var(--ink-60);font-size:0.85rem;font-style:italic">Нет подобранных</div>';
+  const created = new Date(lead.created_at).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  const contacted = lead.contacted_at ? new Date(lead.contacted_at).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }) : null;
+  const buttons = [
+    { s: 'contacted', label: 'Связались', dis: ['contacted','converted','dead'].includes(lead.status) },
+    { s: 'converted', label: 'Конвертирован', dis: ['converted','dead'].includes(lead.status) },
+    { s: 'dead', label: 'Мёртвый', dis: ['converted','dead'].includes(lead.status) },
+  ];
+  const btnHtml = buttons.map(b => '<button onclick="updateLeadStatus(\'' + leadId + '\',\'' + b.s + '\')" ' + (b.dis?'disabled':'') + ' style="padding:10px 16px;border-radius:8px;font-size:0.84rem;font-weight:600;cursor:' + (b.dis?'not-allowed':'pointer') + ';background:' + (b.dis?'#F0F0F0':'var(--tiffany)') + ';color:' + (b.dis?'rgba(10,10,10,0.3)':'white') + ';border:none;flex:1;min-width:130px">' + b.label + '</button>').join('');
+  const wa = 'https://wa.me/' + lead.phone.replace(/[^0-9]/g, '');
+  document.getElementById('lead-modal-body').innerHTML = '<div style="margin-bottom:22px"><div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:8px">Быстрые действия</div><a href="' + wa + '" target="_blank" rel="noopener" style="display:inline-block;background:#25D366;color:white;padding:10px 18px;border-radius:8px;text-decoration:none;font-size:0.88rem;font-weight:600;margin-right:8px">WhatsApp</a><a href="tel:' + lead.phone + '" style="display:inline-block;background:white;border:1.5px solid var(--border);color:#0a0a0a;padding:10px 18px;border-radius:8px;text-decoration:none;font-size:0.88rem;font-weight:600">Позвонить</a></div><div style="margin-bottom:22px"><div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:8px">Подобранные репетиторы</div>' + matched + '</div><div style="margin-bottom:22px"><div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:10px">Изменить статус</div><div style="display:flex;gap:8px;flex-wrap:wrap">' + btnHtml + '</div></div><div style="margin-bottom:22px"><div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:8px">Заметки</div><textarea id="lead-notes-' + leadId + '" onblur="saveLeadNotes(\'' + leadId + '\')" style="width:100%;min-height:80px;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-family:inherit;font-size:0.88rem;resize:vertical;outline:none" placeholder="Добавьте заметку...">' + (lead.notes || '') + '</textarea><div style="font-size:0.7rem;color:var(--ink-30);margin-top:4px">Автосохранение при потере фокуса</div></div><div style="font-size:0.78rem;color:var(--ink-60);border-top:1px solid var(--border);padding-top:14px"><div>Создан: ' + created + '</div>' + (contacted ? '<div>Связались: ' + contacted + '</div>' : '') + '</div>';
+  document.getElementById('leadModal').style.display = 'flex';
+}
+function closeLeadModal() { document.getElementById('leadModal').style.display = 'none'; }
+async function updateLeadStatus(leadId, status) {
+  try {
+    const res = await fetch(API + '/api/admin/leads/' + leadId, { method: 'PATCH', headers: { 'Authorization': 'Bearer ' + tok, 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) });
+    if (!res.ok) { alert('Не удалось обновить статус'); return; }
+    closeLeadModal();
+    await loadLeads();
+  } catch (err) { alert('Ошибка соединения'); }
+}
+async function saveLeadNotes(leadId) {
+  const el = document.getElementById('lead-notes-' + leadId);
+  if (!el) return;
+  try {
+    await fetch(API + '/api/admin/leads/' + leadId, { method: 'PATCH', headers: { 'Authorization': 'Bearer ' + tok, 'Content-Type': 'application/json' }, body: JSON.stringify({ notes: el.value }) });
+    const lead = leadsCurrentList.find(l => l.id === leadId);
+    if (lead) lead.notes = el.value;
+  } catch (err) { console.error('saveLeadNotes', err); }
+}
+function filterLeads(status) {
+  document.querySelectorAll('.lead-filter-btn').forEach(b => {
+    const isActive = b.dataset.status === status;
+    b.style.background = isActive ? 'var(--tiffany)' : 'white';
+    b.style.color = isActive ? 'white' : '#0a0a0a';
+    b.style.border = isActive ? 'none' : '1.5px solid var(--border)';
+  });
+  loadLeads(status);
+}
 </script>
   <!-- TUTOR DETAIL MODAL -->
 <div class="overlay" id="tutorModal">
