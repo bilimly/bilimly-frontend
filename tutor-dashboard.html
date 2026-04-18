@@ -256,7 +256,7 @@ tr:hover td{background:#f8fafa;}
     <div id="page-earnings" class="page">
       <div class="stats-grid">
         <div class="stat-card"><span class="stat-val" id="e-total">—</span><div class="stat-label">Всего заработано</div></div>
-        <div class="stat-card"><span class="stat-val" id="e-net">—</span><div class="stat-label">Чистый (−15%)</div></div>
+        <div class="stat-card"><span class="stat-val" id="e-net">—</span><div class="stat-label">Чистый заработок</div><div class="stat-sub" id="e-commission-label"></div></div>
         <div class="stat-card"><span class="stat-val" id="e-month">—</span><div class="stat-label">В этом месяце</div></div>
         <div class="stat-card"><span class="stat-val" id="e-pending" style="color:var(--gold)">—</span><div class="stat-label">К выплате</div></div>
       </div>
@@ -569,7 +569,24 @@ async function submitSummary(){
 
 // ── EARNINGS ───────────────────────────────────────────────
 async function loadEarnings(){
-  const[overview,transactions]=await Promise.all([apiFetch('/api/earnings/overview'),apiFetch('/api/earnings/transactions')]);
+  const [overview, transactions, summary] = await Promise.all([
+    apiFetch('/api/earnings/overview'),
+    apiFetch('/api/earnings/transactions'),
+    apiFetch('/api/earnings/my-summary').catch(()=>null)
+  ]);
+  if (summary && summary.tier) {
+    const lbl = document.getElementById('e-commission-label');
+    if (lbl) {
+      const pct = summary.tier.commission_percent;
+      const hoursToNext = summary.tier.hours_to_next;
+      const nextPct = summary.tier.next_tier_commission;
+      if (hoursToNext && nextPct) {
+        lbl.textContent = `Комиссия: ${pct}% · до ${nextPct}%: ${Math.ceil(hoursToNext)} ч`;
+      } else {
+        lbl.textContent = `Комиссия: ${pct}% (максимальный тариф)`;
+      }
+    }
+  }
   if(overview){
     document.getElementById('e-total').textContent=Math.round(overview.earnings?.total_gross||0).toLocaleString('ru')+' сом';
     document.getElementById('e-net').textContent=Math.round(overview.earnings?.total_net||0).toLocaleString('ru')+' сом';
@@ -584,16 +601,22 @@ async function loadEarnings(){
   if(transactions){
     const tbody=document.getElementById('transactions-tbody');
     if(!transactions.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--ink-60);padding:30px">Нет транзакций</td></tr>';return;}
-    tbody.innerHTML=transactions.map(t=>`
+    tbody.innerHTML=transactions.map(t=>{
+      const gross = parseFloat(t.amount) || 0;
+      const net = parseFloat(t.net_amount !== undefined ? t.net_amount : (gross * 0.85));
+      const commission = gross - net;
+      const pct = gross > 0 ? Math.round((commission / gross) * 100) : 0;
+      return `
       <tr>
-        <td>${t.student_first_name} ${t.student_last_name}</td>
+        <td>${t.student_first_name||''} ${t.student_last_name||''}</td>
         <td>${t.subject||'—'}</td>
         <td>${new Date(t.lesson_date).toLocaleDateString('ru-RU')}</td>
-        <td>${t.amount} сом</td>
-        <td style="color:#e74c3c">−${Math.round(t.amount*0.15)} сом</td>
-        <td style="color:var(--tiffany);font-weight:600">${Math.round(t.amount*0.85)} сом</td>
+        <td>${Math.round(gross)} сом</td>
+        <td style="color:#e74c3c">−${Math.round(commission)} сом (${pct}%)</td>
+        <td style="color:var(--tiffany);font-weight:600">${Math.round(net)} сом</td>
         <td><span class="badge ${t.status==='completed'?'badge-green':'badge-gold'}">${t.status==='completed'?'Оплачено':'Ожидает'}</span></td>
-      </tr>`).join('');
+      </tr>`;
+    }).join('');
   }
 }
 

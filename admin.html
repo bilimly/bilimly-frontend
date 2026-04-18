@@ -103,7 +103,8 @@ tr:hover td{background:#f8fafa;}
 .table-search:focus{border-color:var(--tiffany);}
 
 #toast{display:none;position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--tiffany);color:white;padding:12px 24px;border-radius:12px;font-weight:600;z-index:9999;font-size:0.875rem;box-shadow:var(--shadow-lg);}
-
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);z-index:500;align-items:center;justify-content:center;padding:16px;}
+.overlay.open{display:flex;}
 @media(max-width:768px){.sidebar{display:none;}.main{margin-left:0;padding:16px;}}
 </style>
 </head>
@@ -245,7 +246,7 @@ tr:hover td{background:#f8fafa;}
     <div id="page-revenue" class="page">
       <div class="stats-grid">
         <div class="stat-card"><span class="stat-val" id="r-total">—</span><div class="stat-label">Общая выручка</div></div>
-        <div class="stat-card"><span class="stat-val" id="r-commission">—</span><div class="stat-label">Комиссия (15%)</div></div>
+        <div class="stat-card"><span class="stat-val" id="r-commission">—</span><div class="stat-label">Комиссия платформы</div><div class="stat-sub" style="font-size:0.72rem;color:var(--ink-60);margin-top:4px">средняя по всем уроках</div></div>
         <div class="stat-card"><span class="stat-val" id="r-month">—</span><div class="stat-label">В этом месяце</div></div>
         <div class="stat-card"><span class="stat-val" id="r-bookings">—</span><div class="stat-label">Оплаченных уроков</div></div>
       </div>
@@ -257,6 +258,7 @@ tr:hover td{background:#f8fafa;}
             <tbody id="revenue-tbody"></tbody>
           </table>
         </div>
+      </div>
       </div>
     <div id="page-leads" class="page">
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px" id="leads-stats"></div>
@@ -283,7 +285,7 @@ tr:hover td{background:#f8fafa;}
         <div style="padding:24px" id="lead-modal-body"></div>
       </div>
     </div>
-    </div>
+    
 
   </div>
 </div>
@@ -585,7 +587,17 @@ async function loadRevenue(){
   const now=new Date();
   const monthTotal=completed.filter(b=>new Date(b.lesson_date).getMonth()===now.getMonth()).reduce((s,b)=>s+parseFloat(b.amount||0),0);
   document.getElementById('r-total').textContent=Math.round(total).toLocaleString('ru')+' сом';
-  document.getElementById('r-commission').textContent=Math.round(total*0.15).toLocaleString('ru')+' сом';
+  // Average commission across all completed bookings (real value from earnings ledger)
+let totalCommission = 0;
+try {
+  const ledgerSummary = await fetch(API+'/api/admin/commission-summary',{headers:{'Authorization':'Bearer '+tok}});
+  if(ledgerSummary.ok){
+    const d = await ledgerSummary.json();
+    totalCommission = d.total_commission || 0;
+  }
+}catch(e){/* fallback to estimate */}
+if(!totalCommission) totalCommission = total * 0.25; // fallback: midpoint estimate
+document.getElementById('r-commission').textContent=Math.round(totalCommission).toLocaleString('ru')+' сом';
   document.getElementById('r-month').textContent=Math.round(monthTotal).toLocaleString('ru')+' сом';
   document.getElementById('r-bookings').textContent=completed.length;
   const tbody=document.getElementById('revenue-tbody');
@@ -596,7 +608,7 @@ async function loadRevenue(){
       <td>${b.subject||'—'}</td>
       <td>${new Date(b.lesson_date).toLocaleDateString('ru-RU')}</td>
       <td style="font-weight:600">${b.amount} сом</td>
-      <td style="color:var(--tiffany)">${Math.round(b.amount*0.15)} сом</td>
+      <td style="color:var(--tiffany)">${b.commission_amount ? Math.round(b.commission_amount) : '—'} сом</td>
       <td><span class="badge ${b.status==='completed'?'badge-green':b.status==='confirmed'?'badge-blue':'badge-gold'}">${b.status}</span></td>
     </tr>`).join('');
 }
@@ -728,7 +740,7 @@ function filterLeads(status) {
 }
 </script>
   <!-- TUTOR DETAIL MODAL -->
-<div class="overlay" id="tutorModal">
+<div class="overlay" id="tutorModal" onclick="if(event.target===this)this.classList.remove('open')"></div>
   <div style="background:white;border-radius:20px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,0.25);">
     <div style="background:linear-gradient(135deg,#0a1a1a,#0d2d2b);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;">
       <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:white;" id="modal-tutor-name">—</div>
