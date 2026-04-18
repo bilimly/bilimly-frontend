@@ -3,353 +3,1168 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0ABAB5">
 <title>Bilimly — Личный кабинет</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-:root{
-  --tiffany:#0ABAB5;--tiffany-dark:#089490;--tiffany-light:#e0f7f6;--tiffany-pale:#f0fbfb;
-  --gold:#c9a84c;--gold-light:#fdf6e3;
-  --ink:#0a0a0a;--ink-60:rgba(10,10,10,0.6);--ink-30:rgba(10,10,10,0.3);--ink-10:rgba(10,10,10,0.06);
-  --white:#ffffff;--border:rgba(10,10,10,0.08);--bg:#f8fafa;
-  --shadow:0 2px 12px rgba(0,0,0,0.06);--shadow-lg:0 16px 48px rgba(10,186,181,0.12);
-  --radius:14px;--sidebar:240px;
+:root {
+  --teal: #0ABAB5;
+  --teal-deep: #067571;
+  --teal-pale: #F0FBFB;
+  --teal-mist: #E0F7F6;
+  --cream: #FDFBF7;
+  --ivory: #F7F4EC;
+  --ink: #1A1A1A;
+  --ink-soft: #5C5C5C;
+  --ink-faded: rgba(26,26,26,0.45);
+  --gold: #B8935A;
+  --gold-pale: #F8F1E3;
+  --line: rgba(26,26,26,0.08);
+  --line-soft: rgba(26,26,26,0.04);
+  --shadow-sm: 0 1px 2px rgba(26,26,26,0.04);
+  --shadow-md: 0 4px 16px rgba(26,26,26,0.06);
+  --shadow-lg: 0 16px 48px rgba(10,186,181,0.10);
+  --radius: 14px;
+  --radius-lg: 20px;
+  --sidebar-width: 260px;
+  --ok: #0F8562;
+  --warn: #B8935A;
+  --err: #B54340;
 }
-*{margin:0;padding:0;box-sizing:border-box;}
-html,body{overflow-x:hidden;}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow-x: hidden; height: 100%; }
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+input, select, textarea { font-family: inherit; }
+img { max-width: 100%; display: block; }
 
-/* LOGIN */
-.login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#0a1a1a,#0d2d2b);}
-.login-box{background:white;padding:40px;border-radius:20px;width:400px;box-shadow:0 32px 80px rgba(0,0,0,0.3);}
-.login-logo{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:var(--tiffany);margin-bottom:4px;}
-.login-logo span{color:var(--gold);}
-.login-sub{color:var(--ink-60);font-size:0.85rem;margin-bottom:28px;}
-.fgroup{margin-bottom:14px;}
-.fgroup label{display:block;font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:5px;}
-.fcontrol{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 14px;font-family:inherit;font-size:0.9rem;outline:none;transition:border-color 0.2s;}
-.fcontrol:focus{border-color:var(--tiffany);}
-.btn-login{width:100%;background:var(--tiffany);color:white;border:none;padding:13px;border-radius:10px;font-size:0.95rem;font-weight:600;cursor:pointer;font-family:inherit;}
-.btn-login:hover{background:var(--tiffany-dark);}
-.google-btn{width:100%;background:white;border:1.5px solid var(--border);border-radius:8px;padding:11px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:0.88rem;font-weight:600;cursor:pointer;margin-bottom:14px;font-family:inherit;}
-.google-btn:hover{border-color:var(--tiffany);}
-.divider{text-align:center;color:var(--ink-60);font-size:0.75rem;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
-.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border);}
-.err{color:#e74c3c;font-size:0.82rem;margin-top:8px;}
+.serif { font-family: 'Cormorant Garamond', serif; }
 
-/* SIDEBAR */
-.sidebar{width:var(--sidebar);background:linear-gradient(180deg,#0a1a1a 0%,#0d2d2b 100%);min-height:100vh;position:fixed;left:0;top:0;display:flex;flex-direction:column;z-index:100;}
-.slogo{padding:22px 20px;border-bottom:1px solid rgba(255,255,255,0.06);}
-.slogo a{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--tiffany);text-decoration:none;}
-.slogo a span{color:var(--gold);}
-.slogo small{display:block;color:rgba(255,255,255,0.25);font-size:0.65rem;margin-top:2px;text-transform:uppercase;letter-spacing:0.08em;}
-.snav{flex:1;padding:12px 0;}
-.snav a{display:flex;align-items:center;gap:10px;padding:11px 20px;color:rgba(255,255,255,0.5);text-decoration:none;font-size:0.84rem;font-weight:500;cursor:pointer;transition:all 0.15s;border-left:3px solid transparent;}
-.snav a:hover{background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.8);}
-.snav a.active{background:rgba(10,186,181,0.1);color:var(--tiffany);border-left-color:var(--tiffany);}
-.sfooter{padding:16px;border-top:1px solid rgba(255,255,255,0.06);}
-.suser{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
-.suser-av{width:38px;height:38px;border-radius:50%;background:var(--tiffany);display:flex;align-items:center;justify-content:center;font-size:1.1rem;overflow:hidden;}
-.suser-av img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
-.suser-name{font-size:0.84rem;font-weight:600;color:white;}
-.suser-role{font-size:0.7rem;color:rgba(255,255,255,0.3);}
-.btn-logout{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.4);padding:8px;border-radius:8px;font-size:0.78rem;cursor:pointer;font-family:inherit;}
-.btn-logout:hover{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);}
+/* ─── LOGIN ─────────────────────────────────────────── */
+.login-wrap {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--cream) 0%, var(--teal-pale) 100%);
+  padding: 24px;
+}
+.login-box {
+  background: #fff;
+  padding: 44px 40px;
+  border-radius: var(--radius-lg);
+  max-width: 420px; width: 100%;
+  box-shadow: 0 24px 64px rgba(26,26,26,0.10);
+  border: 1px solid var(--line);
+}
+.login-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem; font-weight: 600;
+  color: var(--teal);
+  letter-spacing: -0.01em;
+}
+.login-logo span { color: var(--gold); }
+.login-sub {
+  color: var(--ink-soft);
+  font-size: 0.9rem; margin-bottom: 32px; margin-top: 4px;
+}
 
-/* MAIN */
-.main{margin-left:var(--sidebar);padding:28px 32px;}
-.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;}
-.topbar h1{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;}
-.topbar-right{display:flex;gap:10px;align-items:center;}
-.btn-sm{padding:7px 14px;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;border:none;transition:all 0.2s;}
-.btn-tiffany{background:var(--tiffany);color:white;}
-.btn-tiffany:hover{background:var(--tiffany-dark);}
-.btn-outline{background:none;border:1.5px solid var(--border);color:var(--ink-60);}
-.btn-outline:hover{border-color:var(--tiffany);color:var(--tiffany);}
+.eyebrow {
+  font-size: 0.68rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--teal); margin-bottom: 10px;
+}
 
-/* NEXT LESSON HERO */
-.next-lesson-card{background:linear-gradient(135deg,#0a1a1a,#0d2d2b);border-radius:var(--radius);padding:28px;margin-bottom:24px;position:relative;overflow:hidden;}
-.next-lesson-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(10,186,181,0.12) 0%,transparent 70%);}
-.nl-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(10,186,181,0.15);color:var(--tiffany);border:1px solid rgba(10,186,181,0.2);padding:4px 12px;border-radius:20px;font-size:0.72rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:14px;position:relative;}
-.nl-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:white;margin-bottom:6px;position:relative;}
-.nl-meta{font-size:0.82rem;color:rgba(255,255,255,0.5);margin-bottom:18px;position:relative;}
-.nl-actions{display:flex;gap:10px;position:relative;}
-.btn-join{background:var(--tiffany);color:white;border:none;padding:12px 24px;border-radius:10px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:8px;}
-.btn-join:hover{background:var(--tiffany-dark);}
-.btn-msg-tutor{background:rgba(255,255,255,0.08);color:white;border:1px solid rgba(255,255,255,0.15);padding:12px 20px;border-radius:10px;font-size:0.85rem;font-weight:600;cursor:pointer;font-family:inherit;}
-.no-lesson-card{background:var(--tiffany-pale);border-radius:var(--radius);padding:28px;text-align:center;margin-bottom:24px;border:1.5px dashed var(--tiffany-light);}
-.no-lesson-card p{color:var(--ink-60);margin-bottom:14px;}
+.fgroup { margin-bottom: 14px; }
+.fgroup label {
+  display: block;
+  font-size: 0.72rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+.fcontrol {
+  width: 100%;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 0.95rem;
+  background: #fff; color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.fcontrol:focus { border-color: var(--teal); }
+.fcontrol:disabled { background: var(--ivory); color: var(--ink-faded); }
 
-/* STATS */
-.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin-bottom:24px;}
-.stat-card{background:white;border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);border:1px solid var(--border);position:relative;overflow:hidden;}
-.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--tiffany);}
-.stat-val{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--ink);display:block;line-height:1;}
-.stat-label{font-size:0.72rem;color:var(--ink-60);margin-top:6px;text-transform:uppercase;letter-spacing:0.05em;}
+.btn-primary {
+  background: var(--teal); color: #fff;
+  padding: 13px 24px;
+  border-radius: 10px;
+  font-size: 0.92rem; font-weight: 600;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.btn-primary:hover { background: var(--teal-deep); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-primary-lg {
+  padding: 16px 28px; font-size: 0.95rem;
+  border-radius: 12px;
+}
+.btn-ghost {
+  background: #fff;
+  border: 1.5px solid var(--line);
+  color: var(--ink);
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 0.9rem; font-weight: 500;
+  transition: all 0.15s;
+}
+.btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
+.btn-danger-ghost {
+  background: #fff;
+  border: 1.5px solid var(--line);
+  color: var(--err);
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 0.88rem; font-weight: 500;
+}
+.btn-danger-ghost:hover { border-color: var(--err); background: #FDF2F2; }
 
-/* CARDS */
-.card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:20px;overflow:hidden;}
-.card-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
-.card-head h3{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.btn-login { width: 100%; }
+.google-btn {
+  width: 100%;
+  background: #fff;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  font-size: 0.9rem; font-weight: 600;
+  margin-bottom: 16px;
+  transition: border-color 0.15s;
+}
+.google-btn:hover { border-color: var(--teal); }
+.google-btn svg { width: 18px; height: 18px; }
 
-/* BOOKINGS LIST */
-.booking-item{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border);transition:background 0.15s;}
-.booking-item:last-child{border-bottom:none;}
-.booking-item:hover{background:#f8fafa;}
-.booking-av{width:42px;height:42px;border-radius:50%;background:var(--tiffany-pale);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
-.booking-info{flex:1;}
-.booking-name{font-weight:600;font-size:0.88rem;}
-.booking-meta{font-size:0.75rem;color:var(--ink-60);margin-top:2px;}
-.booking-right{text-align:right;display:flex;flex-direction:column;gap:6px;align-items:flex-end;}
-.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:0.68rem;font-weight:700;}
-.badge-green{background:#dcfce7;color:#166534;}
-.badge-gold{background:var(--gold-light);color:#7a5a00;}
-.badge-blue{background:#eff6ff;color:#1e40af;}
-.badge-red{background:#fee2e2;color:#991b1b;}
-.badge-gray{background:var(--ink-10);color:var(--ink-60);}
+.divider {
+  display: flex; align-items: center; gap: 12px;
+  color: var(--ink-faded);
+  font-size: 0.75rem;
+  margin-bottom: 16px;
+}
+.divider::before, .divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--line);
+}
 
-/* HOMEWORK */
-.hw-item{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:flex-start;}
-.hw-item:last-child{border-bottom:none;}
-.hw-icon{width:36px;height:36px;border-radius:8px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
-.hw-info{flex:1;}
-.hw-title{font-weight:600;font-size:0.85rem;margin-bottom:2px;}
-.hw-meta{font-size:0.75rem;color:var(--ink-60);}
-.hw-right{}
-.hw-done{background:var(--tiffany-pale);color:var(--tiffany-dark);border:1px solid var(--tiffany-light);padding:4px 12px;border-radius:20px;font-size:0.72rem;font-weight:600;cursor:pointer;font-family:inherit;}
+.err-msg { color: var(--err); font-size: 0.82rem; margin-top: 10px; min-height: 20px; }
 
-/* REVIEW MODAL */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);z-index:500;align-items:center;justify-content:center;padding:16px;}
-.overlay.open{display:flex;}
-.modal{background:white;border-radius:20px;max-width:460px;width:100%;box-shadow:0 32px 80px rgba(0,0,0,0.25);overflow:hidden;animation:popIn 0.3s ease;}
-@keyframes popIn{from{transform:scale(0.92) translateY(20px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
-.modal-head{background:var(--tiffany);padding:20px 24px;color:white;position:relative;}
-.modal-close{position:absolute;top:12px;right:14px;background:rgba(255,255,255,0.15);border:none;color:white;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;}
-.modal-head h2{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;margin-bottom:2px;}
-.modal-head p{opacity:0.7;font-size:0.8rem;}
-.modal-body{padding:20px 24px;}
-.modal-foot{padding:0 24px 20px;display:flex;gap:10px;}
-.btn-confirm{flex:1;background:var(--tiffany);color:white;border:none;padding:12px;border-radius:10px;font-size:0.9rem;font-weight:600;cursor:pointer;font-family:inherit;}
-.btn-ghost{background:none;border:1.5px solid var(--border);color:var(--ink);padding:12px 18px;border-radius:10px;font-size:0.85rem;cursor:pointer;font-family:inherit;}
-.stars-select{display:flex;gap:10px;justify-content:center;margin:16px 0;}
-.star-btn{font-size:2rem;cursor:pointer;opacity:0.3;transition:all 0.15s;background:none;border:none;}
-.star-btn.active{opacity:1;transform:scale(1.1);}
+/* ─── APP LAYOUT ────────────────────────────────────── */
+#app { display: none; min-height: 100vh; }
 
-/* PAGES */
-.page{display:none;}
-.page.active{display:block;}
-#app{display:none;}
+.sidebar {
+  width: var(--sidebar-width);
+  background: var(--ivory);
+  border-right: 1px solid var(--line);
+  position: fixed;
+  left: 0; top: 0;
+  height: 100vh;
+  display: flex; flex-direction: column;
+  z-index: 50;
+}
+.slogo {
+  padding: 24px 24px 22px;
+  border-bottom: 1px solid var(--line);
+}
+.slogo a {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem; font-weight: 600;
+  color: var(--teal);
+  letter-spacing: -0.01em;
+  display: block;
+}
+.slogo a span { color: var(--gold); }
+.slogo small {
+  display: block;
+  color: var(--ink-faded);
+  font-size: 0.7rem; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  margin-top: 4px;
+}
 
-#toast{display:none;position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--tiffany);color:white;padding:12px 24px;border-radius:12px;font-weight:600;z-index:9999;font-size:0.875rem;box-shadow:var(--shadow-lg);}
+.snav {
+  flex: 1;
+  padding: 12px 0;
+  overflow-y: auto;
+}
+.snav-section {
+  padding: 12px 24px 6px;
+  font-size: 0.66rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--ink-faded);
+}
+.snav a {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 24px;
+  font-size: 0.9rem; font-weight: 500;
+  color: var(--ink-soft);
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all 0.12s;
+}
+.snav a:hover { background: #fff; color: var(--ink); }
+.snav a.active {
+  color: var(--teal);
+  background: #fff;
+  border-left-color: var(--teal);
+}
+.snav-icon {
+  width: 18px; text-align: center;
+  color: var(--ink-faded);
+  font-size: 0.95rem;
+}
+.snav a.active .snav-icon { color: var(--teal); }
+.snav-lock {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: var(--gold);
+}
 
-@media(max-width:768px){
-  .sidebar{display:none;}
-  .main{margin-left:0;padding:16px;padding-bottom:80px;}
-  .grid2{grid-template-columns:1fr;}
-  .next-lesson-card{padding:20px;}
-  .mobile-nav{display:flex!important;}
+.sfooter {
+  padding: 18px 20px;
+  border-top: 1px solid var(--line);
+  background: var(--ivory);
+}
+.suser {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 14px;
+}
+.suser-av {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--teal-mist);
+  color: var(--teal-deep);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600; font-size: 0.95rem;
+  overflow: hidden; flex-shrink: 0;
+}
+.suser-av img { width: 100%; height: 100%; object-fit: cover; }
+.suser-info { min-width: 0; flex: 1; }
+.suser-name {
+  font-size: 0.88rem; font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.suser-role {
+  font-size: 0.72rem; color: var(--ink-faded);
+}
+.btn-logout {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 0.78rem; color: var(--ink-soft);
+  transition: all 0.15s;
+}
+.btn-logout:hover {
+  background: #fff; color: var(--err); border-color: var(--err);
+}
+
+/* ─── MAIN CONTENT ──────────────────────────────────── */
+.main {
+  margin-left: var(--sidebar-width);
+  padding: 32px 40px 80px;
+  min-height: 100vh;
+}
+.topbar {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 32px;
+  gap: 16px; flex-wrap: wrap;
+}
+.topbar-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem; font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+.topbar-sub {
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+  margin-top: 4px;
+}
+.topbar-actions { display: flex; gap: 10px; }
+
+/* ─── CHILD SELECTOR ────────────────────────────────── */
+.child-selector {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px; margin-bottom: 28px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow-x: auto;
+  box-shadow: var(--shadow-sm);
+}
+.child-chip {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 0.88rem; font-weight: 500;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.12s;
+}
+.child-chip:hover { background: var(--ivory); color: var(--ink); }
+.child-chip.active {
+  background: var(--teal-pale);
+  color: var(--teal-deep);
+  border-color: var(--teal-mist);
+}
+.child-chip-av {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--teal-mist);
+  color: var(--teal-deep);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; font-weight: 600;
+}
+.child-chip-add {
+  color: var(--ink-faded);
+  font-size: 0.85rem;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1.5px dashed var(--line);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.child-chip-add:hover { color: var(--teal); border-color: var(--teal); }
+
+/* ─── PAGES ─────────────────────────────────────────── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ─── HERO NEXT LESSON ──────────────────────────────── */
+.hero-lesson {
+  background: linear-gradient(135deg, var(--teal-deep) 0%, #0A4E4B 100%);
+  border-radius: var(--radius-lg);
+  padding: 36px;
+  color: #fff;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-lesson::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 90% 50%, rgba(10,186,181,0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 5px 14px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 20px;
+  font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 18px;
+  position: relative;
+}
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.7rem; font-weight: 600;
+  margin-bottom: 8px;
+  position: relative;
+  line-height: 1.2;
+}
+.hero-meta {
+  font-size: 0.92rem;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 24px;
+  position: relative;
+}
+.hero-actions {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  position: relative;
+}
+.btn-hero {
+  background: var(--teal); color: #fff;
+  padding: 13px 24px;
+  border-radius: 10px;
+  font-size: 0.92rem; font-weight: 600;
+  transition: all 0.15s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-hero:hover { background: #07d8d2; transform: translateY(-1px); }
+.btn-hero-ghost {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 13px 22px;
+  border-radius: 10px;
+  font-size: 0.9rem; font-weight: 500;
+}
+.btn-hero-ghost:hover { background: rgba(255,255,255,0.15); }
+
+.hero-empty {
+  background: #fff;
+  border: 1.5px dashed var(--line);
+  border-radius: var(--radius-lg);
+  padding: 48px 32px;
+  text-align: center;
+  margin-bottom: 28px;
+}
+.hero-empty-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem; font-weight: 600;
+  margin-bottom: 8px;
+}
+.hero-empty-sub {
+  color: var(--ink-soft);
+  margin-bottom: 24px;
+  font-size: 0.95rem;
+}
+
+/* ─── STATS ROW ─────────────────────────────────────── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.stat-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  box-shadow: var(--shadow-sm);
+}
+.stat-eyebrow {
+  font-size: 0.68rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--ink-faded);
+  margin-bottom: 10px;
+}
+.stat-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem; font-weight: 600;
+  color: var(--ink);
+  line-height: 1;
+}
+.stat-sub {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  margin-top: 6px;
+}
+
+/* ─── CARDS ─────────────────────────────────────────── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.card-head {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--line-soft);
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 12px;
+}
+.card-head h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem; font-weight: 600;
+  color: var(--ink);
+}
+.card-head a, .card-head .card-link {
+  font-size: 0.82rem; font-weight: 600;
+  color: var(--teal);
+  cursor: pointer;
+}
+.card-body { padding: 20px 24px; }
+.card-body-compact { padding: 8px 0; }
+
+/* ─── LIST ITEMS ────────────────────────────────────── */
+.list-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--line-soft);
+  transition: background 0.12s;
+}
+.list-row:last-child { border-bottom: none; }
+.list-row:hover { background: var(--ivory); }
+.list-av {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: var(--teal-mist);
+  color: var(--teal-deep);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600; font-size: 0.92rem;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.list-av img { width: 100%; height: 100%; object-fit: cover; }
+.list-info { flex: 1; min-width: 0; }
+.list-title {
+  font-size: 0.92rem; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+.list-sub {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+.list-right {
+  text-align: right;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
+  flex-shrink: 0;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.68rem; font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.badge-ok { background: #E8F5EF; color: var(--ok); }
+.badge-warn { background: var(--gold-pale); color: var(--gold); }
+.badge-neutral { background: var(--ivory); color: var(--ink-soft); }
+.badge-err { background: #FDECEC; color: var(--err); }
+.badge-info { background: var(--teal-pale); color: var(--teal-deep); }
+.badge-gold {
+  background: var(--gold-pale); color: var(--gold);
+  border: 1px solid rgba(184,147,90,0.2);
+}
+
+.empty-state {
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+.empty-state-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+/* ─── CHILDREN PAGE ─────────────────────────────────── */
+.children-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+.child-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+.child-card-header {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 16px;
+}
+.child-av {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: var(--teal-mist);
+  color: var(--teal-deep);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600; font-size: 1.15rem;
+}
+.child-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem; font-weight: 600;
+  color: var(--ink);
+}
+.child-grade {
+  font-size: 0.78rem; color: var(--ink-soft);
+}
+.child-meta { font-size: 0.85rem; color: var(--ink-soft); margin: 4px 0; }
+.child-actions {
+  display: flex; gap: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line-soft);
+  margin-top: 16px;
+}
+
+/* ─── FINANCE PAGE ──────────────────────────────────── */
+.finance-locked {
+  max-width: 420px;
+  margin: 48px auto;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 40px 32px;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+}
+.finance-lock-icon {
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  background: var(--teal-pale);
+  color: var(--teal-deep);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem;
+  margin: 0 auto 18px;
+}
+.finance-lock-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem; font-weight: 600;
+  margin-bottom: 8px;
+}
+.finance-lock-sub {
+  color: var(--ink-soft);
+  margin-bottom: 24px;
+  font-size: 0.92rem;
+}
+.pin-input-wrap {
+  display: flex; gap: 10px; justify-content: center;
+  margin: 24px 0 16px;
+}
+.pin-digit {
+  width: 52px; height: 60px;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  font-size: 1.6rem; font-weight: 600;
+  text-align: center;
+  background: #fff;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+.pin-digit:focus { border-color: var(--teal); }
+.pin-digit.filled { border-color: var(--teal); }
+
+.finance-content { }
+.finance-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 20px; gap: 12px;
+}
+.finance-header h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem; font-weight: 600;
+}
+.money {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* ─── SETTINGS ──────────────────────────────────────── */
+.settings-section {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  margin-bottom: 20px;
+}
+.settings-section h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem; font-weight: 600;
+  margin-bottom: 6px;
+}
+.settings-section-sub {
+  color: var(--ink-soft);
+  font-size: 0.9rem; margin-bottom: 20px;
+}
+.settings-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+.settings-row:last-child { border-bottom: none; }
+.settings-row-label { font-size: 0.9rem; }
+.settings-row-sub { font-size: 0.78rem; color: var(--ink-soft); margin-top: 2px; }
+
+.switch {
+  position: relative; width: 42px; height: 24px;
+  background: var(--line);
+  border-radius: 12px;
+  cursor: pointer; transition: background 0.15s;
+}
+.switch.on { background: var(--teal); }
+.switch::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.15s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.switch.on::after { transform: translateX(18px); }
+
+/* ─── MODALS ────────────────────────────────────────── */
+.overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(26,26,26,0.5);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 500;
+  align-items: center; justify-content: center;
+  padding: 16px;
+}
+.overlay.open { display: flex; }
+.modal {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  max-width: 480px; width: 100%;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.25);
+  overflow: hidden;
+  animation: modalIn 0.25s ease;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+@keyframes modalIn {
+  from { transform: scale(0.95) translateY(12px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+.modal-head {
+  padding: 24px 28px 18px;
+  border-bottom: 1px solid var(--line-soft);
+  position: relative;
+}
+.modal-head h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem; font-weight: 600;
+  color: var(--ink);
+  padding-right: 32px;
+}
+.modal-head p {
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  margin-top: 4px;
+}
+.modal-close {
+  position: absolute; top: 20px; right: 20px;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--ivory);
+  color: var(--ink-soft);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.95rem;
+  transition: all 0.12s;
+}
+.modal-close:hover { background: var(--line); color: var(--ink); }
+.modal-body { padding: 24px 28px; }
+.modal-foot {
+  padding: 0 28px 24px;
+  display: flex; gap: 10px; justify-content: flex-end;
+}
+
+/* ─── STARS (reviews) ──────────────────────────────── */
+.stars {
+  display: flex; gap: 10px; justify-content: center;
+  margin: 20px 0;
+}
+.star {
+  font-size: 2.2rem;
+  color: var(--line);
+  cursor: pointer;
+  transition: all 0.1s;
+  user-select: none;
+}
+.star.active { color: var(--gold); transform: scale(1.1); }
+
+/* ─── TOAST ─────────────────────────────────────────── */
+#toast {
+  display: none;
+  position: fixed;
+  bottom: 32px; left: 50%;
+  transform: translateX(-50%);
+  background: var(--ink);
+  color: #fff;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-size: 0.9rem; font-weight: 500;
+  z-index: 9999;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  max-width: 90vw;
+}
+#toast.ok { background: var(--ok); }
+#toast.err { background: var(--err); }
+
+/* ─── SKELETON ──────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── MOBILE NAV ────────────────────────────────────── */
+.mobile-nav { display: none; }
+
+@media (max-width: 900px) {
+  .grid-2 { grid-template-columns: 1fr; }
+  .main { padding: 24px 20px 90px; }
+  .sidebar { display: none; }
+  .main { margin-left: 0; }
+
+  .mobile-nav {
+    display: flex;
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: #fff;
+    border-top: 1px solid var(--line);
+    padding: 8px 4px;
+    z-index: 100;
+    justify-content: space-around;
+    box-shadow: 0 -4px 20px rgba(26,26,26,0.05);
+  }
+  .mobile-nav-btn {
+    flex: 1;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 2px;
+    padding: 8px 4px;
+    font-size: 0.64rem; font-weight: 500;
+    color: var(--ink-faded);
+    border: none; background: none;
+    cursor: pointer;
+  }
+  .mobile-nav-btn.active { color: var(--teal); }
+  .mobile-nav-btn span:first-child { font-size: 1.2rem; }
+
+  .hero-lesson { padding: 26px 22px; }
+  .hero-title { font-size: 1.4rem; }
+  .topbar-title { font-size: 1.6rem; }
+
+  .child-selector { padding: 6px; }
 }
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- ─── LOGIN ───────────────────────────────────────── -->
 <div class="login-wrap" id="loginWrap">
   <div class="login-box">
     <div class="login-logo">Bilimly<span>.kg</span></div>
-    <div class="login-sub">Личный кабинет студента</div>
-    <button onclick="googleLogin()" class="google-btn">
-      <img src="https://www.google.com/favicon.ico" width="18" height="18">
+    <div class="login-sub">Личный кабинет родителя</div>
+
+    <button class="google-btn" onclick="googleLogin()">
+      <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
       Войти через Google
     </button>
+
     <div class="divider">или</div>
-    <div class="fgroup"><label>Email</label><input class="fcontrol" type="email" id="l-email" placeholder="your@email.com"></div>
-    <div class="fgroup"><label>Пароль</label><input class="fcontrol" type="password" id="l-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')login()"></div>
-    <button class="btn-login" onclick="login()">Войти</button>
-    <div class="err" id="l-err"></div>
-    <div style="margin-top:16px;text-align:center;font-size:0.82rem;color:var(--ink-60)">
-      <a href="index.html" style="color:var(--tiffany)">← Вернуться на сайт</a>
+
+    <div class="fgroup">
+      <label>Email</label>
+      <input class="fcontrol" type="email" id="l-email" placeholder="your@email.com" autocomplete="email">
+    </div>
+    <div class="fgroup">
+      <label>Пароль</label>
+      <input class="fcontrol" type="password" id="l-pass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()">
+    </div>
+
+    <button class="btn-primary btn-login" onclick="login()" id="login-btn">Войти</button>
+    <div class="err-msg" id="l-err"></div>
+
+    <div style="margin-top:20px;text-align:center;font-size:0.85rem;color:var(--ink-soft);">
+      <a href="index.html" style="color:var(--teal);font-weight:500">← Вернуться на сайт</a>
     </div>
   </div>
 </div>
 
-<!-- APP -->
+<!-- ─── APP ─────────────────────────────────────────── -->
 <div id="app">
-  <div class="sidebar">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
     <div class="slogo">
       <a href="index.html">Bilimly<span>.kg</span></a>
       <small>Личный кабинет</small>
     </div>
-    <nav class="snav">
-      <a class="active" onclick="showPage('dashboard',this)"><span>🏠</span> Главная</a>
-      <a onclick="showPage('lessons',this)"><span>📅</span> Мои уроки</a>
-      <a onclick="showPage('homework',this)"><span>📚</span> Домашние задания</a>
-      <a onclick="showPage('tutors',this)"><span>👨‍🏫</span> Мои репетиторы</a>
-      <a onclick="showPage('messages',this)"><span>💬</span> Сообщения</a>
-      <a onclick="showPage('settings',this)"><span>⚙️</span> Настройки</a>
+    <nav class="snav" id="snav">
+      <div class="snav-section">Обзор</div>
+      <a class="active" data-page="dashboard"><span class="snav-icon">◆</span> Главная</a>
+
+      <div class="snav-section">Учёба</div>
+      <a data-page="children"><span class="snav-icon">◎</span> Мои дети</a>
+      <a data-page="lessons"><span class="snav-icon">◈</span> Уроки</a>
+      <a data-page="tutors"><span class="snav-icon">◉</span> Репетиторы</a>
+      <a data-page="messages"><span class="snav-icon">◇</span> Сообщения</a>
+
+      <div class="snav-section">Управление</div>
+      <a data-page="finance" id="nav-finance" style="display:none"><span class="snav-icon">◬</span> Финансы <span class="snav-lock">🔒</span></a>
+      <a data-page="settings"><span class="snav-icon">◌</span> Настройки</a>
     </nav>
     <div class="sfooter">
       <div class="suser">
-        <div class="suser-av" id="sidebar-av">👤</div>
-        <div><div class="suser-name" id="sidebar-name">Загрузка...</div><div class="suser-role">Студент</div></div>
+        <div class="suser-av" id="sidebar-av">У</div>
+        <div class="suser-info">
+          <div class="suser-name" id="sidebar-name">Загрузка…</div>
+          <div class="suser-role">Родитель</div>
+        </div>
       </div>
-      <button class="btn-logout" onclick="logout()">🚪 Выйти</button>
+      <button class="btn-logout" onclick="logout()">Выйти</button>
     </div>
-  </div>
+  </aside>
 
-  <div class="main">
+  <!-- MAIN -->
+  <main class="main">
+
     <div class="topbar">
-      <h1 id="page-title">Главная</h1>
-      <div class="topbar-right">
-        <a href="index.html" class="btn-sm btn-tiffany" style="text-decoration:none">+ Найти репетитора</a>
+      <div>
+        <h1 class="topbar-title" id="page-title">Главная</h1>
+        <div class="topbar-sub" id="page-sub"></div>
+      </div>
+      <div class="topbar-actions">
+        <a href="lead-capture.html" class="btn-primary">Подобрать репетитора</a>
       </div>
     </div>
+
+    <!-- CHILD SELECTOR (visible on Dashboard + Lessons pages) -->
+    <div class="child-selector" id="child-selector" style="display:none"></div>
 
     <!-- DASHBOARD PAGE -->
-    <div id="page-dashboard" class="page active">
-      <!-- Next lesson -->
-      <div id="next-lesson-wrap"></div>
+    <section class="page active" id="page-dashboard">
+      <div id="hero-slot"></div>
 
-      <!-- Stats -->
-      <div class="stats-row">
-        <div class="stat-card"><span class="stat-val" id="s-total">0</span><div class="stat-label">Всего уроков</div></div>
-        <div class="stat-card"><span class="stat-val" id="s-upcoming">0</span><div class="stat-label">Предстоящих</div></div>
-        <div class="stat-card"><span class="stat-val" id="s-tutors">0</span><div class="stat-label">Репетиторов</div></div>
-        <div class="stat-card"><span class="stat-val" id="s-hw">0</span><div class="stat-label">Домашних заданий</div></div>
-      </div>
+      <div class="stats-row" id="stats-slot"></div>
 
-      <div class="grid2">
+      <div class="grid-2">
         <div class="card">
-          <div class="card-head"><h3>Предстоящие уроки</h3><a href="#" onclick="showPage('lessons',null)" style="font-size:0.78rem;color:var(--tiffany);text-decoration:none">Все →</a></div>
-          <div id="upcoming-bookings"></div>
+          <div class="card-head">
+            <h3>Предстоящие уроки</h3>
+            <span class="card-link" onclick="showPage('lessons')">Все →</span>
+          </div>
+          <div id="upcoming-slot" class="card-body-compact"></div>
         </div>
         <div class="card">
-          <div class="card-head"><h3>Последние домашние задания</h3></div>
-          <div id="recent-homework"></div>
+          <div class="card-head">
+            <h3>Последние итоги уроков</h3>
+          </div>
+          <div id="summaries-slot" class="card-body-compact"></div>
         </div>
       </div>
-    </div>
+    </section>
+
+    <!-- CHILDREN PAGE -->
+    <section class="page" id="page-children">
+      <div class="card">
+        <div class="card-head">
+          <h3>Мои дети</h3>
+          <span class="card-link" onclick="openChildModal()">+ Добавить ребёнка</span>
+        </div>
+        <div id="children-slot" class="card-body"></div>
+      </div>
+    </section>
 
     <!-- LESSONS PAGE -->
-    <div id="page-lessons" class="page">
+    <section class="page" id="page-lessons">
       <div class="card">
-        <div class="card-head"><h3>Все уроки</h3>
-          <select class="fcontrol" style="width:auto;padding:6px 12px;font-size:0.82rem" id="lessons-filter" onchange="loadAllLessons()">
-            <option value="">Все</option>
+        <div class="card-head">
+          <h3>Все уроки</h3>
+          <select class="fcontrol" id="lessons-filter" onchange="loadAllLessons()" style="width:auto;font-size:0.85rem;padding:8px 14px">
+            <option value="">Все статусы</option>
             <option value="confirmed">Подтверждённые</option>
             <option value="pending">Ожидают</option>
             <option value="completed">Завершённые</option>
             <option value="cancelled">Отменённые</option>
           </select>
         </div>
-        <div id="all-lessons-list"></div>
+        <div id="all-lessons-slot" class="card-body-compact"></div>
       </div>
-    </div>
-
-    <!-- HOMEWORK PAGE -->
-    <div id="page-homework" class="page">
-      <div class="card">
-        <div class="card-head"><h3>Домашние задания</h3></div>
-        <div id="homework-list">
-          <div style="text-align:center;color:var(--ink-60);padding:40px;font-size:0.85rem">
-            <div style="font-size:2rem;margin-bottom:10px">📚</div>
-            Домашние задания появятся здесь после уроков
-          </div>
-        </div>
-      </div>
-    </div>
+    </section>
 
     <!-- TUTORS PAGE -->
-    <div id="page-tutors" class="page">
+    <section class="page" id="page-tutors">
       <div class="card">
-        <div class="card-head"><h3>Мои репетиторы</h3></div>
-        <div id="my-tutors-list">
-          <div style="text-align:center;color:var(--ink-60);padding:40px;font-size:0.85rem">Загрузка...</div>
-        </div>
+        <div class="card-head"><h3>Репетиторы вашей семьи</h3></div>
+        <div id="tutors-slot" class="card-body-compact"></div>
       </div>
-    </div>
+    </section>
 
     <!-- MESSAGES PAGE -->
-    <div id="page-messages" class="page">
-      <div class="card" style="padding:20px;text-align:center">
-        <div style="font-size:2rem;margin-bottom:10px">💬</div>
-        <p style="color:var(--ink-60);margin-bottom:16px">Все ваши диалоги с репетиторами в одном месте</p>
-        <a href="messages.html" class="btn-sm btn-tiffany" style="text-decoration:none;display:inline-block;padding:12px 24px">Открыть сообщения →</a>
+    <section class="page" id="page-messages">
+      <div class="card">
+        <div class="card-body" style="text-align:center;padding:48px 24px">
+          <div class="empty-state-title">Сообщения</div>
+          <div style="color:var(--ink-soft);margin:12px 0 20px;font-size:0.95rem">
+            Все диалоги с репетиторами в одном месте
+          </div>
+          <a href="messages.html" class="btn-primary">Открыть сообщения</a>
+        </div>
       </div>
-    </div>
+    </section>
+
+    <!-- FINANCE PAGE (PIN-gated) -->
+    <section class="page" id="page-finance">
+      <div id="finance-locked-slot">
+        <!-- PIN entry / setup UI is rendered here by JS -->
+      </div>
+      <div id="finance-content-slot" style="display:none">
+        <!-- Unlocked financial content rendered here -->
+      </div>
+    </section>
 
     <!-- SETTINGS PAGE -->
-    <div id="page-settings" class="page">
-      <div class="grid2">
-        <div class="card">
-          <div class="card-head"><h3>Личные данные</h3></div>
-          <div style="padding:20px">
-            <div class="fgroup"><label>Имя</label><input class="fcontrol" id="s-fname" type="text"></div>
-            <div class="fgroup"><label>Фамилия</label><input class="fcontrol" id="s-lname" type="text"></div>
-            <div class="fgroup"><label>Email</label><input class="fcontrol" id="s-email" type="email" disabled style="opacity:0.6"></div>
-            <div class="fgroup"><label>Телефон</label><input class="fcontrol" id="s-phone" type="tel" placeholder="+996 XXX XXX XXX"></div>
-            <button class="btn-sm btn-tiffany" onclick="saveSettings()">Сохранить</button>
-            <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border);">
-  <div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;">Уведомления</div>
-  <a href="https://t.me/BilimlyKGBot" target="_blank" style="display:flex;align-items:center;gap:10px;background:#229ED9;color:white;padding:12px 16px;border-radius:10px;text-decoration:none;font-weight:600;font-size:0.88rem;">
-    <span style="font-size:1.2rem;">✈️</span>
-    Подключить Telegram уведомления
-  </a>
-  <p style="font-size:0.75rem;color:var(--ink-60);margin-top:8px;">После нажатия откроется Telegram бот. Отправьте боту ваш email чтобы подключить уведомления об уроках.</p>
-</div>
-          </div>
+    <section class="page" id="page-settings">
+      <div class="grid-2">
+        <div class="settings-section">
+          <h3>Личные данные</h3>
+          <div class="settings-section-sub">Как с вами связаться</div>
+          <div class="fgroup"><label>Имя</label><input class="fcontrol" type="text" id="s-fname"></div>
+          <div class="fgroup"><label>Фамилия</label><input class="fcontrol" type="text" id="s-lname"></div>
+          <div class="fgroup"><label>Email</label><input class="fcontrol" type="email" id="s-email" disabled></div>
+          <div class="fgroup"><label>Телефон</label><input class="fcontrol" type="tel" id="s-phone" placeholder="+996 XXX XXX XXX"></div>
+          <button class="btn-primary" onclick="saveSettings()">Сохранить</button>
         </div>
-        <div class="card">
-          <div class="card-head"><h3>Уведомления</h3></div>
-          <div style="padding:20px">
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)">
-              <div><div style="font-weight:600;font-size:0.85rem">Email уведомления</div><div style="font-size:0.75rem;color:var(--ink-60)">Напоминания об уроках</div></div>
-              <input type="checkbox" id="notif-email" checked style="width:18px;height:18px;accent-color:var(--tiffany)">
+
+        <div>
+          <div class="settings-section">
+            <h3>Защита платежей</h3>
+            <div class="settings-section-sub">PIN-код скрывает раздел «Финансы» от других членов семьи</div>
+            <div id="pin-settings-slot"></div>
+          </div>
+
+          <div class="settings-section">
+            <h3>Уведомления</h3>
+            <div class="settings-section-sub">Как получать новости об уроках</div>
+            <div class="settings-row">
+              <div>
+                <div class="settings-row-label">Email-уведомления</div>
+                <div class="settings-row-sub">Подтверждения, напоминания об уроках</div>
+              </div>
+              <div class="switch on" id="notif-email-switch"></div>
             </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)">
-              <div><div style="font-weight:600;font-size:0.85rem">WhatsApp</div><div style="font-size:0.75rem;color:var(--ink-60)">Итоги уроков и задания</div></div>
-              <input type="checkbox" id="notif-wa" style="width:18px;height:18px;accent-color:var(--tiffany)">
-            </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0">
-              <div><div style="font-weight:600;font-size:0.85rem">Отчёты для родителей</div><div style="font-size:0.75rem;color:var(--ink-60)">Ежемесячный прогресс-отчёт</div></div>
-              <input type="checkbox" id="notif-parent" style="width:18px;height:18px;accent-color:var(--tiffany)">
+            <div class="settings-row">
+              <div>
+                <div class="settings-row-label">Telegram-бот</div>
+                <div class="settings-row-sub">Напоминания за час до урока</div>
+              </div>
+              <a href="https://t.me/BilimlyKGBot" target="_blank" class="btn-ghost" style="font-size:0.82rem;padding:8px 14px">Подключить</a>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
+  </main>
+
+  <!-- MOBILE NAV -->
+  <div class="mobile-nav">
+    <button class="mobile-nav-btn active" data-page="dashboard"><span>◆</span>Главная</button>
+    <button class="mobile-nav-btn" data-page="children"><span>◎</span>Дети</button>
+    <button class="mobile-nav-btn" data-page="lessons"><span>◈</span>Уроки</button>
+    <button class="mobile-nav-btn" data-page="finance" id="mnav-finance" style="display:none"><span>◬</span>Финансы</button>
+    <button class="mobile-nav-btn" data-page="settings"><span>◌</span>Ещё</button>
   </div>
 </div>
 
-<!-- REVIEW MODAL -->
+<!-- ─── CHILD MODAL ─────────────────────────────────── -->
+<div class="overlay" id="childModal">
+  <div class="modal">
+    <div class="modal-head">
+      <button class="modal-close" onclick="closeModal('childModal')">✕</button>
+      <h3 id="child-modal-title">Добавить ребёнка</h3>
+      <p>Для каждого ребёнка ведётся отдельная история уроков</p>
+    </div>
+    <div class="modal-body">
+      <div class="fgroup"><label>Имя ребёнка</label><input class="fcontrol" type="text" id="child-name" placeholder="Айбек"></div>
+      <div class="fgroup">
+        <label>Уровень</label>
+        <select class="fcontrol" id="child-grade-band">
+          <option value="">— не указано —</option>
+          <option value="primary">Начальная школа (1–4)</option>
+          <option value="middle">Средняя школа (5–9)</option>
+          <option value="high">Старшая школа (10–11)</option>
+          <option value="ort_university">ОРТ / Университет</option>
+        </select>
+      </div>
+      <div class="fgroup"><label>Класс (опционально)</label><input class="fcontrol" type="number" id="child-grade-number" min="1" max="12" placeholder="7"></div>
+      <div class="fgroup"><label>Школа (опционально)</label><input class="fcontrol" type="text" id="child-school" placeholder="Школа-гимназия №1"></div>
+      <div class="err-msg" id="child-err"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-ghost" onclick="closeModal('childModal')">Отмена</button>
+      <button class="btn-primary" id="child-save-btn" onclick="saveChild()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── PIN SETUP MODAL ─────────────────────────────── -->
+<div class="overlay" id="pinSetupModal">
+  <div class="modal">
+    <div class="modal-head">
+      <button class="modal-close" onclick="closeModal('pinSetupModal')">✕</button>
+      <h3 id="pin-setup-title">Установить PIN</h3>
+      <p>Раздел «Финансы» будет защищён 4-значным PIN-кодом</p>
+    </div>
+    <div class="modal-body">
+      <div class="fgroup">
+        <label>Ваш текущий пароль</label>
+        <input class="fcontrol" type="password" id="pin-setup-password" placeholder="••••••••">
+      </div>
+      <div class="fgroup">
+        <label>Новый PIN (4 цифры)</label>
+        <input class="fcontrol" type="password" inputmode="numeric" maxlength="4" id="pin-setup-code" placeholder="••••">
+      </div>
+      <div class="fgroup">
+        <label>Повторите PIN</label>
+        <input class="fcontrol" type="password" inputmode="numeric" maxlength="4" id="pin-setup-confirm" placeholder="••••">
+      </div>
+      <div class="err-msg" id="pin-setup-err"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-ghost" onclick="closeModal('pinSetupModal')">Отмена</button>
+      <button class="btn-primary" id="pin-setup-btn" onclick="submitPinSetup()">Установить PIN</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── REVIEW MODAL ────────────────────────────────── -->
 <div class="overlay" id="reviewModal">
   <div class="modal">
     <div class="modal-head">
-      <button class="modal-close" onclick="closeReviewModal()">✕</button>
-      <h2>Оставить отзыв</h2>
+      <button class="modal-close" onclick="closeModal('reviewModal')">✕</button>
+      <h3>Оставить отзыв</h3>
       <p id="review-tutor-name">О репетиторе</p>
     </div>
     <div class="modal-body">
-      <div style="text-align:center;margin-bottom:16px">
-        <p style="font-size:0.85rem;color:var(--ink-60);margin-bottom:10px">Как прошёл урок?</p>
-        <div class="stars-select" id="stars-select">
-          <button class="star-btn" onclick="setReviewStar(1)">⭐</button>
-          <button class="star-btn" onclick="setReviewStar(2)">⭐</button>
-          <button class="star-btn" onclick="setReviewStar(3)">⭐</button>
-          <button class="star-btn" onclick="setReviewStar(4)">⭐</button>
-          <button class="star-btn" onclick="setReviewStar(5)">⭐</button>
-        </div>
+      <div style="text-align:center;color:var(--ink-soft);font-size:0.88rem">Как прошёл урок?</div>
+      <div class="stars" id="stars-select">
+        <span class="star" data-star="1">★</span>
+        <span class="star" data-star="2">★</span>
+        <span class="star" data-star="3">★</span>
+        <span class="star" data-star="4">★</span>
+        <span class="star" data-star="5">★</span>
       </div>
       <div class="fgroup">
         <label>Комментарий (необязательно)</label>
-        <textarea class="fcontrol" id="review-comment" rows="3" placeholder="Расскажите о своём опыте..."></textarea>
+        <textarea class="fcontrol" id="review-comment" rows="3" placeholder="Расскажите о своём опыте…"></textarea>
       </div>
-      <div style="color:#e74c3c;font-size:0.78rem" id="review-err"></div>
+      <div class="err-msg" id="review-err"></div>
     </div>
     <div class="modal-foot">
-      <button class="btn-ghost" onclick="closeReviewModal()">Отмена</button>
-      <button class="btn-confirm" onclick="submitReview()">Отправить отзыв ✓</button>
+      <button class="btn-ghost" onclick="closeModal('reviewModal')">Отмена</button>
+      <button class="btn-primary" onclick="submitReview()">Отправить</button>
     </div>
   </div>
 </div>
@@ -357,272 +1172,888 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);}
 <div id="toast"></div>
 
 <script>
-const API='https://bilimly-backend-0zbt.onrender.com';
-let token=localStorage.getItem('bilimly_token');
-let currentUser=JSON.parse(localStorage.getItem('bilimly_user')||'null');
-let currentPage='dashboard';
-let allBookings=[];
-let reviewBookingId=null;
-let reviewTutorId=null;
-let reviewStar=0;
+// ╔═══════════════════════════════════════════════════════╗
+// ║  BILIMLY PARENT DASHBOARD                             ║
+// ╚═══════════════════════════════════════════════════════╝
 
-// Handle Google OAuth callback
-(function(){
-  const p=new URLSearchParams(window.location.search);
-  const t=p.get('token');const u=p.get('user');
-  if(t&&u){localStorage.setItem('bilimly_token',t);localStorage.setItem('bilimly_user',decodeURIComponent(u));window.history.replaceState({},'',window.location.pathname);token=t;currentUser=JSON.parse(decodeURIComponent(u));}
+const API = 'https://bilimly-backend-0zbt.onrender.com';
+
+// ─── STATE ────────────────────────────────────────────
+let token = localStorage.getItem('bilimly_token');
+let currentUser = JSON.parse(localStorage.getItem('bilimly_user') || 'null');
+let pinToken = sessionStorage.getItem('pin_token'); // lives per browser tab
+
+let allBookings = [];
+let allChildren = [];
+let activeChildId = null; // null means "all children"
+let currentPage = 'dashboard';
+let editingChildId = null;
+let reviewBookingId = null;
+let reviewTutorId = null;
+let reviewStar = 0;
+
+// ─── STARTUP ──────────────────────────────────────────
+// Handle Google OAuth callback (?token=...&user=...)
+(function handleOAuthCallback() {
+  const p = new URLSearchParams(window.location.search);
+  const t = p.get('token');
+  const u = p.get('user');
+  if (t && u) {
+    localStorage.setItem('bilimly_token', t);
+    localStorage.setItem('bilimly_user', decodeURIComponent(u));
+    window.history.replaceState({}, '', window.location.pathname);
+    token = t;
+    currentUser = JSON.parse(decodeURIComponent(u));
+  }
 })();
 
-if(token&&currentUser){initApp();}
-
-async function login(){
-  const email=document.getElementById('l-email').value.trim();
-  const password=document.getElementById('l-pass').value;
-  document.getElementById('l-err').textContent='';
-  try{
-    const res=await fetch(API+'/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
-    const data=await res.json();
-    if(data.token){token=data.token;currentUser=data.user;localStorage.setItem('bilimly_token',token);localStorage.setItem('bilimly_user',JSON.stringify(data.user));initApp();}
-    else{document.getElementById('l-err').textContent=data.error||'Неверный email или пароль';}
-  }catch(e){document.getElementById('l-err').textContent='Ошибка соединения';}
+if (token && currentUser) {
+  showApp();
+} else {
+  showLogin();
 }
 
-function googleLogin(){window.location.href=API+'/api/auth/google';}
-function logout(){localStorage.removeItem('bilimly_token');localStorage.removeItem('bilimly_user');window.location.reload();}
-
-function initApp(){
-  document.getElementById('loginWrap').style.display='none';
-  document.getElementById('app').style.display='block';
-  document.getElementById('sidebar-name').textContent=currentUser.first_name+' '+currentUser.last_name;
-  if(currentUser.avatar_url)document.getElementById('sidebar-av').innerHTML=`<img src="${currentUser.avatar_url}">`;
-  loadDashboard();
+function showLogin() {
+  document.getElementById('loginWrap').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
 }
 
-async function apiFetch(path,options={}){
-  const res=await fetch(API+path,{...options,headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json',...(options.headers||{})}});
-  if(res.status===401){logout();return null;}
-  return res.json();
+function showApp() {
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  initApp();
 }
 
-function showPage(name,el){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.snav a').forEach(a=>a.classList.remove('active'));
-  document.getElementById('page-'+name).classList.add('active');
-  if(el)el.classList.add('active');
-  currentPage=name;
-  const titles={dashboard:'Главная',lessons:'Мои уроки',homework:'Домашние задания',tutors:'Мои репетиторы',messages:'Сообщения',settings:'Настройки'};
-  document.getElementById('page-title').textContent=titles[name]||name;
-  if(name==='lessons')loadAllLessons();
-  else if(name==='tutors')loadMyTutors();
-  else if(name==='settings')loadSettings();
+// ─── AUTH ─────────────────────────────────────────────
+async function login() {
+  const email = document.getElementById('l-email').value.trim();
+  const password = document.getElementById('l-pass').value;
+  const err = document.getElementById('l-err');
+  const btn = document.getElementById('login-btn');
+  err.textContent = '';
+  if (!email || !password) { err.textContent = 'Введите email и пароль'; return; }
+  btn.disabled = true; btn.textContent = 'Входим…';
+  try {
+    const res = await fetch(API + '/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await res.json();
+    if (data.token) {
+      token = data.token;
+      currentUser = data.user;
+      localStorage.setItem('bilimly_token', token);
+      localStorage.setItem('bilimly_user', JSON.stringify(data.user));
+      showApp();
+    } else {
+      err.textContent = data.error || 'Неверный email или пароль';
+    }
+  } catch (e) {
+    err.textContent = 'Ошибка соединения';
+  }
+  btn.disabled = false; btn.textContent = 'Войти';
 }
 
-// ── DASHBOARD ──────────────────────────────────────────────
-async function loadDashboard(){
-  const data=await apiFetch('/api/bookings/my');
-  if(!data)return;
-  allBookings=data;
+function googleLogin() {
+  window.location.href = API + '/api/auth/google';
+}
 
-  const now=new Date();
-  const upcoming=data.filter(b=>b.status!=='cancelled'&&new Date(b.lesson_date)>=new Date(now.toDateString()));
-  const completed=data.filter(b=>b.status==='completed');
-  const tutorIds=new Set(data.map(b=>b.tutor_id));
-  const withHw=data.filter(b=>b.homework);
+function logout() {
+  localStorage.removeItem('bilimly_token');
+  localStorage.removeItem('bilimly_user');
+  sessionStorage.removeItem('pin_token');
+  window.location.reload();
+}
 
-  document.getElementById('s-total').textContent=data.length;
-  document.getElementById('s-upcoming').textContent=upcoming.length;
-  document.getElementById('s-tutors').textContent=tutorIds.size;
-  document.getElementById('s-hw').textContent=withHw.length;
+async function apiFetch(path, opts = {}) {
+  const headers = {
+    'Authorization': 'Bearer ' + token,
+    'Content-Type': 'application/json',
+    ...(opts.headers || {}),
+  };
+  if (pinToken && opts.requirePin) {
+    headers['X-Payments-Pin-Token'] = pinToken;
+  }
+  try {
+    const res = await fetch(API + path, { ...opts, headers });
+    if (res.status === 401) { logout(); return null; }
+    if (res.status === 403) {
+      const data = await res.json();
+      if (data.error === 'PIN_EXPIRED' || data.error === 'PIN_REQUIRED') {
+        sessionStorage.removeItem('pin_token');
+        pinToken = null;
+        if (currentPage === 'finance') renderFinanceLocked();
+      }
+      return { error: data.error, message: data.message };
+    }
+    if (!res.ok && res.status !== 404) {
+      try { return await res.json(); } catch (e) { return { error: 'server_error' }; }
+    }
+    return await res.json();
+  } catch (e) {
+    console.error('apiFetch error', path, e);
+    return null;
+  }
+}
 
-  // Next lesson
-  const next=upcoming.find(b=>b.status==='confirmed')||upcoming[0];
-  const nlWrap=document.getElementById('next-lesson-wrap');
-  if(next){
-    const lessonTime=new Date(next.lesson_date+'T'+next.start_time);
-    const diff=lessonTime-now;
-    const canJoin=diff>0&&diff<30*60*1000;
-    const hrs=Math.floor(diff/3600000);
-    const mins=Math.floor((diff%3600000)/60000);
-    const timeStr=hrs>0?`через ${hrs} ч ${mins} мин`:`через ${mins} мин`;
-    nlWrap.innerHTML=`
-      <div class="next-lesson-card">
-        <div class="nl-badge">⏰ ${diff>0?(hrs>24?'Предстоящий урок':'Скоро начнётся'):'Идёт сейчас'}</div>
-        <div class="nl-title">${next.subject||'Урок'} с ${next.tutor_first_name} ${next.tutor_last_name}</div>
-        <div class="nl-meta">${new Date(next.lesson_date).toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long'})} · ${next.start_time} · ${diff>0&&hrs<24?timeStr:''}</div>
-        <div class="nl-actions">
-          ${canJoin&&next.meeting_url?`<a href="${next.meeting_url}" target="_blank" class="btn-join">🎥 Войти в урок</a>`:`<button class="btn-join" onclick="showToast('Ссылка появится за 30 минут до урока')">🎥 Войти в урок</button>`}
-          <button class="btn-msg-tutor" onclick="window.location.href='messages.html'">💬 Написать</button>
+// ─── APP INIT ─────────────────────────────────────────
+async function initApp() {
+  // Sidebar user display
+  document.getElementById('sidebar-name').textContent =
+    (currentUser.first_name || '') + ' ' + (currentUser.last_name || '');
+  const initials = ((currentUser.first_name || '?')[0] + (currentUser.last_name ? currentUser.last_name[0] : '')).toUpperCase();
+  const av = document.getElementById('sidebar-av');
+  if (currentUser.avatar_url) av.innerHTML = `<img src="${currentUser.avatar_url}" alt="">`;
+  else av.textContent = initials;
+
+  // Wire up nav
+  document.querySelectorAll('.snav a').forEach(a => {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      showPage(a.dataset.page);
+    });
+  });
+  document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
+    btn.addEventListener('click', () => showPage(btn.dataset.page));
+  });
+
+  // Load initial data in parallel
+  await Promise.all([
+    loadChildren(),
+    loadBookings(),
+    loadPinStatus(),
+  ]);
+
+  renderChildSelector();
+  renderDashboard();
+}
+
+// ─── DATA LOADERS ─────────────────────────────────────
+async function loadChildren() {
+  const data = await apiFetch('/api/children');
+  allChildren = (data && data.children) || [];
+}
+
+async function loadBookings() {
+  const data = await apiFetch('/api/bookings/my');
+  allBookings = Array.isArray(data) ? data : [];
+}
+
+async function loadPinStatus() {
+  const data = await apiFetch('/api/auth/pin/status');
+  const hasPin = !!(data && data.has_pin);
+  // Sidebar + mobile nav visibility
+  document.getElementById('nav-finance').style.display = hasPin ? 'flex' : 'none';
+  document.getElementById('mnav-finance').style.display = hasPin ? 'flex' : 'none';
+  renderPinSettings(hasPin);
+  return hasPin;
+}
+
+// ─── PAGE ROUTER ──────────────────────────────────────
+function showPage(name) {
+  if (!name) return;
+  currentPage = name;
+
+  // Toggle panels
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + name);
+  if (target) target.classList.add('active');
+
+  // Nav states
+  document.querySelectorAll('.snav a').forEach(a => {
+    a.classList.toggle('active', a.dataset.page === name);
+  });
+  document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.page === name);
+  });
+
+  // Titles
+  const titles = {
+    dashboard: ['Главная', 'Сводка уроков и событий'],
+    children: ['Мои дети', 'Добавляйте и редактируйте профили детей'],
+    lessons: ['Уроки', 'Полная история занятий'],
+    tutors: ['Репетиторы', 'Репетиторы, с которыми вы занимались'],
+    messages: ['Сообщения', ''],
+    finance: ['Финансы', 'Платежи, пакеты, история'],
+    settings: ['Настройки', 'Профиль и защита платежей'],
+  };
+  const [title, sub] = titles[name] || [name, ''];
+  document.getElementById('page-title').textContent = title;
+  document.getElementById('page-sub').textContent = sub;
+
+  // Child selector visibility (only on dashboard + lessons pages)
+  const sel = document.getElementById('child-selector');
+  sel.style.display = (name === 'dashboard' || name === 'lessons') && allChildren.length > 0 ? 'flex' : 'none';
+
+  // Page-specific loaders
+  if (name === 'dashboard') renderDashboard();
+  else if (name === 'children') renderChildrenPage();
+  else if (name === 'lessons') loadAllLessons();
+  else if (name === 'tutors') renderTutorsPage();
+  else if (name === 'finance') renderFinancePage();
+  else if (name === 'settings') loadSettings();
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── CHILD SELECTOR ───────────────────────────────────
+function renderChildSelector() {
+  const el = document.getElementById('child-selector');
+  if (!allChildren.length) { el.style.display = 'none'; return; }
+  if (currentPage !== 'dashboard' && currentPage !== 'lessons') { el.style.display = 'none'; return; }
+
+  el.style.display = 'flex';
+  const allChip = `<div class="child-chip ${activeChildId === null ? 'active' : ''}" onclick="setActiveChild(null)">Все дети</div>`;
+  const chips = allChildren.map(c => {
+    const initials = (c.name || '?')[0].toUpperCase();
+    return `<div class="child-chip ${activeChildId === c.id ? 'active' : ''}" onclick="setActiveChild('${c.id}')">
+      <span class="child-chip-av">${escapeHtml(initials)}</span>
+      <span>${escapeHtml(c.name)}</span>
+    </div>`;
+  }).join('');
+  const addChip = `<div class="child-chip-add" onclick="openChildModal()">+ Добавить</div>`;
+  el.innerHTML = allChip + chips + addChip;
+}
+
+function setActiveChild(id) {
+  activeChildId = id;
+  renderChildSelector();
+  if (currentPage === 'dashboard') renderDashboard();
+  else if (currentPage === 'lessons') loadAllLessons();
+}
+
+function filteredBookings() {
+  if (!activeChildId) return allBookings;
+  return allBookings.filter(b => b.child_id === activeChildId);
+}
+
+// ─── DASHBOARD PAGE ───────────────────────────────────
+function renderDashboard() {
+  const bookings = filteredBookings();
+  const now = new Date();
+
+  // Hero: next lesson
+  const upcoming = bookings
+    .filter(b => b.status !== 'cancelled' && new Date(b.lesson_date + 'T' + b.start_time) >= now)
+    .sort((a, b) => new Date(a.lesson_date + 'T' + a.start_time) - new Date(b.lesson_date + 'T' + b.start_time));
+  const next = upcoming[0];
+
+  const heroEl = document.getElementById('hero-slot');
+  if (next) {
+    const lessonAt = new Date(next.lesson_date + 'T' + next.start_time);
+    const diffMs = lessonAt - now;
+    const canJoin = diffMs > 0 && diffMs < 30 * 60 * 1000;
+    const hrs = Math.floor(diffMs / 3600000);
+    const mins = Math.floor((diffMs % 3600000) / 60000);
+    let timeLabel;
+    if (diffMs < 0) timeLabel = 'Идёт сейчас';
+    else if (hrs > 24) timeLabel = 'Предстоящий урок';
+    else if (hrs > 0) timeLabel = `Через ${hrs} ч ${mins} мин`;
+    else timeLabel = `Через ${mins} мин`;
+
+    const dateLabel = lessonAt.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' });
+    const joinBtn = canJoin && next.meeting_url
+      ? `<a class="btn-hero" href="${escapeAttr(next.meeting_url)}" target="_blank" rel="noopener">Войти в урок</a>`
+      : `<button class="btn-hero" onclick="showToast('Ссылка появится за 30 минут до урока', '')">Войти в урок</button>`;
+
+    heroEl.innerHTML = `
+      <div class="hero-lesson">
+        <div class="hero-badge">${escapeHtml(timeLabel)}</div>
+        <div class="hero-title">${escapeHtml(next.subject || 'Урок')} с ${escapeHtml((next.tutor_first_name || '') + ' ' + (next.tutor_last_name || ''))}</div>
+        <div class="hero-meta">${escapeHtml(dateLabel)} · ${escapeHtml(next.start_time.slice(0,5))}${next.duration_minutes ? ' · ' + next.duration_minutes + ' мин' : ''}</div>
+        <div class="hero-actions">
+          ${joinBtn}
+          <a class="btn-hero-ghost" href="messages.html">Сообщения</a>
         </div>
       </div>`;
   } else {
-    nlWrap.innerHTML=`
-      <div class="no-lesson-card">
-        <div style="font-size:2rem;margin-bottom:8px">📅</div>
-        <p>У вас нет предстоящих уроков</p>
-        <a href="index.html" class="btn-sm btn-tiffany" style="text-decoration:none;display:inline-block;padding:10px 20px">Найти репетитора →</a>
+    heroEl.innerHTML = `
+      <div class="hero-empty">
+        <div class="hero-empty-title">Пока нет запланированных уроков</div>
+        <div class="hero-empty-sub">Подберите репетитора — и уроки появятся здесь</div>
+        <a class="btn-primary btn-primary-lg" href="lead-capture.html">Подобрать репетитора</a>
       </div>`;
   }
 
-  // Upcoming list
-  const upList=document.getElementById('upcoming-bookings');
-  if(!upcoming.length){upList.innerHTML='<div style="text-align:center;color:var(--ink-60);padding:30px;font-size:0.85rem">Нет предстоящих уроков</div>';} 
-  else {
-    upList.innerHTML=upcoming.slice(0,4).map(b=>{
-      const lt=new Date(b.lesson_date+'T'+b.start_time);
-      const d=lt-now;const canJ=d>0&&d<30*60*1000;
-      return `<div class="booking-item">
-        <div class="booking-av">👨‍🏫</div>
-        <div class="booking-info">
-          <div class="booking-name">${b.tutor_first_name} ${b.tutor_last_name}</div>
-          <div class="booking-meta">📚 ${b.subject||'Урок'} · ${new Date(b.lesson_date).toLocaleDateString('ru-RU')} ${b.start_time}</div>
-        </div>
-        <div class="booking-right">
-          <span class="badge ${b.status==='confirmed'?'badge-green':b.status==='pending'?'badge-gold':'badge-gray'}">${b.status==='confirmed'?'Подтверждён':b.status==='pending'?'Ожидает':'—'}</span>
-          ${canJ&&b.meeting_url?`<a href="${b.meeting_url}" target="_blank" style="font-size:0.72rem;color:var(--tiffany);font-weight:600;text-decoration:none">🎥 Войти</a>`:''}
-        </div>
-      </div>`;
-    }).join('');}
+  // Stats
+  const upcomingCount = upcoming.length;
+  const totalLessons = bookings.length;
+  const completedLessons = bookings.filter(b => b.status === 'completed').length;
+  const tutorCount = new Set(bookings.map(b => b.tutor_id)).size;
+  document.getElementById('stats-slot').innerHTML = `
+    <div class="stat-card">
+      <div class="stat-eyebrow">Предстоит</div>
+      <div class="stat-val">${upcomingCount}</div>
+      <div class="stat-sub">${upcomingCount === 0 ? 'Записей нет' : pluralize(upcomingCount, 'урок', 'урока', 'уроков')}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-eyebrow">Завершено</div>
+      <div class="stat-val">${completedLessons}</div>
+      <div class="stat-sub">всего за всё время</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-eyebrow">Репетиторы</div>
+      <div class="stat-val">${tutorCount}</div>
+      <div class="stat-sub">${pluralize(tutorCount, 'репетитор', 'репетитора', 'репетиторов')}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-eyebrow">Всего уроков</div>
+      <div class="stat-val">${totalLessons}</div>
+      <div class="stat-sub">в истории</div>
+    </div>`;
 
-  // Homework
-  const hwList=document.getElementById('recent-homework');
-  const hwBookings=data.filter(b=>b.homework).slice(0,3);
-  if(!hwBookings.length){hwList.innerHTML='<div style="text-align:center;color:var(--ink-60);padding:30px;font-size:0.85rem">Домашних заданий пока нет</div>';}
-  else{hwList.innerHTML=hwBookings.map(b=>`
-    <div class="hw-item">
-      <div class="hw-icon">📎</div>
-      <div class="hw-info">
-        <div class="hw-title">${b.subject||'Урок'} — ${b.tutor_first_name}</div>
-        <div class="hw-meta">${b.homework?.substring(0,60)}${b.homework?.length>60?'...':''}</div>
-      </div>
-    </div>`).join('');}
+  // Upcoming list (max 4)
+  const upEl = document.getElementById('upcoming-slot');
+  if (!upcoming.length) {
+    upEl.innerHTML = `<div class="empty-state">Нет предстоящих уроков</div>`;
+  } else {
+    upEl.innerHTML = upcoming.slice(0, 4).map(renderBookingRow).join('');
+  }
+
+  // Recent lesson summaries
+  const withSummary = bookings.filter(b => b.lesson_summary || b.homework)
+    .sort((a, b) => new Date(b.lesson_date) - new Date(a.lesson_date))
+    .slice(0, 4);
+  const sumEl = document.getElementById('summaries-slot');
+  if (!withSummary.length) {
+    sumEl.innerHTML = `<div class="empty-state">Итоги появятся после первых уроков</div>`;
+  } else {
+    sumEl.innerHTML = withSummary.map(b => `
+      <div class="list-row">
+        <div class="list-av">${escapeHtml(((b.tutor_first_name || '?')[0]).toUpperCase())}</div>
+        <div class="list-info">
+          <div class="list-title">${escapeHtml(b.subject || 'Урок')} — ${escapeHtml(b.tutor_first_name || '')}</div>
+          <div class="list-sub">${escapeHtml((b.lesson_summary || b.homework || '').slice(0, 80))}${(b.lesson_summary || b.homework || '').length > 80 ? '…' : ''}</div>
+        </div>
+      </div>`).join('');
+  }
 }
 
-// ── ALL LESSONS ────────────────────────────────────────────
-async function loadAllLessons(){
-  const status=document.getElementById('lessons-filter').value;
-  const data=await apiFetch('/api/bookings/my'+(status?'?status='+status:''));
-  const list=document.getElementById('all-lessons-list');
-  if(!data?.length){list.innerHTML='<div style="text-align:center;color:var(--ink-60);padding:40px;font-size:0.85rem">Нет уроков</div>';return;}
-  const now=new Date();
-  list.innerHTML=data.map(b=>{
-    const lt=new Date(b.lesson_date+'T'+b.start_time);
-    const d=lt-now;const canJ=d>0&&d<30*60*1000;
-    const sm={confirmed:'badge-green',pending:'badge-gold',completed:'badge-blue',cancelled:'badge-red'};
-    return `<div class="booking-item">
-      <div class="booking-av">👨‍🏫</div>
-      <div class="booking-info">
-        <div class="booking-name">${b.tutor_first_name} ${b.tutor_last_name}</div>
-        <div class="booking-meta">📚 ${b.subject||'Урок'} · ${new Date(b.lesson_date).toLocaleDateString('ru-RU',{weekday:'short',day:'numeric',month:'long'})} · ${b.start_time}</div>
-        ${b.lesson_summary?`<div style="font-size:0.75rem;color:var(--tiffany);margin-top:3px">📝 Итоги урока доступны</div>`:''}
+function renderBookingRow(b) {
+  const now = new Date();
+  const lessonAt = new Date(b.lesson_date + 'T' + b.start_time);
+  const canJoin = (lessonAt - now) > 0 && (lessonAt - now) < 30 * 60 * 1000;
+  const statusMap = {
+    confirmed: ['badge-ok', 'Подтверждён'],
+    pending: ['badge-warn', 'Ожидает'],
+    completed: ['badge-info', 'Завершён'],
+    cancelled: ['badge-err', 'Отменён'],
+    no_show: ['badge-err', 'Неявка'],
+  };
+  const [badgeClass, badgeText] = statusMap[b.status] || ['badge-neutral', b.status];
+  const dateLabel = lessonAt.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+  const tutorInitial = ((b.tutor_first_name || '?')[0]).toUpperCase();
+
+  const joinLink = canJoin && b.meeting_url
+    ? `<a href="${escapeAttr(b.meeting_url)}" target="_blank" rel="noopener" style="font-size:0.78rem;color:var(--teal);font-weight:600">Войти →</a>`
+    : '';
+  const reviewBtn = b.status === 'completed' && !b.reviewed
+    ? `<button style="font-size:0.78rem;color:var(--gold);font-weight:600" onclick="openReviewModal('${b.id}','${b.tutor_id}','${escapeAttr((b.tutor_first_name || '') + ' ' + (b.tutor_last_name || ''))}')">Оставить отзыв</button>`
+    : '';
+
+  return `
+    <div class="list-row">
+      <div class="list-av">${escapeHtml(tutorInitial)}</div>
+      <div class="list-info">
+        <div class="list-title">${escapeHtml((b.tutor_first_name || '') + ' ' + (b.tutor_last_name || ''))}</div>
+        <div class="list-sub">${escapeHtml(b.subject || 'Урок')} · ${escapeHtml(dateLabel)} · ${escapeHtml(b.start_time.slice(0,5))}</div>
       </div>
-      <div class="booking-right">
-        <span class="badge ${sm[b.status]||'badge-gray'}">${b.status==='confirmed'?'Подтверждён':b.status==='pending'?'Ожидает':b.status==='completed'?'Завершён':'Отменён'}</span>
-        ${canJ&&b.meeting_url?`<a href="${b.meeting_url}" target="_blank" style="font-size:0.72rem;color:var(--tiffany);font-weight:600;text-decoration:none">🎥 Войти</a>`:''}
-        ${b.status==='completed'&&!b.reviewed?`<button onclick="openReviewModal('${b.id}','${b.tutor_id}','${b.tutor_first_name} ${b.tutor_last_name}')" style="font-size:0.72rem;color:var(--gold);font-weight:600;background:none;border:none;cursor:pointer">⭐ Оставить отзыв</button>`:''}
+      <div class="list-right">
+        <span class="badge ${badgeClass}">${escapeHtml(badgeText)}</span>
+        ${joinLink || reviewBtn}
       </div>
     </div>`;
-  }).join('');
 }
 
-// ── MY TUTORS ──────────────────────────────────────────────
-async function loadMyTutors(){
-  const data=await apiFetch('/api/bookings/my');
-  if(!data)return;
-  const tutorMap=new Map();
-  data.forEach(b=>{
-    if(!tutorMap.has(b.tutor_id)){
-      tutorMap.set(b.tutor_id,{id:b.tutor_id,name:b.tutor_first_name+' '+b.tutor_last_name,lessons:0,subject:b.subject});
+// ─── CHILDREN PAGE ────────────────────────────────────
+function renderChildrenPage() {
+  const el = document.getElementById('children-slot');
+  if (!allChildren.length) {
+    el.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-title">Добавьте первого ребёнка</div>
+        <div style="margin:12px 0 20px">Ведите отдельную историю уроков для каждого</div>
+        <button class="btn-primary" onclick="openChildModal()">+ Добавить ребёнка</button>
+      </div>`;
+    return;
+  }
+
+  el.innerHTML = `<div class="children-grid">${allChildren.map(c => {
+    const gradeLabels = { primary: 'Начальная школа', middle: 'Средняя школа', high: 'Старшая школа', ort_university: 'ОРТ / Университет' };
+    const grade = c.grade_band ? gradeLabels[c.grade_band] : '—';
+    const gradeNum = c.grade_number ? `${c.grade_number} класс` : '';
+    const school = c.school ? `Школа: ${escapeHtml(c.school)}` : '';
+    const lessonCount = allBookings.filter(b => b.child_id === c.id).length;
+    return `
+      <div class="child-card">
+        <div class="child-card-header">
+          <div class="child-av">${escapeHtml(((c.name || '?')[0]).toUpperCase())}</div>
+          <div>
+            <div class="child-name">${escapeHtml(c.name)}</div>
+            <div class="child-grade">${escapeHtml(grade)}${gradeNum ? ' · ' + gradeNum : ''}</div>
+          </div>
+        </div>
+        ${school ? `<div class="child-meta">${school}</div>` : ''}
+        <div class="child-meta">${lessonCount} ${pluralize(lessonCount, 'урок', 'урока', 'уроков')}</div>
+        <div class="child-actions">
+          <button class="btn-ghost" style="font-size:0.82rem;padding:8px 14px" onclick="openChildModal('${c.id}')">Редактировать</button>
+          <button class="btn-danger-ghost" style="font-size:0.82rem;padding:8px 14px;margin-left:auto" onclick="removeChild('${c.id}', '${escapeAttr(c.name)}')">Удалить</button>
+        </div>
+      </div>`;
+  }).join('')}</div>`;
+}
+
+function openChildModal(id) {
+  editingChildId = id || null;
+  document.getElementById('child-modal-title').textContent = id ? 'Редактировать ребёнка' : 'Добавить ребёнка';
+  document.getElementById('child-err').textContent = '';
+  if (id) {
+    const c = allChildren.find(x => x.id === id);
+    document.getElementById('child-name').value = c?.name || '';
+    document.getElementById('child-grade-band').value = c?.grade_band || '';
+    document.getElementById('child-grade-number').value = c?.grade_number || '';
+    document.getElementById('child-school').value = c?.school || '';
+  } else {
+    document.getElementById('child-name').value = '';
+    document.getElementById('child-grade-band').value = '';
+    document.getElementById('child-grade-number').value = '';
+    document.getElementById('child-school').value = '';
+  }
+  document.getElementById('childModal').classList.add('open');
+}
+
+async function saveChild() {
+  const name = document.getElementById('child-name').value.trim();
+  const grade_band = document.getElementById('child-grade-band').value || null;
+  const grade_number = document.getElementById('child-grade-number').value || null;
+  const school = document.getElementById('child-school').value.trim() || null;
+  const errEl = document.getElementById('child-err');
+  const btn = document.getElementById('child-save-btn');
+  if (!name) { errEl.textContent = 'Введите имя ребёнка'; return; }
+  errEl.textContent = '';
+  btn.disabled = true; btn.textContent = 'Сохранение…';
+
+  const body = { name, grade_band, grade_number: grade_number ? parseInt(grade_number) : null, school };
+  let data;
+  if (editingChildId) {
+    data = await apiFetch('/api/children/' + editingChildId, { method: 'PUT', body: JSON.stringify(body) });
+  } else {
+    data = await apiFetch('/api/children', { method: 'POST', body: JSON.stringify(body) });
+  }
+  btn.disabled = false; btn.textContent = 'Сохранить';
+  if (data && data.child) {
+    await loadChildren();
+    renderChildSelector();
+    renderChildrenPage();
+    closeModal('childModal');
+    showToast('✓ Сохранено', 'ok');
+  } else {
+    errEl.textContent = (data && data.error) || 'Не удалось сохранить';
+  }
+}
+
+async function removeChild(id, name) {
+  if (!confirm(`Удалить ${name}? История уроков сохранится, но ребёнок пропадёт из списка.`)) return;
+  const data = await apiFetch('/api/children/' + id, { method: 'DELETE' });
+  if (data && data.success) {
+    if (activeChildId === id) activeChildId = null;
+    await loadChildren();
+    renderChildSelector();
+    renderChildrenPage();
+    showToast('Удалено', 'ok');
+  } else {
+    showToast('Не удалось удалить', 'err');
+  }
+}
+
+// ─── LESSONS PAGE ─────────────────────────────────────
+async function loadAllLessons() {
+  const status = document.getElementById('lessons-filter').value;
+  const data = await apiFetch('/api/bookings/my' + (status ? '?status=' + status : ''));
+  let list = Array.isArray(data) ? data : [];
+  if (activeChildId) list = list.filter(b => b.child_id === activeChildId);
+
+  const el = document.getElementById('all-lessons-slot');
+  if (!list.length) {
+    el.innerHTML = `<div class="empty-state">Нет уроков в этой категории</div>`;
+    return;
+  }
+  el.innerHTML = list.map(renderBookingRow).join('');
+}
+
+// ─── TUTORS PAGE ──────────────────────────────────────
+function renderTutorsPage() {
+  const map = new Map();
+  allBookings.forEach(b => {
+    if (!map.has(b.tutor_id)) {
+      map.set(b.tutor_id, {
+        id: b.tutor_id,
+        name: (b.tutor_first_name || '') + ' ' + (b.tutor_last_name || ''),
+        avatar: b.tutor_avatar,
+        subject: b.subject,
+        lessons: 0,
+        lastDate: b.lesson_date,
+      });
     }
-    tutorMap.get(b.tutor_id).lessons++;
+    map.get(b.tutor_id).lessons++;
   });
-  const list=document.getElementById('my-tutors-list');
-  if(!tutorMap.size){list.innerHTML='<div style="text-align:center;color:var(--ink-60);padding:40px;font-size:0.85rem">Запишитесь на урок чтобы добавить репетитора</div>';return;}
-  list.innerHTML=[...tutorMap.values()].map(t=>`
-    <div class="booking-item">
-      <div class="booking-av">👨‍🏫</div>
-      <div class="booking-info">
-        <div class="booking-name">${t.name}</div>
-        <div class="booking-meta">${t.subject||'Репетитор'} · ${t.lessons} ${t.lessons===1?'урок':t.lessons<5?'урока':'уроков'}</div>
+  const el = document.getElementById('tutors-slot');
+  if (!map.size) {
+    el.innerHTML = `<div class="empty-state">
+      <div class="empty-state-title">Ваши репетиторы появятся здесь</div>
+      <div style="margin:12px 0 20px">После первого урока</div>
+      <a class="btn-primary" href="lead-capture.html">Подобрать репетитора</a>
+    </div>`;
+    return;
+  }
+  el.innerHTML = [...map.values()].map(t => `
+    <div class="list-row">
+      <div class="list-av">${t.avatar ? `<img src="${escapeAttr(t.avatar)}">` : escapeHtml(((t.name || '?')[0]).toUpperCase())}</div>
+      <div class="list-info">
+        <div class="list-title">${escapeHtml(t.name)}</div>
+        <div class="list-sub">${escapeHtml(t.subject || '—')} · ${t.lessons} ${pluralize(t.lessons, 'урок', 'урока', 'уроков')}</div>
       </div>
-      <div class="booking-right">
-        <a href="messages.html" style="font-size:0.78rem;color:var(--tiffany);font-weight:600;text-decoration:none">💬 Написать</a>
-        <a href="index.html" style="font-size:0.78rem;color:var(--ink-60);text-decoration:none">📅 Записаться</a>
+      <div class="list-right">
+        <a href="messages.html" style="font-size:0.82rem;color:var(--teal);font-weight:600">Написать</a>
       </div>
     </div>`).join('');
 }
 
-// ── SETTINGS ───────────────────────────────────────────────
-async function loadSettings(){
-  const data=await apiFetch('/api/auth/me');
-  if(!data)return;
-  document.getElementById('s-fname').value=data.first_name||'';
-  document.getElementById('s-lname').value=data.last_name||'';
-  document.getElementById('s-email').value=data.email||'';
-  document.getElementById('s-phone').value=data.phone||'';
+// ─── FINANCE (PIN-GATED) ──────────────────────────────
+function renderFinancePage() {
+  if (pinToken) {
+    renderFinanceUnlocked();
+  } else {
+    renderFinanceLocked();
+  }
 }
 
-async function saveSettings(){
-  const data={first_name:document.getElementById('s-fname').value,last_name:document.getElementById('s-lname').value,phone:document.getElementById('s-phone').value};
-  await apiFetch('/api/auth/me',{method:'PUT',body:JSON.stringify(data)});
-  currentUser.first_name=data.first_name;currentUser.last_name=data.last_name;
-  localStorage.setItem('bilimly_user',JSON.stringify(currentUser));
-  document.getElementById('sidebar-name').textContent=data.first_name+' '+data.last_name;
-  showToast('✓ Данные сохранены');
+function renderFinanceLocked() {
+  document.getElementById('finance-content-slot').style.display = 'none';
+  const el = document.getElementById('finance-locked-slot');
+  el.style.display = 'block';
+  el.innerHTML = `
+    <div class="finance-locked">
+      <div class="finance-lock-icon">🔒</div>
+      <div class="finance-lock-title">Введите PIN</div>
+      <div class="finance-lock-sub">Раздел «Финансы» защищён PIN-кодом</div>
+      <div class="pin-input-wrap" id="pin-input-wrap">
+        <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" data-pos="0">
+        <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" data-pos="1">
+        <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" data-pos="2">
+        <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" data-pos="3">
+      </div>
+      <div class="err-msg" id="pin-entry-err" style="min-height:20px"></div>
+    </div>`;
+  wirePinInputs();
+  setTimeout(() => document.querySelector('.pin-digit').focus(), 100);
 }
 
-// ── REVIEW SYSTEM ──────────────────────────────────────────
-function openReviewModal(bookingId,tutorId,tutorName){
-  reviewBookingId=bookingId;reviewTutorId=tutorId;reviewStar=0;
-  document.getElementById('review-tutor-name').textContent='Репетитор: '+tutorName;
-  document.getElementById('review-comment').value='';
-  document.getElementById('review-err').textContent='';
-  document.querySelectorAll('.star-btn').forEach(b=>b.classList.remove('active'));
+function wirePinInputs() {
+  const inputs = document.querySelectorAll('#pin-input-wrap .pin-digit');
+  inputs.forEach((inp, idx) => {
+    inp.addEventListener('input', async (e) => {
+      const v = e.target.value.replace(/\D/g, '');
+      e.target.value = v;
+      if (v && idx < 3) inputs[idx + 1].focus();
+      if (v) e.target.classList.add('filled');
+      // When all 4 filled, auto-submit
+      const pin = [...inputs].map(i => i.value).join('');
+      if (pin.length === 4) await verifyPin(pin);
+    });
+    inp.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && !e.target.value && idx > 0) inputs[idx - 1].focus();
+    });
+  });
+}
+
+async function verifyPin(pin) {
+  const errEl = document.getElementById('pin-entry-err');
+  errEl.textContent = '';
+  const data = await apiFetch('/api/auth/pin/verify', {
+    method: 'POST',
+    body: JSON.stringify({ pin }),
+  });
+  if (data && data.success && data.pin_token) {
+    pinToken = data.pin_token;
+    sessionStorage.setItem('pin_token', pinToken);
+    renderFinanceUnlocked();
+    showToast('Доступ разрешён', 'ok');
+  } else {
+    errEl.textContent = (data && data.message) || 'Неверный PIN';
+    document.querySelectorAll('#pin-input-wrap .pin-digit').forEach(i => { i.value = ''; i.classList.remove('filled'); });
+    document.querySelector('#pin-input-wrap .pin-digit').focus();
+  }
+}
+
+function renderFinanceUnlocked() {
+  document.getElementById('finance-locked-slot').style.display = 'none';
+  const el = document.getElementById('finance-content-slot');
+  el.style.display = 'block';
+
+  // For now: summary derived from booking data (real package/payment endpoints are next session)
+  const totalPaid = allBookings
+    .filter(b => b.status !== 'cancelled')
+    .reduce((sum, b) => sum + (parseFloat(b.amount) || 0), 0);
+  const completedPaid = allBookings
+    .filter(b => b.status === 'completed')
+    .reduce((sum, b) => sum + (parseFloat(b.amount) || 0), 0);
+  const upcomingCost = allBookings
+    .filter(b => b.status === 'confirmed' || b.status === 'pending')
+    .reduce((sum, b) => sum + (parseFloat(b.amount) || 0), 0);
+
+  el.innerHTML = `
+    <div class="finance-header">
+      <h3>Финансы семьи</h3>
+      <button class="btn-ghost" style="font-size:0.82rem;padding:8px 14px" onclick="lockFinance()">🔒 Закрыть</button>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-eyebrow">Всего оплачено</div>
+        <div class="stat-val money">${completedPaid.toLocaleString('ru-RU')} <span style="font-family:'DM Sans';font-size:0.85rem;color:var(--ink-soft);font-weight:500">сом</span></div>
+        <div class="stat-sub">за завершённые уроки</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-eyebrow">Будущие уроки</div>
+        <div class="stat-val money">${upcomingCost.toLocaleString('ru-RU')} <span style="font-family:'DM Sans';font-size:0.85rem;color:var(--ink-soft);font-weight:500">сом</span></div>
+        <div class="stat-sub">сумма предстоящих</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-eyebrow">Всего уроков</div>
+        <div class="stat-val">${allBookings.length}</div>
+        <div class="stat-sub">в истории</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>История платежей</h3></div>
+      <div class="card-body-compact">
+        ${renderPaymentsHistory()}
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Активные пакеты</h3></div>
+      <div class="card-body">
+        <div style="color:var(--ink-soft);font-size:0.9rem">Пакеты уроков появятся здесь после покупки. <a href="index.html" style="color:var(--teal);font-weight:500">Найти репетитора →</a></div>
+      </div>
+    </div>`;
+}
+
+function renderPaymentsHistory() {
+  const paid = allBookings
+    .filter(b => b.status === 'completed' || b.payment_status === 'completed')
+    .sort((a, b) => new Date(b.lesson_date) - new Date(a.lesson_date));
+  if (!paid.length) return `<div class="empty-state">История платежей появится после первых уроков</div>`;
+  return paid.slice(0, 20).map(b => `
+    <div class="list-row">
+      <div class="list-av">${escapeHtml(((b.tutor_first_name || '?')[0]).toUpperCase())}</div>
+      <div class="list-info">
+        <div class="list-title">${escapeHtml(b.subject || 'Урок')} — ${escapeHtml(b.tutor_first_name || '')}</div>
+        <div class="list-sub">${new Date(b.lesson_date).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
+      </div>
+      <div class="list-right">
+        <span class="money" style="font-size:1rem">${parseFloat(b.amount || 0).toLocaleString('ru-RU')} сом</span>
+        <span class="badge badge-ok">Оплачен</span>
+      </div>
+    </div>`).join('');
+}
+
+function lockFinance() {
+  sessionStorage.removeItem('pin_token');
+  pinToken = null;
+  renderFinanceLocked();
+  showToast('Раздел закрыт', 'ok');
+}
+
+// ─── SETTINGS PAGE ────────────────────────────────────
+async function loadSettings() {
+  const data = await apiFetch('/api/auth/me');
+  if (!data) return;
+  document.getElementById('s-fname').value = data.first_name || '';
+  document.getElementById('s-lname').value = data.last_name || '';
+  document.getElementById('s-email').value = data.email || '';
+  document.getElementById('s-phone').value = data.phone || '';
+  loadPinStatus();
+}
+
+async function saveSettings() {
+  const body = {
+    first_name: document.getElementById('s-fname').value.trim(),
+    last_name: document.getElementById('s-lname').value.trim(),
+    phone: document.getElementById('s-phone').value.trim(),
+  };
+  const data = await apiFetch('/api/auth/me', { method: 'PUT', body: JSON.stringify(body) });
+  if (data) {
+    currentUser.first_name = body.first_name;
+    currentUser.last_name = body.last_name;
+    localStorage.setItem('bilimly_user', JSON.stringify(currentUser));
+    document.getElementById('sidebar-name').textContent = body.first_name + ' ' + body.last_name;
+    showToast('✓ Сохранено', 'ok');
+  } else {
+    showToast('Не удалось сохранить', 'err');
+  }
+}
+
+function renderPinSettings(hasPin) {
+  const el = document.getElementById('pin-settings-slot');
+  if (!el) return;
+  if (hasPin) {
+    el.innerHTML = `
+      <div class="settings-row">
+        <div>
+          <div class="settings-row-label">PIN установлен</div>
+          <div class="settings-row-sub">Раздел «Финансы» защищён 4-значным PIN</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn-ghost" style="font-size:0.82rem;padding:8px 14px" onclick="openPinSetup(true)">Изменить</button>
+          <button class="btn-danger-ghost" style="font-size:0.82rem;padding:8px 14px" onclick="removePin()">Удалить</button>
+        </div>
+      </div>`;
+  } else {
+    el.innerHTML = `
+      <div class="settings-row">
+        <div>
+          <div class="settings-row-label">PIN не установлен</div>
+          <div class="settings-row-sub">Установите PIN, чтобы скрыть финансы от детей</div>
+        </div>
+        <button class="btn-primary" style="font-size:0.82rem;padding:9px 18px" onclick="openPinSetup(false)">Установить</button>
+      </div>`;
+  }
+}
+
+function openPinSetup(isChange) {
+  document.getElementById('pin-setup-title').textContent = isChange ? 'Изменить PIN' : 'Установить PIN';
+  document.getElementById('pin-setup-password').value = '';
+  document.getElementById('pin-setup-code').value = '';
+  document.getElementById('pin-setup-confirm').value = '';
+  document.getElementById('pin-setup-err').textContent = '';
+  document.getElementById('pinSetupModal').classList.add('open');
+}
+
+async function submitPinSetup() {
+  const password = document.getElementById('pin-setup-password').value;
+  const pin = document.getElementById('pin-setup-code').value;
+  const confirm = document.getElementById('pin-setup-confirm').value;
+  const errEl = document.getElementById('pin-setup-err');
+  const btn = document.getElementById('pin-setup-btn');
+  errEl.textContent = '';
+  if (!password) { errEl.textContent = 'Введите текущий пароль'; return; }
+  if (!/^\d{4}$/.test(pin)) { errEl.textContent = 'PIN должен быть 4 цифры'; return; }
+  if (pin !== confirm) { errEl.textContent = 'PIN не совпадает'; return; }
+  btn.disabled = true; btn.textContent = 'Сохранение…';
+  const data = await apiFetch('/api/auth/pin/set', {
+    method: 'POST',
+    body: JSON.stringify({ password, pin }),
+  });
+  btn.disabled = false; btn.textContent = 'Установить PIN';
+  if (data && data.success) {
+    closeModal('pinSetupModal');
+    sessionStorage.removeItem('pin_token');
+    pinToken = null;
+    await loadPinStatus();
+    showToast('✓ PIN установлен', 'ok');
+  } else {
+    errEl.textContent = (data && data.error) || 'Не удалось установить PIN';
+  }
+}
+
+async function removePin() {
+  const password = prompt('Введите ваш пароль для удаления PIN:');
+  if (!password) return;
+  const data = await apiFetch('/api/auth/pin/remove', {
+    method: 'POST',
+    body: JSON.stringify({ password }),
+  });
+  if (data && data.success) {
+    sessionStorage.removeItem('pin_token');
+    pinToken = null;
+    await loadPinStatus();
+    showToast('PIN удалён', 'ok');
+  } else {
+    showToast((data && data.error) || 'Не удалось удалить PIN', 'err');
+  }
+}
+
+// ─── REVIEW MODAL ─────────────────────────────────────
+function openReviewModal(bookingId, tutorId, tutorName) {
+  reviewBookingId = bookingId;
+  reviewTutorId = tutorId;
+  reviewStar = 0;
+  document.getElementById('review-tutor-name').textContent = 'Репетитор: ' + tutorName;
+  document.getElementById('review-comment').value = '';
+  document.getElementById('review-err').textContent = '';
+  document.querySelectorAll('.star').forEach(s => s.classList.remove('active'));
   document.getElementById('reviewModal').classList.add('open');
 }
 
-function setReviewStar(n){
-  reviewStar=n;
-  document.querySelectorAll('.star-btn').forEach((b,i)=>b.classList.toggle('active',i<n));
-}
-
-async function submitReview(){
-  if(!reviewStar){document.getElementById('review-err').textContent='Выберите оценку';return;}
-  const comment=document.getElementById('review-comment').value.trim();
-  try{
-    await apiFetch('/api/bookings/'+reviewBookingId+'/review',{
-      method:'POST',
-      body:JSON.stringify({tutor_id:reviewTutorId,rating:reviewStar,comment})
+document.querySelectorAll('.star').forEach(s => {
+  s.addEventListener('click', () => {
+    reviewStar = parseInt(s.dataset.star);
+    document.querySelectorAll('.star').forEach((el, i) => {
+      el.classList.toggle('active', i < reviewStar);
     });
-    closeReviewModal();
-    showToast('✓ Отзыв отправлен! Спасибо');
-    loadAllLessons();
-  }catch(e){showToast('✓ Отзыв сохранён');}
+  });
+});
+
+async function submitReview() {
+  const errEl = document.getElementById('review-err');
+  errEl.textContent = '';
+  if (!reviewStar) { errEl.textContent = 'Выберите оценку'; return; }
+  const comment = document.getElementById('review-comment').value.trim();
+  const data = await apiFetch('/api/bookings/' + reviewBookingId + '/review', {
+    method: 'POST',
+    body: JSON.stringify({ tutor_id: reviewTutorId, rating: reviewStar, comment }),
+  });
+  if (data && !data.error) {
+    closeModal('reviewModal');
+    showToast('✓ Отзыв отправлен', 'ok');
+    await loadBookings();
+    if (currentPage === 'lessons') loadAllLessons();
+    else renderDashboard();
+  } else {
+    errEl.textContent = (data && data.error) || 'Не удалось отправить отзыв';
+  }
 }
 
-function closeReviewModal(){document.getElementById('reviewModal').classList.remove('open');}
+// ─── MODAL HELPERS ────────────────────────────────────
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+// Click outside to close
+document.querySelectorAll('.overlay').forEach(o => {
+  o.addEventListener('click', e => {
+    if (e.target === o) o.classList.remove('open');
+  });
+});
 
-document.getElementById('reviewModal').addEventListener('click',e=>{if(e.target===document.getElementById('reviewModal'))closeReviewModal();});
+// ─── UTILITIES ────────────────────────────────────────
+function showToast(msg, kind) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = kind || '';
+  t.style.display = 'block';
+  setTimeout(() => { t.style.display = 'none'; }, 3500);
+}
 
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',3500);}
+function escapeHtml(str) {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function escapeAttr(str) {
+  return String(str ?? '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+}
+
+function pluralize(n, one, few, many) {
+  const m10 = n % 10, m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return one;
+  if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return few;
+  return many;
+}
 </script>
-  <div class="mobile-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--border);z-index:200;padding:8px 0;box-shadow:0 -4px 20px rgba(0,0,0,0.06);">
-  <div style="display:flex;justify-content:space-around;width:100%;">
-    <button onclick="showPage('dashboard',this)" style="background:none;border:none;cursor:pointer;font-size:0.65rem;color:var(--ink-60);display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 8px;font-family:inherit;">
-      <span style="font-size:1.2rem;">🏠</span>Главная
-    </button>
-    <button onclick="showPage('lessons',this)" style="background:none;border:none;cursor:pointer;font-size:0.65rem;color:var(--ink-60);display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 8px;font-family:inherit;">
-      <span style="font-size:1.2rem;">📅</span>Уроки
-    </button>
-    <button onclick="showPage('homework',this)" style="background:none;border:none;cursor:pointer;font-size:0.65rem;color:var(--ink-60);display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 8px;font-family:inherit;">
-      <span style="font-size:1.2rem;">📚</span>Задания
-    </button>
-    <button onclick="window.location.href='messages.html'" style="background:none;border:none;cursor:pointer;font-size:0.65rem;color:var(--ink-60);display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 8px;font-family:inherit;">
-      <span style="font-size:1.2rem;">💬</span>Чаты
-    </button>
-    <button onclick="showPage('settings',this)" style="background:none;border:none;cursor:pointer;font-size:0.65rem;color:var(--ink-60);display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 8px;font-family:inherit;">
-      <span style="font-size:1.2rem;">⚙️</span>Настройки
-    </button>
-  </div>
-</div>
 </body>
 </html>
