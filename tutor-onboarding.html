@@ -526,9 +526,12 @@ async function submitProfile() {
   const btn = document.getElementById('submit-btn');
   btn.textContent = 'Отправляю...'; btn.disabled = true;
 
+  let profileSaved = false;
+  let reviewSubmitted = false;
+
   try {
     // Save tutor profile
-    await fetch(API+'/api/tutors/profile/me', {
+    const r1 = await fetch(API+'/api/tutors/profile/me', {
       method: 'PUT',
       headers: {'Content-Type':'application/json','Authorization':'Bearer '+userToken},
       body: JSON.stringify({
@@ -540,8 +543,10 @@ async function submitProfile() {
         video_intro_url: tutorData.video_url || null
       })
     });
+    if (!r1.ok) throw new Error('Не удалось сохранить профиль (HTTP ' + r1.status + ')');
+    profileSaved = true;
 
-    // Update user phone
+    // Update user phone + name
     await fetch(API+'/api/auth/me', {
       method: 'PUT',
       headers: {'Content-Type':'application/json','Authorization':'Bearer '+userToken},
@@ -549,26 +554,35 @@ async function submitProfile() {
     });
 
     // Submit for review
-    await fetch(API+'/api/tutors/submit-review', {
+    const r2 = await fetch(API+'/api/tutors/submit-review', {
       method: 'POST',
       headers: {'Content-Type':'application/json','Authorization':'Bearer '+userToken},
       body: JSON.stringify({message:'Ready for review'})
     });
+    if (!r2.ok) throw new Error('Не удалось отправить на проверку (HTTP ' + r2.status + ')');
+    reviewSubmitted = true;
 
-    // Show success
+    // Success — clear draft and show success screen
+    localStorage.removeItem('bilimly_tutor_draft');
     document.getElementById('progress-wrap').style.display='none';
     document.getElementById('step-5').style.display='none';
     document.getElementById('success-screen').style.display='block';
     window.scrollTo({top:0,behavior:'smooth'});
-    localStorage.removeItem('bilimly_tutor_draft');
-
-  } catch(e) {
-    // Still show success — data saved locally
-    document.getElementById('progress-wrap').style.display='none';
-    document.getElementById('step-5').style.display='none';
-    document.getElementById('success-screen').style.display='block';
+  } catch (e) {
+    console.error('submitProfile error:', e);
+    const errEl = document.getElementById('step5-err');
+    if (profileSaved && !reviewSubmitted) {
+      errEl.textContent = '⚠️ Данные сохранены, но не отправлены на проверку. Попробуйте ещё раз.';
+    } else if (!profileSaved) {
+      errEl.textContent = '❌ Не удалось отправить. Проверьте интернет и попробуйте ещё раз.';
+    } else {
+      errEl.textContent = '❌ ' + (e.message || 'Ошибка отправки');
+    }
+    btn.textContent='🚀 Отправить профиль на проверку';
+    btn.disabled=false;
+    return;
   }
-
+  // Only reach here on full success
   btn.textContent='🚀 Отправить профиль на проверку';
   btn.disabled=false;
 }

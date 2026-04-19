@@ -777,11 +777,49 @@ function updateVideoPreview(url){
   preview.innerHTML=`<iframe src="${embedUrl}" style="width:100%;height:100%;border:none;border-radius:10px;" allowfullscreen></iframe>`;
 }
 
-function uploadAvatar(input){
-  const file=input.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=(e)=>{const av=document.getElementById('profile-avatar');av.innerHTML=`<img src="${e.target.result}" alt="Avatar">`;showToast('Фото обновлено');};
+async function uploadAvatar(input){
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 10 * 1024 * 1024) {
+    showToast('Фото слишком большое (макс 10 МБ)');
+    input.value = '';
+    return;
+  }
+
+  // Show local preview immediately for responsiveness
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const av = document.getElementById('profile-avatar');
+    av.innerHTML = `<img src="${e.target.result}" alt="Avatar">`;
+  };
   reader.readAsDataURL(file);
+
+  // Actually upload to server
+  showToast('Загружаем фото…');
+  try {
+    const fd = new FormData();
+    fd.append('avatar', file);
+    const res = await fetch(API + '/api/tutors/avatar', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + token },
+      body: fd,
+    });
+    const data = await res.json();
+    if (!res.ok || !data.avatar_url) {
+      showToast(data.error || 'Ошибка загрузки');
+      return;
+    }
+    // Update with the real Cloudinary URL
+    const av = document.getElementById('profile-avatar');
+    av.innerHTML = `<img src="${data.avatar_url}" alt="Avatar">`;
+    // Update local user so it persists after refresh
+    currentUser.avatar_url = data.avatar_url;
+    localStorage.setItem('bilimly_user', JSON.stringify(currentUser));
+    showToast('✓ Фото сохранено');
+  } catch (err) {
+    console.error('avatar upload error', err);
+    showToast('Ошибка соединения');
+  }
 }
 
 // ── REVIEWS ────────────────────────────────────────────────
