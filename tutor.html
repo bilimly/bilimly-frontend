@@ -115,19 +115,19 @@ nav{background:rgba(255,255,255,0.95);border-bottom:1px solid var(--border);padd
 /* MODALS */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);z-index:500;align-items:center;justify-content:center;padding:16px;}
 .overlay.open{display:flex;}
-.modal{background:white;border-radius:20px;max-width:480px;width:100%;box-shadow:0 32px 80px rgba(0,0,0,0.25);overflow:hidden;animation:popIn 0.3s ease;}
+.modal{background:white;border-radius:20px;max-width:480px;width:100%;max-height:92vh;display:flex;flex-direction:column;box-shadow:0 32px 80px rgba(0,0,0,0.25);overflow:hidden;animation:popIn 0.3s ease;}
 @keyframes popIn{from{transform:scale(0.92) translateY(20px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
 .modal-head{background:var(--tiffany);padding:20px 24px;color:white;position:relative;}
 .modal-close{position:absolute;top:12px;right:14px;background:rgba(255,255,255,0.15);border:none;color:white;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;}
 .modal-head h2{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;margin-bottom:2px;}
 .modal-head p{opacity:0.7;font-size:0.8rem;}
-.modal-body{padding:20px 24px;}
+.modal-body{padding:20px 24px;overflow-y:auto;flex:1;min-height:0;}
 .fgroup{margin-bottom:12px;}
 .fgroup label{display:block;font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:5px;}
 .fcontrol{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-family:inherit;font-size:0.875rem;outline:none;transition:border-color 0.2s;}
 .fcontrol:focus{border-color:var(--tiffany);}
 .time-slots-modal{display:flex;gap:6px;flex-wrap:wrap;}
-.modal-foot{padding:0 24px 20px;display:flex;gap:10px;}
+.modal-foot{padding:16px 24px 20px;display:flex;gap:10px;border-top:1px solid var(--border);background:white;flex-shrink:0;}
 .btn-confirm{flex:1;background:var(--tiffany);color:white;border:none;padding:13px;border-radius:10px;font-size:0.9rem;font-weight:600;cursor:pointer;font-family:inherit;}
 .btn-confirm:hover{background:var(--tiffany-dark);}
 .btn-cancel{background:none;border:1.5px solid var(--border);color:var(--ink);padding:13px 20px;border-radius:10px;font-size:0.85rem;cursor:pointer;font-family:inherit;}
