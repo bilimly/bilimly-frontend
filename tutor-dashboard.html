@@ -778,47 +778,51 @@ function updateVideoPreview(url){
 }
 
 async function uploadAvatar(input){
+  console.log('[AVATAR] 1. Function called');
   const file = input.files[0];
+  console.log('[AVATAR] 2. File:', file ? file.name + ' ' + file.size + ' bytes' : 'NONE');
   if (!file) return;
-  if (file.size > 10 * 1024 * 1024) {
-    showToast('Фото слишком большое (макс 10 МБ)');
-    input.value = '';
-    return;
-  }
+  if (file.size > 10 * 1024 * 1024) { alert('Фото слишком большое (макс 10 МБ)'); input.value=''; return; }
 
-  // Show local preview immediately for responsiveness
+  console.log('[AVATAR] 3. Token present:', !!token, 'length:', (token||'').length);
+  console.log('[AVATAR] 4. API URL:', API + '/api/tutors/avatar');
+
+  // Show local preview
   const reader = new FileReader();
   reader.onload = (e) => {
     const av = document.getElementById('profile-avatar');
-    av.innerHTML = `<img src="${e.target.result}" alt="Avatar">`;
+    if (av) av.innerHTML = '<img src="' + e.target.result + '" alt="Avatar">';
   };
   reader.readAsDataURL(file);
-
-  // Actually upload to server
   showToast('Загружаем фото…');
+
   try {
     const fd = new FormData();
     fd.append('avatar', file);
+    console.log('[AVATAR] 5. Sending fetch...');
     const res = await fetch(API + '/api/tutors/avatar', {
       method: 'POST',
       headers: { 'Authorization': 'Bearer ' + token },
       body: fd,
     });
-    const data = await res.json();
+    console.log('[AVATAR] 6. Response status:', res.status);
+    const text = await res.text();
+    console.log('[AVATAR] 7. Response body:', text);
+    let data;
+    try { data = JSON.parse(text); } catch(e) { data = { error: 'Invalid JSON: ' + text }; }
     if (!res.ok || !data.avatar_url) {
-      showToast(data.error || 'Ошибка загрузки');
+      alert('Ошибка загрузки: ' + (data.error || 'status ' + res.status));
       return;
     }
-    // Update with the real Cloudinary URL
     const av = document.getElementById('profile-avatar');
-    av.innerHTML = `<img src="${data.avatar_url}" alt="Avatar">`;
-    // Update local user so it persists after refresh
+    if (av) av.innerHTML = '<img src="' + data.avatar_url + '" alt="Avatar">';
     currentUser.avatar_url = data.avatar_url;
     localStorage.setItem('bilimly_user', JSON.stringify(currentUser));
     showToast('✓ Фото сохранено');
+    console.log('[AVATAR] 8. SUCCESS:', data.avatar_url);
   } catch (err) {
-    console.error('avatar upload error', err);
-    showToast('Ошибка соединения');
+    console.error('[AVATAR] ERROR:', err);
+    alert('Ошибка соединения: ' + err.message);
   }
 }
 
