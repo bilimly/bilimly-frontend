@@ -145,11 +145,9 @@ nav{background:rgba(255,255,255,0.95);border-bottom:1px solid var(--border);padd
   .video-hero iframe{height:240px;}
   .video-placeholder{height:200px;}
   /* Compact booking modal on mobile so footer buttons stay visible */
-  .overlay{padding:0;align-items:flex-start;display:block;overflow-y:auto;-webkit-overflow-scrolling:touch;}
-  .overlay.open{display:block;}
-  .modal{max-height:none;height:auto;min-height:100vh;margin:0;border-radius:0;display:block;}
-  .modal-body{overflow:visible;padding-bottom:100px;}
-  .modal-foot{position:sticky;bottom:0;background:white;z-index:10;}
+  .overlay{padding:0;align-items:stretch;overflow:hidden;}
+  .modal{max-height:100vh;max-height:100dvh;height:100vh;height:100dvh;margin:0;border-radius:0;}
+  .modal-body{-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
   .modal-head{padding:14px 18px;}
   .modal-head h2{font-size:1.05rem;}
   .modal-head p{font-size:0.72rem;}
