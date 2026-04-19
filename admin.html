@@ -136,6 +136,7 @@ tr:hover td{background:#f8fafa;}
       <a onclick="showPage('bookings',this)">📅 Бронирования</a>
       <a onclick="showPage('applications',this)">📋 Заявки</a>
       <a onclick="showPage('revenue',this)">💰 Выручка</a>
+      <a onclick="showPage('onboard',this)">➕ Новый репетитор</a>
       <a onclick="showPage('leads',this)">🎯 Лиды <span id="leads-badge" style="margin-left:auto;background:#C9A84C;color:white;font-size:0.65rem;font-weight:700;padding:2px 6px;border-radius:8px;display:none"></span></a>
     </nav>
     <div class="sfooter">
@@ -260,6 +261,98 @@ tr:hover td{background:#f8fafa;}
         </div>
       </div>
       </div>
+      <!-- ONBOARD NEW TUTOR -->
+    <div id="page-onboard" class="page">
+      <div class="card" style="max-width:780px">
+        <div class="card-head"><h3>Создать профиль репетитора</h3></div>
+        <div style="padding:24px">
+          <div style="background:var(--tiffany-pale);border-radius:10px;padding:14px 18px;margin-bottom:20px;font-size:0.88rem;line-height:1.6;color:var(--ink)">
+            <strong>Как это работает:</strong> Заполните данные репетитора (с информацией которую он прислал в WhatsApp), загрузите видео. Система создаст профиль и выдаст магическую ссылку. Отправьте её репетитору через WhatsApp — он установит пароль и аккаунт активируется.
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div class="fgroup"><label>Имя *</label><input class="fcontrol" id="ob-fname" placeholder="Айгуль"></div>
+            <div class="fgroup"><label>Фамилия *</label><input class="fcontrol" id="ob-lname" placeholder="Бекова"></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div class="fgroup"><label>Телефон *</label><input class="fcontrol" id="ob-phone" type="tel" placeholder="+996 XXX XXX XXX"></div>
+            <div class="fgroup"><label>Email (если нет — сгенерируем)</label><input class="fcontrol" id="ob-email" type="email" placeholder="optional"></div>
+          </div>
+
+          <div class="fgroup">
+            <label>Предметы * (через запятую)</label>
+            <input class="fcontrol" id="ob-subjects" placeholder="Математика, Физика, ОРТ подготовка">
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div class="fgroup"><label>Ставка сом/час</label><input class="fcontrol" id="ob-rate" type="number" value="500" min="200"></div>
+            <div class="fgroup"><label>Пробный урок сом</label><input class="fcontrol" id="ob-trial" type="number" value="200" min="100"></div>
+          </div>
+
+          <div class="fgroup">
+            <label>Город</label>
+            <select class="fcontrol" id="ob-city">
+              <option>Бишкек</option><option>Ош</option><option>Жалал-Абад</option><option>Каракол</option><option>Токмок</option><option>Другой</option>
+            </select>
+          </div>
+
+          <div class="fgroup">
+            <label>О себе (вставьте из WhatsApp)</label>
+            <textarea class="fcontrol" id="ob-bio" rows="5" placeholder="Преподаю математику 5 лет. КНУ, математический факультет. Готовлю к ОРТ..."></textarea>
+          </div>
+
+          <div class="fgroup">
+            <label>Видео-презентация</label>
+            <div style="display:flex;gap:10px;margin-bottom:8px">
+              <button type="button" class="btn-sm btn-outline" onclick="document.getElementById('ob-video-file').click()">📁 Загрузить файл (до 60 МБ)</button>
+              <span id="ob-video-filename" style="font-size:0.82rem;color:var(--ink-60);align-self:center"></span>
+            </div>
+            <input type="file" id="ob-video-file" accept="video/*" style="display:none" onchange="onboardPickVideo(this)">
+            <div style="font-size:0.78rem;color:var(--ink-60);margin:4px 0">или</div>
+            <input class="fcontrol" id="ob-video-url" type="url" placeholder="https://youtube.com/... (если у репетитора уже есть)">
+          </div>
+
+          <div class="err" id="ob-err" style="color:#e74c3c;font-size:0.88rem;min-height:20px;margin-bottom:12px"></div>
+
+          <button class="btn-sm btn-tiffany" style="padding:12px 24px;font-size:0.92rem" onclick="onboardSubmit()" id="ob-submit-btn">Создать профиль →</button>
+
+          <div id="ob-progress" style="display:none;margin-top:16px;background:var(--tiffany-pale);border-radius:10px;padding:14px 18px;font-size:0.88rem">
+            <div id="ob-progress-text">Создаём...</div>
+            <div style="margin-top:8px;height:4px;background:white;border-radius:2px;overflow:hidden"><div id="ob-progress-bar" style="width:0%;height:100%;background:var(--tiffany);transition:width 0.3s"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUCCESS CARD -->
+      <div id="ob-success" style="display:none;max-width:780px;background:white;border-radius:14px;box-shadow:var(--shadow);border:1px solid var(--border);padding:28px;margin-top:20px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div style="width:44px;height:44px;border-radius:50%;background:#dcfce7;display:flex;align-items:center;justify-content:center;font-size:1.4rem">✓</div>
+          <div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600" id="ob-success-name">Профиль создан</div>
+            <div style="font-size:0.82rem;color:var(--ink-60)">Отправьте магическую ссылку репетитору через WhatsApp</div>
+          </div>
+        </div>
+
+        <div style="background:var(--bg);border-radius:10px;padding:14px;margin-bottom:16px">
+          <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:6px">Магическая ссылка</div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <input class="fcontrol" id="ob-claim-link" readonly style="font-size:0.82rem;background:white">
+            <button class="btn-sm btn-outline" onclick="onboardCopyLink()">📋 Копировать</button>
+          </div>
+        </div>
+
+        <div style="background:var(--bg);border-radius:10px;padding:14px;margin-bottom:16px">
+          <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:6px">WhatsApp сообщение (готовое)</div>
+          <textarea class="fcontrol" id="ob-whatsapp-msg" readonly rows="5" style="font-size:0.88rem;line-height:1.6;background:white"></textarea>
+          <button class="btn-sm btn-outline" onclick="onboardCopyMessage()" style="margin-top:8px">📋 Копировать текст</button>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a id="ob-whatsapp-link" target="_blank" rel="noopener" class="btn-sm" style="background:#25D366;color:white;text-decoration:none;padding:11px 22px;border-radius:8px;font-size:0.9rem;font-weight:600">💬 Отправить в WhatsApp</a>
+          <button class="btn-sm btn-outline" onclick="onboardReset()" style="padding:11px 22px">➕ Создать ещё</button>
+        </div>
+      </div>
+    </div>
     <div id="page-leads" class="page">
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px" id="leads-stats"></div>
       <div class="card" style="margin-bottom:18px">
@@ -335,7 +428,7 @@ function showPage(name,el){
   document.getElementById('page-'+name).classList.add('active');
   if(el)el.classList.add('active');
   currentPage=name;
-  const titles={dashboard:'Дашборд',tutors:'Репетиторы',students:'Студенты',bookings:'Бронирования',applications:'Заявки',revenue:'Выручка',leads:'Лиды'};
+  const titles={dashboard:'Дашборд',tutors:'Репетиторы',students:'Студенты',bookings:'Бронирования',applications:'Заявки',revenue:'Выручка',leads:'Лиды',onboard:'Новый репетитор'};
   document.getElementById('page-title').textContent=titles[name]||name;
   loadPage(name);
 }
@@ -348,6 +441,7 @@ function loadPage(name){
   else if(name==='applications')loadApplications();
   else if(name==='revenue')loadRevenue();
   else if(name==='leads')loadLeads();
+  else if(name==='onboard')loadOnboard();
 }
 
 // ── DASHBOARD ──────────────────────────────────────────────
@@ -737,6 +831,159 @@ function filterLeads(status) {
     b.style.border = isActive ? 'none' : '1.5px solid var(--border)';
   });
   loadLeads(status);
+}
+// ═══════════════════════════════════════════════════════════
+// ONBOARD NEW TUTOR
+// ═══════════════════════════════════════════════════════════
+
+let onboardVideoFile = null;
+
+function loadOnboard() {
+  // Reset success card when landing on the page fresh
+  document.getElementById('ob-success').style.display = 'none';
+}
+
+function onboardPickVideo(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 60 * 1024 * 1024) {
+    alert('Видео слишком большое (макс 60 МБ). Попросите репетитора переотправить сжатое.');
+    input.value = '';
+    return;
+  }
+  onboardVideoFile = file;
+  document.getElementById('ob-video-filename').textContent =
+    '📎 ' + file.name + ' (' + Math.round(file.size / (1024*1024) * 10) / 10 + ' МБ)';
+}
+
+async function onboardSubmit() {
+  const errEl = document.getElementById('ob-err');
+  errEl.textContent = '';
+
+  const fname = document.getElementById('ob-fname').value.trim();
+  const lname = document.getElementById('ob-lname').value.trim();
+  const phone = document.getElementById('ob-phone').value.trim();
+  const email = document.getElementById('ob-email').value.trim();
+  const subjectsRaw = document.getElementById('ob-subjects').value.trim();
+  const rate = document.getElementById('ob-rate').value;
+  const trial = document.getElementById('ob-trial').value;
+  const city = document.getElementById('ob-city').value;
+  const bio = document.getElementById('ob-bio').value.trim();
+  const videoUrl = document.getElementById('ob-video-url').value.trim();
+
+  if (!fname || !lname) { errEl.textContent = 'Заполните имя и фамилию'; return; }
+  if (!phone) { errEl.textContent = 'Укажите телефон'; return; }
+  if (!subjectsRaw) { errEl.textContent = 'Укажите хотя бы один предмет'; return; }
+
+  const subjects = subjectsRaw.split(',').map(s => s.trim()).filter(Boolean);
+
+  const fd = new FormData();
+  fd.append('first_name', fname);
+  fd.append('last_name', lname);
+  fd.append('phone', phone);
+  if (email) fd.append('email', email);
+  fd.append('subjects', JSON.stringify(subjects));
+  fd.append('hourly_rate', rate);
+  fd.append('trial_rate', trial);
+  fd.append('city', city);
+  fd.append('bio_ru', bio);
+  if (videoUrl) fd.append('video_url', videoUrl);
+  if (onboardVideoFile) fd.append('video', onboardVideoFile);
+
+  const btn = document.getElementById('ob-submit-btn');
+  const progress = document.getElementById('ob-progress');
+  const progressText = document.getElementById('ob-progress-text');
+  const progressBar = document.getElementById('ob-progress-bar');
+
+  btn.disabled = true; btn.textContent = 'Создаём...';
+  progress.style.display = 'block';
+  progressText.textContent = onboardVideoFile ? 'Загружаем видео…' : 'Создаём профиль…';
+  progressBar.style.width = '15%';
+
+  try {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', API + '/api/admin/tutors/onboard');
+    xhr.setRequestHeader('Authorization', 'Bearer ' + tok);
+
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) {
+        const pct = Math.round((e.loaded / e.total) * 80) + 15;
+        progressBar.style.width = pct + '%';
+      }
+    };
+
+    xhr.onload = () => {
+      progressBar.style.width = '100%';
+      setTimeout(() => {
+        progress.style.display = 'none';
+        progressBar.style.width = '0%';
+        btn.disabled = false; btn.textContent = 'Создать профиль →';
+
+        if (xhr.status >= 200 && xhr.status < 300) {
+          const data = JSON.parse(xhr.responseText);
+          onboardShowSuccess(data);
+        } else {
+          try {
+            const err = JSON.parse(xhr.responseText);
+            errEl.textContent = err.error || 'Ошибка создания профиля';
+          } catch (e) {
+            errEl.textContent = 'Ошибка создания (HTTP ' + xhr.status + ')';
+          }
+        }
+      }, 300);
+    };
+
+    xhr.onerror = () => {
+      progress.style.display = 'none';
+      btn.disabled = false; btn.textContent = 'Создать профиль →';
+      errEl.textContent = 'Ошибка соединения';
+    };
+
+    xhr.send(fd);
+  } catch (e) {
+    progress.style.display = 'none';
+    btn.disabled = false; btn.textContent = 'Создать профиль →';
+    errEl.textContent = 'Ошибка: ' + e.message;
+  }
+}
+
+function onboardShowSuccess(data) {
+  document.getElementById('ob-success-name').textContent =
+    '✓ ' + data.tutor.first_name + ' ' + data.tutor.last_name;
+  document.getElementById('ob-claim-link').value = data.claim_link;
+  document.getElementById('ob-whatsapp-msg').value = data.whatsapp_message;
+  document.getElementById('ob-whatsapp-link').href = data.whatsapp_url;
+  document.getElementById('ob-success').style.display = 'block';
+  document.getElementById('ob-success').scrollIntoView({ behavior: 'smooth' });
+}
+
+function onboardCopyLink() {
+  const el = document.getElementById('ob-claim-link');
+  el.select();
+  document.execCommand('copy');
+  showToast('✓ Ссылка скопирована');
+}
+
+function onboardCopyMessage() {
+  const el = document.getElementById('ob-whatsapp-msg');
+  el.select();
+  document.execCommand('copy');
+  showToast('✓ Сообщение скопировано');
+}
+
+function onboardReset() {
+  ['ob-fname','ob-lname','ob-phone','ob-email','ob-subjects','ob-bio','ob-video-url'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('ob-rate').value = '500';
+  document.getElementById('ob-trial').value = '200';
+  document.getElementById('ob-city').value = 'Бишкек';
+  document.getElementById('ob-video-file').value = '';
+  document.getElementById('ob-video-filename').textContent = '';
+  document.getElementById('ob-success').style.display = 'none';
+  document.getElementById('ob-err').textContent = '';
+  onboardVideoFile = null;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
   <!-- TUTOR DETAIL MODAL -->
