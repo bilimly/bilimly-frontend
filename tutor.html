@@ -145,8 +145,9 @@ nav{background:rgba(255,255,255,0.95);border-bottom:1px solid var(--border);padd
   .video-hero iframe{height:240px;}
   .video-placeholder{height:200px;}
   /* Compact booking modal on mobile so footer buttons stay visible */
-  .overlay{padding:0;align-items:stretch;}
-  .modal{max-height:100vh;max-height:100dvh;margin:0;border-radius:0;height:100vh;height:100dvh;}
+  .overlay{padding:0;align-items:stretch;overflow:hidden;}
+  .modal{max-height:100vh;max-height:100dvh;height:100vh;height:100dvh;margin:0;border-radius:0;}
+  .modal-body{-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
   .modal-head{padding:14px 18px;}
   .modal-head h2{font-size:1.05rem;}
   .modal-head p{font-size:0.72rem;}
@@ -471,6 +472,10 @@ function openBooking(){
     document.getElementById('bm-sub').textContent='Пробный урок · '+Math.round(tutor.trial_rate||200)+' сом';
   }
   document.getElementById('bookingModal').classList.add('open');
+  // Lock body scroll on mobile so modal scroll works correctly
+  document.body.style.overflow='hidden';
+  document.body.style.position='fixed';
+  document.body.style.width='100%';
 }
 
 let bookingType = 'single';
@@ -663,6 +668,10 @@ function closeModal(){
   document.getElementById('bookingModal').classList.remove('open');
   selectedSlot=null;
   document.querySelectorAll('.tslot').forEach(s=>s.classList.remove('sel'));
+  // Release body scroll lock
+  document.body.style.overflow='';
+  document.body.style.position='';
+  document.body.style.width='';
 }
 
 function openMessage(){
