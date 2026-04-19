@@ -281,9 +281,13 @@ nav{background:rgba(255,255,255,0.95);border-bottom:1px solid var(--border);padd
           <div style="font-size:0.85rem;color:var(--ink);line-height:1.5;margin-bottom:10px">
             После оплаты пришлите скриншот чека в WhatsApp. Укажите ваше имя и предмет.
           </div>
-          <a id="whatsapp-confirm-btn" href="#" target="_blank" rel="noopener" style="display:block;background:#25D366;color:white;text-decoration:none;text-align:center;padding:12px 16px;border-radius:8px;font-weight:600;font-size:0.88rem">
+          <a id="whatsapp-confirm-btn" href="#" target="_blank" rel="noopener" style="display:block;background:#25D366;color:white;text-decoration:none;text-align:center;padding:14px 16px;border-radius:8px;font-weight:600;font-size:0.95rem;margin-bottom:10px">
             💬 Открыть WhatsApp
           </a>
+          <button id="btn-mark-paid-inline" onclick="markAsPaid()" style="display:block;width:100%;background:var(--tiffany);color:white;border:none;text-align:center;padding:14px 16px;border-radius:8px;font-weight:700;font-size:0.95rem;cursor:pointer;font-family:inherit">
+            ✓ Я оплатил
+          </button>
+          <div style="font-size:0.72rem;color:var(--ink-60);margin-top:6px;text-align:center">Нажмите после отправки чека в WhatsApp</div>
         </div>
 
         <!-- Step 3: What happens next -->
