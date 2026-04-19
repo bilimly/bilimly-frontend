@@ -637,7 +637,7 @@ footer {
     <li><a href="tutor-onboarding.html">Для репетиторов</a></li>
   </ul>
   <div class="nav-right">
-    <button class="btn-ghost" onclick="window.location.href='dashboard.html'">Войти</button>
+    <span id="auth-slot"><button class="btn-ghost" onclick="window.location.href='dashboard.html'">Войти</button></span>
     <a class="btn-primary" href="lead-capture.html" style="display:inline-flex;align-items:center;">Подобрать</a>
     <div class="hamburger" onclick="toggleMobileMenu()">
       <span></span><span></span><span></span>
@@ -649,7 +649,7 @@ footer {
   <a href="#how" onclick="toggleMobileMenu()">Как это работает</a>
   <a href="#browse" onclick="toggleMobileMenu()">Репетиторы</a>
   <a href="tutor-onboarding.html">Для репетиторов</a>
-  <a href="dashboard.html">Войти</a>
+  <span id="auth-slot-mobile"><a href="dashboard.html">Войти</a></span>
 </div>
 
 <!-- ── HERO ────────────────────────────────────────── -->
@@ -882,6 +882,25 @@ footer {
 <div id="toast"></div>
 
 <script>
+// Detect logged-in user from localStorage and update nav
+(function() {
+  try {
+    const user = JSON.parse(localStorage.getItem('bilimly_user') || 'null');
+    if (!user || !user.first_name) return;
+    const dashUrl = user.role === 'tutor' ? '/tutor-dashboard.html' : (user.role === 'admin' ? '/admin.html' : '/dashboard.html');
+    const initials = (user.first_name[0] || '?').toUpperCase();
+    const html = `
+      <a href="${dashUrl}" class="btn-ghost" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:inherit">
+        <span style="width:28px;height:28px;border-radius:50%;background:var(--tiffany,#0ABAB5);color:white;display:inline-flex;align-items:center;justify-content:center;font-weight:600;font-size:0.85rem">${initials}</span>
+        <span>${user.first_name}</span>
+      </a>`;
+    const slot = document.getElementById('auth-slot');
+    if (slot) slot.innerHTML = html;
+    const slotMobile = document.getElementById('auth-slot-mobile');
+    if (slotMobile) slotMobile.innerHTML = `<a href="${dashUrl}">Кабинет (${user.first_name})</a>`;
+  } catch (e) { /* not logged in */ }
+})();
+
 const API = 'https://bilimly-backend-0zbt.onrender.com';
 let currentTutors = [];
 let allSubjects = [];

@@ -1693,41 +1693,89 @@ async function loadAllLessons() {
 }
 
 // ─── TUTORS PAGE ──────────────────────────────────────
-function renderTutorsPage() {
-  const map = new Map();
-  allBookings.forEach(b => {
-    if (!map.has(b.tutor_id)) {
-      map.set(b.tutor_id, {
-        id: b.tutor_id,
-        name: (b.tutor_first_name || '') + ' ' + (b.tutor_last_name || ''),
-        avatar: b.tutor_avatar,
-        subject: b.subject,
-        lessons: 0,
-        lastDate: b.lesson_date,
-      });
-    }
-    map.get(b.tutor_id).lessons++;
-  });
+async function renderTutorsPage() {
   const el = document.getElementById('tutors-slot');
-  if (!map.size) {
-    el.innerHTML = `<div class="empty-state">
-      <div class="empty-state-title">Ваши репетиторы появятся здесь</div>
-      <div style="margin:12px 0 20px">После первого урока</div>
-      <a class="btn-primary" href="lead-capture.html">Подобрать репетитора</a>
-    </div>`;
+  el.innerHTML = '<div style="padding:30px;text-align:center;color:var(--ink-60)">Загружаем репетиторов…</div>';
+
+  // Build map of tutors the parent has booked (for highlighting)
+  const bookedMap = new Map();
+  allBookings.forEach(b => {
+    if (!bookedMap.has(b.tutor_id)) {
+      bookedMap.set(b.tutor_id, { lessons: 0 });
+    }
+    bookedMap.get(b.tutor_id).lessons++;
+  });
+
+  // Fetch all approved tutors
+  let tutors = [];
+  try {
+    const res = await fetch(API + '/api/tutors');
+    const data = await res.json();
+    tutors = data.tutors || [];
+  } catch (e) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-state-title">Не удалось загрузить</div></div>';
     return;
   }
-  el.innerHTML = [...map.values()].map(t => `
-    <div class="list-row">
-      <div class="list-av">${t.avatar ? `<img src="${escapeAttr(t.avatar)}">` : escapeHtml(((t.name || '?')[0]).toUpperCase())}</div>
-      <div class="list-info">
-        <div class="list-title">${escapeHtml(t.name)}</div>
-        <div class="list-sub">${escapeHtml(t.subject || '—')} · ${t.lessons} ${pluralize(t.lessons, 'урок', 'урока', 'уроков')}</div>
-      </div>
-      <div class="list-right">
-        <a href="messages.html" style="font-size:0.82rem;color:var(--teal);font-weight:600">Написать</a>
-      </div>
-    </div>`).join('');
+
+  if (!tutors.length) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-state-title">Пока нет репетиторов</div></div>';
+    return;
+  }
+
+  el.innerHTML = `
+    <div style="margin-bottom:16px">
+      <input type="text" id="tutor-search" placeholder="Поиск по имени или предмету" oninput="filterTutorsList(this.value)" style="width:100%;padding:12px 16px;border:1.5px solid var(--border, #e5e7eb);border-radius:10px;font-family:inherit;font-size:0.92rem;outline:none">
+    </div>
+    <div id="tutors-grid"></div>
+  `;
+
+  window._allTutorsList = tutors;
+  window._bookedMap = bookedMap;
+  filterTutorsList('');
+}
+
+function filterTutorsList(query) {
+  const q = (query || '').toLowerCase().trim();
+  const tutors = window._allTutorsList || [];
+  const bookedMap = window._bookedMap || new Map();
+
+  const filtered = q
+    ? tutors.filter(t => {
+        const name = ((t.first_name || '') + ' ' + (t.last_name || '')).toLowerCase();
+        const subjects = (t.subjects || []).join(' ').toLowerCase();
+        return name.includes(q) || subjects.includes(q);
+      })
+    : tutors;
+
+  const grid = document.getElementById('tutors-grid');
+  if (!grid) return;
+
+  if (!filtered.length) {
+    grid.innerHTML = '<div style="padding:30px;text-align:center;color:var(--ink-60)">Никого не нашли</div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(t => {
+    const name = ((t.first_name || '') + ' ' + (t.last_name || '')).trim();
+    const subjects = (t.subjects || []).slice(0, 3).join(' · ') || '—';
+    const rate = t.hourly_rate ? Math.round(t.hourly_rate) + ' сом/ч' : '';
+    const trial = t.trial_rate ? 'Пробный ' + Math.round(t.trial_rate) + ' сом' : '';
+    const rating = t.rating ? '⭐ ' + parseFloat(t.rating).toFixed(1) : '';
+    const booked = bookedMap.has(t.id) ? bookedMap.get(t.id).lessons : 0;
+    const bookedBadge = booked ? `<span style="background:var(--teal-pale, #d4f1f0);color:var(--teal, #0ABAB5);padding:2px 8px;border-radius:8px;font-size:0.7rem;font-weight:600;margin-left:6px">Ваш репетитор · ${booked} ${pluralize(booked, 'урок', 'урока', 'уроков')}</span>` : '';
+    return `
+      <div class="list-row" style="display:flex;gap:12px;padding:14px;border-bottom:1px solid var(--border, #f0f0f0);align-items:center">
+        <div class="list-av" style="width:48px;height:48px;border-radius:50%;background:var(--teal-pale, #d4f1f0);display:flex;align-items:center;justify-content:center;font-weight:600;color:var(--teal, #0ABAB5);overflow:hidden;flex-shrink:0">${t.avatar_url ? `<img src="${escapeAttr(t.avatar_url)}" style="width:100%;height:100%;object-fit:cover">` : escapeHtml(((name || '?')[0]).toUpperCase())}</div>
+        <div class="list-info" style="flex:1;min-width:0">
+          <div class="list-title" style="font-weight:600;font-size:0.95rem">${escapeHtml(name)} ${bookedBadge}</div>
+          <div class="list-sub" style="font-size:0.82rem;color:var(--ink-60, #666);margin-top:2px">${escapeHtml(subjects)}</div>
+          <div style="font-size:0.78rem;color:var(--ink-60, #666);margin-top:2px">${rate}${rating ? ' · ' + rating : ''}${trial ? ' · ' + trial : ''}</div>
+        </div>
+        <div class="list-right" style="flex-shrink:0">
+          <a href="tutor.html?id=${t.id}" style="background:var(--teal, #0ABAB5);color:white;padding:8px 14px;border-radius:8px;text-decoration:none;font-size:0.82rem;font-weight:600;display:inline-block">Открыть</a>
+        </div>
+      </div>`;
+  }).join('');
 }
 
 // ─── FINANCE (PIN-GATED) ──────────────────────────────
