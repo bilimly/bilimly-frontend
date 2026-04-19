@@ -516,7 +516,8 @@ function renderTutors(list){
       <td>${u.badge?`<span class="badge badge-tiffany">${u.badge}</span>`:'—'}</td>
       <td style="display:flex;gap:6px;flex-wrap:wrap">
         ${!u.tutor_approved?`<button class="btn-sm btn-success" onclick="approveTutor('${u.id}')">✓</button>`:''}
-        <button class="btn-sm btn-danger" onclick="blockUser('${u.id}','${u.first_name}')">✗</button>
+        <button class="btn-sm btn-danger" onclick="blockUser('${u.id}','${u.first_name}')">Блок</button>
+        <button class="btn-sm" style="background:#dc2626;color:white;border:none" onclick="deleteUser('${u.id}','${u.first_name} ${u.last_name||''}','${u.email}')">🗑️</button>
         <a href="tutor.html?id=${u.tutor_profile_id}" target="_blank" class="btn-sm btn-outline" style="text-decoration:none">👁</a>
       </td>
     </tr>`).join('');
@@ -538,6 +539,18 @@ async function blockUser(userId,name){
   await fetch(API+'/api/admin/users/'+userId+'/toggle-active',{method:'PUT',headers:{'Authorization':'Bearer '+tok}});
   showToast('Пользователь заблокирован');
   loadPage(currentPage);
+}
+
+async function deleteUser(userId, name, email){
+  if(!confirm('УДАЛИТЬ '+name+' ('+email+')?\n\nЭто навсегда удалит аккаунт. Email можно будет использовать снова. Продолжить?'))return;
+  const typed = prompt('Для подтверждения введите слово УДАЛИТЬ:');
+  if (typed !== 'УДАЛИТЬ') { showToast('Удаление отменено'); return; }
+  try {
+    const res = await fetch(API+'/api/admin/users/'+userId,{method:'DELETE',headers:{'Authorization':'Bearer '+tok}});
+    const data = await res.json().catch(()=>({}));
+    if (res.ok) { showToast('✓ Удалён: '+(data.deleted?.email||name)); loadPage(currentPage); }
+    else { showToast('Ошибка: '+(data.error||'unknown')); }
+  } catch(e) { showToast('Ошибка соединения'); }
 }
 
 // ── STUDENTS ───────────────────────────────────────────────
@@ -564,7 +577,7 @@ function renderStudents(list){
       <td>${u.total_lessons||0}</td>
       <td>${new Date(u.created_at).toLocaleDateString('ru-RU')}</td>
       <td><span class="badge ${u.is_active?'badge-green':'badge-red'}">${u.is_active?'Активен':'Заблокирован'}</span></td>
-      <td><button class="btn-sm btn-danger" onclick="blockUser('${u.id}','${u.first_name}')">Блок</button></td>
+      <td style="display:flex;gap:6px"><button class="btn-sm btn-danger" onclick="blockUser('${u.id}','${u.first_name}')">Блок</button><button class="btn-sm" style="background:#dc2626;color:white;border:none" onclick="deleteUser('${u.id}','${u.first_name} ${u.last_name||''}','${u.email}')">🗑️</button></td>
     </tr>`).join('');
 }
 
