@@ -293,7 +293,7 @@ nav{background:rgba(255,255,255,0.95);border-bottom:1px solid var(--border);padd
       </div>
       <div class="modal-foot">
         <button class="btn-cancel" onclick="closeModal()">Закрыть</button>
-        <button class="btn-confirm" onclick="confirmPaid()">Готово</button>
+        <button class="btn-confirm" id="btn-mark-paid" onclick="markAsPaid()">✓ Я оплатил, отправил чек</button>
       </div>
     </div>
   </div>
@@ -583,7 +583,9 @@ if(phone) setTimeout(()=>window.open(`https://wa.me/${phone}?text=${msg}`,'_blan
   // QR image is now static /mbank-qr.png — no JS update needed
 
   // Build WhatsApp link with booking details for admin matching
-  const bookingId = bookingResult?.booking?.id ? bookingResult.booking.id.substring(0, 8) : '';
+  const fullBookingId = bookingResult?.booking?.id || null;
+  currentBookingIdForPayment = fullBookingId;
+  const bookingId = fullBookingId ? fullBookingId.substring(0, 8) : '';
   const studentName = (window.currentUser?.first_name || '') + ' ' + (window.currentUser?.last_name || '');
   const tutorName = tutor?.first_name + ' ' + (tutor?.last_name || '');
   const subjectStr = (tutor?.subjects||[])[0] || 'Урок';
@@ -603,14 +605,59 @@ if(phone) setTimeout(()=>window.open(`https://wa.me/${phone}?text=${msg}`,'_blan
   if (waBtn) waBtn.href = waUrl;
 }
 
-function confirmPaid(){
-  closeModal();
-  showToast('🎉 Урок забронирован! Репетитор скоро свяжется с вами.');
-  // Open platform messages instead of WhatsApp
-  setTimeout(() => {
-    window.location.href = 'messages.html';
-  }, 2000);
+let currentBookingIdForPayment = null;
+
+async function markAsPaid(){
+  if (!currentBookingIdForPayment) {
+    showToast('Бронирование не найдено');
+    return;
+  }
+  const btn = document.getElementById('btn-mark-paid');
+  if (btn) { btn.disabled = true; btn.textContent = 'Отправляем...'; }
+
+  try {
+    const res = await fetch(API + '/api/bookings/' + currentBookingIdForPayment + '/mark-paid', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() }
+    });
+    const data = await res.json().catch(() => ({}));
+
+    if (res.ok) {
+      // Replace modal body with confirmation state
+      const body = document.querySelector('#bm-step2 .modal-body');
+      if (body) {
+        body.innerHTML = `
+          <div style="text-align:center;padding:20px 0">
+            <div style="font-size:3rem;margin-bottom:12px">✅</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--ink);margin-bottom:8px">Спасибо!</div>
+            <div style="color:var(--ink-60);font-size:0.9rem;line-height:1.55;margin-bottom:16px">
+              Мы получили уведомление о вашей оплате. Проверим чек и подтвердим урок в течение 30 минут в рабочее время.
+            </div>
+            <div style="background:var(--tiffany-pale);border-radius:10px;padding:14px;font-size:0.85rem;color:var(--tiffany-dark);text-align:left">
+              <strong>Что дальше:</strong><br>
+              1. Мы проверим ваш чек<br>
+              2. Вы получите email со ссылкой на видео-комнату<br>
+              3. Подключитесь к уроку в назначенное время
+            </div>
+          </div>`;
+      }
+      const foot = document.querySelector('#bm-step2 .modal-foot');
+      if (foot) {
+        foot.innerHTML = '<button class="btn-confirm" style="flex:1" onclick="closeModal()">Закрыть</button>';
+      }
+    } else {
+      if (btn) { btn.disabled = false; btn.textContent = '✓ Я оплатил, отправил чек'; }
+      showToast(data.error || 'Ошибка. Попробуйте ещё раз.');
+    }
+  } catch (e) {
+    if (btn) { btn.disabled = false; btn.textContent = '✓ Я оплатил, отправил чек'; }
+    showToast('Ошибка соединения. Попробуйте ещё раз.');
+    console.error('markAsPaid error', e);
+  }
 }
+
+// Legacy alias for any old code paths
+function confirmPaid(){ markAsPaid(); }
 
 function closeModal(){
   document.getElementById('bookingModal').classList.remove('open');
