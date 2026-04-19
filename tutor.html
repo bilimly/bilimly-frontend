@@ -249,19 +249,40 @@ nav{background:rgba(255,255,255,0.95);border-bottom:1px solid var(--border);padd
     </div>
     <div id="bm-step2" style="display:none">
       <div class="modal-body">
-        <div class="qr-box">
-          <div class="qr-amount" id="qr-amount">200 сом</div>
-          <p style="color:var(--ink-60);font-size:0.75rem;margin-bottom:8px">Пробный урок · 50 минут</p>
-          <img id="qr-img" src="" alt="QR">
-          <p style="font-size:0.78rem;color:var(--ink-60)">Оплатите через <strong>MBANK</strong></p>
+        <!-- Temporary manual flow notice -->
+        <div style="background:#fff8e7;border-left:3px solid #b8935a;border-radius:6px;padding:10px 12px;margin-bottom:14px;font-size:0.78rem;line-height:1.5;color:#5c4a1f">
+          <strong>⚙️ Временный способ оплаты.</strong> Сейчас подтверждение вручную (5–30 минут в рабочее время). Скоро запустим автоматику через MBank API.
         </div>
-        <div style="background:var(--tiffany-pale);border-radius:8px;padding:10px;font-size:0.78rem;color:var(--tiffany-dark);text-align:center">
-          ✅ После оплаты репетитор пришлёт ссылку на урок
+
+        <!-- Step 1: QR -->
+        <div class="qr-box" style="text-align:center;padding-bottom:16px">
+          <div style="font-size:0.78rem;color:var(--ink-60);text-transform:uppercase;letter-spacing:0.05em;font-weight:600;margin-bottom:6px">Шаг 1 — Оплатите</div>
+          <div class="qr-amount" id="qr-amount">200 сом</div>
+          <p style="color:var(--ink-60);font-size:0.75rem;margin-bottom:10px">Откройте MBank → Сканировать QR</p>
+          <img id="qr-img" src="/mbank-qr.png" alt="MBank QR" style="width:200px;height:200px;border-radius:10px;border:1px solid var(--border)">
+          <p style="font-size:0.72rem;color:var(--ink-60);margin-top:8px">Bilimly.kg · MBank Business</p>
+        </div>
+
+        <!-- Step 2: Send screenshot via WhatsApp -->
+        <div style="background:var(--tiffany-pale);border-radius:10px;padding:14px;margin-bottom:12px">
+          <div style="font-size:0.78rem;color:var(--ink-60);text-transform:uppercase;letter-spacing:0.05em;font-weight:600;margin-bottom:6px">Шаг 2 — Отправьте чек</div>
+          <div style="font-size:0.85rem;color:var(--ink);line-height:1.5;margin-bottom:10px">
+            После оплаты пришлите скриншот чека в WhatsApp. Укажите ваше имя и предмет.
+          </div>
+          <a id="whatsapp-confirm-btn" href="#" target="_blank" rel="noopener" style="display:block;background:#25D366;color:white;text-decoration:none;text-align:center;padding:12px 16px;border-radius:8px;font-weight:600;font-size:0.88rem">
+            💬 Открыть WhatsApp
+          </a>
+        </div>
+
+        <!-- Step 3: What happens next -->
+        <div style="background:#f8fafa;border-radius:10px;padding:12px 14px;font-size:0.8rem;line-height:1.6;color:var(--ink)">
+          <strong>Шаг 3 — Подтверждение</strong><br>
+          После проверки чека (5–30 минут) урок подтвердится, и вы получите email со ссылкой на видео-комнату.
         </div>
       </div>
       <div class="modal-foot">
         <button class="btn-cancel" onclick="closeModal()">Закрыть</button>
-        <button class="btn-confirm" onclick="confirmPaid()">✓ Оплачено</button>
+        <button class="btn-confirm" onclick="confirmPaid()">Готово</button>
       </div>
     </div>
   </div>
@@ -489,8 +510,25 @@ async function submitBooking(){
       const data = await res.json();
       document.getElementById('bm-step1').style.display='none';
       document.getElementById('bm-step2').style.display='block';
-      document.getElementById('qr-amount').textContent = Math.round((tutor.hourly_rate||500) * data.total) + ' сом';
-      document.getElementById('qr-img').src=`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=BILIMLY_RECURRING_${data.total}LESSONS_${Date.now()}&bgcolor=ffffff&color=0ABAB5`;
+      const recAmount = Math.round((tutor.hourly_rate||500) * data.total);
+      document.getElementById('qr-amount').textContent = recAmount + ' сом';
+      // QR image is static /mbank-qr.png — already in HTML
+
+      // Build WhatsApp link for recurring booking
+      const recStudentName = (window.currentUser?.first_name || '') + ' ' + (window.currentUser?.last_name || '');
+      const recTutorName = tutor?.first_name + ' ' + (tutor?.last_name || '');
+      const recSubject = (tutor?.subjects||[])[0] || 'Урок';
+      const recWaMessage =
+        'Здравствуйте! Прикрепляю чек за пакет уроков на Bilimly.kg.\n\n' +
+        (recStudentName.trim() ? 'Имя: ' + recStudentName.trim() + '\n' : '') +
+        'Репетитор: ' + recTutorName.trim() + '\n' +
+        'Предмет: ' + recSubject + '\n' +
+        'Уроков: ' + data.total + '\n' +
+        'Сумма: ' + recAmount + ' сом\n\n' +
+        'Скриншот ниже:';
+      const recWaUrl = 'https://wa.me/996506354444?text=' + encodeURIComponent(recWaMessage);
+      const recWaBtn = document.getElementById('whatsapp-confirm-btn');
+      if (recWaBtn) recWaBtn.href = recWaUrl;
       showToast(`✅ ${data.total} уроков забронировано!`);
 const msg = encodeURIComponent(`Здравствуйте! Я записался на ${data.total} уроков через Bilimly.kg. Жду подтверждения! 🎓`);
 const phone = tutor?.phone?.replace(/\D/g,'');
@@ -505,13 +543,53 @@ if(phone) setTimeout(()=>window.open(`https://wa.me/${phone}?text=${msg}`,'_blan
   const date=document.getElementById('bm-date').value;
   if(!date){showToast('Выберите дату');return;}
   if(!selectedSlot){showToast('Выберите время');return;}
+
+  let bookingResult = null;
   try{
-    await fetch(API+'/api/bookings',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()},body:JSON.stringify({tutor_id:tutor.user_id||tutor.id,lesson_date:date,start_time:selectedSlot+':00',end_time:(parseInt(selectedSlot)+1).toString().padStart(2,'0')+':00:00',lesson_type:'trial',subject:(tutor.subjects||[])[0]||'Урок',student_notes:document.getElementById('bm-notes').value})});
-  }catch(e){}
+    const res = await fetch(API+'/api/bookings',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()},
+      body:JSON.stringify({
+        tutor_id: tutor.user_id||tutor.id,
+        lesson_date: date,
+        start_time: selectedSlot+':00',
+        end_time: (parseInt(selectedSlot)+1).toString().padStart(2,'0')+':00:00',
+        lesson_type: 'trial',
+        subject: (tutor.subjects||[])[0]||'Урок',
+        student_notes: document.getElementById('bm-notes').value
+      })
+    });
+    if (res.ok) bookingResult = await res.json();
+  }catch(e){
+    console.error('booking error', e);
+  }
+
   document.getElementById('bm-step1').style.display='none';
   document.getElementById('bm-step2').style.display='block';
-  document.getElementById('qr-amount').textContent=Math.round(tutor?.trial_rate||200)+' сом';
-  document.getElementById('qr-img').src=`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=BILIMLY_${tutor?.tutor_id}_${tutor?.trial_rate}KGS&bgcolor=ffffff&color=0ABAB5`;
+
+  const amount = Math.round(tutor?.trial_rate||200);
+  document.getElementById('qr-amount').textContent = amount + ' сом';
+  // QR image is now static /mbank-qr.png — no JS update needed
+
+  // Build WhatsApp link with booking details for admin matching
+  const bookingId = bookingResult?.booking?.id ? bookingResult.booking.id.substring(0, 8) : '';
+  const studentName = (window.currentUser?.first_name || '') + ' ' + (window.currentUser?.last_name || '');
+  const tutorName = tutor?.first_name + ' ' + (tutor?.last_name || '');
+  const subjectStr = (tutor?.subjects||[])[0] || 'Урок';
+
+  const waMessage =
+    'Здравствуйте! Прикрепляю чек об оплате урока на Bilimly.kg.\n\n' +
+    (studentName.trim() ? 'Имя: ' + studentName.trim() + '\n' : '') +
+    'Репетитор: ' + tutorName.trim() + '\n' +
+    'Предмет: ' + subjectStr + '\n' +
+    'Дата: ' + date + ' в ' + selectedSlot + ':00\n' +
+    'Сумма: ' + amount + ' сом\n' +
+    (bookingId ? 'Бронь: #' + bookingId + '\n' : '') +
+    '\nСкриншот ниже:';
+
+  const waUrl = 'https://wa.me/996506354444?text=' + encodeURIComponent(waMessage);
+  const waBtn = document.getElementById('whatsapp-confirm-btn');
+  if (waBtn) waBtn.href = waUrl;
 }
 
 function confirmPaid(){
