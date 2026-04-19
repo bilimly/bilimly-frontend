@@ -235,7 +235,7 @@ input[type=range]{width:100%;accent-color:var(--tiffany);height:6px;border-radiu
         <label>Опыт преподавания <span>*</span></label>
         <select class="fcontrol" id="experience">
           <option value="">Выберите...</option>
-          <option value="1">Менее 1 года</option>
+          <option value="0">Менее 1 года</option>
           <option value="1">1 год</option>
           <option value="2">2 года</option>
           <option value="3">3 года</option>
@@ -252,7 +252,7 @@ input[type=range]{width:100%;accent-color:var(--tiffany);height:6px;border-radiu
 
       <div class="fgroup">
         <label>Город</label>
-        <select class="fcontrol" id="city">
+        <select class="fcontrol" id="city" onchange="document.getElementById('city-other-wrap').style.display = this.value==='Другой' ? 'block' : 'none'">
           <option value="Бишкек">Бишкек</option>
           <option value="Ош">Ош</option>
           <option value="Жалал-Абад">Жалал-Абад</option>
@@ -260,6 +260,10 @@ input[type=range]{width:100%;accent-color:var(--tiffany);height:6px;border-radiu
           <option value="Токмок">Токмок</option>
           <option value="Другой">Другой город</option>
         </select>
+      </div>
+      <div class="fgroup" id="city-other-wrap" style="display:none">
+        <label>Название города</label>
+        <input class="fcontrol" type="text" id="city-other" placeholder="Нарын">
       </div>
 
       <div class="err" id="step3-err"></div>
@@ -374,6 +378,8 @@ function goToStep(n) {
   document.getElementById('step-'+n).classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
   if(n===5) buildReviewChecklist();
+  // Save draft
+  try { localStorage.setItem('bilimly_tutor_draft', JSON.stringify({ step: n, data: tutorData })); } catch (e) {}
 }
 
 // ── STEP 1 ─────────────────────────────────────────────────
@@ -471,7 +477,8 @@ function step3Next() {
   tutorData.bio_ru = bio;
   tutorData.experience = exp;
   tutorData.education = document.getElementById('education').value;
-  tutorData.city = document.getElementById('city').value;
+  const cityVal = document.getElementById('city').value;
+  tutorData.city = cityVal === 'Другой' ? (document.getElementById('city-other').value.trim() || 'Бишкек') : cityVal;
   goToStep(4);
 }
 
@@ -553,6 +560,7 @@ async function submitProfile() {
     document.getElementById('step-5').style.display='none';
     document.getElementById('success-screen').style.display='block';
     window.scrollTo({top:0,behavior:'smooth'});
+    localStorage.removeItem('bilimly_tutor_draft');
 
   } catch(e) {
     // Still show success — data saved locally
@@ -567,20 +575,59 @@ async function submitProfile() {
 
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',3500);}
 
+// Restore draft if present (non-logged-in flow)
+try {
+  const draftRaw = localStorage.getItem('bilimly_tutor_draft');
+  if (draftRaw && !localStorage.getItem('bilimly_token')) {
+    const draft = JSON.parse(draftRaw);
+    if (draft && draft.data && confirm('У вас есть незавершённая регистрация. Продолжить?')) {
+      Object.assign(tutorData, draft.data);
+      // Re-hydrate step 1 fields if user was past step 1
+      if (tutorData.first_name) document.getElementById('r-fname').value = tutorData.first_name;
+      if (tutorData.last_name) document.getElementById('r-lname').value = tutorData.last_name;
+      if (tutorData.email) document.getElementById('r-email').value = tutorData.email;
+      if (tutorData.phone) document.getElementById('r-phone').value = tutorData.phone;
+    } else if (draft) {
+      localStorage.removeItem('bilimly_tutor_draft');
+    }
+  }
+} catch (e) {}
+
 // Check if already logged in as tutor
 const existingUser = JSON.parse(localStorage.getItem('bilimly_user')||'null');
 if(existingUser?.role==='tutor'){
   userToken = localStorage.getItem('bilimly_token');
-  document.getElementById('nav-name').textContent = existingUser.first_name + ' ' + existingUser.last_name;
-  tutorData.first_name = existingUser.first_name;
-  tutorData.last_name = existingUser.last_name;
-  tutorData.email = existingUser.email;
-  // Skip to step 2
-  document.getElementById('step-1').classList.remove('active');
-  document.getElementById('r-fname').value = existingUser.first_name;
-  document.getElementById('r-lname').value = existingUser.last_name;
-  document.getElementById('r-email').value = existingUser.email;
-  goToStep(2);
+  // Check if user already has a profile in review or approved
+  fetch(API + '/api/auth/me', { headers: { 'Authorization': 'Bearer ' + userToken } })
+    .then(r => r.json())
+    .then(me => {
+      if (me && (me.approval_status === 'pending' || me.approval_status === 'approved' || me.is_approved === true)) {
+        // Already submitted — redirect to dashboard instead of letting them re-edit
+        if (confirm('Ваш профиль уже отправлен на проверку. Открыть личный кабинет?')) {
+          window.location.href = 'tutor-dashboard.html';
+          return;
+        }
+      }
+      // Normal flow: pre-fill and skip to step 2
+      document.getElementById('nav-name').textContent = existingUser.first_name + ' ' + existingUser.last_name;
+      tutorData.first_name = existingUser.first_name;
+      tutorData.last_name = existingUser.last_name;
+      tutorData.email = existingUser.email;
+      document.getElementById('step-1').classList.remove('active');
+      document.getElementById('r-fname').value = existingUser.first_name;
+      document.getElementById('r-lname').value = existingUser.last_name;
+      document.getElementById('r-email').value = existingUser.email;
+      goToStep(2);
+    })
+    .catch(() => {
+      // On error just proceed normally
+      document.getElementById('nav-name').textContent = existingUser.first_name + ' ' + existingUser.last_name;
+      tutorData.first_name = existingUser.first_name;
+      tutorData.last_name = existingUser.last_name;
+      tutorData.email = existingUser.email;
+      document.getElementById('step-1').classList.remove('active');
+      goToStep(2);
+    });
 }
 </script>
 </body>

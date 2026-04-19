@@ -733,16 +733,22 @@ async function saveTutorProfile(){
 
 async function submitForReview() {
   const bio = document.getElementById('p-bio-ru').value.trim();
-  const video = document.getElementById('p-video').value.trim();
   const subjects = document.getElementById('p-subjects').value.trim();
+  const video = document.getElementById('p-video').value.trim();
   const statusEl = document.getElementById('submit-status');
 
-  if (!bio) { statusEl.textContent = '❌ Заполните раздел "О себе"'; statusEl.style.color = '#e74c3c'; return; }
-  if (!subjects) { statusEl.textContent = '❌ Добавьте предметы'; statusEl.style.color = '#e74c3c'; return; }
-  if (!video) { statusEl.textContent = '❌ Добавьте видео-презентацию'; statusEl.style.color = '#e74c3c'; return; }
+  // Only hard-block on bare minimum: bio + subjects
+  if (!bio || bio.length < 50) { statusEl.textContent = '❌ Опишите себя (минимум 50 символов)'; statusEl.style.color = '#e74c3c'; return; }
+  if (!subjects) { statusEl.textContent = '❌ Добавьте хотя бы один предмет'; statusEl.style.color = '#e74c3c'; return; }
+
+  // Warn (don't block) if video missing
+  if (!video) {
+    const proceed = confirm('Видео не добавлено. Репетиторы с видео получают в 3 раза больше бронирований. Продолжить без видео?');
+    if (!proceed) return;
+  }
 
   await saveTutorProfile();
-  await saveVideo();
+  if (video) await saveVideo();
 
   await apiFetch('/api/tutors/submit-review', {
     method: 'POST',
@@ -753,7 +759,7 @@ async function submitForReview() {
   statusEl.style.color = 'var(--tiffany)';
   document.getElementById('submit-review-btn').disabled = true;
   showToast('✅ Профиль отправлен на проверку!');
-}  
+}
 
 async function saveVideo(){
   const url=document.getElementById('p-video').value.trim();
