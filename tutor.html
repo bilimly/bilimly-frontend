@@ -518,7 +518,7 @@ async function submitBooking(){
         method:'POST',
         headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()},
         body:JSON.stringify({
-          tutor_id: tutor.user_id||tutor.id,
+          tutor_id: tutor.tutor_id || tutor.id,
           days: [...selectedDays],
           start_time: selectedSlot+':00',
           end_time: (parseInt(selectedSlot)+1).toString().padStart(2,'0')+':00:00',
@@ -571,7 +571,7 @@ if(phone) setTimeout(()=>window.open(`https://wa.me/${phone}?text=${msg}`,'_blan
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()},
       body:JSON.stringify({
-        tutor_id: tutor.user_id||tutor.id,
+        tutor_id: tutor.tutor_id || tutor.id,
         lesson_date: date,
         start_time: selectedSlot+':00',
         end_time: (parseInt(selectedSlot)+1).toString().padStart(2,'0')+':00:00',
@@ -731,7 +731,7 @@ async function selectPackage(lessons, total, pricePerLesson){
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()},
       body:JSON.stringify({
-        tutor_id: tutor.user_id||tutor.id,
+        tutor_id: tutor.tutor_id || tutor.id,
         subject: (tutor.subjects||[])[0]||'Урок',
         lessons
       })
