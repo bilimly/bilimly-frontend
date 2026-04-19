@@ -133,6 +133,19 @@ input[type=range]{width:100%;accent-color:var(--tiffany);height:6px;border-radiu
     </div>
   </div>
 
+  <!-- HERO — ad landing section -->
+  <section id="hero" style="margin:0 -20px 24px;padding:40px 24px 32px;background:linear-gradient(135deg,#067571 0%,#0ABAB5 100%);color:#FDFBF7;border-radius:0 0 32px 32px;text-align:center">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:2.2rem;line-height:1.1;font-weight:600;margin-bottom:6px">Преподавайте</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:2.2rem;line-height:1.1;font-style:italic;font-weight:500;color:#E8C48A;margin-bottom:20px">то, что любите.</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:3.2rem;font-weight:700;letter-spacing:-1px;margin-bottom:2px">400–2000</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.15rem;color:#E8C48A;margin-bottom:24px">сом в час</div>
+    <div style="max-width:420px;margin:0 auto 20px;font-size:0.92rem;line-height:1.7;opacity:0.92">
+      Онлайн-платформа репетиторов Кыргызстана. Любой предмет. Любой возраст учеников. Свободный график. Вы устанавливаете свою ставку.
+    </div>
+    <button onclick="document.getElementById('step-1').scrollIntoView({behavior:'smooth',block:'start'})" style="background:#FDFBF7;color:#067571;border:none;padding:14px 28px;border-radius:12px;font-family:inherit;font-weight:600;font-size:0.95rem;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,0.12)">Подать заявку →</button>
+    <div style="margin-top:16px;font-size:0.78rem;opacity:0.75">Регистрация занимает 5 минут</div>
+  </section>
+
   <!-- STEP 1: ACCOUNT -->
   <div class="step-card active" id="step-1">
     <div class="step-head">
@@ -276,8 +289,8 @@ input[type=range]{width:100%;accent-color:var(--tiffany);height:6px;border-radiu
   <div class="step-card" id="step-4">
     <div class="step-head">
       <div class="step-badge">Шаг 4 из 5</div>
-      <div class="step-title">Добавьте видео-презентацию</div>
-      <div class="step-sub">Репетиторы с видео получают в 3 раза больше бронирований. Запишите короткое видео на YouTube.</div>
+      <div class="step-title">Добавьте видео-визитку</div>
+      <div class="step-sub">Репетиторы с видео получают в 3 раза больше бронирований. 1-2 минуты, прямо с телефона.</div>
     </div>
     <div class="step-body">
       <div class="video-preview" id="video-preview">
@@ -287,20 +300,46 @@ input[type=range]{width:100%;accent-color:var(--tiffany);height:6px;border-radiu
         </div>
       </div>
 
-      <div class="fgroup">
-        <label>Ссылка на YouTube <span>* обязательно</span></label>
-        <input class="fcontrol" type="url" id="video-url" placeholder="https://youtube.com/watch?v=..."
-          oninput="previewVideo(this.value)">
+      <!-- Upload tabs -->
+      <div style="display:flex;gap:8px;margin-bottom:14px;background:rgba(10,186,181,0.06);padding:4px;border-radius:12px">
+        <button type="button" id="vtab-upload" onclick="switchVideoTab('upload')" style="flex:1;background:white;border:none;padding:10px;border-radius:9px;font-family:inherit;font-size:0.85rem;font-weight:600;color:var(--tiffany);cursor:pointer;box-shadow:0 2px 4px rgba(0,0,0,0.06)">📱 Загрузить файл</button>
+        <button type="button" id="vtab-url" onclick="switchVideoTab('url')" style="flex:1;background:transparent;border:none;padding:10px;border-radius:9px;font-family:inherit;font-size:0.85rem;font-weight:500;color:var(--ink-60);cursor:pointer">🔗 Ссылка</button>
       </div>
 
-      <div class="video-tips">
+      <!-- Upload pane -->
+      <div id="vpane-upload">
+        <input type="file" id="video-file" accept="video/*" style="display:none" onchange="onVideoFilePick(this)">
+        <button type="button" onclick="document.getElementById('video-file').click()" style="width:100%;padding:20px;border:2px dashed rgba(10,186,181,0.4);background:rgba(10,186,181,0.03);border-radius:12px;font-family:inherit;font-size:0.92rem;color:var(--tiffany);cursor:pointer;font-weight:600">📁 Выберите видео с телефона</button>
+        <div id="video-file-info" style="margin-top:10px;font-size:0.82rem;color:var(--ink-60);min-height:20px;text-align:center"></div>
+        <div id="video-upload-progress" style="display:none;margin-top:10px;background:rgba(10,186,181,0.08);border-radius:10px;padding:12px 14px">
+          <div id="vup-text" style="font-size:0.82rem;color:var(--ink);margin-bottom:6px">Загружаем…</div>
+          <div style="height:4px;background:rgba(10,186,181,0.15);border-radius:2px;overflow:hidden"><div id="vup-bar" style="width:0%;height:100%;background:var(--tiffany);transition:width 0.3s"></div></div>
+        </div>
+        <div style="margin-top:10px;font-size:0.76rem;color:var(--ink-60);text-align:center">Макс. 60 МБ. Если файл больше — отправьте через WhatsApp ниже</div>
+      </div>
+
+      <!-- URL pane -->
+      <div id="vpane-url" style="display:none">
+        <div class="fgroup">
+          <label>Ссылка на видео (YouTube, Vimeo, Google Drive)</label>
+          <input class="fcontrol" type="url" id="video-url" placeholder="https://youtube.com/watch?v=..." oninput="previewVideo(this.value)">
+        </div>
+      </div>
+
+      <!-- WhatsApp fallback -->
+      <div style="margin-top:16px;padding:14px 16px;background:rgba(37,211,102,0.08);border-radius:12px;border:1px solid rgba(37,211,102,0.2)">
+        <div style="font-size:0.85rem;font-weight:600;margin-bottom:6px;color:var(--ink)">Видео слишком большое или не удаётся загрузить?</div>
+        <div style="font-size:0.8rem;color:var(--ink-60);margin-bottom:10px;line-height:1.5">Отправьте его нам в WhatsApp — мы сами добавим к вашему профилю.</div>
+        <a href="https://wa.me/996506354444?text=Добрый%20день!%20Это%20моё%20видео-визитка%20для%20Bilimly.kg" target="_blank" rel="noopener" style="display:inline-block;background:#25D366;color:white;padding:10px 18px;border-radius:9px;text-decoration:none;font-size:0.85rem;font-weight:600">💬 Отправить в WhatsApp</a>
+      </div>
+
+      <div class="video-tips" style="margin-top:18px">
         <h4>💡 Советы для видео (1-2 минуты):</h4>
         <ul>
           <li>Представьтесь: имя, предмет, опыт</li>
           <li>Расскажите о своём подходе к урокам</li>
-          <li>Покажите, что вы дружелюбный и профессиональный</li>
           <li>Снимайте при хорошем освещении, говорите чётко</li>
-          <li>Загрузите на YouTube и вставьте ссылку сюда</li>
+          <li>Покажите, что вы дружелюбный и профессиональный</li>
         </ul>
       </div>
 
@@ -328,6 +367,27 @@ input[type=range]{width:100%;accent-color:var(--tiffany);height:6px;border-radiu
           Нажимая кнопку, вы соглашаетесь с условиями использования Bilimly.kg
         </div>
       </div>
+      <!-- Как устроена оплата -->
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:18px 20px;margin-bottom:14px">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;margin-bottom:10px;color:white">Как устроена оплата</div>
+        <div style="font-size:0.85rem;line-height:1.65;color:rgba(255,255,255,0.82)">
+          <div style="margin-bottom:8px"><strong>Обычные уроки — комиссия 18%.</strong><br>Из 1000 сом вы получаете 820. Платформа — 180.</div>
+          <div style="margin-bottom:8px"><strong>Первый пробный урок идёт платформе.</strong><br>Это помогает покрыть часть расходов на работу платформы. Со всех следующих уроков — стандартная комиссия 18%.</div>
+          <div style="opacity:0.8;font-size:0.82rem">Нет платы за регистрацию. Нет подписки. Нет скрытых комиссий.</div>
+        </div>
+      </div>
+
+      <!-- Что дальше -->
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:18px 20px;margin-bottom:14px">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;margin-bottom:10px;color:white">Что дальше</div>
+        <div style="font-size:0.85rem;line-height:1.8;color:rgba(255,255,255,0.82)">
+          <div><span style="color:#E8C48A;font-weight:600">1.</span> Мы проверим профиль в течение 24 часов</div>
+          <div><span style="color:#E8C48A;font-weight:600">2.</span> Вы получите email с результатом</div>
+          <div><span style="color:#E8C48A;font-weight:600">3.</span> После одобрения студенты смогут вас бронировать</div>
+          <div><span style="color:#E8C48A;font-weight:600">4.</span> Оплата — на карту или МБанк после урока</div>
+        </div>
+      </div>
+
       <div class="err" id="step5-err"></div>
       <button class="btn-back" onclick="goToStep(4)">← Назад</button>
       <button class="btn-submit" onclick="submitProfile()" id="submit-btn">
@@ -484,6 +544,12 @@ function step3Next() {
 
 // ── STEP 4 ─────────────────────────────────────────────────
 function previewVideo(url) {
+  if (url && (url.includes('cloudinary.com') || /\.(mp4|webm|mov)(\?|$)/.test(url))) {
+    const prev = document.getElementById('video-preview');
+    if (prev) { prev.innerHTML = '<video src="' + url + '" controls playsinline style="width:100%;height:100%;object-fit:cover;border-radius:12px"></video>'; }
+    tutorData.video_url = url;
+    return;
+  }
   if(!url) return;
   let embedUrl = '';
   if(url.includes('youtube.com/watch')){const id=url.split('v=')[1]?.split('&')[0];if(id)embedUrl='https://www.youtube.com/embed/'+id;}
@@ -643,6 +709,89 @@ if(existingUser?.role==='tutor'){
       goToStep(2);
     });
 }
+
+// ───────── VIDEO UPLOAD (Step 4) ─────────
+let tutorVideoFile = null;
+let tutorVideoUploadedUrl = null;
+
+function switchVideoTab(which) {
+  const upload = document.getElementById('vpane-upload');
+  const url = document.getElementById('vpane-url');
+  const tUp = document.getElementById('vtab-upload');
+  const tUr = document.getElementById('vtab-url');
+  if (which === 'upload') {
+    upload.style.display = ''; url.style.display = 'none';
+    tUp.style.background = 'white'; tUp.style.color = 'var(--tiffany)'; tUp.style.boxShadow = '0 2px 4px rgba(0,0,0,0.06)'; tUp.style.fontWeight = '600';
+    tUr.style.background = 'transparent'; tUr.style.color = 'var(--ink-60)'; tUr.style.boxShadow = 'none'; tUr.style.fontWeight = '500';
+  } else {
+    upload.style.display = 'none'; url.style.display = '';
+    tUr.style.background = 'white'; tUr.style.color = 'var(--tiffany)'; tUr.style.boxShadow = '0 2px 4px rgba(0,0,0,0.06)'; tUr.style.fontWeight = '600';
+    tUp.style.background = 'transparent'; tUp.style.color = 'var(--ink-60)'; tUp.style.boxShadow = 'none'; tUp.style.fontWeight = '500';
+  }
+}
+
+function onVideoFilePick(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const infoEl = document.getElementById('video-file-info');
+  if (file.size > 60 * 1024 * 1024) {
+    infoEl.textContent = '❌ Файл ' + Math.round(file.size/(1024*1024)) + ' МБ. Максимум 60 МБ. Отправьте через WhatsApp ниже.';
+    infoEl.style.color = '#e74c3c';
+    input.value = '';
+    return;
+  }
+  tutorVideoFile = file;
+  infoEl.textContent = '📎 ' + file.name + ' · ' + Math.round(file.size/(1024*1024)*10)/10 + ' МБ';
+  infoEl.style.color = 'var(--ink)';
+
+  // Auto-upload immediately if tutor has a token
+  if (userToken) uploadVideoFile();
+  else infoEl.textContent += ' · загрузится после регистрации';
+}
+
+async function uploadVideoFile() {
+  if (!tutorVideoFile || !userToken) return;
+  const progress = document.getElementById('video-upload-progress');
+  const text = document.getElementById('vup-text');
+  const bar = document.getElementById('vup-bar');
+  progress.style.display = 'block';
+  text.textContent = 'Загружаем видео…';
+  bar.style.width = '10%';
+
+  try {
+    const fd = new FormData();
+    fd.append('video', tutorVideoFile);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', API + '/api/tutors/video-upload');
+    xhr.setRequestHeader('Authorization', 'Bearer ' + userToken);
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) bar.style.width = Math.round((e.loaded/e.total)*85 + 10) + '%';
+    };
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        const data = JSON.parse(xhr.responseText);
+        tutorVideoUploadedUrl = data.video_url;
+        tutorData.video_url = data.video_url;
+        bar.style.width = '100%';
+        text.textContent = '✓ Видео загружено';
+        previewVideo(data.video_url);
+        setTimeout(() => { progress.style.display = 'none'; bar.style.width = '0%'; }, 1500);
+      } else {
+        let msg = 'Ошибка загрузки';
+        try { msg = JSON.parse(xhr.responseText).error || msg; } catch(e){}
+        text.textContent = '❌ ' + msg;
+        bar.style.width = '0%';
+      }
+    };
+    xhr.onerror = () => { text.textContent = '❌ Ошибка соединения'; bar.style.width = '0%'; };
+    xhr.send(fd);
+  } catch (e) {
+    text.textContent = '❌ ' + e.message;
+    bar.style.width = '0%';
+  }
+}
+
 </script>
 </body>
 </html>
