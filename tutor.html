@@ -25,7 +25,7 @@ nav{background:rgba(255,255,255,0.95);border-bottom:1px solid var(--border);padd
 
 /* VIDEO HERO */
 .video-hero{width:100%;background:linear-gradient(135deg,#0a1a1a,#0d2d2b);position:relative;overflow:hidden;}
-.video-hero iframe{width:100%;height:420px;border:none;display:block;}
+.video-hero iframe, .video-hero video{width:100%;height:420px;border:none;display:block;}
 .video-placeholder{width:100%;height:320px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;color:white;position:relative;}
 .video-placeholder::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(10,186,181,0.1) 0%,transparent 70%);}
 .vp-avatar{width:80px;height:80px;border-radius:50%;background:var(--tiffany);display:flex;align-items:center;justify-content:center;font-size:2.5rem;position:relative;}
@@ -142,7 +142,7 @@ nav{background:rgba(255,255,255,0.95);border-bottom:1px solid var(--border);padd
   .profile-layout{grid-template-columns:1fr;}
   .booking-sidebar{display:none;}
   .stats-row{grid-template-columns:repeat(2,1fr);}
-  .video-hero iframe{height:240px;}
+  .video-hero iframe, .video-hero video{height:240px;}
   .video-placeholder{height:200px;}
   /* Compact booking modal on mobile so footer buttons stay visible */
   .overlay{padding:0;align-items:stretch;overflow:hidden;}
@@ -333,10 +333,17 @@ async function loadTutor(){
 function renderProfile(t){
   // Video section
   if(t.video_intro_url){
-    let embedUrl=t.video_intro_url;
-    if(t.video_intro_url.includes('youtube.com/watch')){const id=t.video_intro_url.split('v=')[1]?.split('&')[0];embedUrl='https://www.youtube.com/embed/'+id+'?rel=0';}
-    else if(t.video_intro_url.includes('youtu.be/')){const id=t.video_intro_url.split('youtu.be/')[1]?.split('?')[0];embedUrl='https://www.youtube.com/embed/'+id;}
-    document.getElementById('video-section').innerHTML=`<iframe src="${embedUrl}" allowfullscreen allow="autoplay; encrypted-media"></iframe>`;
+    const url = t.video_intro_url;
+    const isYouTube = url.includes('youtube.com') || url.includes('youtu.be');
+    if (isYouTube) {
+      let embedUrl = url;
+      if (url.includes('youtube.com/watch')) { const id=url.split('v=')[1]?.split('&')[0]; embedUrl='https://www.youtube.com/embed/'+id+'?rel=0&autoplay=1&mute=1'; }
+      else if (url.includes('youtu.be/')) { const id=url.split('youtu.be/')[1]?.split('?')[0]; embedUrl='https://www.youtube.com/embed/'+id+'?autoplay=1&mute=1'; }
+      document.getElementById('video-section').innerHTML=`<iframe src="${embedUrl}" allowfullscreen allow="autoplay; encrypted-media"></iframe>`;
+    } else {
+      // Native mp4 (Cloudinary etc.) — autoplay muted with controls
+      document.getElementById('video-section').innerHTML=`<video src="${url}" autoplay muted playsinline controls preload="metadata" style="width:100%;height:420px;object-fit:cover;display:block;background:#000"></video>`;
+    }
   } else {
     document.getElementById('vp-name').textContent=t.first_name+' '+t.last_name;
     document.getElementById('vp-subject').textContent=(t.subjects||[]).join(' · ')||'Репетитор';
