@@ -419,9 +419,13 @@ async function login(){
     const res=await fetch(API+'/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
     const data=await res.json();
     if(data.token){
-      if(data.user.role!=='tutor'){document.getElementById('l-err').textContent='Этот аккаунт не является репетитором';return;}
+      localStorage.setItem('bilimly_token',data.token);
+      localStorage.setItem('bilimly_user',JSON.stringify(data.user));
+      // Route by role
+      if(data.user.role==='admin'){window.location.href='/admin.html';return;}
+      if(data.user.role==='student'){window.location.href='/dashboard.html';return;}
+      if(data.user.role!=='tutor'){document.getElementById('l-err').textContent='Неизвестная роль';return;}
       token=data.token;currentUser=data.user;
-      localStorage.setItem('bilimly_token',token);localStorage.setItem('bilimly_user',JSON.stringify(data.user));
       initApp();
     } else {document.getElementById('l-err').textContent=data.error||'Неверный email или пароль';}
   }catch(e){document.getElementById('l-err').textContent='Ошибка соединения';}
