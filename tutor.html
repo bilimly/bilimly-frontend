@@ -594,7 +594,7 @@ if(phone) setTimeout(()=>window.open(`https://wa.me/${phone}?text=${msg}`,'_blan
 
   // Build WhatsApp link with booking details for admin matching
   const fullBookingId = bookingResult?.booking?.id || null;
-  currentBookingIdForPayment = fullBookingId;
+  window.currentBookingIdForPayment = fullBookingId;
   const bookingId = fullBookingId ? fullBookingId.substring(0, 8) : '';
   const studentName = (window.currentUser?.first_name || '') + ' ' + (window.currentUser?.last_name || '');
   const tutorName = tutor?.first_name + ' ' + (tutor?.last_name || '');
