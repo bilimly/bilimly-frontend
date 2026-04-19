@@ -565,6 +565,7 @@ if(phone) setTimeout(()=>window.open(`https://wa.me/${phone}?text=${msg}`,'_blan
   if(!selectedSlot){showToast('Выберите время');return;}
 
   let bookingResult = null;
+  window.currentBookingIdForPayment = null;
   try{
     const res = await fetch(API+'/api/bookings',{
       method:'POST',
@@ -617,15 +618,16 @@ if(phone) setTimeout(()=>window.open(`https://wa.me/${phone}?text=${msg}`,'_blan
 let currentBookingIdForPayment = null;
 
 async function markAsPaid(){
-  if (!currentBookingIdForPayment) {
+  const bookingIdToMark = window.currentBookingIdForPayment;
+  if (!bookingIdToMark) {
     showToast('Бронирование не найдено');
     return;
   }
-  const btn = document.getElementById('btn-mark-paid');
+  const btn = document.getElementById('btn-mark-paid-inline') || document.getElementById('btn-mark-paid');
   if (btn) { btn.disabled = true; btn.textContent = 'Отправляем...'; }
 
   try {
-    const res = await fetch(API + '/api/bookings/' + currentBookingIdForPayment + '/mark-paid', {
+    const res = await fetch(API + '/api/bookings/' + bookingIdToMark + '/mark-paid', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() }
     });
