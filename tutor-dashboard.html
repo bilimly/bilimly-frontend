@@ -109,6 +109,7 @@ tr:hover td{background:#f8fafa;}
 .days-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:16px;}
 .day-btn{padding:8px 4px;border:1.5px solid var(--border);border-radius:8px;text-align:center;cursor:pointer;font-size:0.75rem;font-weight:600;transition:all 0.15s;background:white;font-family:inherit;}
 .day-btn.active{background:var(--tiffany);border-color:var(--tiffany);color:white;}
+.day-btn.editing{box-shadow:0 0 0 3px rgba(10,186,181,0.35);transform:translateY(-1px);}
 .time-grid{display:flex;gap:8px;flex-wrap:wrap;}
 .time-chip{padding:7px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:0.78rem;font-weight:500;cursor:pointer;transition:all 0.15s;background:white;font-family:inherit;}
 .time-chip.active{background:var(--tiffany);border-color:var(--tiffany);color:white;}
@@ -420,7 +421,9 @@ let currentUser=JSON.parse(localStorage.getItem('bilimly_user')||'null');
 let currentPage='dashboard';
 let selectedConvId=null;
 let activeDays=new Set();
-let activeTimes=new Set();
+// Per-day times: Map<day_of_week, Set<time>>
+let timesByDay={};  // e.g. {1: Set(['10:00','11:00']), 2: Set(['14:00'])}
+let currentEditingDay=null;
 let currentBookingId=null;
 let selectedStar=0;
 
@@ -698,29 +701,133 @@ function initTimeGrid(){
   const grid=document.getElementById('time-grid');
   const hours=['08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00'];
   grid.innerHTML=hours.map(h=>`<div class="time-chip" onclick="toggleTime(this,'${h}')" data-time="${h}">${h}</div>`).join('');
-}
-
-function toggleDay(el,day){el.classList.toggle('active');if(activeDays.has(day))activeDays.delete(day);else activeDays.add(day);}
-function toggleTime(el,time){el.classList.toggle('active');if(activeTimes.has(time))activeTimes.delete(time);else activeTimes.add(time);}
-
-async function loadAvailability(){
-  const data=await apiFetch('/api/tutors/'+currentUser.id);
-  if(data?.availability){
-    data.availability.forEach(slot=>{
-      activeDays.add(slot.day_of_week);
-      document.querySelector(`[data-day="${slot.day_of_week}"]`)?.classList.add('active');
-      const startH=slot.start_time.substring(0,5);
-      activeTimes.add(startH);
-      document.querySelector(`[data-time="${startH}"]`)?.classList.add('active');
-    });
+  // Show a helper message above the time grid
+  const hint = document.getElementById('time-grid-hint');
+  if (!hint) {
+    const hintEl = document.createElement('div');
+    hintEl.id = 'time-grid-hint';
+    hintEl.style.cssText = 'font-size:0.82rem;color:var(--ink-60);margin-bottom:12px;padding:10px 12px;background:var(--tiffany-pale,#d4f1f0);border-radius:8px';
+    hintEl.textContent = 'Сначала выберите день выше, затем отметьте часы работы';
+    grid.parentNode.insertBefore(hintEl, grid);
   }
 }
 
-async function saveAvailability(){
-  const availability=[];
-  activeDays.forEach(day=>{activeTimes.forEach(time=>{const[h]=time.split(':');availability.push({day_of_week:day,start_time:time+':00',end_time:(parseInt(h)+1).toString().padStart(2,'0')+':00:00'});});});
-  await apiFetch('/api/tutors/availability',{method:'POST',body:JSON.stringify({availability})});
-  showToast('✓ Расписание сохранено');
+function toggleDay(el, day) {
+  // Clicking a day: (1) ensure it's in activeDays, (2) make it the currently editing day, (3) show its times
+  const isCurrentlySelected = activeDays.has(day);
+
+  // If shift/alt not held: switch "editing focus" to this day
+  // Always ensure day is in activeDays when clicked
+  if (!isCurrentlySelected) {
+    activeDays.add(day);
+    el.classList.add('active');
+    if (!timesByDay[day]) timesByDay[day] = new Set();
+  }
+
+  currentEditingDay = day;
+
+  // Update visual: mark this day as "editing" with a stronger indicator
+  document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('editing'));
+  el.classList.add('editing');
+
+  // Update time grid to show this day's times
+  document.querySelectorAll('#time-grid .time-chip').forEach(chip => {
+    const t = chip.dataset.time;
+    if (timesByDay[day] && timesByDay[day].has(t)) {
+      chip.classList.add('active');
+    } else {
+      chip.classList.remove('active');
+    }
+  });
+
+  // Update hint
+  const hint = document.getElementById('time-grid-hint');
+  if (hint) {
+    const dayNames = ['воскресенье','понедельник','вторник','среду','четверг','пятницу','субботу'];
+    hint.textContent = `Часы работы в ${dayNames[day]}:`;
+    hint.style.background = 'var(--tiffany-pale,#d4f1f0)';
+  }
+}
+
+function removeDay(day, el) {
+  // Called when tutor wants to remove a day entirely. For now, right-click or long-press UX not built — skip.
+  activeDays.delete(day);
+  delete timesByDay[day];
+  el.classList.remove('active', 'editing');
+  if (currentEditingDay === day) {
+    currentEditingDay = null;
+    document.querySelectorAll('#time-grid .time-chip').forEach(c => c.classList.remove('active'));
+  }
+}
+
+function toggleTime(el, time) {
+  if (currentEditingDay === null || currentEditingDay === undefined) {
+    showToast('Сначала выберите день');
+    return;
+  }
+  if (!timesByDay[currentEditingDay]) timesByDay[currentEditingDay] = new Set();
+  if (timesByDay[currentEditingDay].has(time)) {
+    timesByDay[currentEditingDay].delete(time);
+    el.classList.remove('active');
+    // If day has no times left, drop it from activeDays
+    if (timesByDay[currentEditingDay].size === 0) {
+      activeDays.delete(currentEditingDay);
+      delete timesByDay[currentEditingDay];
+      document.querySelector(`[data-day="${currentEditingDay}"]`)?.classList.remove('active', 'editing');
+      const hint = document.getElementById('time-grid-hint');
+      if (hint) hint.textContent = 'День удалён (не было выбранных часов). Выберите другой день.';
+      currentEditingDay = null;
+    }
+  } else {
+    timesByDay[currentEditingDay].add(time);
+    el.classList.add('active');
+  }
+}
+
+async function loadAvailability() {
+  // Reset state
+  activeDays.clear();
+  timesByDay = {};
+  currentEditingDay = null;
+  document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active', 'editing'));
+  document.querySelectorAll('#time-grid .time-chip').forEach(c => c.classList.remove('active'));
+
+  const data = await apiFetch('/api/tutors/' + currentUser.id);
+  if (data?.availability) {
+    data.availability.forEach(slot => {
+      const day = slot.day_of_week;
+      const startH = slot.start_time.substring(0, 5);
+      activeDays.add(day);
+      if (!timesByDay[day]) timesByDay[day] = new Set();
+      timesByDay[day].add(startH);
+      document.querySelector(`[data-day="${day}"]`)?.classList.add('active');
+    });
+
+    // Auto-select first active day for editing
+    const firstDay = [...activeDays][0];
+    if (firstDay !== undefined) {
+      const el = document.querySelector(`[data-day="${firstDay}"]`);
+      if (el) toggleDay(el, firstDay);
+    }
+  }
+}
+
+async function saveAvailability() {
+  const availability = [];
+  for (const day of activeDays) {
+    const times = timesByDay[day];
+    if (!times || times.size === 0) continue;
+    for (const time of times) {
+      const h = parseInt(time.split(':')[0]);
+      availability.push({
+        day_of_week: day,
+        start_time: time + ':00',
+        end_time: (h + 1).toString().padStart(2, '0') + ':00:00'
+      });
+    }
+  }
+  await apiFetch('/api/tutors/availability', { method: 'POST', body: JSON.stringify({ availability }) });
+  showToast('✓ Расписание сохранено (' + availability.length + ' слотов)');
 }
 
 // ── PROFILE ────────────────────────────────────────────────
