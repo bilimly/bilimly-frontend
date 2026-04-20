@@ -600,12 +600,16 @@ async function loadEarnings(){
     const lbl = document.getElementById('e-commission-label');
     if (lbl) {
       const pct = summary.tier.commission_percent;
-      const hoursToNext = summary.tier.hours_to_next;
-      const nextPct = summary.tier.next_tier_commission;
-      if (hoursToNext && nextPct) {
-        lbl.textContent = `Комиссия: ${pct}% · до ${nextPct}%: ${Math.ceil(hoursToNext)} ч`;
+      if (summary.tier.is_founding) {
+        lbl.innerHTML = `Комиссия: <strong>${pct}%</strong> · <span style="color:#b8935a;font-weight:600">🌟 Тариф для первых репетиторов</span>`;
       } else {
-        lbl.textContent = `Комиссия: ${pct}% (максимальный тариф)`;
+        const hoursToNext = summary.tier.hours_to_next;
+        const nextPct = summary.tier.next_tier_commission;
+        if (hoursToNext && nextPct) {
+          lbl.textContent = `Комиссия: ${pct}% · до ${nextPct}%: ${Math.ceil(hoursToNext)} ч`;
+        } else {
+          lbl.textContent = `Комиссия: ${pct}% (максимальный тариф)`;
+        }
       }
     }
   }
