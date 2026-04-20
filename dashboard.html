@@ -1545,9 +1545,7 @@ function renderDashboard() {
 }
 
 function renderBookingRow(b) {
-  const now = new Date();
   const lessonAt = new Date(b.lesson_date + 'T' + b.start_time);
-  const canJoin = (lessonAt - now) > 0 && (lessonAt - now) < 30 * 60 * 1000;
   const statusMap = {
     confirmed: ['badge-ok', 'Подтверждён'],
     pending: ['badge-warn', 'Ожидает'],
@@ -1558,26 +1556,49 @@ function renderBookingRow(b) {
   const [badgeClass, badgeText] = statusMap[b.status] || ['badge-neutral', b.status];
   const dateLabel = lessonAt.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
   const tutorInitial = ((b.tutor_first_name || '?')[0]).toUpperCase();
+  const tutorFullName = ((b.tutor_first_name || '') + ' ' + (b.tutor_last_name || '')).trim();
 
-  const joinLink = canJoin && b.meeting_url
-    ? `<a href="${escapeAttr(b.meeting_url)}" target="_blank" rel="noopener" style="font-size:0.78rem;color:var(--teal);font-weight:600">Войти →</a>`
+  // Show meeting link whenever it exists (not just 30min before)
+  const showJoin = b.meeting_url && (b.status === 'confirmed' || b.status === 'pending');
+  const joinLink = showJoin
+    ? `<a href="${escapeAttr(b.meeting_url)}" target="_blank" rel="noopener" style="background:var(--teal,#0ABAB5);color:white;padding:6px 12px;border-radius:6px;text-decoration:none;font-size:0.78rem;font-weight:600;display:inline-block">🎥 Войти</a>`
     : '';
+
+  // Message button (any non-cancelled lesson)
+  const messageBtn = (b.tutor_user_id && b.status !== 'cancelled')
+    ? `<button onclick="openConversationWith('${b.tutor_user_id}','${escapeAttr(tutorFullName)}')" style="background:white;border:1px solid var(--border,#e0e0e0);color:var(--ink,#333);padding:6px 10px;border-radius:6px;cursor:pointer;font-size:0.78rem;font-weight:500">💬</button>`
+    : '';
+
   const reviewBtn = b.status === 'completed' && !b.reviewed
-    ? `<button style="font-size:0.78rem;color:var(--gold);font-weight:600" onclick="openReviewModal('${b.id}','${b.tutor_id}','${escapeAttr((b.tutor_first_name || '') + ' ' + (b.tutor_last_name || ''))}')">Оставить отзыв</button>`
+    ? `<button onclick="openReviewModal('${b.id}','${b.tutor_id}','${escapeAttr(tutorFullName)}')" style="background:var(--gold,#d4a83a);color:white;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:0.78rem;font-weight:600">Отзыв</button>`
     : '';
 
   return `
     <div class="list-row">
       <div class="list-av">${escapeHtml(tutorInitial)}</div>
       <div class="list-info">
-        <div class="list-title">${escapeHtml((b.tutor_first_name || '') + ' ' + (b.tutor_last_name || ''))}</div>
+        <div class="list-title">${escapeHtml(tutorFullName)}</div>
         <div class="list-sub">${escapeHtml(b.subject || 'Урок')} · ${escapeHtml(dateLabel)} · ${escapeHtml(b.start_time.slice(0,5))}</div>
       </div>
-      <div class="list-right">
+      <div class="list-right" style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end">
         <span class="badge ${badgeClass}">${escapeHtml(badgeText)}</span>
-        ${joinLink || reviewBtn}
+        ${joinLink}
+        ${messageBtn}
+        ${reviewBtn}
       </div>
     </div>`;
+}
+
+async function openConversationWith(tutorUserId, tutorName) {
+  if (!tutorUserId) { showToast('Не удалось найти репетитора'); return; }
+  try {
+    await fetch(API + '/api/messages/conversations', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ other_user_id: tutorUserId })
+    });
+  } catch (e) { /* ignore — messages.html shows conversation list */ }
+  window.location.href = 'messages.html';
 }
 
 // ─── CHILDREN PAGE ────────────────────────────────────
