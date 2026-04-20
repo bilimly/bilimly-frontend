@@ -203,17 +203,10 @@ nav{background:rgba(255,255,255,0.95);border-bottom:1px solid var(--border);padd
         <div id="bm-notice" style="display:none;background:var(--gold-light);border:1px solid var(--gold);border-radius:8px;padding:10px;margin-bottom:12px;font-size:0.8rem;color:#7a5a00">
           Для бронирования нужно <a href="index.html" style="color:var(--tiffany);font-weight:600">войти</a>
         </div>
-        <div class="fgroup"><label>Дата урока</label><input class="fcontrol" type="date" id="bm-date"></div>
+        <div class="fgroup"><label>Дата урока</label><input class="fcontrol" type="date" id="bm-date" onchange="loadSlotsForDate()"></div>
         <div class="fgroup"><label>Время</label>
-          <div class="time-slots-modal">
-            <div class="tslot" onclick="selSlot(this)">09:00</div>
-            <div class="tslot" onclick="selSlot(this)">10:00</div>
-            <div class="tslot" onclick="selSlot(this)">11:00</div>
-            <div class="tslot" onclick="selSlot(this)">14:00</div>
-            <div class="tslot" onclick="selSlot(this)">15:00</div>
-            <div class="tslot" onclick="selSlot(this)">17:00</div>
-            <div class="tslot" onclick="selSlot(this)">19:00</div>
-            <div class="tslot" onclick="selSlot(this)">20:00</div>
+          <div class="time-slots-modal" id="bm-slots">
+            <div style="grid-column:1/-1;padding:16px;text-align:center;color:var(--ink-60);font-size:0.85rem">Сначала выберите дату</div>
           </div>
         </div>
         <div class="fgroup">
@@ -675,6 +668,31 @@ async function markAsPaid(){
 
 // Legacy alias for any old code paths
 function confirmPaid(){ markAsPaid(); }
+
+async function loadSlotsForDate() {
+  const date = document.getElementById('bm-date').value;
+  const container = document.getElementById('bm-slots');
+  if (!date) {
+    container.innerHTML = '<div style="grid-column:1/-1;padding:16px;text-align:center;color:var(--ink-60);font-size:0.85rem">Сначала выберите дату</div>';
+    return;
+  }
+  container.innerHTML = '<div style="grid-column:1/-1;padding:16px;text-align:center;color:var(--ink-60);font-size:0.85rem">Загружаем слоты…</div>';
+  selectedSlot = null;
+
+  try {
+    const tutorRef = tutor.tutor_id || tutor.id;
+    const res = await fetch(API + '/api/tutors/' + tutorRef + '/available-slots?date=' + date);
+    const data = await res.json();
+    if (!res.ok || !data.slots || data.slots.length === 0) {
+      container.innerHTML = '<div style="grid-column:1/-1;padding:16px;text-align:center;color:var(--ink-60);font-size:0.85rem">На этот день у репетитора нет свободных слотов. Попробуйте другой день.</div>';
+      return;
+    }
+    container.innerHTML = data.slots.map(t => `<div class="tslot" onclick="selSlot(this)">${t}</div>`).join('');
+  } catch (e) {
+    console.error('loadSlotsForDate error', e);
+    container.innerHTML = '<div style="grid-column:1/-1;padding:16px;text-align:center;color:#dc2626;font-size:0.85rem">Ошибка загрузки. Попробуйте ещё раз.</div>';
+  }
+}
 
 function closeModal(){
   document.getElementById('bookingModal').classList.remove('open');
