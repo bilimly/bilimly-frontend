@@ -586,10 +586,22 @@ async function submitSummary(){
   const homework=document.getElementById('homework-text').value.trim();
   if(!summary){document.getElementById('summary-err').textContent='Заполните итоги урока';return;}
   try{
+    // 1. Save summary + notify student/parent
     await apiFetch('/api/bookings/'+currentBookingId+'/summary',{method:'POST',body:JSON.stringify({summary,homework,progress_rating:selectedStar})});
+
+    // 2. Mark lesson as completed (records earnings, enables parent review)
+    try {
+      await apiFetch('/api/bookings/'+currentBookingId+'/complete',{method:'POST',body:JSON.stringify({})});
+    } catch (completeErr) {
+      // Non-fatal: summary is saved. Complete may fail if lesson time hasn't passed yet.
+      console.warn('Complete failed:', completeErr);
+    }
+
     document.getElementById('summaryModal').classList.remove('open');
-    showToast('✓ Итоги урока отправлены студенту и родителю!');
+    showToast('✓ Урок завершён, итоги отправлены');
     loadSchedule();
+    // Refresh earnings display since new commission was recorded
+    if (document.getElementById('page-earnings')?.classList.contains('active')) { loadEarnings(); }
   }catch(e){showToast('Ошибка отправки');}}
 
 // ── EARNINGS ───────────────────────────────────────────────
