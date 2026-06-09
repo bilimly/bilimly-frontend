@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bilimly — Админ панель</title>
+<title>Bilimpark — Админ панель</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -127,9 +127,9 @@ tr:hover td{background:#f8fafa;}
 <!-- LOGIN -->
 <div class="login-wrap" id="loginWrap">
   <div class="login-box">
-    <div class="login-logo">Bilimly<span>.kg</span></div>
+    <div class="login-logo">Bilimpark<span>.kg</span></div>
     <div class="login-sub">Панель администратора</div>
-    <div class="fgroup"><label>Email</label><input class="fcontrol" type="email" id="l-email" value="admin@bilimly.kg"></div>
+    <div class="fgroup"><label>Email</label><input class="fcontrol" type="email" id="l-email" value="admin@bilimpark.kg"></div>
     <div class="fgroup"><label>Пароль</label><input class="fcontrol" type="password" id="l-pass" onkeydown="if(event.key==='Enter')login()"></div>
     <button class="btn-login" onclick="login()">Войти</button>
     <div class="err" id="l-err"></div>
@@ -140,7 +140,7 @@ tr:hover td{background:#f8fafa;}
 <div id="app">
   <div class="sidebar">
     <div class="slogo">
-      <div class="slogo-text">Bilimly<span>.kg</span></div>
+      <div class="slogo-text">Bilimpark<span>.kg</span></div>
       <small>Администратор</small>
     </div>
     <nav class="snav">
@@ -414,7 +414,7 @@ tr:hover td{background:#f8fafa;}
 <div id="toast"></div>
 
 <script>
-const API='https://bilimly-backend-0zbt.onrender.com';
+const API='https://bilimpark-backend-0zbt.onrender.com';
 let tok=null;
 let currentPage='dashboard';
 let allTutors=[];

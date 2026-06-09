@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0ABAB5">
-<title>Bilimly — Активация профиля</title>
+<title>Bilimpark — Активация профиля</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -230,7 +230,7 @@ body {
 
 <div class="wrap">
   <div class="logo-top">
-    <a href="index.html">Bilimly<span>.kg</span></a>
+    <a href="index.html">Bilimpark<span>.kg</span></a>
   </div>
 
   <div class="card">
@@ -245,7 +245,7 @@ body {
     <div id="state-error" class="state-error" style="display:none">
       <div class="state-icon">⚠️</div>
       <div class="state-title" id="error-title">Ссылка недействительна</div>
-      <div class="state-sub" id="error-msg">Обратитесь к администратору Bilimly.</div>
+      <div class="state-sub" id="error-msg">Обратитесь к администратору Bilimpark.</div>
       <a href="index.html" class="btn" style="display:inline-block;text-decoration:none;width:auto;padding:12px 28px">На главную</a>
     </div>
 
@@ -253,7 +253,7 @@ body {
     <div id="state-form" style="display:none">
       <div class="card-head">
         <div class="eyebrow">Активация профиля</div>
-        <h1 class="card-title">Добро пожаловать на Bilimly!</h1>
+        <h1 class="card-title">Добро пожаловать на Bilimpark!</h1>
         <p class="card-sub">Ваш профиль создан. Установите пароль, чтобы активировать аккаунт и начать получать студентов.</p>
       </div>
       <div class="card-body">
@@ -316,7 +316,7 @@ body {
 </div>
 
 <script>
-const API = 'https://bilimly-backend-0zbt.onrender.com';
+const API = 'https://bilimpark-backend-0zbt.onrender.com';
 
 const params = new URLSearchParams(window.location.search);
 const token = params.get('token');
@@ -350,7 +350,7 @@ async function loadPreview() {
         data.error === 'EXPIRED' ? 'Ссылка истекла' :
         data.error === 'ALREADY_CLAIMED' ? 'Уже активировано' :
         'Ссылка недействительна',
-        data.message || 'Обратитесь к администратору Bilimly.'
+        data.message || 'Обратитесь к администратору Bilimpark.'
       );
       return;
     }
@@ -413,7 +413,7 @@ async function claim() {
 
     if (!res.ok) {
       if (data.error === 'EXPIRED') {
-        showError('Ссылка истекла', 'Обратитесь к администратору Bilimly.');
+        showError('Ссылка истекла', 'Обратитесь к администратору Bilimpark.');
       } else if (data.error === 'ALREADY_CLAIMED') {
         showError('Уже активировано', 'Этот аккаунт уже активирован. Войдите через форму входа.');
       } else {
@@ -425,8 +425,8 @@ async function claim() {
     }
 
     // Save credentials, redirect
-    localStorage.setItem('bilimly_token', data.token);
-    localStorage.setItem('bilimly_user', JSON.stringify(data.user));
+    localStorage.setItem('bilimpark_token', data.token);
+    localStorage.setItem('bilimpark_user', JSON.stringify(data.user));
 
     showState('success');
     setTimeout(() => {

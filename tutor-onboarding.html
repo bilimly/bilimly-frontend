@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bilimly — Стать репетитором</title>
+<title>Bilimpark — Стать репетитором</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -117,7 +117,7 @@ input[type=range]{width:100%;accent-color:var(--tiffany);height:6px;border-radiu
 <body>
 
 <nav>
-  <a class="logo" href="index.html">Bilimly<span>.kg</span></a>
+  <a class="logo" href="index.html">Bilimpark<span>.kg</span></a>
   <span style="font-size:0.82rem;color:var(--ink-60)" id="nav-name"></span>
 </nav>
 
@@ -151,7 +151,7 @@ input[type=range]{width:100%;accent-color:var(--tiffany);height:6px;border-radiu
     <div class="step-head">
       <div class="step-badge">Шаг 1 из 5</div>
       <div class="step-title">Создайте аккаунт</div>
-      <div class="step-sub">Зарегистрируйтесь как репетитор на Bilimly.kg</div>
+      <div class="step-sub">Зарегистрируйтесь как репетитор на Bilimpark.kg</div>
     </div>
     <div class="step-body">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
@@ -330,7 +330,7 @@ input[type=range]{width:100%;accent-color:var(--tiffany);height:6px;border-radiu
       <div style="margin-top:16px;padding:14px 16px;background:rgba(37,211,102,0.08);border-radius:12px;border:1px solid rgba(37,211,102,0.2)">
         <div style="font-size:0.85rem;font-weight:600;margin-bottom:6px;color:var(--ink)">Видео слишком большое или не удаётся загрузить?</div>
         <div style="font-size:0.8rem;color:var(--ink-60);margin-bottom:10px;line-height:1.5">Отправьте его нам в WhatsApp — мы сами добавим к вашему профилю.</div>
-        <a href="https://wa.me/996506354444?text=Добрый%20день!%20Это%20моё%20видео-визитка%20для%20Bilimly.kg" target="_blank" rel="noopener" style="display:inline-block;background:#25D366;color:white;padding:10px 18px;border-radius:9px;text-decoration:none;font-size:0.85rem;font-weight:600">💬 Отправить в WhatsApp</a>
+        <a href="https://wa.me/996506354444?text=Добрый%20день!%20Это%20моё%20видео-визитка%20для%20Bilimpark.kg" target="_blank" rel="noopener" style="display:inline-block;background:#25D366;color:white;padding:10px 18px;border-radius:9px;text-decoration:none;font-size:0.85rem;font-weight:600">💬 Отправить в WhatsApp</a>
       </div>
 
       <div class="video-tips" style="margin-top:18px">
@@ -364,7 +364,7 @@ input[type=range]{width:100%;accent-color:var(--tiffany);height:6px;border-radiu
         <div class="review-sub">После одобрения вы появитесь на сайте и начнёте получать студентов</div>
         <div class="review-checklist" id="review-checklist"></div>
         <div style="font-size:0.82rem;color:rgba(255,255,255,0.5);margin-bottom:16px">
-          Нажимая кнопку, вы соглашаетесь с условиями использования Bilimly.kg
+          Нажимая кнопку, вы соглашаетесь с условиями использования Bilimpark.kg
         </div>
       </div>
       <!-- Как устроена оплата -->
@@ -411,7 +411,7 @@ input[type=range]{width:100%;accent-color:var(--tiffany);height:6px;border-radiu
       <div class="success-steps">
         <div class="success-step"><div class="ss-num">1</div><div class="ss-text">Наш менеджер просмотрит ваш профиль и видео</div></div>
         <div class="success-step"><div class="ss-num">2</div><div class="ss-text">Вы получите email с подтверждением или обратной связью</div></div>
-        <div class="success-step"><div class="ss-num">3</div><div class="ss-text">После одобрения ваш профиль появится на bilimly.kg</div></div>
+        <div class="success-step"><div class="ss-num">3</div><div class="ss-text">После одобрения ваш профиль появится на bilimpark.kg</div></div>
         <div class="success-step"><div class="ss-num">4</div><div class="ss-text">Первые студенты начнут записываться к вам!</div></div>
       </div>
       <a href="tutor-dashboard.html" style="background:var(--tiffany);color:white;padding:14px 32px;border-radius:12px;text-decoration:none;font-weight:600;display:inline-block;font-size:0.95rem;">Открыть кабинет репетитора →</a>
@@ -422,7 +422,7 @@ input[type=range]{width:100%;accent-color:var(--tiffany);height:6px;border-radiu
 <div id="toast"></div>
 
 <script>
-const API = 'https://bilimly-backend-0zbt.onrender.com';
+const API = 'https://bilimpark-backend-0zbt.onrender.com';
 let currentStep = 1;
 let selectedSubjects = new Set();
 let tutorData = {
@@ -448,7 +448,7 @@ function goToStep(n) {
   window.scrollTo({top:0,behavior:'smooth'});
   if(n===5) buildReviewChecklist();
   // Save draft
-  try { localStorage.setItem('bilimly_tutor_draft', JSON.stringify({ step: n, data: tutorData })); } catch (e) {}
+  try { localStorage.setItem('bilimpark_tutor_draft', JSON.stringify({ step: n, data: tutorData })); } catch (e) {}
 }
 
 // ── STEP 1 ─────────────────────────────────────────────────
@@ -477,8 +477,8 @@ async function step1Next() {
     const data = await res.json();
     if(data.token) {
       userToken = data.token;
-      localStorage.setItem('bilimly_token', data.token);
-      localStorage.setItem('bilimly_user', JSON.stringify(data.user));
+      localStorage.setItem('bilimpark_token', data.token);
+      localStorage.setItem('bilimpark_user', JSON.stringify(data.user));
       tutorData = {...tutorData, first_name, last_name, email, phone};
       document.getElementById('nav-name').textContent = first_name + ' ' + last_name;
       goToStep(2);
@@ -638,7 +638,7 @@ async function submitProfile() {
     reviewSubmitted = true;
 
     // Success — clear draft and show success screen
-    localStorage.removeItem('bilimly_tutor_draft');
+    localStorage.removeItem('bilimpark_tutor_draft');
     document.getElementById('progress-wrap').style.display='none';
     document.getElementById('step-5').style.display='none';
     document.getElementById('success-screen').style.display='block';
@@ -666,8 +666,8 @@ function showToast(msg){const t=document.getElementById('toast');t.textContent=m
 
 // Restore draft if present (non-logged-in flow)
 try {
-  const draftRaw = localStorage.getItem('bilimly_tutor_draft');
-  if (draftRaw && !localStorage.getItem('bilimly_token')) {
+  const draftRaw = localStorage.getItem('bilimpark_tutor_draft');
+  if (draftRaw && !localStorage.getItem('bilimpark_token')) {
     const draft = JSON.parse(draftRaw);
     if (draft && draft.data && confirm('У вас есть незавершённая регистрация. Продолжить?')) {
       Object.assign(tutorData, draft.data);
@@ -677,15 +677,15 @@ try {
       if (tutorData.email) document.getElementById('r-email').value = tutorData.email;
       if (tutorData.phone) document.getElementById('r-phone').value = tutorData.phone;
     } else if (draft) {
-      localStorage.removeItem('bilimly_tutor_draft');
+      localStorage.removeItem('bilimpark_tutor_draft');
     }
   }
 } catch (e) {}
 
 // Check if already logged in as tutor
-const existingUser = JSON.parse(localStorage.getItem('bilimly_user')||'null');
+const existingUser = JSON.parse(localStorage.getItem('bilimpark_user')||'null');
 if(existingUser?.role==='tutor'){
-  userToken = localStorage.getItem('bilimly_token');
+  userToken = localStorage.getItem('bilimpark_token');
   // Check if user already has a profile in review or approved
   fetch(API + '/api/auth/me', { headers: { 'Authorization': 'Bearer ' + userToken } })
     .then(r => r.json())

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bilimly — Профиль репетитора</title>
+<title>Bilimpark — Профиль репетитора</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -163,7 +163,7 @@ nav{background:rgba(255,255,255,0.95);border-bottom:1px solid var(--border);padd
 
 <nav>
   <a class="back-btn" href="index.html">← Все репетиторы</a>
-  <a class="logo" href="index.html">Bilimly<span>.kg</span></a>
+  <a class="logo" href="index.html">Bilimpark<span>.kg</span></a>
   <div style="width:120px"></div>
 </nav>
 
@@ -265,7 +265,7 @@ nav{background:rgba(255,255,255,0.95);border-bottom:1px solid var(--border);padd
           <div class="qr-amount" id="qr-amount">200 сом</div>
           <p style="color:var(--ink-60);font-size:0.75rem;margin-bottom:10px">Откройте MBank → Сканировать QR</p>
           <img id="qr-img" src="/mbank-qr.png" alt="MBank QR" style="width:200px;height:200px;border-radius:10px;border:1px solid var(--border)">
-          <p style="font-size:0.72rem;color:var(--ink-60);margin-top:8px">Bilimly.kg · MBank Business</p>
+          <p style="font-size:0.72rem;color:var(--ink-60);margin-top:8px">Bilimpark.kg · MBank Business</p>
         </div>
 
         <!-- Step 2: Send screenshot via WhatsApp -->
@@ -300,12 +300,12 @@ nav{background:rgba(255,255,255,0.95);border-bottom:1px solid var(--border);padd
 <div id="toast"></div>
 
 <script>
-const API = 'https://bilimly-backend-0zbt.onrender.com';
+const API = 'https://bilimpark-backend-0zbt.onrender.com';
 let tutor = null;
 let selectedSlot = null;
 
-function getToken(){return localStorage.getItem('bilimly_token');}
-function getUser(){return JSON.parse(localStorage.getItem('bilimly_user')||'null');}
+function getToken(){return localStorage.getItem('bilimpark_token');}
+function getUser(){return JSON.parse(localStorage.getItem('bilimpark_user')||'null');}
 
 const urlParams = new URLSearchParams(window.location.search);
 const tutorId = urlParams.get('id');
@@ -418,7 +418,7 @@ ${t.badge?`<div style="display:inline-flex;align-items:center;gap:6px;background
     </div>
   `;
 
-  document.title=`${t.first_name} ${t.last_name} — Bilimly.kg`;
+  document.title=`${t.first_name} ${t.last_name} — Bilimpark.kg`;
 }
 
 function renderAvailability(availability){
@@ -538,7 +538,7 @@ async function submitBooking(){
       const recTutorName = tutor?.first_name + ' ' + (tutor?.last_name || '');
       const recSubject = (tutor?.subjects||[])[0] || 'Урок';
       const recWaMessage =
-        'Здравствуйте! Прикрепляю чек за пакет уроков на Bilimly.kg.\n\n' +
+        'Здравствуйте! Прикрепляю чек за пакет уроков на Bilimpark.kg.\n\n' +
         (recStudentName.trim() ? 'Имя: ' + recStudentName.trim() + '\n' : '') +
         'Репетитор: ' + recTutorName.trim() + '\n' +
         'Предмет: ' + recSubject + '\n' +
@@ -549,7 +549,7 @@ async function submitBooking(){
       const recWaBtn = document.getElementById('whatsapp-confirm-btn');
       if (recWaBtn) recWaBtn.href = recWaUrl;
       showToast(`✅ ${data.total} уроков забронировано!`);
-const msg = encodeURIComponent(`Здравствуйте! Я записался на ${data.total} уроков через Bilimly.kg. Жду подтверждения! 🎓`);
+const msg = encodeURIComponent(`Здравствуйте! Я записался на ${data.total} уроков через Bilimpark.kg. Жду подтверждения! 🎓`);
 const phone = tutor?.phone?.replace(/\D/g,'');
 if(phone) setTimeout(()=>window.open(`https://wa.me/${phone}?text=${msg}`,'_blank'),1500);
     }catch(e){
@@ -600,7 +600,7 @@ if(phone) setTimeout(()=>window.open(`https://wa.me/${phone}?text=${msg}`,'_blan
   const subjectStr = (tutor?.subjects||[])[0] || 'Урок';
 
   const waMessage =
-    'Здравствуйте! Прикрепляю чек об оплате урока на Bilimly.kg.\n\n' +
+    'Здравствуйте! Прикрепляю чек об оплате урока на Bilimpark.kg.\n\n' +
     (studentName.trim() ? 'Имя: ' + studentName.trim() + '\n' : '') +
     'Репетитор: ' + tutorName.trim() + '\n' +
     'Предмет: ' + subjectStr + '\n' +
@@ -764,7 +764,7 @@ async function selectPackage(lessons, total, pricePerLesson){
     document.getElementById('packages-list').style.display='none';
     document.getElementById('pkg-qr').style.display='block';
     document.getElementById('pkg-amount').textContent = total + ' сом';
-    document.getElementById('pkg-qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=BILIMLY_PKG_${lessons}LESSONS_${total}KGS_${Date.now()}&bgcolor=ffffff&color=0ABAB5`;
+    document.getElementById('pkg-qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=BILIMPARK_PKG_${lessons}LESSONS_${total}KGS_${Date.now()}&bgcolor=ffffff&color=0ABAB5`;
     document.getElementById('pkg-footer').innerHTML = `
       <button class="btn-cancel" onclick="document.getElementById('packagesModal').classList.remove('open')">Закрыть</button>
       <button class="btn-confirm" onclick="document.getElementById('packagesModal').classList.remove('open');showToast('🎉 Пакет активирован!')">✓ Оплачено</button>

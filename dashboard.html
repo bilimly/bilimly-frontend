@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0ABAB5">
-<title>Bilimly — Личный кабинет</title>
+<title>Bilimpark — Личный кабинет</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -863,7 +863,7 @@ img { max-width: 100%; display: block; }
 <!-- ─── LOGIN ───────────────────────────────────────── -->
 <div class="login-wrap" id="loginWrap">
   <div class="login-box">
-    <div class="login-logo">Bilimly<span>.kg</span></div>
+    <div class="login-logo">Bilimpark<span>.kg</span></div>
     <div class="login-sub">Личный кабинет родителя</div>
 
     <button class="google-btn" onclick="googleLogin()">
@@ -897,7 +897,7 @@ img { max-width: 100%; display: block; }
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="slogo">
-      <a href="index.html">Bilimly<span>.kg</span></a>
+      <a href="index.html">Bilimpark<span>.kg</span></a>
       <small>Личный кабинет</small>
     </div>
     <nav class="snav" id="snav">
@@ -1060,7 +1060,7 @@ img { max-width: 100%; display: block; }
                 <div class="settings-row-label">Telegram-бот</div>
                 <div class="settings-row-sub">Напоминания за час до урока</div>
               </div>
-              <a href="https://t.me/BilimlyKGBot" target="_blank" class="btn-ghost" style="font-size:0.82rem;padding:8px 14px">Подключить</a>
+              <a href="https://t.me/BilimparkKGBot" target="_blank" class="btn-ghost" style="font-size:0.82rem;padding:8px 14px">Подключить</a>
             </div>
           </div>
         </div>
@@ -1174,14 +1174,14 @@ img { max-width: 100%; display: block; }
 
 <script>
 // ╔═══════════════════════════════════════════════════════╗
-// ║  BILIMLY PARENT DASHBOARD                             ║
+// ║  BILIMPARK PARENT DASHBOARD                             ║
 // ╚═══════════════════════════════════════════════════════╝
 
-const API = 'https://bilimly-backend-0zbt.onrender.com';
+const API = 'https://bilimpark-backend-0zbt.onrender.com';
 
 // ─── STATE ────────────────────────────────────────────
-let token = localStorage.getItem('bilimly_token');
-let currentUser = JSON.parse(localStorage.getItem('bilimly_user') || 'null');
+let token = localStorage.getItem('bilimpark_token');
+let currentUser = JSON.parse(localStorage.getItem('bilimpark_user') || 'null');
 let pinToken = sessionStorage.getItem('pin_token'); // lives per browser tab
 
 let allBookings = [];
@@ -1200,8 +1200,8 @@ let reviewStar = 0;
   const t = p.get('token');
   const u = p.get('user');
   if (t && u) {
-    localStorage.setItem('bilimly_token', t);
-    localStorage.setItem('bilimly_user', decodeURIComponent(u));
+    localStorage.setItem('bilimpark_token', t);
+    localStorage.setItem('bilimpark_user', decodeURIComponent(u));
     window.history.replaceState({}, '', window.location.pathname);
     token = t;
     currentUser = JSON.parse(decodeURIComponent(u));
@@ -1242,8 +1242,8 @@ async function login() {
     });
     const data = await res.json();
     if (data.token) {
-      localStorage.setItem('bilimly_token', data.token);
-      localStorage.setItem('bilimly_user', JSON.stringify(data.user));
+      localStorage.setItem('bilimpark_token', data.token);
+      localStorage.setItem('bilimpark_user', JSON.stringify(data.user));
       // Route by role
       if (data.user.role === 'tutor') {
         window.location.href = '/tutor-dashboard.html';
@@ -1271,8 +1271,8 @@ function googleLogin() {
 }
 
 function logout() {
-  localStorage.removeItem('bilimly_token');
-  localStorage.removeItem('bilimly_user');
+  localStorage.removeItem('bilimpark_token');
+  localStorage.removeItem('bilimpark_user');
   sessionStorage.removeItem('pin_token');
   window.location.reload();
 }
@@ -1972,7 +1972,7 @@ async function saveSettings() {
   if (data) {
     currentUser.first_name = body.first_name;
     currentUser.last_name = body.last_name;
-    localStorage.setItem('bilimly_user', JSON.stringify(currentUser));
+    localStorage.setItem('bilimpark_user', JSON.stringify(currentUser));
     document.getElementById('sidebar-name').textContent = body.first_name + ' ' + body.last_name;
     showToast('✓ Сохранено', 'ok');
   } else {
