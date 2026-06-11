@@ -545,6 +545,7 @@ function renderTutors(list){
       <td style="display:flex;gap:6px;flex-wrap:wrap">
         ${!u.tutor_approved?`<button class="btn-sm btn-success" onclick="approveTutor('${u.id}')">✓</button>`:''}
         <button class="btn-sm btn-danger" onclick="blockUser('${u.id}','${u.first_name}')">Блок</button>
+        <button class="btn-sm" style="background:${u.is_visible===false?'#6b7280':'#0ABAB5'};color:white;border:none" onclick="toggleVisibility('${u.id}')">👁 ${u.is_visible===false?'Скрыт':'Виден'}</button>
         <button class="btn-sm" style="background:#dc2626;color:white;border:none" onclick="deleteUser('${u.id}','${u.first_name} ${u.last_name||''}','${u.email}')">🗑️</button>
         <a href="tutor.html?id=${u.tutor_profile_id}" target="_blank" class="btn-sm btn-outline" style="text-decoration:none">👁</a>
       </td>
@@ -777,6 +778,15 @@ function openTutorModalById(userId) {
 
   document.getElementById('tutorModal').classList.add('open');
 }
+
+  async function toggleVisibility(userId){
+  const res = await fetch(API+'/api/admin/tutors/'+userId+'/toggle-visibility',{method:'PUT',headers:{'Authorization':'Bearer '+tok}});
+  const data = await res.json();
+  showToast(data.is_visible ? '👁 Репетитор виден на сайте' : '🙈 Репетитор скрыт с сайта');
+  loadTutors();
+}
+
+
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',3500);}
 let leadsCurrentFilter = '';
 let leadsCurrentList = [];
