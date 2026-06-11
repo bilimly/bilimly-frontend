@@ -850,6 +850,7 @@ async function loadProfile(){
   document.getElementById('p-lname').value=data.last_name||'';
   document.getElementById('p-phone').value=data.phone||'';
   document.getElementById('profile-name-display').textContent=data.first_name+' '+data.last_name;
+  if(data.avatar_url){const av=document.getElementById('profile-avatar');if(av)av.innerHTML='<img src="'+data.avatar_url+'" alt="Avatar">';}
   if(data.tutor_profile_id){
     document.getElementById('p-rate').value=data.hourly_rate||'';
     document.getElementById('p-trial').value=data.trial_rate||'';
