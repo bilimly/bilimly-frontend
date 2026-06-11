@@ -499,7 +499,7 @@ async function loadDashboard(){
   }
 
   // Attention items
-  const pending=await get('/api/admin/users?role=tutor&limit=100');
+  const pending=await get('/api/admin/users?role=tutor&limit=500');
   const attList=document.getElementById('attention-list');
   const needApproval=pending?.filter?.(u=>u.tutor_approved===false||u.tutor_approved===null||u.approval_status==='pending')||[];
   if(!needApproval.length){
@@ -518,7 +518,7 @@ async function loadDashboard(){
 
 // ── TUTORS ─────────────────────────────────────────────────
 async function loadTutors(){
-  const data=await get('/api/admin/users?role=tutor&limit=100');
+  const data=await get('/api/admin/users?role=tutor&limit=500');
   if(!data)return;
   allTutors=data;
   renderTutors(data);
