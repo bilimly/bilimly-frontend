@@ -151,6 +151,7 @@ tr:hover td{background:#f8fafa;}
       <a onclick="showPage('applications',this)">📋 Заявки</a>
       <a onclick="showPage('revenue',this)">💰 Выручка</a>
       <a onclick="showPage('onboard',this)">➕ Новый репетитор</a>
+      <a onclick="showPage('managers',this)">👥 Менеджеры</a>
       <a onclick="showPage('leads',this)">🎯 Лиды <span id="leads-badge" style="margin-left:auto;background:#C9A84C;color:white;font-size:0.65rem;font-weight:700;padding:2px 6px;border-radius:8px;display:none"></span></a>
     </nav>
     <div class="sfooter">
@@ -381,6 +382,21 @@ tr:hover td{background:#f8fafa;}
         </div>
       </div>
     </div>
+    <div id="page-managers" class="page">
+      <div class="card">
+        <div class="card-head">
+          <h3>Менеджеры</h3>
+          <button class="btn-sm btn-tiffany" onclick="openCreateManager()">+ Новый менеджер</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Менеджер</th><th>Email</th><th>Лидов</th><th>Задач</th><th>Действий</th><th>Статус</th><th>Права</th><th>Действие</th></tr></thead>
+            <tbody id="managers-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <div id="page-leads" class="page">
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px" id="leads-stats"></div>
       <div class="card" style="margin-bottom:18px">
@@ -470,6 +486,7 @@ function loadPage(name){
   else if(name==='revenue')loadRevenue();
   else if(name==='leads')loadLeads();
   else if(name==='onboard')loadOnboard();
+  else if(name==='managers')loadManagers();
 }
 
 // ── DASHBOARD ──────────────────────────────────────────────
@@ -1076,3 +1093,154 @@ function onboardReset() {
 </div>
 </body>
 </html>
+<script>
+// ── MANAGERS ───────────────────────────────────────────────
+async function loadManagers() {
+  const data = await get('/api/admin/managers');
+  renderManagers(data || []);
+}
+
+function renderManagers(list) {
+  const tbody = document.getElementById('managers-tbody');
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--ink-60)">Нет менеджеров. Создайте первого.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = list.map(m => {
+    const perms = m.permissions || {};
+    const activePerms = Object.values(perms).filter(Boolean).length;
+    const totalPerms = Object.keys(perms).length || 10;
+    return `<tr>
+      <td><div style="font-weight:600">${m.first_name} ${m.last_name}</div><div style="font-size:0.72rem;color:var(--ink-60)">${m.phone||'—'}</div></td>
+      <td style="font-size:0.8rem">${m.email}</td>
+      <td>${m.assigned_leads||0}</td>
+      <td>${m.open_tasks||0}</td>
+      <td>${m.total_actions||0}</td>
+      <td><span class="badge ${m.is_active?'badge-green':'badge-red'}">${m.is_active?'Активен':'Заблокирован'}</span></td>
+      <td><span class="badge badge-tiffany">${activePerms}/${totalPerms} прав</span></td>
+      <td style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn-sm btn-outline" onclick='openEditPermissions(${JSON.stringify(m)})'>⚙️ Права</button>
+        <button class="btn-sm ${m.is_active?'btn-danger':'btn-success'}" onclick="toggleManager('${m.id}')">${m.is_active?'Блок':'Активировать'}</button>
+        <button class="btn-sm" style="background:#dc2626;color:white;border:none" onclick="deleteManager('${m.id}','${m.first_name}')">🗑️</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function openCreateManager() {
+  showManagerModal('Новый менеджер', `
+    <div style="padding:20px">
+      <div class="fgroup"><label>Имя *</label><input class="fcontrol" id="m-fname" placeholder="Айгуль"></div>
+      <div class="fgroup"><label>Фамилия</label><input class="fcontrol" id="m-lname" placeholder="Иванова"></div>
+      <div class="fgroup"><label>Email *</label><input class="fcontrol" type="email" id="m-email" placeholder="manager@bilimpark.kg"></div>
+      <div class="fgroup"><label>Телефон</label><input class="fcontrol" id="m-phone" placeholder="+996..."></div>
+      <div class="fgroup"><label>Пароль *</label><input class="fcontrol" type="password" id="m-pass" placeholder="минимум 6 символов"></div>
+      <div class="fgroup"><label>Заметки</label><textarea class="fcontrol" id="m-notes" rows="2" placeholder="Отдел, обязанности..."></textarea></div>
+      <div class="err" id="m-err"></div>
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button class="btn-sm btn-outline" onclick="closeMgrModal()">Отмена</button>
+        <button class="btn-sm btn-tiffany" onclick="createManager()">Создать менеджера</button>
+      </div>
+    </div>`);
+}
+
+function showManagerModal(title, bodyHtml) {
+  let modal = document.getElementById('mgr-modal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'mgr-modal';
+    modal.style.cssText = 'display:flex;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);z-index:500;align-items:center;justify-content:center;padding:16px';
+    document.body.appendChild(modal);
+  }
+  modal.innerHTML = `<div style="background:white;border-radius:20px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,0.25)">
+    <div style="background:var(--tiffany);padding:20px 24px;color:white;border-radius:20px 20px 0 0;display:flex;justify-content:space-between;align-items:center">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600">${title}</div>
+      <button onclick="closeMgrModal()" style="background:rgba(255,255,255,0.15);border:none;color:white;width:30px;height:30px;border-radius:50%;cursor:pointer">✕</button>
+    </div>
+    ${bodyHtml}
+  </div>`;
+  modal.style.display = 'flex';
+}
+
+function closeMgrModal() {
+  const m = document.getElementById('mgr-modal');
+  if (m) m.style.display = 'none';
+}
+
+async function createManager() {
+  const fname = document.getElementById('m-fname').value.trim();
+  const lname = document.getElementById('m-lname').value.trim();
+  const email = document.getElementById('m-email').value.trim();
+  const phone = document.getElementById('m-phone').value.trim();
+  const pass = document.getElementById('m-pass').value;
+  const notes = document.getElementById('m-notes').value;
+  const errEl = document.getElementById('m-err');
+  if (!fname || !email || !pass) { errEl.textContent = 'Заполните обязательные поля'; return; }
+  if (pass.length < 6) { errEl.textContent = 'Пароль минимум 6 символов'; return; }
+  const res = await fetch(API + '/api/admin/managers', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + tok, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ first_name: fname, last_name: lname, email, phone, password: pass, notes })
+  });
+  const data = await res.json();
+  if (res.ok) { closeMgrModal(); showToast('✓ Менеджер создан'); loadManagers(); }
+  else { errEl.textContent = data.error || 'Ошибка создания'; }
+}
+
+function openEditPermissions(manager) {
+  if (typeof manager === 'string') manager = JSON.parse(manager);
+  const perms = manager.permissions || {};
+  const permLabels = {
+    view_dashboard: 'Просмотр дашборда',
+    view_leads: 'Просмотр лидов',
+    edit_leads: 'Редактирование лидов',
+    view_all_leads: 'Все лиды (не только свои)',
+    view_tutors: 'Просмотр репетиторов',
+    approve_tutors: 'Одобрение репетиторов',
+    edit_tutors: 'Редактирование репетиторов',
+    view_students: 'Просмотр студентов',
+    view_bookings: 'Просмотр бронирований',
+    view_revenue: 'Просмотр выручки',
+  };
+  showManagerModal('Права доступа — ' + manager.first_name, `
+    <div style="padding:20px">
+      ${Object.entries(permLabels).map(([key, label]) => `
+        <label style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer">
+          <input type="checkbox" id="perm-${key}" ${perms[key] ? 'checked' : ''} style="width:16px;height:16px;accent-color:var(--tiffany)">
+          <span style="font-size:0.85rem">${label}</span>
+        </label>`).join('')}
+      <div style="display:flex;gap:8px;margin-top:16px">
+        <button class="btn-sm btn-outline" onclick="closeMgrModal()">Отмена</button>
+        <button class="btn-sm btn-tiffany" onclick="savePermissions('${manager.id}')">Сохранить права</button>
+      </div>
+    </div>`);
+}
+
+async function savePermissions(managerId) {
+  const permKeys = ['view_dashboard','view_leads','edit_leads','view_all_leads','view_tutors','approve_tutors','edit_tutors','view_students','view_bookings','view_revenue'];
+  const permissions = {};
+  permKeys.forEach(k => { permissions[k] = document.getElementById('perm-' + k)?.checked || false; });
+  await fetch(API + '/api/admin/managers/' + managerId + '/permissions', {
+    method: 'PUT',
+    headers: { 'Authorization': 'Bearer ' + tok, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ permissions })
+  });
+  closeMgrModal();
+  showToast('✓ Права обновлены');
+  loadManagers();
+}
+
+async function toggleManager(id) {
+  const res = await fetch(API + '/api/admin/managers/' + id + '/toggle', { method: 'PUT', headers: { 'Authorization': 'Bearer ' + tok } });
+  const data = await res.json();
+  showToast(data.is_active ? 'Менеджер активирован' : 'Менеджер заблокирован');
+  loadManagers();
+}
+
+async function deleteManager(id, name) {
+  if (!confirm('Удалить менеджера ' + name + '?')) return;
+  await fetch(API + '/api/admin/managers/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + tok } });
+  showToast('Менеджер удалён');
+  loadManagers();
+}
+</script>
