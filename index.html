@@ -1092,5 +1092,59 @@ document.addEventListener('click', e => {
 loadTutors();
 loadSubjects();
 </script>
+<div id="pwa-install-banner" style="display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0ABAB5;color:white;padding:14px 20px;border-radius:14px;box-shadow:0 8px 24px rgba(10,186,181,0.4);z-index:9999;display:none;align-items:center;gap:12px;max-width:340px;width:90%">
+  <span style="font-size:1.4rem">📱</span>
+  <div style="flex:1">
+    <div style="font-weight:700;font-size:0.9rem">Установить Bilimpark</div>
+    <div style="font-size:0.75rem;opacity:0.85">Добавьте на главный экран</div>
+  </div>
+  <button onclick="installPWA()" style="background:white;color:#0ABAB5;border:none;padding:8px 14px;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.82rem;font-family:inherit">Установить</button>
+  <button onclick="dismissInstall()" style="background:none;border:none;color:white;cursor:pointer;font-size:1.1rem;padding:4px">✕</button>
+</div>
+
+<script>
+// ── SERVICE WORKER ─────────────────────────────────────────
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js")
+    .then(reg => console.log("SW registered:", reg.scope))
+    .catch(err => console.log("SW error:", err));
+}
+
+// ── PWA INSTALL PROMPT ─────────────────────────────────────
+let deferredPrompt = null;
+const installBanner = document.getElementById("pwa-install-banner");
+
+window.addEventListener("beforeinstallprompt", e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const dismissed = localStorage.getItem("pwa_install_dismissed");
+  if (!dismissed) {
+    setTimeout(() => { if (installBanner) installBanner.style.display = "flex"; }, 3000);
+  }
+});
+
+function installPWA() {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(result => {
+    if (result.outcome === "accepted") {
+      console.log("PWA installed");
+      localStorage.setItem("pwa_install_dismissed", "1");
+    }
+    deferredPrompt = null;
+    if (installBanner) installBanner.style.display = "none";
+  });
+}
+
+function dismissInstall() {
+  if (installBanner) installBanner.style.display = "none";
+  localStorage.setItem("pwa_install_dismissed", "1");
+}
+
+window.addEventListener("appinstalled", () => {
+  if (installBanner) installBanner.style.display = "none";
+  console.log("Bilimpark PWA installed");
+});
+</script>
 </body>
 </html>
