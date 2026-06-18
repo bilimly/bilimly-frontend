@@ -1,22 +1,39 @@
 {
-  "name": "Bilimpark.kg",
+  "name": "Bilimpark.kg — Репетиторы",
   "short_name": "Bilimpark",
-  "description": "Репетиторская платформа №1 в Кыргызстане",
+  "description": "Репетиторская платформа №1 в Кыргызстане. Найдите репетитора онлайн.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0ABAB5",
   "theme_color": "#0ABAB5",
-  "orientation": "portrait",
+  "orientation": "portrait-primary",
+  "lang": "ru",
   "icons": [
     {
-      "src": "https://via.placeholder.com/192x192/0ABAB5/ffffff?text=B",
+      "src": "/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "https://via.placeholder.com/512x512/0ABAB5/ffffff?text=B",
+      "src": "/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
-  ]
+  ],
+  "shortcuts": [
+    {
+      "name": "Найти репетитора",
+      "url": "/",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Мой кабинет",
+      "url": "/dashboard.html",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "categories": ["education"],
+  "screenshots": []
 }
