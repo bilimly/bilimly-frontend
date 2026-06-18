@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /manager.html
+Disallow: /tutor-dashboard.html
+Disallow: /dashboard.html
+Disallow: /messages.html
+
+Sitemap: https://bilimpark.kg/sitemap.xml
