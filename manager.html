@@ -681,10 +681,7 @@ function renderTutors(list) {
   if (!list.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--ink-60)">Нет репетиторов</td></tr>'; return; }
   tbody.innerHTML = list.map(t => `
     <tr>
-      <td>
-        <div style="font-weight:600;font-size:0.85rem">${t.first_name} ${t.last_name}</div>
-        <div style="font-size:0.72rem;color:var(--ink-60)">${t.email}</div>
-      </td>
+      <td><div style="font-weight:600;font-size:0.85rem">${t.first_name} ${t.last_name}</div><div style="font-size:0.72rem;color:var(--ink-60)">${t.email}</div><div style="font-size:0.72rem;color:var(--ink-60)">${t.phone||'—'}</div><div style="font-size:0.72rem;color:var(--ink-60)">Подал: ${new Date(t.created_at).toLocaleDateString('ru-RU')}</div></td>
       <td style="font-size:0.78rem">${(t.subjects||[]).join(', ')||'—'}</td>
       <td>${t.total_lessons||0}</td>
       <td>${parseFloat(t.rating||0).toFixed(1)} ★</td>
