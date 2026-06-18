@@ -418,7 +418,41 @@ ${t.badge?`<div style="display:inline-flex;align-items:center;gap:6px;background
     </div>
   `;
 
-  document.title=`${t.first_name} ${t.last_name} — Bilimpark.kg`;
+  document.title=`${t.first_name} ${t.last_name} — репетитор по ${(t.subjects||[])[0]||'предметам'} в Бишкеке · Bilimpark.kg`;
+
+  // Dynamic meta description
+  let metaDesc = document.querySelector('meta[name="description"]');
+  if (!metaDesc) { metaDesc = document.createElement('meta'); metaDesc.name = 'description'; document.head.appendChild(metaDesc); }
+  metaDesc.content = `${t.first_name} ${t.last_name} — репетитор по ${(t.subjects||[]).join(', ')} в Бишкеке. Опыт ${t.total_lessons||0} уроков. Рейтинг ${parseFloat(t.rating||0).toFixed(1)}★. Ставка ${t.hourly_rate} сом/час. Пробный урок — ${t.trial_rate||200} сом.`;
+
+  // Dynamic OG title
+  let ogTitle = document.querySelector('meta[property="og:title"]');
+  if (!ogTitle) { ogTitle = document.createElement('meta'); ogTitle.setAttribute('property','og:title'); document.head.appendChild(ogTitle); }
+  ogTitle.content = `${t.first_name} ${t.last_name} — репетитор · Bilimpark.kg`;
+
+  // JSON-LD structured data per tutor
+  const existingSchema = document.getElementById('tutor-schema');
+  if (existingSchema) existingSchema.remove();
+  const schema = document.createElement('script');
+  schema.id = 'tutor-schema';
+  schema.type = 'application/ld+json';
+  const schemaData = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    'name': t.first_name + ' ' + t.last_name,
+    'jobTitle': 'Репетитор по ' + (t.subjects||[]).join(', '),
+    'description': t.bio_ru || '',
+    'url': 'https://bilimpark.kg/tutor.html?id=' + t.id,
+    'image': t.avatar_url || '',
+    'worksFor': { '@type': 'Organization', 'name': 'Bilimpark.kg', 'url': 'https://bilimpark.kg' },
+    'hasOccupation': { '@type': 'Occupation', 'name': 'Репетитор', 'occupationLocation': { '@type': 'City', 'name': t.city || 'Бишкек' } },
+    'offers': { '@type': 'Offer', 'name': 'Урок с репетитором', 'price': t.hourly_rate, 'priceCurrency': 'KGS', 'availability': 'https://schema.org/InStock' }
+  };
+  if (t.review_count > 0) {
+    schemaData['aggregateRating'] = { '@type': 'AggregateRating', 'ratingValue': parseFloat(t.rating||0).toFixed(1), 'reviewCount': t.review_count || 1, 'bestRating': '5', 'worstRating': '1' };
+  }
+  schema.textContent = JSON.stringify(schemaData);
+  document.head.appendChild(schema);
 }
 
 function renderAvailability(availability){
