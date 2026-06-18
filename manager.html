@@ -689,7 +689,9 @@ function renderTutors(list) {
       <td><span class="badge ${t.is_visible!==false?'badge-tiffany':'badge-gray'}">${t.is_visible!==false?'Виден':'Скрыт'}</span></td>
       <td style="display:flex;gap:4px;flex-wrap:wrap">
         ${!t.is_approved?`<button class="btn-sm btn-success" onclick="approveTutor('${t.id}')">✓</button>`:''}
+        <button class="btn-sm btn-danger" onclick="rejectTutor('${t.id}')">✗</button>
         <button class="btn-sm btn-outline" style="padding:5px 8px;font-size:0.72rem" onclick="toggleTutorVisibility('${t.id}')">👁</button>
+        <button class="btn-sm" style="background:#dc2626;color:white;border:none;padding:5px 8px;font-size:0.72rem" onclick="deleteTutor('${t.id}','${t.first_name} ${t.last_name}','${t.email}')">🗑️</button>
         <a href="tutor.html?id=${t.tutor_profile_id}" target="_blank" class="btn-sm btn-outline" style="text-decoration:none;padding:5px 8px;font-size:0.72rem">🔗</a>
       </td>
     </tr>`).join('');
@@ -764,7 +766,15 @@ async function loadBookings() {
       <td><span class="badge ${sm[b.status]||'badge-gray'}">${b.status}</span></td>
     </tr>`).join('');
 }
-
+async function deleteTutor(userId, name, email){
+  if(!confirm('УДАЛИТЬ '+name+' ('+email+')?\n\nЭто навсегда удалит аккаунт. Продолжить?'))return;
+  const typed = prompt('Для подтверждения введите слово УДАЛИТЬ:');
+  if (typed !== 'УДАЛИТЬ') { showToast('Удаление отменено'); return; }
+  try {
+    const res = await api('/api/admin/users/'+userId, {method:'DELETE'});
+    if (res) { showToast('✓ Удалён: '+name); loadTutors(); }
+  } catch(e) { showToast('Ошибка соединения'); }
+}
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.style.display = 'block';
