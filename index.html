@@ -35,29 +35,77 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "@id": "https://bilimpark.kg/#business",
-  "name": "Bilimpark",
-  "alternateName": "Bilimpark.kg",
-  "description": "Онлайн-платформа для поиска проверенных репетиторов в Бишкеке",
+  "@type": "EducationalOrganization",
+  "@id": "https://bilimpark.kg/#org",
+  "name": "Bilimpark.kg",
+  "alternateName": "Bilimpark",
+  "description": "Онлайн-платформа для поиска проверенных репетиторов в Бишкеке. Математика, физика, английский, подготовка к ОРТ.",
   "url": "https://bilimpark.kg",
+  "logo": "https://bilimpark.kg/icon-512.png",
+  "image": "https://bilimpark.kg/og-image.png",
   "telephone": "+996506354444",
   "email": "admin@bilimpark.kg",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "ул. Киевская 77",
     "addressLocality": "Бишкек",
     "addressCountry": "KG"
   },
-  "areaServed": {
-    "@type": "City",
-    "name": "Бишкек"
-  },
+  "areaServed": { "@type": "City", "name": "Бишкек" },
   "priceRange": "200-2000 KGS",
-  "sameAs": [
-    "https://wa.me/996506354444"
-  ]
+  "sameAs": ["https://wa.me/996506354444"]
 }
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Bilimpark.kg",
+  "url": "https://bilimpark.kg",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://bilimpark.kg/?subject={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Сколько стоит репетитор в Бишкеке?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "На Bilimpark.kg первый пробный урок стоит от 200 сом. Обычные уроки — от 400 до 2000 сом в час в зависимости от предмета и опыта репетитора."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Как найти репетитора по математике в Бишкеке?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Зайдите на bilimpark.kg, выберите предмет Математика, посмотрите профили репетиторов с видео и отзывами, запишитесь на пробный урок от 200 сом."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Как подготовиться к ОРТ с репетитором?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "На Bilimpark.kg есть специализированные репетиторы по подготовке к ОРТ по математике, русскому и кыргызскому языку. Занятия онлайн, удобное расписание."
+      }
+    },
+    {
+      "@type": "Question", 
+      "name": "Можно ли заниматься с репетитором онлайн?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Да, все репетиторы на Bilimpark.kg проводят онлайн-уроки через встроенную видеосвязь. Уроки проходят в удобное для вас время."
+      }
+    }
+  ]
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
