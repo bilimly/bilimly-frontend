@@ -191,7 +191,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.97);backdrop
 .book-feature-icon{color:#0ABAB5;font-size:0.85rem;width:14px;flex-shrink:0}
 
 /* MOBILE STICKY */
-.mobile-sticky{display:none;position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #e8e8e8;padding:12px 20px 16px;z-index:100;align-items:center;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,0.08)}
+.mobile-sticky{display:none;position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #e8e8e8;padding:12px 20px;padding-bottom:max(16px,env(safe-area-inset-bottom));z-index:100;align-items:center;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,0.08)}
 @media(max-width:900px){.mobile-sticky{display:flex}}
 .mobile-price-block{flex:1}
 .mobile-price-num{font-size:1.05rem;font-weight:800;color:#1B1F3B}
@@ -233,15 +233,86 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.97);backdrop
 .skeleton{background:linear-gradient(90deg,#f5f5f5 25%,#eee 50%,#f5f5f5 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
+/* ── COMPREHENSIVE MOBILE ─────────────────────────── */
 @media(max-width:640px){
-  .page-wrap{padding:0}
-  .video-wrap{border-radius:0;margin-bottom:16px}
-  .profile-header{padding:0 16px}
-  .stats-row{padding:0 16px;grid-template-columns:1fr 1fr}
-  .section{padding:0 16px}
+  /* Nav */
+  nav{padding:0 16px;gap:12px;height:56px}
+  .nav-logo{font-size:1.2rem}
+  .nav-find{display:none}
+
+  /* Breadcrumb */
+  .breadcrumb-bar{padding:8px 16px;font-size:0.72rem}
+
+  /* Layout */
+  .page-wrap{padding:0;gap:0}
+  .sidebar{display:none}
+
+  /* Video - full width, no border radius */
+  .video-wrap{border-radius:0;margin-bottom:16px;aspect-ratio:16/9}
+
+  /* Profile header */
+  .profile-header{padding:0 16px;gap:12px;margin-bottom:12px}
+  .profile-avatar{width:64px;height:64px;font-size:1.5rem}
+  .profile-name{font-size:1.15rem}
+  .profile-meta{font-size:0.78rem}
+
+  /* Short bio */
+  .short-bio{padding:0 16px;font-size:0.85rem;margin-bottom:12px}
+
+  /* Stats - horizontal scroll on mobile like Preply */
+  .stats-row{padding:0 16px;grid-template-columns:repeat(4,auto);overflow-x:auto;gap:8px;flex-wrap:nowrap;display:flex;scrollbar-width:none;-ms-overflow-style:none;margin-bottom:16px}
+  .stats-row::-webkit-scrollbar{display:none}
+  .stat-box{flex-shrink:0;min-width:100px;padding:10px 12px}
+  .stat-val{font-size:0.88rem}
+  .stat-label{font-size:0.68rem}
+
+  /* Sections */
+  .section{padding:0 16px;margin-bottom:20px}
+  .section-title{font-size:0.95rem;margin-bottom:10px}
+
+  /* Highlights */
+  .highlights-row{gap:6px}
+  .highlight-tag{font-size:0.78rem;padding:5px 10px}
+
+  /* Reviews grid */
   .reviews-grid{grid-template-columns:1fr}
+  .reviews-big-num{font-size:1.6rem}
+
+  /* Lesson rating */
+  .lesson-rating-grid{grid-template-columns:1fr 1fr;gap:6px}
+  .rating-metric{padding:10px 8px}
+  .rating-metric-val{font-size:0.9rem}
+  .rating-metric-label{font-size:0.68rem}
+
+  /* Schedule */
   .sched-grid{gap:3px}
-  body{padding-bottom:80px}
+  .sched-day-head{font-size:0.62rem;padding-bottom:4px}
+  .sched-slot{font-size:0.65rem;padding:3px 1px}
+  .schedule-info-box{font-size:0.78rem;padding:10px 12px;margin-bottom:12px}
+
+  /* Resume */
+  .resume-tabs{margin-bottom:12px}
+  .resume-tab{padding:8px 14px;font-size:0.82rem}
+  .resume-item{gap:10px}
+  .resume-year{min-width:70px;font-size:0.72rem}
+
+  /* Similar */
+  .similar-scroll{grid-template-columns:repeat(2,1fr);gap:10px}
+  .similar-card{padding:12px 10px}
+
+  /* Breadcrumb SEO */
+  .seo-links{grid-template-columns:1fr;gap:16px;padding:16px}
+
+  /* Space for sticky bottom bar */
+  body{padding-bottom:76px}
+}
+
+/* Tablet */
+@media(min-width:641px) and (max-width:900px){
+  .page-wrap{grid-template-columns:1fr;padding:20px}
+  .sidebar{display:none}
+  .stats-row{grid-template-columns:repeat(4,1fr)}
+  body{padding-bottom:76px}
 }
 </style>
 </head>
