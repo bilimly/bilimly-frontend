@@ -159,11 +159,23 @@ const AuthModal = {
     const style = document.getElementById('bp-auth-style') || document.createElement('style');
     style.id = 'bp-auth-style';
     style.textContent = `
+      #bp-auth-overlay { display: none !important; }
       #bp-auth-overlay.open { display: flex !important; flex-direction: column; justify-content: flex-end; }
       #bp-tab-login.active, #bp-tab-reg.active { color: #0ABAB5 !important; border-bottom-color: #0ABAB5 !important; }
+      #bp-auth-overlay > div {
+        animation: slideUp 0.3s ease;
+        padding-bottom: max(40px, env(safe-area-inset-bottom));
+      }
+      @keyframes slideUp {
+        from { transform: translateY(40px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
       @media(min-width:480px) {
         #bp-auth-overlay { align-items: center !important; justify-content: center !important; padding: 20px !important; }
-        #bp-auth-overlay > div { border-radius: 20px !important; }
+        #bp-auth-overlay > div { border-radius: 20px !important; max-height: 85vh; padding-bottom: 40px !important; }
+      }
+      @media(max-width:479px) {
+        #bp-auth-overlay > div { border-radius: 20px 20px 0 0 !important; max-height: 92vh; }
       }
     `;
     document.head.appendChild(style);
