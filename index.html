@@ -105,10 +105,10 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.97);backdrop
 .tutor-list{display:flex;flex-direction:column;gap:12px}
 
 /* TUTOR CARD */
-.tcard{border:1px solid #e8e8e8;border-radius:16px;padding:20px 24px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:20px;align-items:center;cursor:pointer;transition:all 0.2s;background:white;position:relative}
+.tcard{border:1px solid #e8e8e8;border-radius:16px;padding:16px 20px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:20px;align-items:stretch;cursor:pointer;transition:all 0.2s;background:white;position:relative}
 .tcard:hover{border-color:#0ABAB5;box-shadow:0 4px 24px rgba(10,186,181,0.1)}
-.tc-avatar{width:80px;height:80px;border-radius:50%;object-fit:cover;background:#f0fffe;display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;overflow:hidden;border:2px solid #f0f0f0}
-.tc-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.tc-avatar{width:120px;height:140px;border-radius:10px;object-fit:cover;background:#f0fffe;display:flex;align-items:center;justify-content:center;font-size:3rem;flex-shrink:0;overflow:hidden;border:1px solid #f0f0f0;align-self:stretch}
+.tc-avatar img{width:100%;height:100%;object-fit:cover;object-position:top;border-radius:10px}
 .tc-body{min-width:0;overflow:hidden}
 .tc-name{font-size:1rem;font-weight:700;color:#1B1F3B;margin-bottom:2px}
 .tc-meta{font-size:0.82rem;color:#888;margin-bottom:8px;display:flex;align-items:center;gap:8px}
@@ -137,10 +137,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.97);backdrop
 }
 @media(min-width:641px){.tc-mobile-footer{display:none}}
 
-/* LOAD MORE */
-.load-more-wrap{text-align:center;margin-top:28px}
-.btn-load-more{border:1.5px solid #e0e0e0;background:white;padding:12px 36px;border-radius:10px;font-size:0.9rem;font-weight:600;cursor:pointer;color:#1B1F3B;transition:all 0.2s;font-family:inherit}
-.btn-load-more:hover{border-color:#0ABAB5;color:#0ABAB5}
+
 
 /* HOW IT WORKS */
 .how-section{padding:72px 32px;background:#f9f9f9;border-top:1px solid #f0f0f0}
@@ -240,7 +237,7 @@ footer{background:#1B1F3B;color:rgba(255,255,255,0.5);padding:56px 32px 28px}
   /* Tutor cards - stack on mobile */
   .tcard{grid-template-columns:auto 1fr;padding:14px 16px;gap:12px;border-radius:12px}
   .tc-right{display:none}
-  .tc-avatar{width:56px;height:56px;font-size:1.3rem}
+  .tc-avatar{width:72px;height:88px;border-radius:8px;font-size:1.8rem}
   .tc-name{font-size:0.92rem}
   .tc-meta{font-size:0.75rem}
   .tc-bio{font-size:0.82rem;-webkit-line-clamp:2}
@@ -320,7 +317,7 @@ footer{background:#1B1F3B;color:rgba(255,255,255,0.5);padding:56px 32px 28px}
   <p class="hero-sub">Проверенные репетиторы по всем предметам. Онлайн уроки через Google Meet — из любой точки Кыргызстана.</p>
   <div class="hero-search">
     <select id="hero-subject">
-      <option value="">Выберите предмет...</option>
+      <option value="">Выберите дисциплину...</option>
       <option>Математика</option>
       <option>Английский язык</option>
       <option>Русский язык</option>
@@ -348,7 +345,7 @@ footer{background:#1B1F3B;color:rgba(255,255,255,0.5);padding:56px 32px 28px}
   <div class="stats-bar-inner">
     <div class="stat-item"><span class="stat-num" id="stat-tutors">—</span><div class="stat-label">Репетиторов</div></div>
     <div class="stat-item"><span class="stat-num" id="stat-lessons-total">—</span><div class="stat-label">Проведено уроков</div></div>
-    <div class="stat-item"><span class="stat-num" id="stat-subjects-count">10+</span><div class="stat-label">Предметов</div></div>
+    <div class="stat-item"><span class="stat-num" id="stat-subjects-count">10+</span><div class="stat-label">Дисциплин</div></div>
     <div class="stat-item"><span class="stat-num">★ 4.8+</span><div class="stat-label">Средний рейтинг</div></div>
     <div class="stat-item"><span class="stat-num">24ч</span><div class="stat-label">Проверка профиля</div></div>
   </div>
@@ -358,7 +355,7 @@ footer{background:#1B1F3B;color:rgba(255,255,255,0.5);padding:56px 32px 28px}
 <section class="subjects-section">
   <div class="subjects-inner">
     <div class="section-label">Направления</div>
-    <div class="section-heading">Репетиторы по предметам</div>
+    <div class="section-heading">Репетиторы по дисциплинам</div>
     <div class="subjects-grid" id="subjects-grid">
       <div class="subject-row" onclick="filterBySubject('Математика',null)"><div class="subject-row-icon">📐</div><div class="subject-row-info"><div class="subject-row-name">Математика</div><div class="subject-row-count" id="scnt-math">репетиторов</div></div><div class="subject-row-arrow">›</div></div>
       <div class="subject-row" onclick="filterBySubject('Английский язык',null)"><div class="subject-row-icon">🇬🇧</div><div class="subject-row-info"><div class="subject-row-name">Английский язык</div><div class="subject-row-count" id="scnt-eng">репетиторов</div></div><div class="subject-row-arrow">›</div></div>
@@ -409,8 +406,7 @@ footer{background:#1B1F3B;color:rgba(255,255,255,0.5);padding:56px 32px 28px}
       <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end"><div class="skeleton" style="height:22px;width:90px"></div><div class="skeleton" style="height:36px;width:130px"></div></div>
     </div>`).join('')}
   </div>
-  <div class="load-more-wrap" id="load-more-wrap" style="display:none">
-    <button class="btn-load-more" onclick="loadMore()">Показать ещё репетиторов</button>
+  <div id="pagination-wrap" style="display:none;text-align:center;margin-top:32px;display:flex;justify-content:center;align-items:center;gap:6px;flex-wrap:wrap">
   </div>
 </div>
 
@@ -530,7 +526,8 @@ footer{background:#1B1F3B;color:rgba(255,255,255,0.5);padding:56px 32px 28px}
 const API = 'https://bilimly-backend-0zbt.onrender.com';
 let allTutors = [];
 let filteredTutors = [];
-let displayLimit = 10;
+let currentPage = 1;
+const PAGE_SIZE = 15;
 let currentSubject = '';
 
 BpInitNav();
@@ -617,7 +614,7 @@ function heroSearch() {
 
 function filterBySubject(subject, tabEl) {
   currentSubject = subject;
-  displayLimit = 10;
+  currentPage = 1;
 
   // Update tabs
   document.querySelectorAll('.subj-tab').forEach(t => t.classList.remove('active'));
@@ -641,7 +638,7 @@ function filterBySubject(subject, tabEl) {
   sortAndRender(document.getElementById('sort-select').value);
 
   // Update heading
-  document.getElementById('listing-title').textContent = subject ? `Репетиторы: ${subject}` : 'Все репетиторы';
+  document.getElementById('listing-title').textContent = subject ? `Репетиторы по дисциплине: ${subject}` : 'Все репетиторы';
   document.getElementById('listing-count').textContent = `Найдено ${filteredTutors.length} репетиторов`;
 }
 
@@ -650,12 +647,15 @@ function sortAndRender(method) {
   else if (method === 'price_desc') filteredTutors.sort((a,b) => b.price - a.price);
   else if (method === 'lessons') filteredTutors.sort((a,b) => b.totalLessons - a.totalLessons);
   else filteredTutors.sort((a,b) => b.rating - a.rating || b.reviewCount - a.reviewCount);
+  currentPage = 1;
   renderTutors();
 }
 
 function renderTutors() {
   const list = document.getElementById('tutor-list');
-  const slice = filteredTutors.slice(0, displayLimit);
+  const totalPages = Math.ceil(filteredTutors.length / PAGE_SIZE);
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const slice = filteredTutors.slice(start, start + PAGE_SIZE);
 
   if (!slice.length) {
     list.innerHTML = `<div style="text-align:center;padding:60px 20px;color:#888">
@@ -707,13 +707,44 @@ function renderTutors() {
       </div>
     </div>`).join('');
 
-  document.getElementById('load-more-wrap').style.display = filteredTutors.length > displayLimit ? 'block' : 'none';
+  renderPagination(totalPages);
+  // Scroll to top of listing when page changes
 }
 
-function loadMore() {
-  displayLimit += 10;
-  renderTutors();
+function renderPagination(totalPages) {
+  const wrap = document.getElementById('pagination-wrap');
+  if (totalPages <= 1) { wrap.style.display = 'none'; return; }
+  wrap.style.display = 'flex';
+
+  let pages = [];
+  // Always show first, last, current, and neighbors
+  for (let i = 1; i <= totalPages; i++) {
+    if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+      pages.push(i);
+    } else if (pages[pages.length-1] !== '...') {
+      pages.push('...');
+    }
+  }
+
+  wrap.innerHTML = `
+    <button onclick="goToPage(${currentPage-1})" ${currentPage===1?'disabled':''} style="width:36px;height:36px;border:1.5px solid #e0e0e0;border-radius:8px;background:white;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;justify-content:center;color:${currentPage===1?'#ccc':'#555'};transition:all 0.2s">‹</button>
+    ${pages.map(p => p === '...'
+      ? `<span style="padding:0 4px;color:#888;align-self:center">…</span>`
+      : `<button onclick="goToPage(${p})" style="width:36px;height:36px;border:1.5px solid ${p===currentPage?'#0ABAB5':'#e0e0e0'};border-radius:8px;background:${p===currentPage?'#0ABAB5':'white'};color:${p===currentPage?'white':'#555'};cursor:pointer;font-size:0.88rem;font-weight:${p===currentPage?'700':'400'};transition:all 0.2s">${p}</button>`
+    ).join('')}
+    <button onclick="goToPage(${currentPage+1})" ${currentPage===totalPages?'disabled':''} style="width:36px;height:36px;border:1.5px solid #e0e0e0;border-radius:8px;background:white;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;justify-content:center;color:${currentPage===totalPages?'#ccc':'#555'};transition:all 0.2s">›</button>
+  `;
 }
+
+function goToPage(page) {
+  const totalPages = Math.ceil(filteredTutors.length / PAGE_SIZE);
+  if (page < 1 || page > totalPages) return;
+  currentPage = page;
+  renderTutors();
+  document.getElementById('listing').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+
 
 function handleBook(tutorId, name, avatar) {
   if (!Auth.isLoggedIn()) {
