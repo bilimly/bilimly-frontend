@@ -3,835 +3,694 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bilimpark — Профиль репетитора</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#0ABAB5">
+<title>Bilimpark — Репетитор</title>
+<meta name="description" content="Запишитесь на урок к проверенному репетитору на Bilimpark.kg">
+<link rel="manifest" href="/manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{
-  --tiffany:#0ABAB5;--tiffany-dark:#089490;--tiffany-light:#e0f7f6;--tiffany-pale:#f0fbfb;
-  --gold:#c9a84c;--gold-light:#fdf6e3;
-  --ink:#0a0a0a;--ink-60:rgba(10,10,10,0.6);--ink-30:rgba(10,10,10,0.3);--ink-10:rgba(10,10,10,0.06);
-  --white:#ffffff;--border:rgba(10,10,10,0.08);
-  --shadow:0 2px 16px rgba(10,186,181,0.08);--shadow-lg:0 16px 48px rgba(10,186,181,0.15);
-  --radius:16px;
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-html,body{overflow-x:hidden;max-width:100vw;}
-body{font-family:'DM Sans',sans-serif;background:#f8fafa;color:var(--ink);line-height:1.6;}
-nav{background:rgba(255,255,255,0.95);border-bottom:1px solid var(--border);padding:0 5%;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);}
-.logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--tiffany);text-decoration:none;}
-.logo span{color:var(--gold);}
-.back-btn{display:flex;align-items:center;gap:6px;font-size:0.82rem;color:var(--ink-60);text-decoration:none;transition:color 0.2s;}
-.back-btn:hover{color:var(--tiffany);}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:'Inter',-apple-system,sans-serif;color:#1B1F3B;background:#fff;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:pointer}
+img{max-width:100%;display:block}
 
-/* VIDEO HERO */
-.video-hero{width:100%;background:linear-gradient(135deg,#0a1a1a,#0d2d2b);position:relative;overflow:hidden;}
-.video-hero iframe, .video-hero video{width:100%;height:420px;border:none;display:block;}
-.video-placeholder{width:100%;height:320px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;color:white;position:relative;}
-.video-placeholder::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(10,186,181,0.1) 0%,transparent 70%);}
-.vp-avatar{width:80px;height:80px;border-radius:50%;background:var(--tiffany);display:flex;align-items:center;justify-content:center;font-size:2.5rem;position:relative;}
-.vp-name{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;position:relative;}
-.vp-subject{font-size:0.85rem;opacity:0.6;position:relative;}
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-bottom:1px solid #f0f0f0;height:60px;display:flex;align-items:center;padding:0 24px;gap:24px}
+.nav-logo{font-size:1.3rem;font-weight:800;color:#0ABAB5;flex-shrink:0}
+.nav-logo span{color:#1B1F3B}
+.nav-back{font-size:0.88rem;color:#888;display:flex;align-items:center;gap:6px}
+.nav-back:hover{color:#0ABAB5}
+#bp-nav-right{display:flex;align-items:center;gap:10px;margin-left:auto}
 
 /* LAYOUT */
-.profile-wrap{max-width:960px;margin:0 auto;padding:28px 5% 100px;}
-.profile-layout{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start;}
+.page-wrap{max-width:1100px;margin:0 auto;padding:32px 24px;display:grid;grid-template-columns:1fr 340px;gap:32px;align-items:start}
+@media(max-width:900px){.page-wrap{grid-template-columns:1fr;padding:16px}.sidebar{display:none}}
 
-/* MAIN COLUMN */
-.profile-card{background:white;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;margin-bottom:20px;}
-.profile-header{padding:24px;}
-.ph-top{display:flex;gap:18px;align-items:flex-start;margin-bottom:20px;}
-.avatar{width:72px;height:72px;border-radius:50%;background:var(--tiffany-light);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;overflow:hidden;border:3px solid var(--tiffany-light);}
-.avatar img{width:100%;height:100%;object-fit:cover;}
-.ph-info{flex:1;}
-.tutor-name{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;line-height:1.1;margin-bottom:4px;}
-.tutor-subject{color:var(--tiffany);font-weight:600;font-size:0.9rem;margin-bottom:10px;}
-.tutor-meta{display:flex;gap:16px;flex-wrap:wrap;}
-.meta-item{display:flex;align-items:center;gap:5px;font-size:0.8rem;color:var(--ink-60);}
-.meta-item strong{color:var(--ink);}
+/* VIDEO */
+.video-wrap{background:#000;border-radius:16px;overflow:hidden;aspect-ratio:16/9;margin-bottom:24px;display:flex;align-items:center;justify-content:center;position:relative}
+.video-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:rgba(255,255,255,0.5);height:100%;width:100%}
+.video-placeholder-icon{font-size:3rem}
+.video-placeholder p{font-size:0.9rem}
+.play-btn{width:64px;height:64px;border-radius:50%;background:#0ABAB5;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.2s}
+.play-btn:hover{transform:scale(1.05)}
+.play-btn::after{content:'▶';color:white;font-size:1.3rem;margin-left:4px}
+
+/* PROFILE HEADER */
+.profile-header{display:flex;gap:16px;align-items:flex-start;margin-bottom:24px}
+.profile-avatar{width:80px;height:80px;border-radius:50%;object-fit:cover;background:#f0fffe;display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;overflow:hidden}
+.profile-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.profile-info{flex:1}
+.profile-name{font-size:1.5rem;font-weight:800;color:#1B1F3B;margin-bottom:4px}
+.profile-role{font-size:0.88rem;color:#888;margin-bottom:10px}
+.profile-tags{display:flex;flex-wrap:wrap;gap:8px}
+.profile-tag{background:#f5f5f5;color:#555;padding:5px 12px;border-radius:20px;font-size:0.78rem;font-weight:500}
+.profile-tag.verified{background:#f0fffe;color:#0ABAB5}
 
 /* STATS */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);}
-.stat-cell{padding:16px;text-align:center;border-right:1px solid var(--border);}
-.stat-cell:last-child{border-right:none;}
-.stat-val{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--ink);display:block;}
-.stat-lbl{font-size:0.7rem;color:var(--ink-60);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px;}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px}
+.stat-box{border:1px solid #f0f0f0;border-radius:12px;padding:14px;text-align:center}
+.stat-val{font-size:1.2rem;font-weight:800;color:#1B1F3B;display:block;margin-bottom:2px}
+.stat-label{font-size:0.75rem;color:#888}
+@media(max-width:640px){.stats-row{grid-template-columns:repeat(2,1fr)}}
 
-/* SECTION CARDS */
-.sec-card{background:white;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;margin-bottom:16px;}
-.sec-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.sec-head h3{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;}
-.sec-body{padding:20px;}
-.bio-text{font-size:0.9rem;line-height:1.8;color:var(--ink);}
-.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px;}
-.tag{background:var(--tiffany-pale);color:var(--tiffany-dark);font-size:0.75rem;font-weight:600;padding:4px 12px;border-radius:20px;}
+/* SECTION */
+.section{margin-bottom:32px}
+.section-title{font-size:1.1rem;font-weight:800;color:#1B1F3B;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.about-text{font-size:0.92rem;color:#555;line-height:1.7}
+.show-more-btn{color:#0ABAB5;font-size:0.85rem;font-weight:600;cursor:pointer;background:none;border:none;margin-top:8px;padding:0}
 
-/* AVAILABILITY */
-.days-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
-.day-chip{padding:6px 14px;border-radius:20px;font-size:0.78rem;font-weight:600;}
-.day-chip.on{background:var(--tiffany-pale);color:var(--tiffany-dark);}
-.day-chip.off{background:var(--ink-10);color:var(--ink-30);}
-.time-grid{display:flex;gap:6px;flex-wrap:wrap;}
-.tslot{padding:7px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:0.78rem;cursor:pointer;transition:all 0.15s;font-family:inherit;}
-.tslot:hover,.tslot.sel{background:var(--tiffany);border-color:var(--tiffany);color:white;}
+/* SPECIALTIES */
+.specialty-item{border-bottom:1px solid #f0f0f0;padding:14px 0;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.specialty-item:last-child{border-bottom:none}
+.specialty-name{font-size:0.92rem;font-weight:500}
+.specialty-arrow{color:#888;font-size:0.8rem;transition:transform 0.2s}
+.specialty-item.open .specialty-arrow{transform:rotate(180deg)}
+.specialty-desc{font-size:0.85rem;color:#888;margin-top:8px;line-height:1.6;display:none}
+.specialty-item.open .specialty-desc{display:block}
+
+/* SCHEDULE */
+.schedule-nav{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.schedule-week{font-size:0.9rem;font-weight:600;flex:1;text-align:center}
+.schedule-nav-btn{width:32px;height:32px;border:1.5px solid #e0e0e0;border-radius:8px;background:white;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;justify-content:center}
+.schedule-nav-btn:hover{border-color:#0ABAB5;color:#0ABAB5}
+.schedule-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;text-align:center}
+.schedule-day-header{font-size:0.72rem;color:#888;font-weight:600;padding-bottom:8px}
+.schedule-day-num{font-size:0.78rem;color:#888;margin-bottom:6px}
+.time-slot{font-size:0.75rem;color:#0ABAB5;border:1px solid #0ABAB5;border-radius:6px;padding:4px;cursor:pointer;margin-bottom:4px;transition:all 0.15s;font-weight:500}
+.time-slot:hover,.time-slot.selected{background:#0ABAB5;color:white}
 
 /* REVIEWS */
-.review-item{padding:18px 0;border-bottom:1px solid var(--border);}
-.review-item:last-child{border-bottom:none;}
-.rev-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
-.rev-author{display:flex;align-items:center;gap:10px;}
-.rev-av{width:38px;height:38px;border-radius:50%;background:var(--tiffany);color:white;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;font-weight:600;}
-.rev-name{font-weight:600;font-size:0.85rem;}
-.rev-date{font-size:0.72rem;color:var(--ink-60);}
-.rev-stars{color:var(--gold);letter-spacing:2px;}
-.rev-text{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--ink-60);line-height:1.7;font-style:italic;}
-.no-reviews{text-align:center;padding:40px;color:var(--ink-60);}
+.review-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.review-metric{border:1px solid #f0f0f0;border-radius:12px;padding:14px;text-align:center}
+.review-metric-val{font-size:1.1rem;font-weight:800;color:#1B1F3B}
+.review-metric-label{font-size:0.72rem;color:#888;margin-top:2px}
+@media(max-width:640px){.review-summary{grid-template-columns:repeat(2,1fr)}}
+.reviews-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.reviews-grid{grid-template-columns:1fr}}
+.review-card{background:#f9f9f9;border-radius:12px;padding:16px}
+.review-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.review-avatar{width:36px;height:36px;border-radius:50%;background:#0ABAB5;color:white;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:700;flex-shrink:0}
+.review-author{font-size:0.85rem;font-weight:600}
+.review-date{font-size:0.75rem;color:#888}
+.review-stars{color:#f59e0b;font-size:0.85rem;margin-bottom:6px}
+.review-text{font-size:0.85rem;color:#555;line-height:1.6}
 
-/* BOOKING SIDEBAR */
-.booking-sidebar{position:sticky;top:80px;}
-.book-card{background:white;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow-lg);overflow:hidden;}
-.book-head{padding:20px;background:linear-gradient(135deg,#0a1a1a,#0d2d2b);color:white;}
-.book-price{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:600;color:white;display:block;line-height:1;}
-.book-price-label{font-size:0.75rem;opacity:0.5;text-transform:uppercase;letter-spacing:0.06em;}
-.book-trial{background:rgba(10,186,181,0.15);border:1px solid rgba(10,186,181,0.3);border-radius:8px;padding:8px 14px;margin-top:12px;display:flex;justify-content:space-between;align-items:center;}
-.book-trial-label{font-size:0.78rem;color:rgba(255,255,255,0.6);}
-.book-trial-price{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--tiffany);}
-.book-body{padding:20px;}
-.btn-book-trial{width:100%;background:var(--tiffany);color:white;border:none;padding:14px;border-radius:10px;font-size:0.95rem;font-weight:600;cursor:pointer;font-family:inherit;margin-bottom:10px;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;}
-.btn-book-trial:hover{background:var(--tiffany-dark);transform:translateY(-1px);}
-.btn-msg{width:100%;background:white;border:1.5px solid var(--border);color:var(--ink);padding:13px;border-radius:10px;font-size:0.88rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;}
-.btn-msg:hover{border-color:var(--tiffany);color:var(--tiffany);}
-.response-info{text-align:center;font-size:0.75rem;color:var(--ink-60);margin-top:12px;}
-.book-features{padding:0 20px 20px;}
-.book-feature{display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--ink-60);padding:6px 0;}
-.book-feature-icon{color:var(--tiffany);font-size:0.9rem;}
+/* SIDEBAR */
+.sidebar{position:sticky;top:80px}
+.book-card{border:1px solid #e8e8e8;border-radius:16px;overflow:hidden}
+.book-price-section{padding:20px;border-bottom:1px solid #f0f0f0}
+.book-price{font-size:1.6rem;font-weight:800;color:#1B1F3B}
+.book-price small{font-size:0.82rem;font-weight:400;color:#888}
+.book-trial-note{font-size:0.82rem;color:#0ABAB5;margin-top:4px;font-weight:500}
+.btn-book-main{width:100%;background:#0ABAB5;color:white;border:none;padding:14px;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-bottom:10px;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-book-main:hover{background:#089490}
+.book-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px}
+.book-action-btn{border:1.5px solid #e0e0e0;background:white;padding:10px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all 0.15s}
+.book-action-btn:hover{border-color:#0ABAB5;background:#f0fffe}
+.not-match-box{background:#f0fffe;border-radius:10px;padding:14px;display:flex;gap:10px;align-items:flex-start}
+.not-match-box p{font-size:0.82rem;color:#555;line-height:1.5}
+.book-features{padding:16px 20px;border-top:1px solid #f0f0f0}
+.book-feature{display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#666;padding:5px 0}
+.book-feature-icon{color:#0ABAB5;width:16px;flex-shrink:0}
 
-/* STICKY BOTTOM (mobile) */
-.sticky-bottom{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--border);padding:12px 5%;display:flex;gap:10px;align-items:center;z-index:200;box-shadow:0 -4px 20px rgba(0,0,0,0.06);}
-.sticky-price-info{flex-shrink:0;}
-.sticky-price-val{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;display:block;}
-.sticky-price-lbl{font-size:0.68rem;color:var(--ink-60);}
-.sticky-book-btn{flex:1;background:var(--tiffany);color:white;border:none;padding:13px;border-radius:10px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:inherit;}
+/* SIMILAR TUTORS */
+.similar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px}
+.similar-card{border:1px solid #e8e8e8;border-radius:12px;padding:14px;cursor:pointer;transition:all 0.2s;text-align:center}
+.similar-card:hover{border-color:#0ABAB5}
+.similar-avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;background:#f0fffe;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 10px;overflow:hidden}
+.similar-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.similar-name{font-size:0.85rem;font-weight:600;margin-bottom:4px}
+.similar-subj{font-size:0.75rem;color:#888;margin-bottom:6px}
+.similar-price{font-size:0.88rem;font-weight:700;color:#1B1F3B}
 
-/* MODALS */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);z-index:500;align-items:center;justify-content:center;padding:16px;}
-.overlay.open{display:flex;}
-.modal{background:white;border-radius:20px;max-width:480px;width:100%;max-height:92vh;max-height:92dvh;display:flex;flex-direction:column;box-shadow:0 32px 80px rgba(0,0,0,0.25);overflow:hidden;animation:popIn 0.3s ease;}
-@keyframes popIn{from{transform:scale(0.92) translateY(20px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
-.modal-head{background:var(--tiffany);padding:20px 24px;color:white;position:relative;}
-.modal-close{position:absolute;top:12px;right:14px;background:rgba(255,255,255,0.15);border:none;color:white;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;}
-.modal-head h2{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;margin-bottom:2px;}
-.modal-head p{opacity:0.7;font-size:0.8rem;}
-.modal-body{padding:20px 24px;overflow-y:auto;flex:1 1 auto;min-height:0;max-height:calc(92vh - 180px);}
-.fgroup{margin-bottom:12px;}
-.fgroup label{display:block;font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:5px;}
-.fcontrol{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-family:inherit;font-size:0.875rem;outline:none;transition:border-color 0.2s;}
-.fcontrol:focus{border-color:var(--tiffany);}
-.time-slots-modal{display:flex;gap:6px;flex-wrap:wrap;}
-.modal-foot{padding:16px 24px 20px;display:flex;gap:10px;border-top:1px solid var(--border);background:white;flex-shrink:0;}
-.btn-confirm{flex:1;background:var(--tiffany);color:white;border:none;padding:13px;border-radius:10px;font-size:0.9rem;font-weight:600;cursor:pointer;font-family:inherit;}
-.btn-confirm:hover{background:var(--tiffany-dark);}
-.btn-cancel{background:none;border:1.5px solid var(--border);color:var(--ink);padding:13px 20px;border-radius:10px;font-size:0.85rem;cursor:pointer;font-family:inherit;}
-.qr-box{background:var(--tiffany-pale);border-radius:12px;padding:20px;text-align:center;margin-bottom:14px;}
-.qr-amount{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--tiffany);}
-.qr-box img{width:160px;height:160px;border-radius:8px;margin:12px auto;display:block;border:3px solid white;}
+/* MOBILE STICKY BOTTOM */
+.mobile-sticky{display:none;position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #f0f0f0;padding:12px 20px;z-index:100;align-items:center;gap:12px}
+@media(max-width:900px){.mobile-sticky{display:flex}}
+.mobile-sticky-price{flex:1}
+.mobile-sticky-price .price{font-size:1.1rem;font-weight:800}
+.mobile-sticky-price .trial{font-size:0.78rem;color:#0ABAB5;font-weight:500}
+.mobile-sticky-btn{background:#0ABAB5;color:white;border:none;padding:13px 24px;border-radius:12px;font-size:0.95rem;font-weight:700;cursor:pointer}
 
-#toast{display:none;position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--tiffany);color:white;padding:11px 22px;border-radius:10px;font-weight:600;z-index:9999;font-size:0.875rem;box-shadow:var(--shadow-lg);}
-.loading-state{text-align:center;padding:80px;color:var(--ink-60);}
+/* BOOKING MODAL */
+.bp-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(6px);z-index:500;align-items:center;justify-content:center;padding:20px}
+.bp-overlay.open{display:flex}
+.bp-modal{background:white;border-radius:20px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto}
+.bp-modal-head{padding:20px 24px;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center}
+.bp-modal-head h2{font-size:1.05rem;font-weight:700}
+.bp-modal-close{width:32px;height:32px;border-radius:50%;background:#f5f5f5;border:none;cursor:pointer;font-size:1rem}
+.bp-modal-body{padding:24px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;color:#888}
+.form-input{width:100%;border:1.5px solid #e0e0e0;border-radius:10px;padding:11px 14px;font-size:0.9rem;font-family:inherit;outline:none;transition:border-color 0.2s}
+.form-input:focus{border-color:#0ABAB5}
+.form-select{width:100%;border:1.5px solid #e0e0e0;border-radius:10px;padding:11px 14px;font-size:0.9rem;font-family:inherit;outline:none;background:white;cursor:pointer}
+.bp-modal-foot{padding:16px 24px;border-top:1px solid #f0f0f0;display:flex;gap:10px;justify-content:flex-end}
+.btn-cancel{border:1.5px solid #e0e0e0;background:white;padding:11px 20px;border-radius:10px;font-size:0.88rem;font-weight:600;cursor:pointer}
+.btn-confirm{background:#0ABAB5;color:white;border:none;padding:11px 24px;border-radius:10px;font-size:0.88rem;font-weight:700;cursor:pointer}
+.btn-confirm:hover{background:#089490}
 
-@media(max-width:768px){
-  .profile-layout{grid-template-columns:1fr;}
-  .booking-sidebar{display:none;}
-  .stats-row{grid-template-columns:repeat(2,1fr);}
-  .video-hero iframe, .video-hero video{height:240px;}
-  .video-placeholder{height:200px;}
-  /* Compact booking modal on mobile so footer buttons stay visible */
-  .overlay{padding:0;align-items:stretch;overflow:hidden;}
-  .modal{max-height:100vh;max-height:100dvh;height:100vh;height:100dvh;margin:0;border-radius:0;}
-  .modal-body{-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
-  .modal-head{padding:14px 18px;}
-  .modal-head h2{font-size:1.05rem;}
-  .modal-head p{font-size:0.72rem;}
-  .modal-body{padding:14px 18px;}
-  .modal-foot{padding:12px 18px 14px;}
-  .qr-box{padding-bottom:10px !important;}
-  .qr-amount{font-size:1.5rem !important;}
-  #qr-img{width:160px !important;height:160px !important;}
-}
+/* TOAST */
+#bp-toast{display:none;position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1B1F3B;color:white;padding:12px 24px;border-radius:10px;font-size:0.88rem;font-weight:500;z-index:9998;white-space:nowrap}
+
+/* SKELETON */
+.skeleton{background:linear-gradient(90deg,#f5f5f5 25%,#eee 50%,#f5f5f5 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
-  <a class="back-btn" href="index.html">← Все репетиторы</a>
-  <a class="logo" href="index.html">Bilimpark<span>.kg</span></a>
-  <div style="width:120px"></div>
+  <a class="nav-logo" href="/">Bilimpark<span>.kg</span></a>
+  <a class="nav-back" href="javascript:history.back()">← Назад</a>
+  <div id="bp-nav-right"></div>
 </nav>
 
-<div class="video-hero" id="video-section">
-  <div class="video-placeholder" id="video-placeholder">
-    <div class="vp-avatar" id="vp-avatar">👨‍🏫</div>
-    <div class="vp-name" id="vp-name">Загрузка...</div>
-    <div class="vp-subject" id="vp-subject">Репетитор</div>
+<!-- MAIN -->
+<div class="page-wrap" id="page-wrap" style="display:none">
+  <!-- LEFT COLUMN -->
+  <div>
+    <!-- VIDEO -->
+    <div class="video-wrap" id="video-wrap">
+      <div class="video-placeholder">
+        <div class="video-placeholder-icon">🎥</div>
+        <p>Загрузка видео...</p>
+      </div>
+    </div>
+
+    <!-- PROFILE HEADER -->
+    <div class="profile-header">
+      <div class="profile-avatar" id="profile-avatar">👨‍🏫</div>
+      <div class="profile-info">
+        <div class="profile-name" id="profile-name">—</div>
+        <div class="profile-role" id="profile-role">Репетитор</div>
+        <div class="profile-tags" id="profile-tags"></div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row" id="stats-row">
+      <div class="stat-box"><span class="stat-val" id="stat-rating">—</span><div class="stat-label">Рейтинг</div></div>
+      <div class="stat-box"><span class="stat-val" id="stat-lessons">—</span><div class="stat-label">Уроков</div></div>
+      <div class="stat-box"><span class="stat-val" id="stat-students">—</span><div class="stat-label">Студентов</div></div>
+      <div class="stat-box"><span class="stat-val" id="stat-reviews">—</span><div class="stat-label">Отзывов</div></div>
+    </div>
+
+    <!-- ABOUT -->
+    <div class="section" id="section-about" style="display:none">
+      <div class="section-title">О себе</div>
+      <div class="about-text" id="about-text"></div>
+      <button class="show-more-btn" id="show-more-btn" onclick="toggleAbout()" style="display:none">Показать больше</button>
+    </div>
+
+    <!-- TEACHES -->
+    <div class="section" id="section-teaches" style="display:none">
+      <div class="section-title">Преподаёт</div>
+      <div id="teaches-list"></div>
+    </div>
+
+    <!-- SCHEDULE -->
+    <div class="section" id="section-schedule" style="display:none">
+      <div class="section-title">📅 Расписание</div>
+      <div class="schedule-nav">
+        <button class="schedule-nav-btn" onclick="changeWeek(-1)">‹</button>
+        <div class="schedule-week" id="schedule-week-label"></div>
+        <button class="schedule-nav-btn" onclick="changeWeek(1)">›</button>
+      </div>
+      <div class="schedule-grid" id="schedule-grid"></div>
+      <div style="margin-top:12px;font-size:0.8rem;color:#888">Время указано по Бишкеку (UTC+6)</div>
+    </div>
+
+    <!-- REVIEWS -->
+    <div class="section" id="section-reviews" style="display:none">
+      <div class="section-title">Отзывы студентов</div>
+      <div class="review-summary" id="review-summary"></div>
+      <div class="reviews-grid" id="reviews-grid"></div>
+      <button id="show-all-reviews-btn" class="show-more-btn" style="margin-top:16px;display:none" onclick="showAllReviews()">Показать все отзывы</button>
+    </div>
+
+    <!-- SIMILAR -->
+    <div class="section" id="section-similar" style="display:none">
+      <div class="section-title">Похожие репетиторы</div>
+      <div class="similar-grid" id="similar-grid"></div>
+    </div>
+
+    <!-- BREADCRUMB -->
+    <div style="font-size:0.78rem;color:#888;margin-top:32px">
+      <a href="/" style="color:#0ABAB5">Главная</a> › <a href="/" style="color:#0ABAB5">Репетиторы</a> › <span id="breadcrumb-name">—</span>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="book-card">
+      <div class="book-price-section" style="padding:20px">
+        <div class="book-price" id="sidebar-price">— <small>сом/час</small></div>
+        <div class="book-trial-note" id="sidebar-trial"></div>
+      </div>
+      <div style="padding:16px 20px">
+        <button class="btn-book-main" onclick="handleBooking()" id="btn-book-main">
+          ⚡ Записаться на пробный урок
+        </button>
+        <div class="book-actions">
+          <button class="book-action-btn" onclick="handleMessage()" title="Написать">💬</button>
+          <button class="book-action-btn" title="Сохранить">♡</button>
+          <button class="book-action-btn" onclick="shareTutor()" title="Поделиться">↗</button>
+        </div>
+        <div class="not-match-box">
+          <span style="color:#0ABAB5;font-size:1rem">✓</span>
+          <p>Не подошёл репетитор? Напишите нам — подберём другого бесплатно.</p>
+        </div>
+      </div>
+      <div class="book-features">
+        <div class="book-feature"><span class="book-feature-icon">✓</span> Урок проходит в Google Meet</div>
+        <div class="book-feature"><span class="book-feature-icon">✓</span> Ссылка приходит автоматически</div>
+        <div class="book-feature"><span class="book-feature-icon">✓</span> Напоминание за 1 час</div>
+        <div class="book-feature"><span class="book-feature-icon">✓</span> Все репетиторы проверены</div>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="profile-wrap">
-  <div class="profile-layout" id="profile-layout">
-    <div class="loading-state">Загрузка профиля...</div>
+<!-- MOBILE STICKY BAR -->
+<div class="mobile-sticky" id="mobile-sticky" style="display:none">
+  <div class="mobile-sticky-price">
+    <div class="price" id="mobile-price">—</div>
+    <div class="trial" id="mobile-trial"></div>
   </div>
-</div>
-
-<div class="sticky-bottom" id="sticky-bottom" style="display:none">
-  <div class="sticky-price-info">
-    <span class="sticky-price-val" id="sticky-price">200 сом</span>
-    <span class="sticky-price-lbl">Пробный урок</span>
-  </div>
-  <button class="sticky-book-btn" onclick="openBooking()" style="flex:1">⚡ Записаться</button>
-<button onclick="openPackages()" style="background:var(--gold);color:white;border:none;padding:13px 16px;border-radius:10px;font-size:0.82rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;">🎁 Пакет</button>
+  <button class="book-action-btn" onclick="handleMessage()" style="border:1.5px solid #e0e0e0;padding:12px">💬</button>
+  <button class="mobile-sticky-btn" onclick="handleBooking()">Записаться на урок</button>
 </div>
 
 <!-- BOOKING MODAL -->
-<div class="overlay" id="bookingModal">
-  <div class="modal">
-    <div class="modal-head">
-      <button class="modal-close" onclick="closeModal()">✕</button>
+<div class="bp-overlay" id="bookingModal">
+  <div class="bp-modal">
+    <div class="bp-modal-head">
       <h2 id="bm-title">Записаться на урок</h2>
-      <p id="bm-sub">Пробный урок</p>
+      <button class="bp-modal-close" onclick="closeBookingModal()">✕</button>
     </div>
-    <div id="bm-step1">
-      <div class="modal-body">
-        <div id="bm-notice" style="display:none;background:var(--gold-light);border:1px solid var(--gold);border-radius:8px;padding:10px;margin-bottom:12px;font-size:0.8rem;color:#7a5a00">
-          Для бронирования нужно <a href="index.html" style="color:var(--tiffany);font-weight:600">войти</a>
-        </div>
-        <div class="fgroup"><label>Дата урока</label><input class="fcontrol" type="date" id="bm-date" onchange="loadSlotsForDate()"></div>
-        <div class="fgroup"><label>Время</label>
-          <div class="time-slots-modal" id="bm-slots">
-            <div style="grid-column:1/-1;padding:16px;text-align:center;color:var(--ink-60);font-size:0.85rem">Сначала выберите дату</div>
-          </div>
-        </div>
-        <div class="fgroup">
-  <label>Тип записи</label>
-  <div style="display:flex;gap:8px;margin-bottom:8px;">
-    <button onclick="setBookingType('single',this)" id="type-single" style="flex:1;padding:10px;border:1.5px solid var(--tiffany);border-radius:8px;background:var(--tiffany);color:white;cursor:pointer;font-family:inherit;font-size:0.82rem;font-weight:600;">Один урок</button>
-    <button onclick="setBookingType('recurring',this)" id="type-recurring" style="flex:1;padding:10px;border:1.5px solid var(--border);border-radius:8px;background:white;color:var(--ink);cursor:pointer;font-family:inherit;font-size:0.82rem;font-weight:600;">Каждую неделю 🔄</button>
-  </div>
-</div>
-
-<div id="recurring-options" style="display:none;background:var(--tiffany-pale);border-radius:10px;padding:14px;margin-bottom:12px;">
-  <div style="font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;">Дни недели</div>
-  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
-    <button onclick="toggleDay(this,1)" style="padding:6px 12px;border:1.5px solid var(--border);border-radius:8px;background:white;cursor:pointer;font-family:inherit;font-size:0.78rem;">Пн</button>
-    <button onclick="toggleDay(this,2)" style="padding:6px 12px;border:1.5px solid var(--border);border-radius:8px;background:white;cursor:pointer;font-family:inherit;font-size:0.78rem;">Вт</button>
-    <button onclick="toggleDay(this,3)" style="padding:6px 12px;border:1.5px solid var(--border);border-radius:8px;background:white;cursor:pointer;font-family:inherit;font-size:0.78rem;">Ср</button>
-    <button onclick="toggleDay(this,4)" style="padding:6px 12px;border:1.5px solid var(--border);border-radius:8px;background:white;cursor:pointer;font-family:inherit;font-size:0.78rem;">Чт</button>
-    <button onclick="toggleDay(this,5)" style="padding:6px 12px;border:1.5px solid var(--border);border-radius:8px;background:white;cursor:pointer;font-family:inherit;font-size:0.78rem;">Пт</button>
-    <button onclick="toggleDay(this,6)" style="padding:6px 12px;border:1.5px solid var(--border);border-radius:8px;background:white;cursor:pointer;font-family:inherit;font-size:0.78rem;">Сб</button>
-    <button onclick="toggleDay(this,0)" style="padding:6px 12px;border:1.5px solid var(--border);border-radius:8px;background:white;cursor:pointer;font-family:inherit;font-size:0.78rem;">Вс</button>
-  </div>
-  <div style="font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">На сколько недель</div>
-  <select id="recurring-weeks" style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;font-family:inherit;font-size:0.85rem;outline:none;">
-    <option value="4">1 месяц (4 недели)</option>
-    <option value="8">2 месяца (8 недель)</option>
-    <option value="12">3 месяца (12 недель)</option>
-  </select>
-</div>
-        <div class="fgroup"><label>Ваша цель</label>
-          <select class="fcontrol" id="bm-goal">
-            <option>Общее улучшение</option>
-            <option>Подготовка к ОРТ/ЕГЭ</option>
-            <option>Разговорная речь</option>
-            <option>С нуля</option>
-          </select>
-        </div>
-        <div class="fgroup"><label>Комментарий</label>
-          <input class="fcontrol" type="text" id="bm-notes" placeholder="Что хотите изучить?">
-        </div>
+    <div class="bp-modal-body">
+      <div class="form-group">
+        <label>Тип урока</label>
+        <select class="form-select" id="bm-type">
+          <option value="trial">Пробный урок</option>
+          <option value="regular">Обычный урок</option>
+        </select>
       </div>
-      <div class="modal-foot">
-        <button class="btn-cancel" onclick="closeModal()">Отмена</button>
-        <button class="btn-confirm" onclick="submitBooking()">Продолжить →</button>
+      <div class="form-group">
+        <label>Предмет</label>
+        <select class="form-select" id="bm-subject"></select>
+      </div>
+      <div class="form-group">
+        <label>Дата</label>
+        <input class="form-input" type="date" id="bm-date">
+      </div>
+      <div class="form-group">
+        <label>Время</label>
+        <input class="form-input" type="time" id="bm-time" value="10:00">
+      </div>
+      <div class="form-group">
+        <label>Длительность</label>
+        <select class="form-select" id="bm-duration">
+          <option value="60">60 минут</option>
+          <option value="90">90 минут</option>
+          <option value="45">45 минут</option>
+        </select>
+      </div>
+      <div style="background:#f0fffe;border-radius:10px;padding:14px;font-size:0.85rem;color:#555;margin-top:4px">
+        💡 После записи репетитор подтвердит урок и вы получите ссылку на Google Meet
       </div>
     </div>
-    <div id="bm-step2" style="display:none">
-      <div class="modal-body">
-        <!-- Temporary manual flow notice -->
-        <div style="background:#fff8e7;border-left:3px solid #b8935a;border-radius:6px;padding:10px 12px;margin-bottom:14px;font-size:0.78rem;line-height:1.5;color:#5c4a1f">
-          <strong>⚙️ Временный способ оплаты.</strong> Сейчас подтверждение вручную (5–30 минут в рабочее время). Скоро запустим автоматику через MBank API.
-        </div>
-
-        <!-- Step 1: QR -->
-        <div class="qr-box" style="text-align:center;padding-bottom:16px">
-          <div style="font-size:0.78rem;color:var(--ink-60);text-transform:uppercase;letter-spacing:0.05em;font-weight:600;margin-bottom:6px">Шаг 1 — Оплатите</div>
-          <div class="qr-amount" id="qr-amount">200 сом</div>
-          <p style="color:var(--ink-60);font-size:0.75rem;margin-bottom:10px">Откройте MBank → Сканировать QR</p>
-          <img id="qr-img" src="/mbank-qr.png" alt="MBank QR" style="width:200px;height:200px;border-radius:10px;border:1px solid var(--border)">
-          <p style="font-size:0.72rem;color:var(--ink-60);margin-top:8px">Bilimpark.kg · MBank Business</p>
-        </div>
-
-        <!-- Step 2: Send screenshot via WhatsApp -->
-        <div style="background:var(--tiffany-pale);border-radius:10px;padding:14px;margin-bottom:12px">
-          <div style="font-size:0.78rem;color:var(--ink-60);text-transform:uppercase;letter-spacing:0.05em;font-weight:600;margin-bottom:6px">Шаг 2 — Отправьте чек</div>
-          <div style="font-size:0.85rem;color:var(--ink);line-height:1.5;margin-bottom:10px">
-            После оплаты пришлите скриншот чека в WhatsApp. Укажите ваше имя и предмет.
-          </div>
-          <a id="whatsapp-confirm-btn" href="#" target="_blank" rel="noopener" style="display:block;background:#25D366;color:white;text-decoration:none;text-align:center;padding:14px 16px;border-radius:8px;font-weight:600;font-size:0.95rem;margin-bottom:10px">
-            💬 Открыть WhatsApp
-          </a>
-          <button id="btn-mark-paid-inline" onclick="markAsPaid()" style="display:block;width:100%;background:var(--tiffany);color:white;border:none;text-align:center;padding:14px 16px;border-radius:8px;font-weight:700;font-size:0.95rem;cursor:pointer;font-family:inherit">
-            ✓ Я оплатил
-          </button>
-          <div style="font-size:0.72rem;color:var(--ink-60);margin-top:6px;text-align:center">Нажмите после отправки чека в WhatsApp</div>
-        </div>
-
-        <!-- Step 3: What happens next -->
-        <div style="background:#f8fafa;border-radius:10px;padding:12px 14px;font-size:0.8rem;line-height:1.6;color:var(--ink)">
-          <strong>Шаг 3 — Подтверждение</strong><br>
-          После проверки чека (5–30 минут) урок подтвердится, и вы получите email со ссылкой на видео-комнату.
-        </div>
-      </div>
-      <div class="modal-foot">
-        <button class="btn-cancel" onclick="closeModal()">Закрыть</button>
-        <button class="btn-confirm" id="btn-mark-paid" onclick="markAsPaid()">✓ Я оплатил, отправил чек</button>
-      </div>
+    <div class="bp-modal-foot">
+      <button class="btn-cancel" onclick="closeBookingModal()">Отмена</button>
+      <button class="btn-confirm" id="bm-submit" onclick="submitBooking()">Подтвердить запись</button>
     </div>
   </div>
 </div>
 
-<div id="toast"></div>
-
+<div id="bp-toast"></div>
+<script src="/auth.js"></script>
 <script>
 const API = 'https://bilimly-backend-0zbt.onrender.com';
-let tutor = null;
-let selectedSlot = null;
-
-function getToken(){return localStorage.getItem('bilimpark_token');}
-function getUser(){return JSON.parse(localStorage.getItem('bilimpark_user')||'null');}
-
 const urlParams = new URLSearchParams(window.location.search);
 const tutorId = urlParams.get('id');
-if(!tutorId) window.location.href='index.html';
+let tutor = null;
+let currentWeekOffset = 0;
+let availability = [];
+let allReviews = [];
 
-async function loadTutor(){
-  try{
-    const res = await fetch(API+'/api/tutors/'+tutorId);
-    const data = await res.json();
-    if(data.error){console.log('Tutor error:',data.error,'ID:',tutorId);return;}
-    tutor = data;
-    renderProfile(data);
-  }catch(e){
-    document.getElementById('profile-layout').innerHTML='<p style="text-align:center;color:var(--ink-60);padding:48px">Ошибка загрузки профиля</p>';
+if (!tutorId) window.location.href = '/';
+
+BpInitNav();
+
+// Load tutor
+async function loadTutor() {
+  try {
+    const [tutorRes, reviewsRes] = await Promise.all([
+      fetch(`${API}/api/tutors/${tutorId}`),
+      fetch(`${API}/api/tutors/${tutorId}/reviews`).catch(() => ({ json: () => [] }))
+    ]);
+    
+    const data = await tutorRes.json();
+    tutor = data.tutor || data;
+    allReviews = await reviewsRes.json().catch(() => []);
+    
+    renderTutor();
+    loadSimilarTutors();
+  } catch(e) {
+    document.getElementById('page-wrap').innerHTML = '<div style="text-align:center;padding:80px 20px"><h2>Репетитор не найден</h2><a href="/" style="color:#0ABAB5;margin-top:12px;display:inline-block">← Вернуться</a></div>';
+    document.getElementById('page-wrap').style.display = 'block';
   }
 }
 
-function renderProfile(t){
-  // Video section
-  if(t.video_intro_url){
-    const url = t.video_intro_url;
-    const isYouTube = url.includes('youtube.com') || url.includes('youtu.be');
-    if (isYouTube) {
-      let embedUrl = url;
-      if (url.includes('youtube.com/watch')) { const id=url.split('v=')[1]?.split('&')[0]; embedUrl='https://www.youtube.com/embed/'+id+'?rel=0&autoplay=1&mute=1'; }
-      else if (url.includes('youtu.be/')) { const id=url.split('youtu.be/')[1]?.split('?')[0]; embedUrl='https://www.youtube.com/embed/'+id+'?autoplay=1&mute=1'; }
-      document.getElementById('video-section').innerHTML=`<iframe src="${embedUrl}" allowfullscreen allow="autoplay; encrypted-media"></iframe>`;
+function renderTutor() {
+  if (!tutor) return;
+
+  // Page title
+  const name = `${tutor.first_name} ${tutor.last_name || ''}`.trim();
+  const nameShort = `${tutor.first_name} ${tutor.last_name ? tutor.last_name[0] + '.' : ''}`.trim();
+  document.title = `${nameShort} — репетитор · Bilimpark.kg`;
+  document.getElementById('breadcrumb-name').textContent = nameShort;
+
+  // Video
+  const videoWrap = document.getElementById('video-wrap');
+  if (tutor.video_intro_url) {
+    const isYoutube = tutor.video_intro_url.includes('youtube') || tutor.video_intro_url.includes('youtu.be');
+    if (isYoutube) {
+      const videoId = tutor.video_intro_url.match(/(?:v=|youtu\.be\/)([^&?]+)/)?.[1];
+      videoWrap.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen style="border-radius:16px"></iframe>`;
     } else {
-      // Native mp4 (Cloudinary etc.) — autoplay muted with controls
-      document.getElementById('video-section').innerHTML=`<video src="${url}" autoplay muted playsinline controls preload="metadata" style="width:100%;height:420px;object-fit:cover;display:block;background:#000"></video>`;
+      videoWrap.innerHTML = `<video src="${tutor.video_intro_url}" controls style="width:100%;height:100%;border-radius:16px;object-fit:cover"></video>`;
     }
   } else {
-    document.getElementById('vp-name').textContent=t.first_name+' '+t.last_name;
-    document.getElementById('vp-subject').textContent=(t.subjects||[]).join(' · ')||'Репетитор';
-    if(t.avatar_url){document.getElementById('vp-avatar').innerHTML=`<img src="${t.avatar_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;}
+    videoWrap.innerHTML = `
+      <div class="video-placeholder">
+        <div style="font-size:5rem">👨‍🏫</div>
+        <p style="font-size:0.9rem">Видео-презентация появится после загрузки репетитором</p>
+      </div>`;
   }
 
-  // Sticky bar
-  document.getElementById('sticky-price').textContent=Math.round(t.trial_rate||200)+' сом';
-  document.getElementById('sticky-bottom').style.display='flex';
-
-  const rating=parseFloat(t.rating)||0;
-  const stars='★'.repeat(Math.round(rating))+'☆'.repeat(5-Math.round(rating));
-  const subjects=t.subjects||[];
-
-  document.getElementById('profile-layout').innerHTML=`
-    <div>
-      <!-- MAIN PROFILE CARD -->
-      <div class="profile-card">
-        <div class="profile-header">
-          <div class="ph-top">
-            <div class="avatar">${t.avatar_url?`<img src="${t.avatar_url}" alt="${t.first_name}">`:'👨‍🏫'}</div>
-            <div class="ph-info">
-              <div class="tutor-name">${t.first_name} ${t.last_name} 🇰🇬</div>
-${t.badge?`<div style="display:inline-flex;align-items:center;gap:6px;background:var(--gold-light);color:#7a5a00;border:1px solid var(--gold);padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:600;margin-bottom:8px;">${t.badge==='Elite'?'💎':t.badge==='Top Tutor'?'🥇':t.badge==='Experienced'?'🥈':'🥉'} ${t.badge}</div>`:''}
-              <div class="tutor-subject">${subjects.join(' · ')||'Репетитор'}</div>
-              <div class="tutor-meta">
-                <span class="meta-item"><span style="color:var(--gold)">${stars}</span> <strong>${rating.toFixed(1)}</strong></span>
-                <span class="meta-item">📍 <strong>${t.city||'Бишкек'}</strong></span>
-                ${t.total_students?`<span class="meta-item">👥 <strong>${t.total_students}</strong> студентов</span>`:''}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="stats-row">
-          <div class="stat-cell"><span class="stat-val">${rating.toFixed(1)} ★</span><span class="stat-lbl">Рейтинг</span></div>
-          <div class="stat-cell"><span class="stat-val">${t.review_count||0}</span><span class="stat-lbl">Отзывов</span></div>
-          <div class="stat-cell"><span class="stat-val">${t.total_lessons||0}</span><span class="stat-lbl">Уроков</span></div>
-          <div class="stat-cell"><span class="stat-val">${Math.round(t.hourly_rate||500)}</span><span class="stat-lbl">Сом / час</span></div>
-        </div>
-      </div>
-
-      <!-- BIO -->
-      <div class="sec-card">
-        <div class="sec-head"><h3>О репетиторе</h3></div>
-        <div class="sec-body">
-          <div class="bio-text">${t.bio_ru||t.bio_en||'Опытный репетитор. Профиль скоро будет заполнен.'}</div>
-          ${subjects.length?`<div class="tags">${subjects.map(s=>`<span class="tag">${s}</span>`).join('')}</div>`:''}
-        </div>
-      </div>
-
-      ${renderAvailability(t.availability)}
-      ${renderReviews(t.reviews)}
-    </div>
-
-    <!-- BOOKING SIDEBAR -->
-    <div class="booking-sidebar">
-      <div class="book-card">
-        <div class="book-head">
-          <span class="book-price">${Math.round(t.hourly_rate||500)} <span style="font-size:1rem;opacity:0.6">сом</span></span>
-          <span class="book-price-label">за 60 минут</span>
-          <div class="book-trial">
-            <span class="book-trial-label">Пробный урок</span>
-            <span class="book-trial-price">${Math.round(t.trial_rate||200)} сом</span>
-          </div>
-        </div>
-        <div class="book-body">
-          <button class="btn-book-trial" onclick="openBooking()">⚡ Записаться на пробный урок</button>
-<button onclick="openPackages()" style="width:100%;background:var(--gold-light);color:#7a5a00;border:1.5px solid var(--gold);padding:13px;border-radius:10px;font-size:0.88rem;font-weight:600;cursor:pointer;font-family:inherit;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px;">🎁 Купить пакет уроков</button>
-<button class="btn-msg" onclick="openMessage()">💬 Написать репетитору</button>
-          <div class="response-info">Обычно отвечает в течение 2 часов</div>
-        </div>
-        <div class="book-features">
-          <div class="book-feature"><span class="book-feature-icon">✅</span> Проверенный репетитор</div>
-          <div class="book-feature"><span class="book-feature-icon">🎥</span> Урок онлайн</div>
-          <div class="book-feature"><span class="book-feature-icon">🔒</span> Безопасная оплата</div>
-          <div class="book-feature"><span class="book-feature-icon">📝</span> Отчёт после урока</div>
-        </div>
-      </div>
-    </div>
-  `;
-
-  document.title=`${t.first_name} ${t.last_name} — репетитор по ${(t.subjects||[])[0]||'предметам'} в Бишкеке · Bilimpark.kg`;
-
-  // Dynamic meta description
-  let metaDesc = document.querySelector('meta[name="description"]');
-  if (!metaDesc) { metaDesc = document.createElement('meta'); metaDesc.name = 'description'; document.head.appendChild(metaDesc); }
-  metaDesc.content = `${t.first_name} ${t.last_name} — репетитор по ${(t.subjects||[]).join(', ')} в Бишкеке. Опыт ${t.total_lessons||0} уроков. Рейтинг ${parseFloat(t.rating||0).toFixed(1)}★. Ставка ${t.hourly_rate} сом/час. Пробный урок — ${t.trial_rate||200} сом.`;
-
-  // Dynamic OG title
-  let ogTitle = document.querySelector('meta[property="og:title"]');
-  if (!ogTitle) { ogTitle = document.createElement('meta'); ogTitle.setAttribute('property','og:title'); document.head.appendChild(ogTitle); }
-  ogTitle.content = `${t.first_name} ${t.last_name} — репетитор · Bilimpark.kg`;
-
-  // JSON-LD structured data per tutor
-  const existingSchema = document.getElementById('tutor-schema');
-  if (existingSchema) existingSchema.remove();
-  const schema = document.createElement('script');
-  schema.id = 'tutor-schema';
-  schema.type = 'application/ld+json';
-  const schemaData = {
-    '@context': 'https://schema.org',
-    '@type': 'Person',
-    'name': t.first_name + ' ' + t.last_name,
-    'jobTitle': 'Репетитор по ' + (t.subjects||[]).join(', '),
-    'description': t.bio_ru || '',
-    'url': 'https://bilimpark.kg/tutor.html?id=' + t.id,
-    'image': t.avatar_url || '',
-    'worksFor': { '@type': 'Organization', 'name': 'Bilimpark.kg', 'url': 'https://bilimpark.kg' },
-    'hasOccupation': { '@type': 'Occupation', 'name': 'Репетитор', 'occupationLocation': { '@type': 'City', 'name': t.city || 'Бишкек' } },
-    'offers': { '@type': 'Offer', 'name': 'Урок с репетитором', 'price': t.hourly_rate, 'priceCurrency': 'KGS', 'availability': 'https://schema.org/InStock' }
-  };
-  if (t.review_count > 0) {
-    schemaData['aggregateRating'] = { '@type': 'AggregateRating', 'ratingValue': parseFloat(t.rating||0).toFixed(1), 'reviewCount': t.review_count || 1, 'bestRating': '5', 'worstRating': '1' };
+  // Avatar
+  const avatarEl = document.getElementById('profile-avatar');
+  if (tutor.avatar_url) {
+    avatarEl.innerHTML = `<img src="${tutor.avatar_url}" alt="${name}">`;
+  } else {
+    avatarEl.textContent = '👨‍🏫';
   }
-  schema.textContent = JSON.stringify(schemaData);
-  document.head.appendChild(schema);
-}
 
-function renderAvailability(availability){
-  if(!availability?.length) return '';
-  const days=['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
-  const activeDays=new Set(availability.map(a=>a.day_of_week));
-  const activeTimes=[...new Set(availability.map(a=>a.start_time.substring(0,5)))].sort();
-  return `
-    <div class="sec-card">
-      <div class="sec-head"><h3>Расписание</h3></div>
-      <div class="sec-body">
-        <div class="days-row">${days.map((d,i)=>`<div class="day-chip ${activeDays.has(i)?'on':'off'}">${d}</div>`).join('')}</div>
-        <div class="time-grid">${activeTimes.map(t=>`<div class="tslot" onclick="selSlot(this)">${t}</div>`).join('')}</div>
-      </div>
-    </div>`;
-}
+  // Name and role
+  document.getElementById('profile-name').textContent = nameShort;
+  document.getElementById('profile-role').textContent = `Репетитор по ${(tutor.subjects || []).join(', ')} · ${tutor.city || 'Бишкек'}`;
 
-function renderReviews(reviews){
-  if(!reviews?.length) return `<div class="sec-card"><div class="sec-head"><h3>Отзывы</h3></div><div class="no-reviews"><div style="font-size:2rem;margin-bottom:8px">⭐</div><div>Пока нет отзывов. Станьте первым!</div></div></div>`;
-  return `
-    <div class="sec-card">
-      <div class="sec-head"><h3>Отзывы студентов</h3><span style="font-size:0.8rem;color:var(--ink-60)">${reviews.length} отзывов</span></div>
-      <div class="sec-body" style="padding:0 20px;">
-        ${reviews.map(r=>`
-          <div class="review-item">
-            <div class="rev-header">
-              <div class="rev-author">
-                <div class="rev-av">${r.first_name?.[0]||'?'}</div>
-                <div><div class="rev-name">${r.first_name} ${r.last_name}</div><div class="rev-date">${new Date(r.created_at).toLocaleDateString('ru-RU')}</div></div>
-              </div>
-              <div class="rev-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
-            </div>
-            <div class="rev-text">"${r.comment||'Отличный репетитор!'}"</div>
-          </div>
-        `).join('')}
-      </div>
-    </div>`;
-}
+  // Tags
+  const tags = document.getElementById('profile-tags');
+  tags.innerHTML = `<span class="profile-tag verified">✓ Проверен</span>`;
+  if (tutor.total_lessons > 100) tags.innerHTML += `<span class="profile-tag">Опытный</span>`;
+  if (tutor.rating >= 4.8) tags.innerHTML += `<span class="profile-tag">Топ репетитор</span>`;
 
-function selSlot(el){
-  document.querySelectorAll('.tslot').forEach(s=>s.classList.remove('sel'));
-  el.classList.add('sel');
-  selectedSlot=el.textContent.trim();
-}
+  // Stats
+  document.getElementById('stat-rating').textContent = tutor.rating > 0 ? `★ ${parseFloat(tutor.rating).toFixed(1)}` : '—';
+  document.getElementById('stat-lessons').textContent = tutor.total_lessons || 0;
+  document.getElementById('stat-students').textContent = tutor.student_count || '—';
+  document.getElementById('stat-reviews').textContent = tutor.review_count || allReviews.length || 0;
 
-function openBooking(){
-  if(!getToken()){document.getElementById('bm-notice').style.display='block';}
-  else{document.getElementById('bm-notice').style.display='none';}
-  document.getElementById('bm-step1').style.display='block';
-  document.getElementById('bm-step2').style.display='none';
-  document.getElementById('bm-date').min=new Date().toISOString().split('T')[0];
-  if(tutor){
-    document.getElementById('bm-title').textContent='Урок с '+tutor.first_name;
-    document.getElementById('bm-sub').textContent='Пробный урок · '+Math.round(tutor.trial_rate||200)+' сом';
-  }
-  document.getElementById('bookingModal').classList.add('open');
-  // Lock body scroll on mobile so modal scroll works correctly
-  document.body.style.overflow='hidden';
-  document.body.style.position='fixed';
-  document.body.style.width='100%';
-}
+  // Sidebar
+  document.getElementById('sidebar-price').innerHTML = `${tutor.hourly_rate} <small>сом/час</small>`;
+  document.getElementById('sidebar-trial').textContent = tutor.trial_rate ? `Пробный урок — ${tutor.trial_rate} сом` : 'Пробный урок — 200 сом';
+  document.getElementById('mobile-price').textContent = `${tutor.hourly_rate} сом/час`;
+  document.getElementById('mobile-trial').textContent = `Пробный ${tutor.trial_rate || 200} сом`;
 
-let bookingType = 'single';
-let selectedDays = new Set();
-
-function setBookingType(type, btn) {
-  bookingType = type;
-  document.getElementById('type-single').style.background = type==='single' ? 'var(--tiffany)' : 'white';
-  document.getElementById('type-single').style.color = type==='single' ? 'white' : 'var(--ink)';
-  document.getElementById('type-single').style.borderColor = type==='single' ? 'var(--tiffany)' : 'var(--border)';
-  document.getElementById('type-recurring').style.background = type==='recurring' ? 'var(--tiffany)' : 'white';
-  document.getElementById('type-recurring').style.color = type==='recurring' ? 'white' : 'var(--ink)';
-  document.getElementById('type-recurring').style.borderColor = type==='recurring' ? 'var(--tiffany)' : 'var(--border)';
-  document.getElementById('recurring-options').style.display = type==='recurring' ? 'block' : 'none';
-}
-
-function toggleDay(el, day) {
-  el.classList.toggle('sel');
-  if(selectedDays.has(day)) selectedDays.delete(day);
-  else selectedDays.add(day);
-  el.style.background = selectedDays.has(day) ? 'var(--tiffany)' : 'white';
-  el.style.color = selectedDays.has(day) ? 'white' : 'var(--ink)';
-  el.style.borderColor = selectedDays.has(day) ? 'var(--tiffany)' : 'var(--border)';
-}
-
-async function submitBooking(){
-  if(!getToken()){showToast('Войдите чтобы забронировать');closeModal();return;}
-
-  if(bookingType === 'recurring') {
-    if(selectedDays.size === 0){showToast('Выберите дни недели');return;}
-    if(!selectedSlot){showToast('Выберите время');return;}
-    
-    try{
-      const weeks = parseInt(document.getElementById('recurring-weeks').value);
-      const res = await fetch(API+'/api/bookings/recurring',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()},
-        body:JSON.stringify({
-          tutor_id: tutor.tutor_id || tutor.id,
-          days: [...selectedDays],
-          start_time: selectedSlot+':00',
-          end_time: (parseInt(selectedSlot)+1).toString().padStart(2,'0')+':00:00',
-          subject: (tutor.subjects||[])[0]||'Урок',
-          weeks: weeks,
-          student_notes: document.getElementById('bm-notes').value
-        })
-      });
-      const data = await res.json();
-      document.getElementById('bm-step1').style.display='none';
-      document.getElementById('bm-step2').style.display='block';
-      const recAmount = Math.round((tutor.hourly_rate||500) * data.total);
-      document.getElementById('qr-amount').textContent = recAmount + ' сом';
-      // QR image is static /mbank-qr.png — already in HTML
-
-      // Build WhatsApp link for recurring booking
-      const recStudentName = (window.currentUser?.first_name || '') + ' ' + (window.currentUser?.last_name || '');
-      const recTutorName = tutor?.first_name + ' ' + (tutor?.last_name || '');
-      const recSubject = (tutor?.subjects||[])[0] || 'Урок';
-      const recWaMessage =
-        'Здравствуйте! Прикрепляю чек за пакет уроков на Bilimpark.kg.\n\n' +
-        (recStudentName.trim() ? 'Имя: ' + recStudentName.trim() + '\n' : '') +
-        'Репетитор: ' + recTutorName.trim() + '\n' +
-        'Предмет: ' + recSubject + '\n' +
-        'Уроков: ' + data.total + '\n' +
-        'Сумма: ' + recAmount + ' сом\n\n' +
-        'Скриншот ниже:';
-      const recWaUrl = 'https://wa.me/996506354444?text=' + encodeURIComponent(recWaMessage);
-      const recWaBtn = document.getElementById('whatsapp-confirm-btn');
-      if (recWaBtn) recWaBtn.href = recWaUrl;
-      showToast(`✅ ${data.total} уроков забронировано!`);
-const msg = encodeURIComponent(`Здравствуйте! Я записался на ${data.total} уроков через Bilimpark.kg. Жду подтверждения! 🎓`);
-const phone = tutor?.phone?.replace(/\D/g,'');
-if(phone) setTimeout(()=>window.open(`https://wa.me/${phone}?text=${msg}`,'_blank'),1500);
-    }catch(e){
-      showToast('Ошибка бронирования');
+  // About
+  if (tutor.bio_ru) {
+    document.getElementById('section-about').style.display = 'block';
+    const fullText = tutor.bio_ru;
+    const shortText = fullText.length > 300 ? fullText.substring(0, 300) + '...' : fullText;
+    const aboutEl = document.getElementById('about-text');
+    aboutEl.textContent = shortText;
+    if (fullText.length > 300) {
+      const btn = document.getElementById('show-more-btn');
+      btn.style.display = 'block';
+      btn._full = fullText;
+      btn._short = shortText;
+      btn._expanded = false;
     }
-    return;
   }
 
-  // Single booking
-  const date=document.getElementById('bm-date').value;
-  if(!date){showToast('Выберите дату');return;}
-  if(!selectedSlot){showToast('Выберите время');return;}
-
-  let bookingResult = null;
-  window.currentBookingIdForPayment = null;
-  try{
-    const res = await fetch(API+'/api/bookings',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()},
-      body:JSON.stringify({
-        tutor_id: tutor.tutor_id || tutor.id,
-        lesson_date: date,
-        start_time: selectedSlot+':00',
-        end_time: (parseInt(selectedSlot)+1).toString().padStart(2,'0')+':00:00',
-        lesson_type: 'trial',
-        subject: (tutor.subjects||[])[0]||'Урок',
-        student_notes: document.getElementById('bm-notes').value
-      })
-    });
-    if (res.ok) bookingResult = await res.json();
-  }catch(e){
-    console.error('booking error', e);
+  // Teaches (subjects as specialties)
+  if (tutor.subjects?.length) {
+    document.getElementById('section-teaches').style.display = 'block';
+    document.getElementById('teaches-list').innerHTML = tutor.subjects.map(s => `
+      <div class="specialty-item" onclick="this.classList.toggle('open')">
+        <span class="specialty-name">${s}</span>
+        <span class="specialty-arrow">▼</span>
+      </div>`).join('');
   }
 
-  document.getElementById('bm-step1').style.display='none';
-  document.getElementById('bm-step2').style.display='block';
+  // Schedule
+  if (tutor.availability?.length) {
+    availability = tutor.availability;
+    document.getElementById('section-schedule').style.display = 'block';
+    renderSchedule();
+  }
 
-  const amount = Math.round(tutor?.trial_rate||200);
-  document.getElementById('qr-amount').textContent = amount + ' сом';
-  // QR image is now static /mbank-qr.png — no JS update needed
+  // Reviews
+  if (allReviews.length > 0) {
+    document.getElementById('section-reviews').style.display = 'block';
+    renderReviews();
+  }
 
-  // Build WhatsApp link with booking details for admin matching
-  const fullBookingId = bookingResult?.booking?.id || null;
-  window.currentBookingIdForPayment = fullBookingId;
-  const bookingId = fullBookingId ? fullBookingId.substring(0, 8) : '';
-  const studentName = (window.currentUser?.first_name || '') + ' ' + (window.currentUser?.last_name || '');
-  const tutorName = tutor?.first_name + ' ' + (tutor?.last_name || '');
-  const subjectStr = (tutor?.subjects||[])[0] || 'Урок';
+  // Subject select in booking modal
+  const subjectSelect = document.getElementById('bm-subject');
+  subjectSelect.innerHTML = (tutor.subjects || ['Урок']).map(s => `<option>${s}</option>`).join('');
 
-  const waMessage =
-    'Здравствуйте! Прикрепляю чек об оплате урока на Bilimpark.kg.\n\n' +
-    (studentName.trim() ? 'Имя: ' + studentName.trim() + '\n' : '') +
-    'Репетитор: ' + tutorName.trim() + '\n' +
-    'Предмет: ' + subjectStr + '\n' +
-    'Дата: ' + date + ' в ' + selectedSlot + ':00\n' +
-    'Сумма: ' + amount + ' сом\n' +
-    (bookingId ? 'Бронь: #' + bookingId + '\n' : '') +
-    '\nСкриншот ниже:';
+  // Booking modal min date
+  document.getElementById('bm-date').min = new Date().toISOString().split('T')[0];
+  document.getElementById('bm-title').textContent = `Урок с ${tutor.first_name}`;
 
-  const waUrl = 'https://wa.me/996506354444?text=' + encodeURIComponent(waMessage);
-  const waBtn = document.getElementById('whatsapp-confirm-btn');
-  if (waBtn) waBtn.href = waUrl;
+  // Show page
+  document.getElementById('page-wrap').style.display = 'grid';
+  document.getElementById('mobile-sticky').style.display = 'flex';
 }
 
-let currentBookingIdForPayment = null;
-
-async function markAsPaid(){
-  const bookingIdToMark = window.currentBookingIdForPayment;
-  if (!bookingIdToMark) {
-    showToast('Бронирование не найдено');
-    return;
-  }
-  const btn = document.getElementById('btn-mark-paid-inline') || document.getElementById('btn-mark-paid');
-  if (btn) { btn.disabled = true; btn.textContent = 'Отправляем...'; }
-
-  try {
-    const res = await fetch(API + '/api/bookings/' + bookingIdToMark + '/mark-paid', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() }
-    });
-    const data = await res.json().catch(() => ({}));
-
-    if (res.ok) {
-      // Replace modal body with confirmation state
-      const body = document.querySelector('#bm-step2 .modal-body');
-      if (body) {
-        body.innerHTML = `
-          <div style="text-align:center;padding:20px 0">
-            <div style="font-size:3rem;margin-bottom:12px">✅</div>
-            <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--ink);margin-bottom:8px">Спасибо!</div>
-            <div style="color:var(--ink-60);font-size:0.9rem;line-height:1.55;margin-bottom:16px">
-              Мы получили уведомление о вашей оплате. Проверим чек и подтвердим урок в течение 30 минут в рабочее время.
-            </div>
-            <div style="background:var(--tiffany-pale);border-radius:10px;padding:14px;font-size:0.85rem;color:var(--tiffany-dark);text-align:left">
-              <strong>Что дальше:</strong><br>
-              1. Мы проверим ваш чек<br>
-              2. Вы получите email со ссылкой на видео-комнату<br>
-              3. Подключитесь к уроку в назначенное время
-            </div>
-          </div>`;
-      }
-      const foot = document.querySelector('#bm-step2 .modal-foot');
-      if (foot) {
-        foot.innerHTML = '<button class="btn-confirm" style="flex:1" onclick="closeModal()">Закрыть</button>';
-      }
-    } else {
-      if (btn) { btn.disabled = false; btn.textContent = '✓ Я оплатил, отправил чек'; }
-      showToast(data.error || 'Ошибка. Попробуйте ещё раз.');
-    }
-  } catch (e) {
-    if (btn) { btn.disabled = false; btn.textContent = '✓ Я оплатил, отправил чек'; }
-    showToast('Ошибка соединения. Попробуйте ещё раз.');
-    console.error('markAsPaid error', e);
-  }
+function toggleAbout() {
+  const btn = document.getElementById('show-more-btn');
+  const aboutEl = document.getElementById('about-text');
+  btn._expanded = !btn._expanded;
+  aboutEl.textContent = btn._expanded ? btn._full : btn._short;
+  btn.textContent = btn._expanded ? 'Свернуть' : 'Показать больше';
 }
 
-// Legacy alias for any old code paths
-function confirmPaid(){ markAsPaid(); }
-
-async function loadSlotsForDate() {
-  const date = document.getElementById('bm-date').value;
-  const container = document.getElementById('bm-slots');
-  if (!date) {
-    container.innerHTML = '<div style="grid-column:1/-1;padding:16px;text-align:center;color:var(--ink-60);font-size:0.85rem">Сначала выберите дату</div>';
-    return;
-  }
-  container.innerHTML = '<div style="grid-column:1/-1;padding:16px;text-align:center;color:var(--ink-60);font-size:0.85rem">Загружаем слоты…</div>';
-  selectedSlot = null;
-
-  try {
-    const tutorRef = tutor.tutor_id || tutor.id;
-    const res = await fetch(API + '/api/tutors/' + tutorRef + '/available-slots?date=' + date);
-    const data = await res.json();
-    if (!res.ok || !data.slots || data.slots.length === 0) {
-      container.innerHTML = '<div style="grid-column:1/-1;padding:16px;text-align:center;color:var(--ink-60);font-size:0.85rem">На этот день у репетитора нет свободных слотов. Попробуйте другой день.</div>';
-      return;
-    }
-    container.innerHTML = data.slots.map(t => `<div class="tslot" onclick="selSlot(this)">${t}</div>`).join('');
-  } catch (e) {
-    console.error('loadSlotsForDate error', e);
-    container.innerHTML = '<div style="grid-column:1/-1;padding:16px;text-align:center;color:#dc2626;font-size:0.85rem">Ошибка загрузки. Попробуйте ещё раз.</div>';
-  }
+// Schedule
+function changeWeek(offset) {
+  currentWeekOffset += offset;
+  renderSchedule();
 }
 
-function closeModal(){
-  document.getElementById('bookingModal').classList.remove('open');
-  selectedSlot=null;
-  document.querySelectorAll('.tslot').forEach(s=>s.classList.remove('sel'));
-  // Release body scroll lock
-  document.body.style.overflow='';
-  document.body.style.position='';
-  document.body.style.width='';
-}
+function renderSchedule() {
+  const today = new Date();
+  const startOfWeek = new Date(today);
+  startOfWeek.setDate(today.getDate() - today.getDay() + 1 + (currentWeekOffset * 7));
 
-function openMessage(){
-  if(!getToken()){showToast('Войдите чтобы написать репетитору');return;}
-  fetch(API+'/api/messages/conversations',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()},body:JSON.stringify({other_user_id:tutor.user_id||tutor.id})})
-  .then(r=>r.json()).then(()=>{window.location.href='messages.html';}).catch(()=>{window.location.href='messages.html';});
-}
+  const days = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+  const weekDates = days.map((_, i) => {
+    const d = new Date(startOfWeek);
+    d.setDate(startOfWeek.getDate() + i);
+    return d;
+  });
 
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',3000);}
+  const weekLabel = `${weekDates[0].toLocaleDateString('ru-RU', {day:'numeric',month:'short'})} — ${weekDates[6].toLocaleDateString('ru-RU', {day:'numeric',month:'short', year:'numeric'})}`;
+  document.getElementById('schedule-week-label').textContent = weekLabel;
 
-document.getElementById('bookingModal').addEventListener('click',e=>{if(e.target===document.getElementById('bookingModal'))closeModal();});
-
-loadTutor();
-  function openPackages(){
-  if(!getToken()){showToast('Войдите чтобы купить пакет');return;}
-  document.getElementById('pkg-tutor-name').textContent = 'Репетитор: ' + (tutor?.first_name||'') + ' ' + (tutor?.last_name||'');
-  document.getElementById('pkg-qr').style.display='none';
-  
-  const rate = tutor?.hourly_rate || 500;
-  const packages = [
-    {lessons:5, discount:5, icon:'📦'},
-    {lessons:10, discount:8, icon:'📦📦'},
-    {lessons:20, discount:11, icon:'💎'},
-  ];
-
-  document.getElementById('packages-list').innerHTML = packages.map(pkg => {
-    const price = Math.round(rate * (1 - pkg.discount/100));
-    const total = Math.round(price * pkg.lessons);
-    const savings = Math.round(rate * pkg.lessons - total);
+  const grid = document.getElementById('schedule-grid');
+  grid.innerHTML = weekDates.map((date, i) => {
+    const dayAvail = availability.filter(a => a.day_of_week === date.getDay() || a.day_of_week === i + 1);
+    const slots = dayAvail.slice(0, 5);
     return `
-      <div onclick="selectPackage(${pkg.lessons},${total},${price})" style="background:var(--tiffany-pale);border:1.5px solid var(--tiffany-light);border-radius:12px;padding:16px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--tiffany)'" onmouseout="this.style.borderColor='var(--tiffany-light)'">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div class="schedule-day-header">${days[i]}</div>
+        <div class="schedule-day-num">${date.getDate()}</div>
+        ${slots.map(s => `<div class="time-slot" onclick="selectTimeSlot(this,'${date.toISOString().split('T')[0]}','${s.start_time}')">${s.start_time?.substring(0,5)}</div>`).join('')}
+      </div>`;
+  }).join('');
+}
+
+function selectTimeSlot(el, date, time) {
+  document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('bm-date').value = date;
+  document.getElementById('bm-time').value = time?.substring(0,5) || '10:00';
+  handleBooking();
+}
+
+// Reviews
+function renderReviews(all = false) {
+  const reviews = all ? allReviews : allReviews.slice(0, 6);
+  
+  if (tutor.rating > 0) {
+    document.getElementById('review-summary').innerHTML = `
+      <div class="review-metric"><div class="review-metric-val">★ ${parseFloat(tutor.rating).toFixed(1)}</div><div class="review-metric-label">Общий рейтинг</div></div>
+      <div class="review-metric"><div class="review-metric-val">${tutor.review_count || reviews.length}</div><div class="review-metric-label">Отзывов</div></div>
+      <div class="review-metric"><div class="review-metric-val">${tutor.total_lessons || 0}</div><div class="review-metric-label">Уроков</div></div>
+      <div class="review-metric"><div class="review-metric-val">${tutor.student_count || '—'}</div><div class="review-metric-label">Студентов</div></div>`;
+  }
+
+  document.getElementById('reviews-grid').innerHTML = reviews.map(r => {
+    const initials = (r.student_name || r.reviewer_name || 'А')[0].toUpperCase();
+    const stars = '★'.repeat(Math.round(r.rating || 5));
+    return `
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-avatar">${initials}</div>
           <div>
-            <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;">${pkg.icon} ${pkg.lessons} уроков</div>
-            <div style="font-size:0.78rem;color:var(--tiffany-dark);font-weight:600;">Скидка ${pkg.discount}% · Экономия ${savings} сом</div>
-          </div>
-          <div style="text-align:right;">
-            <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--tiffany);">${total} сом</div>
-            <div style="font-size:0.72rem;color:var(--ink-60);">${price} сом/урок</div>
+            <div class="review-author">${r.student_name || r.reviewer_name || 'Студент'}</div>
+            <div class="review-date">${r.created_at ? new Date(r.created_at).toLocaleDateString('ru-RU', {month:'long',year:'numeric'}) : ''}</div>
           </div>
         </div>
+        <div class="review-stars">${stars}</div>
+        <div class="review-text">${r.comment || r.text || ''}</div>
       </div>`;
   }).join('');
 
-  document.getElementById('packagesModal').classList.add('open');
+  const showAllBtn = document.getElementById('show-all-reviews-btn');
+  if (allReviews.length > 6 && !all) {
+    showAllBtn.style.display = 'block';
+    showAllBtn.textContent = `Показать все ${allReviews.length} отзывов`;
+  } else {
+    showAllBtn.style.display = 'none';
+  }
 }
 
-async function selectPackage(lessons, total, pricePerLesson){
-  try{
-    const res = await fetch(API+'/api/bookings/packages/buy',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()},
-      body:JSON.stringify({
-        tutor_id: tutor.tutor_id || tutor.id,
-        subject: (tutor.subjects||[])[0]||'Урок',
-        lessons
+function showAllReviews() { renderReviews(true); }
+
+// Similar tutors
+async function loadSimilarTutors() {
+  if (!tutor?.subjects?.length) return;
+  try {
+    const subject = tutor.subjects[0];
+    const res = await fetch(`${API}/api/tutors?subject=${encodeURIComponent(subject)}&limit=4`);
+    const data = await res.json();
+    const similar = (data.tutors || []).filter(t => t.tutor_id !== tutorId && t.id !== tutorId).slice(0, 4);
+    if (!similar.length) return;
+    document.getElementById('section-similar').style.display = 'block';
+    document.getElementById('similar-grid').innerHTML = similar.map(t => `
+      <div class="similar-card" onclick="window.location.href='/tutor.html?id=${t.tutor_id || t.id}'">
+        <div class="similar-avatar">
+          ${t.avatar_url ? `<img src="${t.avatar_url}" alt="${t.first_name}">` : '👨‍🏫'}
+        </div>
+        <div class="similar-name">${t.first_name} ${t.last_name?.[0] || ''}.</div>
+        <div class="similar-subj">${(t.subjects||[]).slice(0,1).join('')}</div>
+        <div class="similar-price">${t.hourly_rate} сом/час</div>
+        ${t.rating > 0 ? `<div style="font-size:0.75rem;color:#888;margin-top:4px">★ ${parseFloat(t.rating).toFixed(1)}</div>` : ''}
+      </div>`).join('');
+  } catch(e) {}
+}
+
+// Booking
+function handleBooking() {
+  if (!Auth.isLoggedIn()) {
+    AuthModal.open('login', () => handleBooking(), {
+      tutorAvatar: tutor?.avatar_url,
+      title: `Записаться к ${tutor?.first_name || 'репетитору'}`,
+      subtitle: 'Войдите чтобы забронировать урок'
+    });
+    return;
+  }
+  document.getElementById('bookingModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeBookingModal() {
+  document.getElementById('bookingModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+async function submitBooking() {
+  const type = document.getElementById('bm-type').value;
+  const subject = document.getElementById('bm-subject').value;
+  const date = document.getElementById('bm-date').value;
+  const time = document.getElementById('bm-time').value;
+  const duration = document.getElementById('bm-duration').value;
+
+  if (!date || !time) { showToast('Выберите дату и время'); return; }
+
+  const btn = document.getElementById('bm-submit');
+  btn.textContent = 'Отправка...'; btn.disabled = true;
+
+  try {
+    const amount = type === 'trial' ? (tutor.trial_rate || 200) : tutor.hourly_rate;
+    const res = await fetch(`${API}/api/bookings`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${Auth.getToken()}` },
+      body: JSON.stringify({
+        tutor_id: tutorId,
+        lesson_date: date,
+        start_time: time,
+        duration_minutes: parseInt(duration),
+        subject,
+        lesson_type: type,
+        amount
       })
     });
     const data = await res.json();
-    document.getElementById('packages-list').style.display='none';
-    document.getElementById('pkg-qr').style.display='block';
-    document.getElementById('pkg-amount').textContent = total + ' сом';
-    document.getElementById('pkg-qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=BILIMPARK_PKG_${lessons}LESSONS_${total}KGS_${Date.now()}&bgcolor=ffffff&color=0ABAB5`;
-    document.getElementById('pkg-footer').innerHTML = `
-      <button class="btn-cancel" onclick="document.getElementById('packagesModal').classList.remove('open')">Закрыть</button>
-      <button class="btn-confirm" onclick="document.getElementById('packagesModal').classList.remove('open');showToast('🎉 Пакет активирован!')">✓ Оплачено</button>
-    `;
-  }catch(e){
-    showToast('Ошибка. Попробуйте снова.');
+    if (res.ok) {
+      closeBookingModal();
+      showToast('✓ Урок забронирован! Ожидайте подтверждения от репетитора.');
+      setTimeout(() => window.location.href = '/dashboard.html', 2500);
+    } else {
+      showToast(data.error || 'Ошибка при записи');
+      btn.textContent = 'Подтвердить запись'; btn.disabled = false;
+    }
+  } catch(e) {
+    showToast('Ошибка соединения');
+    btn.textContent = 'Подтвердить запись'; btn.disabled = false;
   }
 }
+
+// Message
+async function handleMessage() {
+  if (!Auth.isLoggedIn()) {
+    AuthModal.open('register', () => handleMessage(), {
+      tutorAvatar: tutor?.avatar_url,
+      title: `Написать ${tutor?.first_name || 'репетитору'}`,
+      subtitle: 'Зарегистрируйтесь чтобы начать общение'
+    });
+    return;
+  }
+  try {
+    const res = await fetch(`${API}/api/messages/conversations`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${Auth.getToken()}` },
+      body: JSON.stringify({ other_user_id: tutor.user_id || tutor.id })
+    });
+    window.location.href = '/messages.html';
+  } catch(e) { window.location.href = '/messages.html'; }
+}
+
+function shareTutor() {
+  if (navigator.share) {
+    navigator.share({ title: document.title, url: window.location.href });
+  } else {
+    navigator.clipboard.writeText(window.location.href);
+    showToast('Ссылка скопирована');
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('bp-toast');
+  t.textContent = msg; t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 3500);
+}
+
+// Close modals on overlay click
+document.getElementById('bookingModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('bookingModal')) closeBookingModal();
+});
+
+loadTutor();
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});
 </script>
-  <!-- PACKAGES MODAL -->
-<div class="overlay" id="packagesModal">
-  <div class="modal">
-    <div class="modal-head">
-      <button class="modal-close" onclick="document.getElementById('packagesModal').classList.remove('open')">✕</button>
-      <h2>Пакеты уроков</h2>
-      <p id="pkg-tutor-name">Выберите пакет и сэкономьте</p>
-    </div>
-    <div class="modal-body">
-      <div style="display:flex;flex-direction:column;gap:12px;" id="packages-list"></div>
-      <div id="pkg-qr" style="display:none;margin-top:16px;">
-        <div class="qr-box">
-          <div class="qr-amount" id="pkg-amount">—</div>
-          <p style="color:var(--ink-60);font-size:0.75rem;margin-bottom:8px">Оплатите через MBANK</p>
-          <img id="pkg-qr-img" src="" alt="QR" style="width:160px;height:160px;border-radius:8px;margin:12px auto;display:block;border:3px solid white;">
-          <p style="font-size:0.78rem;color:var(--ink-60)">После оплаты уроки активируются автоматически</p>
-        </div>
-      </div>
-    </div>
-    <div class="modal-foot" id="pkg-footer">
-      <button class="btn-cancel" onclick="document.getElementById('packagesModal').classList.remove('open')">Закрыть</button>
-    </div>
-  </div>
-</div>
-<script>if("serviceWorker"in navigator){navigator.serviceWorker.register("/sw.js").catch(()=>{});}</script>
 </body>
 </html>
