@@ -144,6 +144,7 @@ tr:hover td{background:#f8fafa;}
       <a onclick="showPage('tasks',this)">✅ Задачи <span id="tasks-badge" style="margin-left:auto;background:#e8533a;color:white;font-size:0.65rem;font-weight:700;padding:2px 6px;border-radius:8px;display:none"></span></a>
       <a onclick="showPage('leads',this)">🎯 Лиды <span id="leads-badge" style="margin-left:auto;background:#c9a84c;color:white;font-size:0.65rem;font-weight:700;padding:2px 6px;border-radius:8px;display:none"></span></a>
       <a onclick="showPage('tutors',this)">👨‍🏫 Репетиторы</a>
+      <a onclick="showPage('applications',this)">📋 Заявки <span id="apps-badge" style="margin-left:auto;background:#e8533a;color:white;font-size:0.65rem;font-weight:700;padding:2px 6px;border-radius:8px;display:none"></span></a>
       <a onclick="showPage('students',this)">👩‍🎓 Студенты</a>
       <a onclick="showPage('bookings',this)">📅 Бронирования</a>
     </nav>
@@ -270,6 +271,16 @@ tr:hover td{background:#f8fafa;}
     </div>
 
     <!-- STUDENTS -->
+    <div id="page-applications" class="page">
+      <div class="card">
+        <div class="card-head">
+          <h3>📋 Заявки репетиторов</h3>
+          <button class="btn-sm btn-outline" onclick="loadApplications()">↻ Обновить</button>
+        </div>
+        <div id="applications-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;padding:16px"></div>
+      </div>
+    </div>
+
     <div id="page-students" class="page">
       <div class="card">
         <div class="card-head">
@@ -429,7 +440,7 @@ function showPage(name, el) {
   document.getElementById('page-' + name).classList.add('active');
   if (el) el.classList.add('active');
   currentPage = name;
-  const titles = { dashboard: 'Дашборд', tasks: 'Задачи', leads: 'Лиды', tutors: 'Репетиторы', students: 'Студенты', bookings: 'Бронирования' };
+  const titles = { dashboard: 'Дашборд', tasks: 'Задачи', leads: 'Лиды', tutors: 'Репетиторы', applications: 'Заявки', students: 'Студенты', bookings: 'Бронирования' };
   document.getElementById('page-title').textContent = titles[name] || name;
   loadPage(name);
 }
@@ -459,6 +470,8 @@ async function loadDashboard() {
     if (stats.open_tasks > 0) { tasksBadge.textContent = stats.open_tasks; tasksBadge.style.display = 'inline-block'; }
     const leadsBadge = document.getElementById('leads-badge');
     if (stats.new_leads > 0) { leadsBadge.textContent = stats.new_leads; leadsBadge.style.display = 'inline-block'; }
+    const appsBadge = document.getElementById('apps-badge');
+    if (stats.pending_applications > 0) { appsBadge.textContent = stats.pending_applications; appsBadge.style.display = 'inline-block'; }
   }
 
   // Load tasks for dashboard
@@ -681,7 +694,10 @@ function renderTutors(list) {
   if (!list.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--ink-60)">Нет репетиторов</td></tr>'; return; }
   tbody.innerHTML = list.map(t => `
     <tr>
-      <td><div style="font-weight:600;font-size:0.85rem">${t.first_name} ${t.last_name}</div><div style="font-size:0.72rem;color:var(--ink-60)">${t.email}</div><div style="font-size:0.72rem;color:var(--ink-60)">${t.phone||'—'}</div><div style="font-size:0.72rem;color:var(--ink-60)">Подал: ${new Date(t.created_at).toLocaleDateString('ru-RU')}</div></td>
+      <td>
+        <div style="font-weight:600;font-size:0.85rem">${t.first_name} ${t.last_name}</div>
+        <div style="font-size:0.72rem;color:var(--ink-60)">${t.email}</div>
+      </td>
       <td style="font-size:0.78rem">${(t.subjects||[]).join(', ')||'—'}</td>
       <td>${t.total_lessons||0}</td>
       <td>${parseFloat(t.rating||0).toFixed(1)} ★</td>
@@ -689,9 +705,7 @@ function renderTutors(list) {
       <td><span class="badge ${t.is_visible!==false?'badge-tiffany':'badge-gray'}">${t.is_visible!==false?'Виден':'Скрыт'}</span></td>
       <td style="display:flex;gap:4px;flex-wrap:wrap">
         ${!t.is_approved?`<button class="btn-sm btn-success" onclick="approveTutor('${t.id}')">✓</button>`:''}
-        <button class="btn-sm btn-danger" onclick="rejectTutor('${t.id}')">✗</button>
         <button class="btn-sm btn-outline" style="padding:5px 8px;font-size:0.72rem" onclick="toggleTutorVisibility('${t.id}')">👁</button>
-        <button class="btn-sm" style="background:#dc2626;color:white;border:none;padding:5px 8px;font-size:0.72rem" onclick="deleteTutor('${t.id}','${t.first_name} ${t.last_name}','${t.email}')">🗑️</button>
         <a href="tutor.html?id=${t.tutor_profile_id}" target="_blank" class="btn-sm btn-outline" style="text-decoration:none;padding:5px 8px;font-size:0.72rem">🔗</a>
       </td>
     </tr>`).join('');
@@ -766,15 +780,60 @@ async function loadBookings() {
       <td><span class="badge ${sm[b.status]||'badge-gray'}">${b.status}</span></td>
     </tr>`).join('');
 }
-async function deleteTutor(userId, name, email){
-  if(!confirm('УДАЛИТЬ '+name+' ('+email+')?\n\nЭто навсегда удалит аккаунт. Продолжить?'))return;
-  const typed = prompt('Для подтверждения введите слово УДАЛИТЬ:');
-  if (typed !== 'УДАЛИТЬ') { showToast('Удаление отменено'); return; }
-  try {
-    const res = await api('/api/admin/users/'+userId, {method:'DELETE'});
-    if (res) { showToast('✓ Удалён: '+name); loadTutors(); }
-  } catch(e) { showToast('Ошибка соединения'); }
+
+// ── APPLICATIONS ───────────────────────────────────────────
+async function loadApplications() {
+  const data = await api('/api/manager/tutors?status=pending&limit=50');
+  const grid = document.getElementById('applications-grid');
+  if (!data?.length) {
+    grid.innerHTML = '<div style="padding:40px;text-align:center;color:var(--ink-60);grid-column:1/-1">✅ Нет новых заявок</div>';
+    return;
+  }
+  grid.innerHTML = data.map(t => {
+    let embedUrl = '';
+    if (t.video_intro_url) {
+      if (t.video_intro_url.includes('youtube.com/watch')) { const id = t.video_intro_url.split('v=')[1]?.split('&')[0]; embedUrl = 'https://www.youtube.com/embed/' + id; }
+      else if (t.video_intro_url.includes('youtu.be/')) { const id = t.video_intro_url.split('youtu.be/')[1]?.split('?')[0]; embedUrl = 'https://www.youtube.com/embed/' + id; }
+      else embedUrl = t.video_intro_url;
+    }
+    return `
+      <div style="background:white;border-radius:14px;border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden">
+        ${embedUrl
+          ? `<iframe src="${embedUrl}" style="width:100%;height:160px;border:none" allowfullscreen></iframe>`
+          : `<div style="width:100%;height:80px;background:var(--tiffany-pale);display:flex;align-items:center;justify-content:center;color:var(--ink-60);font-size:0.85rem">🎥 Видео не добавлено</div>`
+        }
+        <div style="padding:16px">
+          <div style="font-weight:700;font-size:1rem;margin-bottom:4px">${t.first_name} ${t.last_name}</div>
+          <div style="font-size:0.78rem;color:var(--tiffany);margin-bottom:4px">${(t.subjects || []).join(' · ') || 'Предметы не указаны'}</div>
+          <div style="font-size:0.78rem;color:var(--ink-60);margin-bottom:2px">📧 ${t.email}</div>
+          <div style="font-size:0.78rem;color:var(--ink-60);margin-bottom:2px">📞 ${t.phone || '—'}</div>
+          <div style="font-size:0.78rem;color:var(--ink-60);margin-bottom:8px">💰 ${t.hourly_rate || '—'} сом/час · 📍 ${t.city || 'Бишкек'}</div>
+          ${t.bio_ru
+            ? `<div style="font-size:0.82rem;color:#333;line-height:1.6;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">${t.bio_ru}</div>`
+            : `<div style="background:#fff8e1;border-radius:8px;padding:8px;margin-bottom:10px;font-size:0.78rem;color:#7a5a00">⚠️ Биография не заполнена</div>`
+          }
+          <div style="font-size:0.72rem;color:var(--ink-60);margin-bottom:12px">Подал заявку: ${new Date(t.created_at).toLocaleDateString('ru-RU')}</div>
+          <div style="display:flex;gap:8px">
+            <button class="btn-sm btn-success" style="flex:1" onclick="approveTutorApp('${t.id}','${t.first_name}')">✓ Одобрить</button>
+            <button class="btn-sm btn-danger" onclick="rejectTutorApp('${t.id}','${t.first_name}')">✗ Отклонить</button>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
 }
+
+async function approveTutorApp(userId, name) {
+  const res = await api('/api/manager/tutors/' + userId + '/approve', { method: 'PUT' });
+  if (res) { showToast('✓ ' + name + ' одобрен!'); loadApplications(); loadDashboard(); }
+}
+
+async function rejectTutorApp(userId, name) {
+  const reason = prompt('Причина отказа для ' + name + ':');
+  if (!reason) return;
+  await api('/api/manager/tutors/' + userId + '/reject', { method: 'PUT', body: JSON.stringify({ reason }) });
+  showToast(name + ' отклонён'); loadApplications(); loadDashboard();
+}
+
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.style.display = 'block';
