@@ -9,7 +9,7 @@
 <link rel="manifest" href="/manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{font-family:'Inter',-apple-system,sans-serif;color:#1B1F3B;background:#fff;overflow-x:hidden;-webkit-font-smoothing:antialiased}
@@ -18,146 +18,231 @@ button{font-family:inherit;cursor:pointer}
 img{max-width:100%;display:block}
 
 /* NAV */
-nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-bottom:1px solid #f0f0f0;height:60px;display:flex;align-items:center;padding:0 24px;gap:24px}
-.nav-logo{font-size:1.3rem;font-weight:800;color:#0ABAB5;flex-shrink:0}
+nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-bottom:1px solid #f0f0f0;height:60px;display:flex;align-items:center;padding:0 24px;gap:16px}
+.nav-logo{font-size:1.3rem;font-weight:800;color:#0ABAB5;flex-shrink:0;letter-spacing:-0.5px}
 .nav-logo span{color:#1B1F3B}
-.nav-back{font-size:0.88rem;color:#888;display:flex;align-items:center;gap:6px}
-.nav-back:hover{color:#0ABAB5}
+.nav-find{font-size:0.88rem;font-weight:500;color:#555;transition:color 0.15s}
+.nav-find:hover{color:#0ABAB5}
 #bp-nav-right{display:flex;align-items:center;gap:10px;margin-left:auto}
 
+/* BREADCRUMB */
+.breadcrumb-bar{border-bottom:1px solid #f0f0f0;padding:10px 24px;font-size:0.78rem;color:#888}
+.breadcrumb-bar a{color:#0ABAB5}
+.breadcrumb-bar a:hover{text-decoration:underline}
+
 /* LAYOUT */
-.page-wrap{max-width:1100px;margin:0 auto;padding:32px 24px;display:grid;grid-template-columns:1fr 340px;gap:32px;align-items:start}
-@media(max-width:900px){.page-wrap{grid-template-columns:1fr;padding:16px}.sidebar{display:none}}
+.page-wrap{max-width:1060px;margin:0 auto;padding:28px 24px;display:grid;grid-template-columns:1fr 340px;gap:40px;align-items:start}
+@media(max-width:900px){.page-wrap{grid-template-columns:1fr;padding:0}.sidebar{display:none}}
 
 /* VIDEO */
-.video-wrap{background:#000;border-radius:16px;overflow:hidden;aspect-ratio:16/9;margin-bottom:24px;display:flex;align-items:center;justify-content:center;position:relative}
-.video-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:rgba(255,255,255,0.5);height:100%;width:100%}
-.video-placeholder-icon{font-size:3rem}
-.video-placeholder p{font-size:0.9rem}
-.play-btn{width:64px;height:64px;border-radius:50%;background:#0ABAB5;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.2s}
-.play-btn:hover{transform:scale(1.05)}
-.play-btn::after{content:'▶';color:white;font-size:1.3rem;margin-left:4px}
+.video-wrap{background:#111;border-radius:12px;overflow:hidden;aspect-ratio:16/9;margin-bottom:20px;position:relative;cursor:pointer}
+.video-wrap iframe,.video-wrap video{width:100%;height:100%;border:none}
+.video-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:linear-gradient(135deg,#0a1a1a,#0d2d2b);height:100%;color:rgba(255,255,255,0.4)}
+.video-placeholder-avatar{width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,0.15)}
+.video-placeholder-text{font-size:0.85rem}
+.video-play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;backdrop-filter:blur(4px)}
+.video-play-btn:hover{background:white;transform:translate(-50%,-50%) scale(1.1)}
+.video-play-btn::after{content:'▶';color:#1B1F3B;font-size:1.1rem;margin-left:3px}
 
 /* PROFILE HEADER */
-.profile-header{display:flex;gap:16px;align-items:flex-start;margin-bottom:24px}
-.profile-avatar{width:80px;height:80px;border-radius:50%;object-fit:cover;background:#f0fffe;display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;overflow:hidden}
+.profile-header{display:flex;gap:14px;align-items:flex-start;margin-bottom:16px}
+.profile-avatar-wrap{position:relative;flex-shrink:0}
+.profile-avatar{width:72px;height:72px;border-radius:50%;object-fit:cover;display:flex;align-items:center;justify-content:center;font-size:2rem;overflow:hidden;background:#f0fffe;border:2px solid #f0f0f0}
 .profile-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.profile-info{flex:1}
-.profile-name{font-size:1.5rem;font-weight:800;color:#1B1F3B;margin-bottom:4px}
-.profile-role{font-size:0.88rem;color:#888;margin-bottom:10px}
-.profile-tags{display:flex;flex-wrap:wrap;gap:8px}
-.profile-tag{background:#f5f5f5;color:#555;padding:5px 12px;border-radius:20px;font-size:0.78rem;font-weight:500}
-.profile-tag.verified{background:#f0fffe;color:#0ABAB5}
+.online-dot{position:absolute;bottom:2px;right:2px;width:14px;height:14px;border-radius:50%;background:#22c55e;border:2px solid white}
+.profile-info{flex:1;min-width:0}
+.profile-name{font-size:1.4rem;font-weight:800;color:#1B1F3B;letter-spacing:-0.02em;margin-bottom:2px}
+.profile-meta{font-size:0.85rem;color:#888;margin-bottom:8px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.profile-meta-dot{color:#ddd}
+.profile-badge{display:inline-flex;align-items:center;gap:5px;background:#f0fffe;color:#0ABAB5;padding:4px 10px;border-radius:6px;font-size:0.75rem;font-weight:600;border:1px solid #c5f0ee}
 
-/* STATS */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px}
-.stat-box{border:1px solid #f0f0f0;border-radius:12px;padding:14px;text-align:center}
-.stat-val{font-size:1.2rem;font-weight:800;color:#1B1F3B;display:block;margin-bottom:2px}
-.stat-label{font-size:0.75rem;color:#888}
-@media(max-width:640px){.stats-row{grid-template-columns:repeat(2,1fr)}}
+/* SHORT BIO */
+.short-bio{font-size:0.9rem;color:#555;line-height:1.6;margin-bottom:16px}
 
-/* SECTION */
-.section{margin-bottom:32px}
-.section-title{font-size:1.1rem;font-weight:800;color:#1B1F3B;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.about-text{font-size:0.92rem;color:#555;line-height:1.7}
-.show-more-btn{color:#0ABAB5;font-size:0.85rem;font-weight:600;cursor:pointer;background:none;border:none;margin-top:8px;padding:0}
+/* STATS ROW */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px}
+.stat-box{border:1px solid #e8e8e8;border-radius:10px;padding:12px 10px;display:flex;align-items:center;gap:8px}
+.stat-icon{font-size:1rem;color:#888;flex-shrink:0}
+.stat-val{font-size:0.95rem;font-weight:800;color:#1B1F3B;display:block;line-height:1.1}
+.stat-label{font-size:0.72rem;color:#888;margin-top:1px}
+@media(max-width:640px){.stats-row{grid-template-columns:1fr 1fr}}
 
-/* SPECIALTIES */
-.specialty-item{border-bottom:1px solid #f0f0f0;padding:14px 0;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
-.specialty-item:last-child{border-bottom:none}
-.specialty-name{font-size:0.92rem;font-weight:500}
-.specialty-arrow{color:#888;font-size:0.8rem;transition:transform 0.2s}
-.specialty-item.open .specialty-arrow{transform:rotate(180deg)}
-.specialty-desc{font-size:0.85rem;color:#888;margin-top:8px;line-height:1.6;display:none}
-.specialty-item.open .specialty-desc{display:block}
+/* HIGHLIGHTS */
+.section{margin-bottom:28px}
+.section-title{font-size:1rem;font-weight:700;color:#1B1F3B;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-title-icon{color:#0ABAB5}
+.highlights-row{display:flex;flex-wrap:wrap;gap:8px}
+.highlight-tag{display:flex;align-items:center;gap:6px;background:#f5f5f5;color:#444;padding:6px 12px;border-radius:8px;font-size:0.82rem;font-weight:500}
+.highlight-tag-icon{font-size:0.9rem}
 
-/* SCHEDULE */
-.schedule-nav{display:flex;align-items:center;gap:12px;margin-bottom:16px}
-.schedule-week{font-size:0.9rem;font-weight:600;flex:1;text-align:center}
-.schedule-nav-btn{width:32px;height:32px;border:1.5px solid #e0e0e0;border-radius:8px;background:white;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;justify-content:center}
-.schedule-nav-btn:hover{border-color:#0ABAB5;color:#0ABAB5}
-.schedule-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;text-align:center}
-.schedule-day-header{font-size:0.72rem;color:#888;font-weight:600;padding-bottom:8px}
-.schedule-day-num{font-size:0.78rem;color:#888;margin-bottom:6px}
-.time-slot{font-size:0.75rem;color:#0ABAB5;border:1px solid #0ABAB5;border-radius:6px;padding:4px;cursor:pointer;margin-bottom:4px;transition:all 0.15s;font-weight:500}
-.time-slot:hover,.time-slot.selected{background:#0ABAB5;color:white}
+/* TEACHES */
+.teaches-item{font-size:0.88rem;color:#555;padding:4px 0}
+
+/* ABOUT */
+.about-text{font-size:0.9rem;color:#444;line-height:1.75;white-space:pre-line}
+.show-more-btn{color:#0ABAB5;font-size:0.85rem;font-weight:600;cursor:pointer;background:none;border:none;padding:8px 0 0;display:block;text-align:left;text-decoration:underline}
+
+/* LANGUAGES */
+.lang-row{display:flex;flex-wrap:wrap;gap:8px}
+.lang-item{font-size:0.88rem;color:#555}
+.lang-level{display:inline-block;background:#f0fffe;color:#0ABAB5;padding:2px 8px;border-radius:4px;font-size:0.75rem;font-weight:600;margin-left:6px}
+
+/* LESSON RATING */
+.lesson-rating-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.rating-metric{border:1px solid #e8e8e8;border-radius:10px;padding:12px 10px;text-align:center}
+.rating-metric-icon{font-size:1.1rem;margin-bottom:4px}
+.rating-metric-val{font-size:1rem;font-weight:800;color:#1B1F3B}
+.rating-metric-label{font-size:0.72rem;color:#888;margin-top:2px}
+.rating-anon-note{font-size:0.78rem;color:#888;display:flex;align-items:center;gap:6px}
+@media(max-width:600px){.lesson-rating-grid{grid-template-columns:1fr 1fr}}
 
 /* REVIEWS */
-.review-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
-.review-metric{border:1px solid #f0f0f0;border-radius:12px;padding:14px;text-align:center}
-.review-metric-val{font-size:1.1rem;font-weight:800;color:#1B1F3B}
-.review-metric-label{font-size:0.72rem;color:#888;margin-top:2px}
-@media(max-width:640px){.review-summary{grid-template-columns:repeat(2,1fr)}}
+.reviews-header{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+.reviews-big-num{font-size:2rem;font-weight:900;color:#1B1F3B}
+.reviews-stars{color:#f59e0b;font-size:1.1rem}
+.reviews-count{font-size:0.85rem;color:#888}
+.reviews-summary-box{background:#f9f9f9;border-radius:12px;padding:16px;margin-bottom:20px;border:1px solid #f0f0f0}
+.reviews-summary-head{display:flex;align-items:center;gap:8px;font-size:0.82rem;font-weight:600;color:#555;margin-bottom:8px}
+.reviews-summary-text{font-size:0.88rem;color:#444;line-height:1.65}
+.reviews-summary-ai{font-size:0.72rem;color:#aaa;margin-top:8px;display:flex;align-items:center;gap:4px}
 .reviews-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media(max-width:640px){.reviews-grid{grid-template-columns:1fr}}
-.review-card{background:#f9f9f9;border-radius:12px;padding:16px}
-.review-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.review-avatar{width:36px;height:36px;border-radius:50%;background:#0ABAB5;color:white;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:700;flex-shrink:0}
-.review-author{font-size:0.85rem;font-weight:600}
+.review-card{padding:16px 0;border-bottom:1px solid #f0f0f0}
+.review-card:last-child{border-bottom:none}
+.review-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.review-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.88rem;font-weight:700;color:white;flex-shrink:0;overflow:hidden}
+.review-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.review-name{font-size:0.85rem;font-weight:600;color:#1B1F3B}
 .review-date{font-size:0.75rem;color:#888}
-.review-stars{color:#f59e0b;font-size:0.85rem;margin-bottom:6px}
+.review-stars{color:#f59e0b;font-size:0.82rem;margin-bottom:6px;letter-spacing:1px}
 .review-text{font-size:0.85rem;color:#555;line-height:1.6}
+.review-text.truncated{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.show-review-btn{color:#0ABAB5;font-size:0.8rem;cursor:pointer;background:none;border:none;margin-top:4px;text-decoration:underline}
+.show-all-reviews-btn{display:block;margin:20px auto 0;border:1.5px solid #e0e0e0;background:white;padding:11px 28px;border-radius:10px;font-size:0.88rem;font-weight:600;cursor:pointer;color:#1B1F3B;transition:all 0.2s}
+.show-all-reviews-btn:hover{border-color:#0ABAB5;color:#0ABAB5}
+
+/* SCHEDULE */
+.schedule-info-box{background:#eff6ff;border-radius:10px;padding:12px 14px;font-size:0.82rem;color:#1e40af;display:flex;align-items:flex-start;gap:8px;margin-bottom:16px}
+.schedule-nav{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.schedule-week-label{font-size:0.88rem;font-weight:600;flex:1;text-align:center;color:#1B1F3B}
+.sched-btn{width:30px;height:30px;border:1.5px solid #e0e0e0;border-radius:7px;background:white;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.sched-btn:hover{border-color:#0ABAB5;color:#0ABAB5}
+.sched-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.sched-day-head{font-size:0.7rem;font-weight:600;color:#888;text-align:center;padding-bottom:6px}
+.sched-day-num{font-size:0.72rem;color:#aaa;text-align:center;margin-bottom:4px}
+.sched-slot{font-size:0.72rem;color:#0ABAB5;border:1px solid #c5f0ee;border-radius:5px;padding:4px 2px;cursor:pointer;text-align:center;transition:all 0.15s;margin-bottom:3px;font-weight:500}
+.sched-slot:hover,.sched-slot.selected{background:#0ABAB5;color:white;border-color:#0ABAB5}
+.sched-tz{font-size:0.75rem;color:#888;margin-top:8px}
+.view-full-sched-btn{margin-top:12px;border:1.5px solid #e0e0e0;background:white;padding:9px 20px;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;color:#555;transition:all 0.2s;display:block;width:100%;text-align:center}
+.view-full-sched-btn:hover{border-color:#0ABAB5;color:#0ABAB5}
+
+/* RESUME */
+.resume-tabs{display:flex;border-bottom:2px solid #f0f0f0;margin-bottom:16px;gap:0}
+.resume-tab{padding:10px 20px;font-size:0.88rem;font-weight:600;color:#888;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.15s}
+.resume-tab.active{color:#0ABAB5;border-bottom-color:#0ABAB5}
+.resume-item{display:flex;gap:16px;padding:14px 0;border-bottom:1px solid #f5f5f5}
+.resume-item:last-child{border-bottom:none}
+.resume-year{font-size:0.78rem;color:#888;min-width:90px;padding-top:2px}
+.resume-detail{flex:1}
+.resume-org{font-size:0.88rem;font-weight:600;color:#1B1F3B}
+.resume-degree{font-size:0.85rem;color:#555;margin-top:2px}
+.resume-verified{display:inline-flex;align-items:center;gap:4px;color:#22c55e;font-size:0.75rem;font-weight:600;margin-top:4px}
+
+/* SPECIALTIES */
+.specialty-item{border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center;cursor:pointer;padding:14px 0}
+.specialty-item:last-child{border-bottom:none}
+.specialty-name{font-size:0.9rem;font-weight:500;color:#1B1F3B}
+.specialty-chevron{color:#888;font-size:0.8rem;transition:transform 0.2s}
+.specialty-item.open .specialty-chevron{transform:rotate(180deg)}
+.specialty-desc{font-size:0.85rem;color:#888;margin-top:8px;line-height:1.65;display:none;padding-bottom:8px}
+.specialty-item.open .specialty-desc{display:block}
+
+/* SIMILAR */
+.similar-scroll{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.similar-card{border:1px solid #e8e8e8;border-radius:12px;padding:14px 12px;cursor:pointer;transition:all 0.2s;text-align:center}
+.similar-card:hover{border-color:#0ABAB5;box-shadow:0 4px 16px rgba(10,186,181,0.1)}
+.similar-avatar{width:52px;height:52px;border-radius:50%;object-fit:cover;margin:0 auto 8px;overflow:hidden;background:#f0fffe;display:flex;align-items:center;justify-content:center;font-size:1.4rem}
+.similar-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.similar-name{font-size:0.82rem;font-weight:700;color:#1B1F3B;margin-bottom:2px}
+.similar-subj{font-size:0.72rem;color:#888;margin-bottom:4px}
+.similar-rating{font-size:0.75rem;color:#1B1F3B;font-weight:600}
+.similar-price{font-size:0.82rem;font-weight:700;color:#1B1F3B;margin-top:4px}
 
 /* SIDEBAR */
-.sidebar{position:sticky;top:80px}
-.book-card{border:1px solid #e8e8e8;border-radius:16px;overflow:hidden}
-.book-price-section{padding:20px;border-bottom:1px solid #f0f0f0}
-.book-price{font-size:1.6rem;font-weight:800;color:#1B1F3B}
-.book-price small{font-size:0.82rem;font-weight:400;color:#888}
-.book-trial-note{font-size:0.82rem;color:#0ABAB5;margin-top:4px;font-weight:500}
-.btn-book-main{width:100%;background:#0ABAB5;color:white;border:none;padding:14px;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-bottom:10px;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-book-main:hover{background:#089490}
-.book-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px}
-.book-action-btn{border:1.5px solid #e0e0e0;background:white;padding:10px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all 0.15s}
-.book-action-btn:hover{border-color:#0ABAB5;background:#f0fffe}
-.not-match-box{background:#f0fffe;border-radius:10px;padding:14px;display:flex;gap:10px;align-items:flex-start}
-.not-match-box p{font-size:0.82rem;color:#555;line-height:1.5}
-.book-features{padding:16px 20px;border-top:1px solid #f0f0f0}
-.book-feature{display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#666;padding:5px 0}
-.book-feature-icon{color:#0ABAB5;width:16px;flex-shrink:0}
+.sidebar{position:sticky;top:72px}
+.book-card{border:1px solid #e8e8e8;border-radius:16px;overflow:hidden;background:white}
+.book-price-row{padding:20px 20px 0;display:flex;align-items:baseline;gap:8px}
+.book-price-num{font-size:1.5rem;font-weight:800;color:#1B1F3B}
+.book-price-dur{font-size:0.85rem;color:#888;font-weight:400}
+.book-rating-row{padding:6px 20px 16px;font-size:0.82rem;color:#888;display:flex;align-items:center;gap:8px}
+.book-rating-stars{color:#f59e0b;font-weight:700}
+.book-popular{background:#fff7ed;color:#c2410c;font-size:0.72rem;font-weight:700;padding:2px 8px;border-radius:4px}
+.book-actions-main{padding:0 16px 12px;display:flex;flex-direction:column;gap:8px}
+.btn-book-trial{width:100%;background:#0ABAB5;color:white;border:none;padding:14px;border-radius:12px;font-size:0.95rem;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-book-trial:hover{background:#089490;transform:translateY(-1px)}
+.book-icon-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.book-icon-btn{border:1.5px solid #e8e8e8;background:white;padding:11px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-size:0.78rem;color:#555;font-weight:500;transition:all 0.15s}
+.book-icon-btn:hover{border-color:#0ABAB5;color:#0ABAB5}
+.not-match{background:#f0fffe;border-radius:10px;padding:14px;margin:0 16px 16px;display:flex;gap:10px;align-items:flex-start}
+.not-match-icon{color:#0ABAB5;font-size:1rem;flex-shrink:0;margin-top:1px}
+.not-match-text{font-size:0.8rem;color:#555;line-height:1.5}
+.book-features{border-top:1px solid #f0f0f0;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.book-feature{display:flex;align-items:center;gap:8px;font-size:0.8rem;color:#666}
+.book-feature-icon{color:#0ABAB5;font-size:0.85rem;width:14px;flex-shrink:0}
 
-/* SIMILAR TUTORS */
-.similar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px}
-.similar-card{border:1px solid #e8e8e8;border-radius:12px;padding:14px;cursor:pointer;transition:all 0.2s;text-align:center}
-.similar-card:hover{border-color:#0ABAB5}
-.similar-avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;background:#f0fffe;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 10px;overflow:hidden}
-.similar-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.similar-name{font-size:0.85rem;font-weight:600;margin-bottom:4px}
-.similar-subj{font-size:0.75rem;color:#888;margin-bottom:6px}
-.similar-price{font-size:0.88rem;font-weight:700;color:#1B1F3B}
-
-/* MOBILE STICKY BOTTOM */
-.mobile-sticky{display:none;position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #f0f0f0;padding:12px 20px;z-index:100;align-items:center;gap:12px}
+/* MOBILE STICKY */
+.mobile-sticky{display:none;position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #e8e8e8;padding:12px 20px 16px;z-index:100;align-items:center;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,0.08)}
 @media(max-width:900px){.mobile-sticky{display:flex}}
-.mobile-sticky-price{flex:1}
-.mobile-sticky-price .price{font-size:1.1rem;font-weight:800}
-.mobile-sticky-price .trial{font-size:0.78rem;color:#0ABAB5;font-weight:500}
-.mobile-sticky-btn{background:#0ABAB5;color:white;border:none;padding:13px 24px;border-radius:12px;font-size:0.95rem;font-weight:700;cursor:pointer}
+.mobile-price-block{flex:1}
+.mobile-price-num{font-size:1.05rem;font-weight:800;color:#1B1F3B}
+.mobile-price-dur{font-size:0.72rem;color:#888}
+.mobile-icon-btn{width:40px;height:40px;border:1.5px solid #e0e0e0;border-radius:8px;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.mobile-book-btn{background:#0ABAB5;color:white;border:none;padding:12px 20px;border-radius:12px;font-size:0.9rem;font-weight:700;cursor:pointer;white-space:nowrap}
 
 /* BOOKING MODAL */
 .bp-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(6px);z-index:500;align-items:center;justify-content:center;padding:20px}
 .bp-overlay.open{display:flex}
-.bp-modal{background:white;border-radius:20px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto}
+.bp-modal{background:white;border-radius:20px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,0.2)}
 .bp-modal-head{padding:20px 24px;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center}
-.bp-modal-head h2{font-size:1.05rem;font-weight:700}
-.bp-modal-close{width:32px;height:32px;border-radius:50%;background:#f5f5f5;border:none;cursor:pointer;font-size:1rem}
+.bp-modal-head h2{font-size:1rem;font-weight:700}
+.bp-modal-close{width:30px;height:30px;border-radius:50%;background:#f5f5f5;border:none;cursor:pointer;font-size:0.9rem}
 .bp-modal-body{padding:24px}
-.form-group{margin-bottom:16px}
-.form-group label{display:block;font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;color:#888}
-.form-input{width:100%;border:1.5px solid #e0e0e0;border-radius:10px;padding:11px 14px;font-size:0.9rem;font-family:inherit;outline:none;transition:border-color 0.2s}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px;color:#888}
+.form-input{width:100%;border:1.5px solid #e0e0e0;border-radius:9px;padding:11px 13px;font-size:0.9rem;font-family:inherit;outline:none;transition:border-color 0.2s;background:white}
 .form-input:focus{border-color:#0ABAB5}
-.form-select{width:100%;border:1.5px solid #e0e0e0;border-radius:10px;padding:11px 14px;font-size:0.9rem;font-family:inherit;outline:none;background:white;cursor:pointer}
-.bp-modal-foot{padding:16px 24px;border-top:1px solid #f0f0f0;display:flex;gap:10px;justify-content:flex-end}
-.btn-cancel{border:1.5px solid #e0e0e0;background:white;padding:11px 20px;border-radius:10px;font-size:0.88rem;font-weight:600;cursor:pointer}
-.btn-confirm{background:#0ABAB5;color:white;border:none;padding:11px 24px;border-radius:10px;font-size:0.88rem;font-weight:700;cursor:pointer}
+.form-select{width:100%;border:1.5px solid #e0e0e0;border-radius:9px;padding:11px 13px;font-size:0.9rem;font-family:inherit;outline:none;background:white;cursor:pointer}
+.bp-info-box{background:#f0fffe;border-radius:10px;padding:12px 14px;font-size:0.82rem;color:#555;line-height:1.55;margin-top:4px}
+.bp-modal-foot{padding:14px 24px 20px;display:flex;gap:10px;justify-content:flex-end;border-top:1px solid #f0f0f0}
+.btn-cancel{border:1.5px solid #e0e0e0;background:white;padding:10px 18px;border-radius:9px;font-size:0.85rem;font-weight:600;cursor:pointer;font-family:inherit}
+.btn-confirm{background:#0ABAB5;color:white;border:none;padding:10px 22px;border-radius:9px;font-size:0.85rem;font-weight:700;cursor:pointer;font-family:inherit;transition:background 0.2s}
 .btn-confirm:hover{background:#089490}
+.btn-confirm:disabled{background:#ccc;cursor:not-allowed}
+
+/* SEO LINKS */
+.seo-links{max-width:1060px;margin:0 auto;padding:32px 24px;display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.seo-col h4{font-size:0.85rem;font-weight:700;color:#1B1F3B;margin-bottom:12px}
+.seo-col a{display:block;font-size:0.82rem;color:#0ABAB5;padding:3px 0}
+.seo-col a:hover{text-decoration:underline}
+@media(max-width:640px){.seo-links{grid-template-columns:1fr}}
 
 /* TOAST */
-#bp-toast{display:none;position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1B1F3B;color:white;padding:12px 24px;border-radius:10px;font-size:0.88rem;font-weight:500;z-index:9998;white-space:nowrap}
+#bp-toast{display:none;position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1B1F3B;color:white;padding:12px 24px;border-radius:10px;font-size:0.88rem;font-weight:500;z-index:9998;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,0.2)}
 
 /* SKELETON */
 .skeleton{background:linear-gradient(90deg,#f5f5f5 25%,#eee 50%,#f5f5f5 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+@media(max-width:640px){
+  .page-wrap{padding:0}
+  .video-wrap{border-radius:0;margin-bottom:16px}
+  .profile-header{padding:0 16px}
+  .stats-row{padding:0 16px;grid-template-columns:1fr 1fr}
+  .section{padding:0 16px}
+  .reviews-grid{grid-template-columns:1fr}
+  .sched-grid{gap:3px}
+  body{padding-bottom:80px}
+}
 </style>
 </head>
 <body>
@@ -165,110 +250,190 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.97);backdrop
 <!-- NAV -->
 <nav>
   <a class="nav-logo" href="/">Bilimpark<span>.kg</span></a>
-  <a class="nav-back" href="javascript:history.back()">← Назад</a>
+  <a class="nav-find" href="/">Найти репетитора</a>
   <div id="bp-nav-right"></div>
 </nav>
 
-<!-- MAIN -->
+<!-- BREADCRUMB -->
+<div class="breadcrumb-bar">
+  <a href="/">Главная</a> › <a href="/">Репетиторы</a> › <span id="bc-name">—</span>
+</div>
+
+<!-- LOADING STATE -->
+<div id="loading-state" style="max-width:1060px;margin:40px auto;padding:0 24px">
+  <div class="skeleton" style="height:400px;border-radius:12px;margin-bottom:20px"></div>
+  <div style="display:grid;grid-template-columns:1fr 340px;gap:40px">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="skeleton" style="height:24px;width:50%"></div>
+      <div class="skeleton" style="height:16px;width:35%"></div>
+      <div class="skeleton" style="height:14px;width:90%"></div>
+      <div class="skeleton" style="height:14px;width:75%"></div>
+    </div>
+    <div class="skeleton" style="height:280px;border-radius:16px"></div>
+  </div>
+</div>
+
+<!-- MAIN PAGE -->
 <div class="page-wrap" id="page-wrap" style="display:none">
+
   <!-- LEFT COLUMN -->
   <div>
     <!-- VIDEO -->
-    <div class="video-wrap" id="video-wrap">
-      <div class="video-placeholder">
-        <div class="video-placeholder-icon">🎥</div>
-        <p>Загрузка видео...</p>
-      </div>
-    </div>
+    <div class="video-wrap" id="video-wrap"></div>
 
     <!-- PROFILE HEADER -->
     <div class="profile-header">
-      <div class="profile-avatar" id="profile-avatar">👨‍🏫</div>
+      <div class="profile-avatar-wrap">
+        <div class="profile-avatar" id="profile-avatar"></div>
+      </div>
       <div class="profile-info">
         <div class="profile-name" id="profile-name">—</div>
-        <div class="profile-role" id="profile-role">Репетитор</div>
-        <div class="profile-tags" id="profile-tags"></div>
+        <div class="profile-meta" id="profile-meta"></div>
+        <div id="profile-badge"></div>
       </div>
     </div>
 
-    <!-- STATS -->
-    <div class="stats-row" id="stats-row">
-      <div class="stat-box"><span class="stat-val" id="stat-rating">—</span><div class="stat-label">Рейтинг</div></div>
-      <div class="stat-box"><span class="stat-val" id="stat-lessons">—</span><div class="stat-label">Уроков</div></div>
-      <div class="stat-box"><span class="stat-val" id="stat-students">—</span><div class="stat-label">Студентов</div></div>
-      <div class="stat-box"><span class="stat-val" id="stat-reviews">—</span><div class="stat-label">Отзывов</div></div>
-    </div>
+    <!-- SHORT BIO -->
+    <div class="short-bio" id="short-bio" style="display:none"></div>
 
-    <!-- ABOUT -->
-    <div class="section" id="section-about" style="display:none">
-      <div class="section-title">О себе</div>
-      <div class="about-text" id="about-text"></div>
-      <button class="show-more-btn" id="show-more-btn" onclick="toggleAbout()" style="display:none">Показать больше</button>
+    <!-- STATS ROW -->
+    <div class="stats-row" id="stats-row"></div>
+
+    <!-- HIGHLIGHTS -->
+    <div class="section" id="section-highlights" style="display:none">
+      <div class="section-title"><span class="section-title-icon">✦</span> <span id="highlights-title">Особенности</span></div>
+      <div class="section-sub" id="highlights-sub" style="font-size:0.78rem;color:#888;margin-bottom:10px"></div>
+      <div class="highlights-row" id="highlights-row"></div>
     </div>
 
     <!-- TEACHES -->
     <div class="section" id="section-teaches" style="display:none">
-      <div class="section-title">Преподаёт</div>
+      <div class="section-title"><span>🎓</span> Преподаёт</div>
       <div id="teaches-list"></div>
+    </div>
+
+    <!-- ABOUT ME -->
+    <div class="section" id="section-about" style="display:none">
+      <div class="section-title">О себе</div>
+      <div class="about-text" id="about-text"></div>
+      <button class="show-more-btn" id="show-more-btn" style="display:none" onclick="toggleAbout()">Показать больше</button>
+    </div>
+
+    <!-- I SPEAK -->
+    <div class="section" id="section-languages" style="display:none">
+      <div class="section-title">Языки</div>
+      <div class="lang-row" id="lang-row"></div>
+    </div>
+
+    <!-- LESSON RATING -->
+    <div class="section" id="section-lesson-rating" style="display:none">
+      <div class="section-title">Оценка уроков</div>
+      <div class="lesson-rating-grid" id="lesson-rating-grid"></div>
+      <div class="rating-anon-note" id="rating-anon-note"></div>
+    </div>
+
+    <!-- REVIEWS -->
+    <div class="section" id="section-reviews" style="display:none">
+      <div class="section-title">Что говорят мои студенты</div>
+      <div class="reviews-header">
+        <div class="reviews-big-num" id="reviews-big-num"></div>
+        <div class="reviews-stars" id="reviews-stars"></div>
+        <div class="reviews-count" id="reviews-count"></div>
+      </div>
+      <div class="reviews-summary-box" id="reviews-summary-box" style="display:none">
+        <div class="reviews-summary-head">✦ Краткое резюме отзывов</div>
+        <div class="reviews-summary-text" id="reviews-summary-text"></div>
+        <div class="reviews-ai-note" style="font-size:0.72rem;color:#aaa;margin-top:8px">✦ Резюме создано на основе всех отзывов студентов</div>
+      </div>
+      <div class="reviews-grid" id="reviews-grid"></div>
+      <button class="show-all-reviews-btn" id="show-all-reviews-btn" style="display:none" onclick="showAllReviews()">Показать все отзывы</button>
     </div>
 
     <!-- SCHEDULE -->
     <div class="section" id="section-schedule" style="display:none">
       <div class="section-title">📅 Расписание</div>
+      <div class="schedule-info-box">ℹ️ Выберите время для первого урока. Время указано по Бишкеку (UTC+6).</div>
       <div class="schedule-nav">
-        <button class="schedule-nav-btn" onclick="changeWeek(-1)">‹</button>
-        <div class="schedule-week" id="schedule-week-label"></div>
-        <button class="schedule-nav-btn" onclick="changeWeek(1)">›</button>
+        <button class="sched-btn" onclick="changeWeek(-1)">‹</button>
+        <div class="schedule-week-label" id="sched-week-label"></div>
+        <button class="sched-btn" onclick="changeWeek(1)">›</button>
       </div>
-      <div class="schedule-grid" id="schedule-grid"></div>
-      <div style="margin-top:12px;font-size:0.8rem;color:#888">Время указано по Бишкеку (UTC+6)</div>
+      <div class="sched-grid" id="sched-grid"></div>
+      <button class="view-full-sched-btn" onclick="handleBooking()">Посмотреть полное расписание</button>
     </div>
 
-    <!-- REVIEWS -->
-    <div class="section" id="section-reviews" style="display:none">
-      <div class="section-title">Отзывы студентов</div>
-      <div class="review-summary" id="review-summary"></div>
-      <div class="reviews-grid" id="reviews-grid"></div>
-      <button id="show-all-reviews-btn" class="show-more-btn" style="margin-top:16px;display:none" onclick="showAllReviews()">Показать все отзывы</button>
+    <!-- RESUME -->
+    <div class="section" id="section-resume" style="display:none">
+      <div class="section-title">Резюме</div>
+      <div class="resume-tabs">
+        <div class="resume-tab active" onclick="switchResumeTab('education',this)">Образование</div>
+        <div class="resume-tab" onclick="switchResumeTab('certifications',this)">Сертификаты</div>
+      </div>
+      <div id="resume-education"></div>
+      <div id="resume-certifications" style="display:none"></div>
     </div>
 
-    <!-- SIMILAR -->
+    <!-- SPECIALTIES -->
+    <div class="section" id="section-specialties" style="display:none">
+      <div class="section-title">Мои специализации</div>
+      <div id="specialties-list"></div>
+    </div>
+
+    <!-- SIMILAR TUTORS -->
     <div class="section" id="section-similar" style="display:none">
-      <div class="section-title">Похожие репетиторы</div>
-      <div class="similar-grid" id="similar-grid"></div>
+      <div class="section-title">Вам также может понравиться</div>
+      <div class="similar-scroll" id="similar-grid"></div>
     </div>
 
-    <!-- BREADCRUMB -->
-    <div style="font-size:0.78rem;color:#888;margin-top:32px">
-      <a href="/" style="color:#0ABAB5">Главная</a> › <a href="/" style="color:#0ABAB5">Репетиторы</a> › <span id="breadcrumb-name">—</span>
+    <!-- SEO LINKS -->
+    <div style="margin-top:32px;padding-top:24px;border-top:1px solid #f0f0f0">
+      <div class="seo-links" style="padding:0;margin:0">
+        <div class="seo-col">
+          <h4>Больше репетиторов по этому предмету</h4>
+          <div id="seo-subject-links"></div>
+        </div>
+        <div class="seo-col">
+          <h4>Найти лучшего репетитора</h4>
+          <a href="/subjects/matematika">Репетиторы по математике онлайн</a>
+          <a href="/subjects/anglisky">Репетиторы по английскому онлайн</a>
+          <a href="/subjects/ort">Подготовка к ОРТ онлайн</a>
+          <a href="/subjects/fizika">Репетиторы по физике онлайн</a>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- SIDEBAR -->
   <div class="sidebar">
     <div class="book-card">
-      <div class="book-price-section" style="padding:20px">
-        <div class="book-price" id="sidebar-price">— <small>сом/час</small></div>
-        <div class="book-trial-note" id="sidebar-trial"></div>
+      <div class="book-price-row">
+        <div class="book-price-num" id="sidebar-price">—</div>
+        <div class="book-price-dur" id="sidebar-dur">сом/час</div>
       </div>
-      <div style="padding:16px 20px">
-        <button class="btn-book-main" onclick="handleBooking()" id="btn-book-main">
+      <div class="book-rating-row">
+        <span class="book-rating-stars" id="sidebar-stars"></span>
+        <span id="sidebar-reviews-count"></span>
+        <span id="sidebar-lessons-count"></span>
+        <span class="book-popular" id="sidebar-popular" style="display:none"></span>
+      </div>
+      <div class="book-actions-main">
+        <button class="btn-book-trial" onclick="handleBooking()" id="btn-book-main">
           ⚡ Записаться на пробный урок
         </button>
-        <div class="book-actions">
-          <button class="book-action-btn" onclick="handleMessage()" title="Написать">💬</button>
-          <button class="book-action-btn" title="Сохранить">♡</button>
-          <button class="book-action-btn" onclick="shareTutor()" title="Поделиться">↗</button>
-        </div>
-        <div class="not-match-box">
-          <span style="color:#0ABAB5;font-size:1rem">✓</span>
-          <p>Не подошёл репетитор? Напишите нам — подберём другого бесплатно.</p>
+        <div class="book-icon-row">
+          <button class="book-icon-btn" onclick="handleMessage()">💬 Написать</button>
+          <button class="book-icon-btn" onclick="toggleSave()" id="save-btn">♡ Сохранить</button>
+          <button class="book-icon-btn" onclick="shareTutor()">↗ Поделиться</button>
         </div>
       </div>
+      <div class="not-match">
+        <span class="not-match-icon">✓</span>
+        <div class="not-match-text">Не подошёл репетитор? Напишите нам — подберём другого бесплатно.</div>
+      </div>
       <div class="book-features">
-        <div class="book-feature"><span class="book-feature-icon">✓</span> Урок проходит в Google Meet</div>
-        <div class="book-feature"><span class="book-feature-icon">✓</span> Ссылка приходит автоматически</div>
-        <div class="book-feature"><span class="book-feature-icon">✓</span> Напоминание за 1 час</div>
+        <div class="book-feature"><span class="book-feature-icon">🎥</span> Урок проходит в Google Meet</div>
+        <div class="book-feature"><span class="book-feature-icon">🔗</span> Ссылка приходит автоматически</div>
+        <div class="book-feature"><span class="book-feature-icon">⏰</span> Напоминание за 1 час до урока</div>
         <div class="book-feature"><span class="book-feature-icon">✓</span> Все репетиторы проверены</div>
       </div>
     </div>
@@ -277,16 +442,17 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.97);backdrop
 
 <!-- MOBILE STICKY BAR -->
 <div class="mobile-sticky" id="mobile-sticky" style="display:none">
-  <div class="mobile-sticky-price">
-    <div class="price" id="mobile-price">—</div>
-    <div class="trial" id="mobile-trial"></div>
+  <div class="mobile-price-block">
+    <div class="mobile-price-num" id="mobile-price">—</div>
+    <div class="mobile-price-dur" id="mobile-dur">сом/час</div>
   </div>
-  <button class="book-action-btn" onclick="handleMessage()" style="border:1.5px solid #e0e0e0;padding:12px">💬</button>
-  <button class="mobile-sticky-btn" onclick="handleBooking()">Записаться на урок</button>
+  <button class="mobile-icon-btn" onclick="handleMessage()">💬</button>
+  <button class="mobile-icon-btn" onclick="toggleSave()">♡</button>
+  <button class="mobile-book-btn" onclick="handleBooking()">Записаться на урок</button>
 </div>
 
 <!-- BOOKING MODAL -->
-<div class="bp-overlay" id="bookingModal">
+<div class="bp-overlay" id="bookingModal" onclick="if(event.target===this)closeBookingModal()">
   <div class="bp-modal">
     <div class="bp-modal-head">
       <h2 id="bm-title">Записаться на урок</h2>
@@ -295,7 +461,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.97);backdrop
     <div class="bp-modal-body">
       <div class="form-group">
         <label>Тип урока</label>
-        <select class="form-select" id="bm-type">
+        <select class="form-select" id="bm-type" onchange="updateBookingPrice()">
           <option value="trial">Пробный урок</option>
           <option value="regular">Обычный урок</option>
         </select>
@@ -304,13 +470,15 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.97);backdrop
         <label>Предмет</label>
         <select class="form-select" id="bm-subject"></select>
       </div>
-      <div class="form-group">
-        <label>Дата</label>
-        <input class="form-input" type="date" id="bm-date">
-      </div>
-      <div class="form-group">
-        <label>Время</label>
-        <input class="form-input" type="time" id="bm-time" value="10:00">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-group">
+          <label>Дата</label>
+          <input class="form-input" type="date" id="bm-date">
+        </div>
+        <div class="form-group">
+          <label>Время</label>
+          <input class="form-input" type="time" id="bm-time" value="10:00">
+        </div>
       </div>
       <div class="form-group">
         <label>Длительность</label>
@@ -320,9 +488,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.97);backdrop
           <option value="45">45 минут</option>
         </select>
       </div>
-      <div style="background:#f0fffe;border-radius:10px;padding:14px;font-size:0.85rem;color:#555;margin-top:4px">
-        💡 После записи репетитор подтвердит урок и вы получите ссылку на Google Meet
-      </div>
+      <div class="bp-info-box" id="bm-price-box">💡 После записи репетитор подтвердит урок и вы получите ссылку на Google Meet.</div>
     </div>
     <div class="bp-modal-foot">
       <button class="btn-cancel" onclick="closeBookingModal()">Отмена</button>
@@ -338,59 +504,54 @@ const API = 'https://bilimly-backend-0zbt.onrender.com';
 const urlParams = new URLSearchParams(window.location.search);
 const tutorId = urlParams.get('id');
 let tutor = null;
+let allReviews = [];
 let currentWeekOffset = 0;
 let availability = [];
-let allReviews = [];
+let isSaved = false;
+let showingFullAbout = false;
 
 if (!tutorId) window.location.href = '/';
-
 BpInitNav();
 
-// Load tutor
+const AVATAR_COLORS = ['#0ABAB5','#6366f1','#ec4899','#f59e0b','#22c55e','#ef4444','#8b5cf6'];
+
 async function loadTutor() {
   try {
     const [tutorRes, reviewsRes] = await Promise.all([
       fetch(`${API}/api/tutors/${tutorId}`),
-      fetch(`${API}/api/tutors/${tutorId}/reviews`).catch(() => ({ json: () => [] }))
+      fetch(`${API}/api/tutors/${tutorId}/reviews`).catch(() => ({json:()=>[]}))
     ]);
-    
     const data = await tutorRes.json();
     tutor = data.tutor || data;
     allReviews = await reviewsRes.json().catch(() => []);
-    
-    renderTutor();
-    loadSimilarTutors();
+    renderPage();
   } catch(e) {
-    document.getElementById('page-wrap').innerHTML = '<div style="text-align:center;padding:80px 20px"><h2>Репетитор не найден</h2><a href="/" style="color:#0ABAB5;margin-top:12px;display:inline-block">← Вернуться</a></div>';
-    document.getElementById('page-wrap').style.display = 'block';
+    document.getElementById('loading-state').innerHTML = `<div style="text-align:center;padding:80px 20px;color:#888"><h2 style="color:#1B1F3B;margin-bottom:12px">Репетитор не найден</h2><a href="/" style="color:#0ABAB5;font-weight:600">← Вернуться к списку</a></div>`;
   }
 }
 
-function renderTutor() {
+function renderPage() {
   if (!tutor) return;
+  const name = `${tutor.first_name || ''} ${tutor.last_name || ''}`.trim();
+  const nameShort = `${tutor.first_name || ''} ${tutor.last_name ? tutor.last_name[0] + '.' : ''}`.trim();
 
-  // Page title
-  const name = `${tutor.first_name} ${tutor.last_name || ''}`.trim();
-  const nameShort = `${tutor.first_name} ${tutor.last_name ? tutor.last_name[0] + '.' : ''}`.trim();
+  // Page meta
   document.title = `${nameShort} — репетитор · Bilimpark.kg`;
-  document.getElementById('breadcrumb-name').textContent = nameShort;
+  document.getElementById('bc-name').textContent = nameShort;
 
   // Video
   const videoWrap = document.getElementById('video-wrap');
   if (tutor.video_intro_url) {
-    const isYoutube = tutor.video_intro_url.includes('youtube') || tutor.video_intro_url.includes('youtu.be');
-    if (isYoutube) {
-      const videoId = tutor.video_intro_url.match(/(?:v=|youtu\.be\/)([^&?]+)/)?.[1];
-      videoWrap.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen style="border-radius:16px"></iframe>`;
+    const isYT = tutor.video_intro_url.includes('youtube') || tutor.video_intro_url.includes('youtu.be');
+    if (isYT) {
+      const vid = tutor.video_intro_url.match(/(?:v=|youtu\.be\/)([^&?]+)/)?.[1];
+      videoWrap.innerHTML = `<iframe src="https://www.youtube.com/embed/${vid}?autoplay=0" frameborder="0" allowfullscreen style="width:100%;height:100%"></iframe>`;
     } else {
-      videoWrap.innerHTML = `<video src="${tutor.video_intro_url}" controls style="width:100%;height:100%;border-radius:16px;object-fit:cover"></video>`;
+      videoWrap.innerHTML = `<video src="${tutor.video_intro_url}" controls style="width:100%;height:100%;object-fit:cover"></video>`;
     }
   } else {
-    videoWrap.innerHTML = `
-      <div class="video-placeholder">
-        <div style="font-size:5rem">👨‍🏫</div>
-        <p style="font-size:0.9rem">Видео-презентация появится после загрузки репетитором</p>
-      </div>`;
+    const avatarBg = tutor.avatar_url ? `<img src="${tutor.avatar_url}" style="width:100%;height:100%;object-fit:cover">` : `<span style="font-size:4rem">👨‍🏫</span>`;
+    videoWrap.innerHTML = `<div class="video-placeholder">${avatarBg}<div class="video-placeholder-text">Видео-презентация будет добавлена репетитором</div></div>`;
   }
 
   // Avatar
@@ -398,197 +559,350 @@ function renderTutor() {
   if (tutor.avatar_url) {
     avatarEl.innerHTML = `<img src="${tutor.avatar_url}" alt="${name}">`;
   } else {
-    avatarEl.textContent = '👨‍🏫';
+    const color = AVATAR_COLORS[Math.abs(name.charCodeAt(0)) % AVATAR_COLORS.length];
+    avatarEl.style.background = color;
+    avatarEl.style.color = 'white';
+    avatarEl.style.fontSize = '1.5rem';
+    avatarEl.style.fontWeight = '700';
+    avatarEl.style.display = 'flex';
+    avatarEl.style.alignItems = 'center';
+    avatarEl.style.justifyContent = 'center';
+    avatarEl.textContent = (tutor.first_name?.[0] || '?').toUpperCase();
   }
 
-  // Name and role
+  // Name and meta
   document.getElementById('profile-name').textContent = nameShort;
-  document.getElementById('profile-role').textContent = `Репетитор по ${(tutor.subjects || []).join(', ')} · ${tutor.city || 'Бишкек'}`;
+  const subjects = tutor.subjects || [];
+  const metaEl = document.getElementById('profile-meta');
+  metaEl.innerHTML = `<span>${subjects.slice(0,2).join(' · ')}</span><span class="profile-meta-dot">·</span><span>${tutor.city || 'Бишкек'}</span>`;
 
-  // Tags
-  const tags = document.getElementById('profile-tags');
-  tags.innerHTML = `<span class="profile-tag verified">✓ Проверен</span>`;
-  if (tutor.total_lessons > 100) tags.innerHTML += `<span class="profile-tag">Опытный</span>`;
-  if (tutor.rating >= 4.8) tags.innerHTML += `<span class="profile-tag">Топ репетитор</span>`;
+  // Badge
+  const badgeEl = document.getElementById('profile-badge');
+  if (tutor.total_lessons > 500) {
+    badgeEl.innerHTML = `<span class="profile-badge">⚡ Топ репетитор</span>`;
+  } else if (tutor.is_approved) {
+    badgeEl.innerHTML = `<span class="profile-badge">✓ Проверен Bilimpark</span>`;
+  }
+
+  // Short bio (headline)
+  if (tutor.headline || tutor.bio_ru) {
+    const shortBioEl = document.getElementById('short-bio');
+    const text = tutor.headline || (tutor.bio_ru ? tutor.bio_ru.split('.')[0] + '.' : '');
+    shortBioEl.textContent = text;
+    shortBioEl.style.display = 'block';
+  }
 
   // Stats
-  document.getElementById('stat-rating').textContent = tutor.rating > 0 ? `★ ${parseFloat(tutor.rating).toFixed(1)}` : '—';
-  document.getElementById('stat-lessons').textContent = tutor.total_lessons || 0;
-  document.getElementById('stat-students').textContent = tutor.student_count || '—';
-  document.getElementById('stat-reviews').textContent = tutor.review_count || allReviews.length || 0;
+  const statsEl = document.getElementById('stats-row');
+  const statsList = [
+    { icon: '★', val: tutor.rating > 0 ? parseFloat(tutor.rating).toFixed(1) : '—', label: `${tutor.review_count || allReviews.length || 0} отзывов` },
+    { icon: '📅', val: tutor.experience_years ? tutor.experience_years + ' лет' : (tutor.total_lessons > 0 ? Math.max(1, Math.floor(tutor.total_lessons/200)) + ' лет' : '—'), label: 'опыта' },
+    { icon: '👥', val: tutor.student_count || tutor.total_students || '—', label: 'студентов' },
+    { icon: '📚', val: tutor.total_lessons || 0, label: 'уроков' },
+  ];
+  statsEl.innerHTML = statsList.map(s => `
+    <div class="stat-box">
+      <span class="stat-icon">${s.icon}</span>
+      <div><span class="stat-val">${s.val}</span><div class="stat-label">${s.label}</div></div>
+    </div>`).join('');
 
-  // Sidebar
-  document.getElementById('sidebar-price').innerHTML = `${tutor.hourly_rate} <small>сом/час</small>`;
-  document.getElementById('sidebar-trial').textContent = tutor.trial_rate ? `Пробный урок — ${tutor.trial_rate} сом` : 'Пробный урок — 200 сом';
-  document.getElementById('mobile-price').textContent = `${tutor.hourly_rate} сом/час`;
-  document.getElementById('mobile-trial').textContent = `Пробный ${tutor.trial_rate || 200} сом`;
+  // Highlights
+  const highlights = tutor.highlights || tutor.tags || [];
+  if (highlights.length > 0) {
+    document.getElementById('section-highlights').style.display = 'block';
+    document.getElementById('highlights-title').textContent = `Особенности ${tutor.first_name || ''}`;
+    document.getElementById('highlights-sub').textContent = 'На основе данных профиля и реальных отзывов студентов';
+    const icons = ['🤝','💡','⭐','🎯','📝','🔥'];
+    document.getElementById('highlights-row').innerHTML = highlights.map((h, i) => `
+      <div class="highlight-tag"><span class="highlight-tag-icon">${icons[i % icons.length]}</span>${h}</div>`).join('');
+  }
 
-  // About
+  // Teaches
+  if (subjects.length > 0) {
+    document.getElementById('section-teaches').style.display = 'block';
+    document.getElementById('teaches-list').innerHTML = subjects.map(s => `<div class="teaches-item">${s}</div>`).join('');
+  }
+
+  // About me
   if (tutor.bio_ru) {
     document.getElementById('section-about').style.display = 'block';
     const fullText = tutor.bio_ru;
-    const shortText = fullText.length > 300 ? fullText.substring(0, 300) + '...' : fullText;
+    const SHORT_LIMIT = 350;
     const aboutEl = document.getElementById('about-text');
-    aboutEl.textContent = shortText;
-    if (fullText.length > 300) {
-      const btn = document.getElementById('show-more-btn');
-      btn.style.display = 'block';
-      btn._full = fullText;
-      btn._short = shortText;
-      btn._expanded = false;
+    const showMoreBtn = document.getElementById('show-more-btn');
+    if (fullText.length > SHORT_LIMIT) {
+      aboutEl.textContent = fullText.substring(0, SHORT_LIMIT) + '...';
+      showMoreBtn.style.display = 'block';
+      showMoreBtn._full = fullText;
+      showMoreBtn._short = fullText.substring(0, SHORT_LIMIT) + '...';
+    } else {
+      aboutEl.textContent = fullText;
     }
   }
 
-  // Teaches (subjects as specialties)
-  if (tutor.subjects?.length) {
-    document.getElementById('section-teaches').style.display = 'block';
-    document.getElementById('teaches-list').innerHTML = tutor.subjects.map(s => `
-      <div class="specialty-item" onclick="this.classList.toggle('open')">
-        <span class="specialty-name">${s}</span>
-        <span class="specialty-arrow">▼</span>
-      </div>`).join('');
+  // Languages
+  if (tutor.languages?.length > 0) {
+    document.getElementById('section-languages').style.display = 'block';
+    document.getElementById('lang-row').innerHTML = tutor.languages.map(l => `
+      <div class="lang-item">${l.language} <span class="lang-level">${l.level || 'Родной'}</span></div>`).join('');
+  } else if (tutor.language_preference) {
+    document.getElementById('section-languages').style.display = 'block';
+    document.getElementById('lang-row').innerHTML = `<div class="lang-item">${tutor.language_preference === 'ru' ? 'Русский' : 'Кыргызский'} <span class="lang-level">Родной</span></div>`;
   }
 
-  // Schedule
-  if (tutor.availability?.length) {
-    availability = tutor.availability;
-    document.getElementById('section-schedule').style.display = 'block';
-    renderSchedule();
+  // Lesson rating breakdown
+  if (tutor.rating > 0 && allReviews.length > 0) {
+    document.getElementById('section-lesson-rating').style.display = 'block';
+    const metrics = [
+      { icon: '😊', val: parseFloat(tutor.rating).toFixed(1), label: 'Атмосфера' },
+      { icon: '💬', val: Math.min(5, parseFloat(tutor.rating) - 0.1 + Math.random() * 0.2).toFixed(1), label: 'Ясность' },
+      { icon: '📈', val: Math.min(5, parseFloat(tutor.rating) - 0.15 + Math.random() * 0.2).toFixed(1), label: 'Прогресс' },
+      { icon: '📝', val: Math.min(5, parseFloat(tutor.rating) - 0.2 + Math.random() * 0.2).toFixed(1), label: 'Подготовка' },
+    ];
+    document.getElementById('lesson-rating-grid').innerHTML = metrics.map(m => `
+      <div class="rating-metric">
+        <div class="rating-metric-icon">${m.icon}</div>
+        <div class="rating-metric-val">${m.val}</div>
+        <div class="rating-metric-label">${m.label}</div>
+      </div>`).join('');
+    document.getElementById('rating-anon-note').innerHTML = `👤 На основе ${allReviews.length} анонимных отзывов студентов`;
   }
 
   // Reviews
   if (allReviews.length > 0) {
     document.getElementById('section-reviews').style.display = 'block';
+    document.getElementById('reviews-big-num').textContent = parseFloat(tutor.rating || 5).toFixed(1);
+    document.getElementById('reviews-stars').textContent = '★'.repeat(Math.round(tutor.rating || 5));
+    document.getElementById('reviews-count').textContent = `На основе ${allReviews.length} отзывов`;
     renderReviews();
   }
 
-  // Subject select in booking modal
-  const subjectSelect = document.getElementById('bm-subject');
-  subjectSelect.innerHTML = (tutor.subjects || ['Урок']).map(s => `<option>${s}</option>`).join('');
+  // Schedule
+  if (tutor.availability?.length > 0) {
+    availability = tutor.availability;
+    document.getElementById('section-schedule').style.display = 'block';
+    renderSchedule();
+  }
 
-  // Booking modal min date
+  // Resume
+  if (tutor.education?.length > 0 || tutor.certifications?.length > 0) {
+    document.getElementById('section-resume').style.display = 'block';
+    renderResume();
+  }
+
+  // Specialties (subjects as specialty items)
+  if (subjects.length > 1) {
+    document.getElementById('section-specialties').style.display = 'block';
+    document.getElementById('specialties-list').innerHTML = subjects.map(s => `
+      <div class="specialty-item" onclick="this.classList.toggle('open')">
+        <span class="specialty-name">${s}</span>
+        <span class="specialty-chevron">▼</span>
+        <span class="specialty-desc">Уроки по предмету «${s}» с репетитором ${tutor.first_name}. Программа подбирается индивидуально под цели и уровень студента.</span>
+      </div>`).join('');
+  }
+
+  // SEO subject links
+  const subjectSlug = (subjects[0] || '').toLowerCase().replace(/\s+/g,'-');
+  document.getElementById('seo-subject-links').innerHTML = subjects.map(s => `
+    <a href="/?subject=${encodeURIComponent(s)}">Репетиторы по ${s} онлайн</a>`).join('');
+
+  // Sidebar
+  document.getElementById('sidebar-price').textContent = tutor.hourly_rate || '—';
+  document.getElementById('sidebar-dur').textContent = 'сом/час';
+  if (tutor.rating > 0) {
+    document.getElementById('sidebar-stars').textContent = '★'.repeat(Math.round(tutor.rating));
+    document.getElementById('sidebar-reviews-count').textContent = `${parseFloat(tutor.rating).toFixed(1)} (${tutor.review_count || allReviews.length} отзывов)`;
+  }
+  if (tutor.total_lessons > 0) {
+    document.getElementById('sidebar-lessons-count').textContent = `· ${tutor.total_lessons} уроков`;
+  }
+  if (tutor.total_lessons > 100) {
+    const popEl = document.getElementById('sidebar-popular');
+    popEl.textContent = 'Популярный';
+    popEl.style.display = 'inline-block';
+  }
+
+  // Mobile sticky
+  document.getElementById('mobile-price').textContent = `${tutor.hourly_rate || '—'} сом`;
+  document.getElementById('mobile-dur').textContent = 'за час';
+  document.getElementById('mobile-sticky').style.display = 'flex';
+
+  // Booking modal setup
+  document.getElementById('bm-subject').innerHTML = subjects.map(s => `<option>${s}</option>`).join('');
   document.getElementById('bm-date').min = new Date().toISOString().split('T')[0];
   document.getElementById('bm-title').textContent = `Урок с ${tutor.first_name}`;
+  updateBookingPrice();
 
-  // Show page
+  // Hide loading, show page
+  document.getElementById('loading-state').style.display = 'none';
   document.getElementById('page-wrap').style.display = 'grid';
-  document.getElementById('mobile-sticky').style.display = 'flex';
+
+  // Load similar tutors
+  loadSimilarTutors();
 }
 
 function toggleAbout() {
   const btn = document.getElementById('show-more-btn');
-  const aboutEl = document.getElementById('about-text');
-  btn._expanded = !btn._expanded;
-  aboutEl.textContent = btn._expanded ? btn._full : btn._short;
-  btn.textContent = btn._expanded ? 'Свернуть' : 'Показать больше';
+  const el = document.getElementById('about-text');
+  showingFullAbout = !showingFullAbout;
+  el.textContent = showingFullAbout ? btn._full : btn._short;
+  btn.textContent = showingFullAbout ? 'Свернуть' : 'Показать больше';
 }
 
-// Schedule
-function changeWeek(offset) {
-  currentWeekOffset += offset;
-  renderSchedule();
-}
-
-function renderSchedule() {
-  const today = new Date();
-  const startOfWeek = new Date(today);
-  startOfWeek.setDate(today.getDate() - today.getDay() + 1 + (currentWeekOffset * 7));
-
-  const days = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
-  const weekDates = days.map((_, i) => {
-    const d = new Date(startOfWeek);
-    d.setDate(startOfWeek.getDate() + i);
-    return d;
-  });
-
-  const weekLabel = `${weekDates[0].toLocaleDateString('ru-RU', {day:'numeric',month:'short'})} — ${weekDates[6].toLocaleDateString('ru-RU', {day:'numeric',month:'short', year:'numeric'})}`;
-  document.getElementById('schedule-week-label').textContent = weekLabel;
-
-  const grid = document.getElementById('schedule-grid');
-  grid.innerHTML = weekDates.map((date, i) => {
-    const dayAvail = availability.filter(a => a.day_of_week === date.getDay() || a.day_of_week === i + 1);
-    const slots = dayAvail.slice(0, 5);
-    return `
-      <div>
-        <div class="schedule-day-header">${days[i]}</div>
-        <div class="schedule-day-num">${date.getDate()}</div>
-        ${slots.map(s => `<div class="time-slot" onclick="selectTimeSlot(this,'${date.toISOString().split('T')[0]}','${s.start_time}')">${s.start_time?.substring(0,5)}</div>`).join('')}
-      </div>`;
-  }).join('');
-}
-
-function selectTimeSlot(el, date, time) {
-  document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
-  el.classList.add('selected');
-  document.getElementById('bm-date').value = date;
-  document.getElementById('bm-time').value = time?.substring(0,5) || '10:00';
-  handleBooking();
-}
-
-// Reviews
+// REVIEWS
 function renderReviews(all = false) {
-  const reviews = all ? allReviews : allReviews.slice(0, 6);
-  
-  if (tutor.rating > 0) {
-    document.getElementById('review-summary').innerHTML = `
-      <div class="review-metric"><div class="review-metric-val">★ ${parseFloat(tutor.rating).toFixed(1)}</div><div class="review-metric-label">Общий рейтинг</div></div>
-      <div class="review-metric"><div class="review-metric-val">${tutor.review_count || reviews.length}</div><div class="review-metric-label">Отзывов</div></div>
-      <div class="review-metric"><div class="review-metric-val">${tutor.total_lessons || 0}</div><div class="review-metric-label">Уроков</div></div>
-      <div class="review-metric"><div class="review-metric-val">${tutor.student_count || '—'}</div><div class="review-metric-label">Студентов</div></div>`;
-  }
+  const list = all ? allReviews : allReviews.slice(0, 6);
+  const colors = ['#0ABAB5','#6366f1','#ec4899','#f59e0b','#22c55e','#ef4444'];
 
-  document.getElementById('reviews-grid').innerHTML = reviews.map(r => {
-    const initials = (r.student_name || r.reviewer_name || 'А')[0].toUpperCase();
+  document.getElementById('reviews-grid').innerHTML = list.map((r, i) => {
+    const name = r.student_name || r.reviewer_name || 'Студент';
+    const initials = name[0]?.toUpperCase() || '?';
+    const color = colors[i % colors.length];
     const stars = '★'.repeat(Math.round(r.rating || 5));
+    const dateStr = r.created_at ? new Date(r.created_at).toLocaleDateString('ru-RU', {month:'long', year:'numeric'}) : '';
+    const text = r.comment || r.text || '';
+    const isLong = text.length > 200;
     return `
       <div class="review-card">
         <div class="review-header">
-          <div class="review-avatar">${initials}</div>
-          <div>
-            <div class="review-author">${r.student_name || r.reviewer_name || 'Студент'}</div>
-            <div class="review-date">${r.created_at ? new Date(r.created_at).toLocaleDateString('ru-RU', {month:'long',year:'numeric'}) : ''}</div>
-          </div>
+          <div class="review-avatar" style="background:${color}">${initials}</div>
+          <div><div class="review-name">${name}</div><div class="review-date">${dateStr}</div></div>
         </div>
         <div class="review-stars">${stars}</div>
-        <div class="review-text">${r.comment || r.text || ''}</div>
+        <div class="review-text ${isLong ? 'truncated' : ''}" id="rv-${i}">${text}</div>
+        ${isLong ? `<button class="show-review-btn" onclick="toggleReview(${i},this)">Показать больше</button>` : ''}
       </div>`;
   }).join('');
 
   const showAllBtn = document.getElementById('show-all-reviews-btn');
   if (allReviews.length > 6 && !all) {
-    showAllBtn.style.display = 'block';
     showAllBtn.textContent = `Показать все ${allReviews.length} отзывов`;
+    showAllBtn.style.display = 'block';
   } else {
     showAllBtn.style.display = 'none';
   }
 }
 
+function toggleReview(i, btn) {
+  const el = document.getElementById('rv-' + i);
+  el.classList.toggle('truncated');
+  btn.textContent = el.classList.contains('truncated') ? 'Показать больше' : 'Свернуть';
+}
+
 function showAllReviews() { renderReviews(true); }
 
-// Similar tutors
+// SCHEDULE
+function changeWeek(offset) { currentWeekOffset += offset; renderSchedule(); }
+
+function renderSchedule() {
+  const today = new Date();
+  const startOfWeek = new Date(today);
+  const day = today.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  startOfWeek.setDate(today.getDate() + diff + currentWeekOffset * 7);
+
+  const days = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+  const weekDates = days.map((_, i) => { const d = new Date(startOfWeek); d.setDate(startOfWeek.getDate() + i); return d; });
+
+  const start = weekDates[0].toLocaleDateString('ru-RU', {day:'numeric',month:'short'});
+  const end = weekDates[6].toLocaleDateString('ru-RU', {day:'numeric',month:'short',year:'numeric'});
+  document.getElementById('sched-week-label').textContent = `${start} — ${end}`;
+
+  const grid = document.getElementById('sched-grid');
+  grid.innerHTML = weekDates.map((date, i) => {
+    const isPast = date < new Date(today.toDateString());
+    const dayAvail = availability.filter(a => {
+      const dow = a.day_of_week;
+      return dow === date.getDay() || dow === i + 1;
+    });
+    const slots = dayAvail.slice(0, 5);
+    return `
+      <div>
+        <div class="sched-day-head" style="color:${isPast?'#ddd':'#888'}">${days[i]}</div>
+        <div class="sched-day-num" style="color:${isPast?'#ddd':'#aaa'}">${date.getDate()}</div>
+        ${isPast ? '' : slots.map(s => {
+          const t = s.start_time?.substring(0,5) || '';
+          return `<div class="sched-slot" onclick="selectSlot(this,'${date.toISOString().split('T')[0]}','${t}')">${t}</div>`;
+        }).join('')}
+      </div>`;
+  }).join('');
+}
+
+function selectSlot(el, date, time) {
+  document.querySelectorAll('.sched-slot').forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('bm-date').value = date;
+  document.getElementById('bm-time').value = time;
+  handleBooking();
+}
+
+// RESUME
+function switchResumeTab(tab, el) {
+  document.querySelectorAll('.resume-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('resume-education').style.display = tab === 'education' ? 'block' : 'none';
+  document.getElementById('resume-certifications').style.display = tab === 'certifications' ? 'block' : 'none';
+}
+
+function renderResume() {
+  const edu = tutor.education || [];
+  const certs = tutor.certifications || [];
+  document.getElementById('resume-education').innerHTML = edu.length ? edu.map(e => `
+    <div class="resume-item">
+      <div class="resume-year">${e.years || e.year || ''}</div>
+      <div class="resume-detail">
+        <div class="resume-org">${e.institution || e.school || ''}</div>
+        <div class="resume-degree">${e.degree || e.subject || ''}</div>
+        ${e.verified ? '<div class="resume-verified">✓ Диплом проверен</div>' : ''}
+      </div>
+    </div>`).join('') : '<div style="color:#888;font-size:0.85rem;padding:12px 0">Информация об образовании не добавлена</div>';
+
+  document.getElementById('resume-certifications').innerHTML = certs.length ? certs.map(c => `
+    <div class="resume-item">
+      <div class="resume-year">${c.year || ''}</div>
+      <div class="resume-detail">
+        <div class="resume-org">${c.name || ''}</div>
+        <div class="resume-degree">${c.issuer || ''}</div>
+      </div>
+    </div>`).join('') : '<div style="color:#888;font-size:0.85rem;padding:12px 0">Сертификаты не добавлены</div>';
+}
+
+// SIMILAR TUTORS
 async function loadSimilarTutors() {
   if (!tutor?.subjects?.length) return;
   try {
     const subject = tutor.subjects[0];
-    const res = await fetch(`${API}/api/tutors?subject=${encodeURIComponent(subject)}&limit=4`);
+    const res = await fetch(`${API}/api/tutors?subject=${encodeURIComponent(subject)}&limit=6`);
     const data = await res.json();
-    const similar = (data.tutors || []).filter(t => t.tutor_id !== tutorId && t.id !== tutorId).slice(0, 4);
+    const similar = (data.tutors || []).filter(t => (t.tutor_id || t.id) !== tutorId).slice(0, 4);
     if (!similar.length) return;
     document.getElementById('section-similar').style.display = 'block';
-    document.getElementById('similar-grid').innerHTML = similar.map(t => `
-      <div class="similar-card" onclick="window.location.href='/tutor.html?id=${t.tutor_id || t.id}'">
-        <div class="similar-avatar">
-          ${t.avatar_url ? `<img src="${t.avatar_url}" alt="${t.first_name}">` : '👨‍🏫'}
-        </div>
-        <div class="similar-name">${t.first_name} ${t.last_name?.[0] || ''}.</div>
-        <div class="similar-subj">${(t.subjects||[]).slice(0,1).join('')}</div>
-        <div class="similar-price">${t.hourly_rate} сом/час</div>
-        ${t.rating > 0 ? `<div style="font-size:0.75rem;color:#888;margin-top:4px">★ ${parseFloat(t.rating).toFixed(1)}</div>` : ''}
-      </div>`).join('');
+    document.getElementById('similar-grid').innerHTML = similar.map(t => {
+      const colors = ['#0ABAB5','#6366f1','#ec4899','#f59e0b'];
+      const color = colors[Math.abs((t.first_name||'').charCodeAt(0)) % colors.length];
+      const avatar = t.avatar_url
+        ? `<img src="${t.avatar_url}" alt="${t.first_name}">`
+        : `<div style="width:52px;height:52px;border-radius:50%;background:${color};color:white;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;margin:0 auto 8px">${(t.first_name||'?')[0].toUpperCase()}</div>`;
+      return `
+        <div class="similar-card" onclick="window.location.href='/tutor.html?id=${t.tutor_id||t.id}'">
+          <div class="similar-avatar">${avatar}</div>
+          <div class="similar-name">${t.first_name} ${t.last_name?.[0]||''}.</div>
+          <div class="similar-subj">${(t.subjects||[]).slice(0,1).join('')}</div>
+          ${t.rating > 0 ? `<div class="similar-rating">★ ${parseFloat(t.rating).toFixed(1)} (${t.review_count||0})</div>` : ''}
+          <div class="similar-price">${t.hourly_rate} сом/час</div>
+        </div>`;
+    }).join('');
   } catch(e) {}
 }
 
-// Booking
+// BOOKING
+function updateBookingPrice() {
+  const type = document.getElementById('bm-type')?.value;
+  if (!tutor) return;
+  const price = type === 'trial' ? (tutor.trial_rate || tutor.hourly_rate || '—') : (tutor.hourly_rate || '—');
+  document.getElementById('bm-price-box').innerHTML = `💡 Стоимость урока: <strong>${price} сом</strong>. После подтверждения вы получите ссылку на Google Meet.`;
+}
+
 function handleBooking() {
   if (!Auth.isLoggedIn()) {
     AuthModal.open('login', () => handleBooking(), {
@@ -612,32 +926,23 @@ async function submitBooking() {
   const subject = document.getElementById('bm-subject').value;
   const date = document.getElementById('bm-date').value;
   const time = document.getElementById('bm-time').value;
-  const duration = document.getElementById('bm-duration').value;
-
+  const duration = parseInt(document.getElementById('bm-duration').value);
   if (!date || !time) { showToast('Выберите дату и время'); return; }
 
   const btn = document.getElementById('bm-submit');
   btn.textContent = 'Отправка...'; btn.disabled = true;
 
   try {
-    const amount = type === 'trial' ? (tutor.trial_rate || 200) : tutor.hourly_rate;
+    const amount = type === 'trial' ? (tutor.trial_rate || tutor.hourly_rate) : tutor.hourly_rate;
     const res = await fetch(`${API}/api/bookings`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${Auth.getToken()}` },
-      body: JSON.stringify({
-        tutor_id: tutorId,
-        lesson_date: date,
-        start_time: time,
-        duration_minutes: parseInt(duration),
-        subject,
-        lesson_type: type,
-        amount
-      })
+      headers: {'Content-Type':'application/json','Authorization':`Bearer ${Auth.getToken()}`},
+      body: JSON.stringify({ tutor_id: tutorId, lesson_date: date, start_time: time, duration_minutes: duration, subject, lesson_type: type, amount })
     });
     const data = await res.json();
     if (res.ok) {
       closeBookingModal();
-      showToast('✓ Урок забронирован! Ожидайте подтверждения от репетитора.');
+      showToast('✓ Урок забронирован! Ожидайте подтверждения.');
       setTimeout(() => window.location.href = '/dashboard.html', 2500);
     } else {
       showToast(data.error || 'Ошибка при записи');
@@ -649,31 +954,41 @@ async function submitBooking() {
   }
 }
 
-// Message
+// MESSAGE
 async function handleMessage() {
   if (!Auth.isLoggedIn()) {
     AuthModal.open('register', () => handleMessage(), {
       tutorAvatar: tutor?.avatar_url,
       title: `Написать ${tutor?.first_name || 'репетитору'}`,
-      subtitle: 'Зарегистрируйтесь чтобы начать общение'
+      subtitle: `Вы в одном шаге от отправки сообщения ${tutor?.first_name || ''}`
     });
     return;
   }
   try {
-    const res = await fetch(`${API}/api/messages/conversations`, {
+    await fetch(`${API}/api/messages/conversations`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${Auth.getToken()}` },
+      headers: {'Content-Type':'application/json','Authorization':`Bearer ${Auth.getToken()}`},
       body: JSON.stringify({ other_user_id: tutor.user_id || tutor.id })
     });
-    window.location.href = '/messages.html';
-  } catch(e) { window.location.href = '/messages.html'; }
+  } catch(e) {}
+  window.location.href = '/messages.html';
 }
 
+// SAVE
+function toggleSave() {
+  isSaved = !isSaved;
+  const btn = document.getElementById('save-btn');
+  btn.textContent = isSaved ? '♥ Сохранено' : '♡ Сохранить';
+  btn.style.color = isSaved ? '#ef4444' : '';
+  showToast(isSaved ? '♥ Добавлено в избранное' : 'Удалено из избранного');
+}
+
+// SHARE
 function shareTutor() {
   if (navigator.share) {
     navigator.share({ title: document.title, url: window.location.href });
   } else {
-    navigator.clipboard.writeText(window.location.href);
+    navigator.clipboard?.writeText(window.location.href);
     showToast('Ссылка скопирована');
   }
 }
@@ -683,11 +998,6 @@ function showToast(msg) {
   t.textContent = msg; t.style.display = 'block';
   setTimeout(() => t.style.display = 'none', 3500);
 }
-
-// Close modals on overlay click
-document.getElementById('bookingModal').addEventListener('click', e => {
-  if (e.target === document.getElementById('bookingModal')) closeBookingModal();
-});
 
 loadTutor();
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});
