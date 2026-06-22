@@ -1166,6 +1166,14 @@ function onboardReset() {
   onboardVideoFile = null;
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+// ── AUTO LOGIN ─────────────────────────────────────────────
+const savedTok = localStorage.getItem('bilimpark_manager_token') || localStorage.getItem('bilimpark_token');
+const savedUser = JSON.parse(localStorage.getItem('bilimpark_manager_user') || localStorage.getItem('bilimpark_user') || 'null');
+if (savedTok && savedUser && ['admin','manager'].includes(savedUser.role)) {
+  tok = savedTok; currentUser = savedUser;
+  initApp();
+}
+
 </script>
   <!-- TUTOR DETAIL MODAL -->
 <div class="overlay" id="tutorModal" onclick="if(event.target===this)this.classList.remove('open')">
@@ -1248,10 +1256,6 @@ function onboardReset() {
     </div>
   </div>
 </div>
-</body>
-</html>
-
-
 <div id="toast"></div>
 </body>
 </html>
