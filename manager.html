@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bilimpark — Кабинет менеджера</title>
+<title>Bilimpark — Админ панель</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -12,12 +12,14 @@
   --ink:#0a0a0a;--ink-60:rgba(10,10,10,0.6);--ink-10:rgba(10,10,10,0.06);
   --white:#fff;--border:rgba(10,10,10,0.08);--bg:#f8fafa;
   --shadow:0 2px 12px rgba(0,0,0,0.06);--shadow-lg:0 16px 48px rgba(10,186,181,0.12);
-  --radius:14px;--sidebar:240px;--coral:#e8533a;
+  --radius:14px;--sidebar:240px;
+  --coral:#e8533a;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{overflow-x:hidden;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);}
 
+/* LOGIN */
 .login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#0a1a1a,#0d2d2b);}
 .login-box{background:white;padding:40px;border-radius:20px;width:380px;box-shadow:0 32px 80px rgba(0,0,0,0.3);}
 .login-logo{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:var(--tiffany);margin-bottom:4px;}
@@ -30,6 +32,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);}
 .btn-login{width:100%;background:var(--tiffany);color:white;border:none;padding:13px;border-radius:10px;font-size:0.95rem;font-weight:600;cursor:pointer;font-family:inherit;}
 .err{color:#e74c3c;font-size:0.82rem;margin-top:8px;}
 
+/* SIDEBAR */
 .sidebar{width:var(--sidebar);background:linear-gradient(180deg,#0a1a1a,#0d2d2b);min-height:100vh;position:fixed;left:0;top:0;display:flex;flex-direction:column;z-index:100;}
 .slogo{padding:22px 20px;border-bottom:1px solid rgba(255,255,255,0.06);}
 .slogo-text{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--tiffany);}
@@ -41,80 +44,81 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);}
 .snav a.active{background:rgba(10,186,181,0.1);color:var(--tiffany);border-left-color:var(--tiffany);}
 .sfooter{padding:16px;border-top:1px solid rgba(255,255,255,0.06);}
 .btn-logout{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.4);padding:8px;border-radius:8px;font-size:0.78rem;cursor:pointer;font-family:inherit;}
-.suser{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
-.suser-av{width:36px;height:36px;border-radius:50%;background:var(--tiffany);color:white;display:flex;align-items:center;justify-content:center;font-size:1rem;}
-.suser-name{font-size:0.84rem;font-weight:600;color:white;}
-.suser-role{font-size:0.7rem;color:rgba(255,255,255,0.3);}
 
+/* MAIN */
 .main{margin-left:var(--sidebar);padding:28px 32px;}
 .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;}
 .topbar h1{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;}
 .btn-sm{padding:7px 14px;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;border:none;transition:all 0.2s;}
 .btn-tiffany{background:var(--tiffany);color:white;}
+.btn-tiffany:hover{background:var(--tiffany-dark);}
 .btn-success{background:#22c55e;color:white;}
+.btn-success:hover{background:#16a34a;}
 .btn-danger{background:var(--coral);color:white;}
+.btn-danger:hover{background:#c94228;}
 .btn-outline{background:none;border:1.5px solid var(--border);color:var(--ink-60);}
-.btn-gold{background:var(--gold);color:white;}
+.btn-outline:hover{border-color:var(--tiffany);color:var(--tiffany);}
 
+/* STATS */
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:24px;}
 .stat-card{background:white;border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);border:1px solid var(--border);position:relative;overflow:hidden;}
 .stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--tiffany);}
 .stat-val{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--ink);display:block;line-height:1;}
 .stat-label{font-size:0.72rem;color:var(--ink-60);margin-top:6px;text-transform:uppercase;letter-spacing:0.05em;}
+.stat-sub{font-size:0.72rem;color:var(--tiffany);margin-top:4px;font-weight:500;}
 
+/* CARDS */
 .card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:20px;overflow:hidden;}
 .card-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
 .card-head h3{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;}
 
-table{width:100%;border-collapse:collapse;}
-th{padding:10px 16px;text-align:left;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-60);background:#f8fafa;border-bottom:1px solid var(--border);}
+/* TABLE */
+.table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;min-width:600px;}
+th{padding:10px 16px;text-align:left;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-60);background:#f8fafa;border-bottom:1px solid var(--border);white-space:nowrap;}
 td{padding:12px 16px;font-size:0.82rem;border-bottom:1px solid var(--border);vertical-align:middle;}
 tr:last-child td{border-bottom:none;}
 tr:hover td{background:#f8fafa;}
-
-.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:0.68rem;font-weight:700;}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:0.68rem;font-weight:700;white-space:nowrap;}
 .badge-green{background:#dcfce7;color:#166534;}
 .badge-gold{background:var(--gold-light);color:#7a5a00;}
 .badge-blue{background:#eff6ff;color:#1e40af;}
 .badge-red{background:#fee2e2;color:#991b1b;}
 .badge-gray{background:var(--ink-10);color:var(--ink-60);}
 .badge-tiffany{background:var(--tiffany-pale);color:var(--tiffany-dark);}
-.badge-orange{background:#fff7ed;color:#c2410c;}
 
+/* TUTOR CARD IN TABLE */
+.tutor-row{display:flex;align-items:center;gap:10px;}
+.tutor-av{width:36px;height:36px;border-radius:50%;background:var(--tiffany-pale);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.tutor-name{font-weight:600;font-size:0.85rem;}
+.tutor-email{font-size:0.72rem;color:var(--ink-60);}
+
+/* PAGES */
 .page{display:none;}
 .page.active{display:block;}
 #app{display:none;}
 
-.table-search{border:1.5px solid var(--border);border-radius:8px;padding:7px 12px;font-family:inherit;font-size:0.82rem;outline:none;width:220px;}
+/* SEARCH */
+.table-search{border:1.5px solid var(--border);border-radius:8px;padding:7px 12px;font-family:inherit;font-size:0.82rem;outline:none;width:220px;transition:border-color 0.2s;}
 .table-search:focus{border-color:var(--tiffany);}
 
-/* TASKS */
-.task-item{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px;}
-.task-item:last-child{border-bottom:none;}
-.task-check{width:20px;height:20px;border-radius:6px;border:2px solid var(--border);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
-.task-check.done{background:var(--tiffany);border-color:var(--tiffany);color:white;}
-.task-title{font-weight:600;font-size:0.85rem;}
-.task-meta{font-size:0.72rem;color:var(--ink-60);}
-.task-due{font-size:0.72rem;font-weight:600;}
-.task-due.overdue{color:#e74c3c;}
-.task-due.today{color:var(--gold);}
-.task-due.upcoming{color:var(--tiffany);}
-
-/* MODAL */
+#toast{display:none;position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--tiffany);color:white;padding:12px 24px;border-radius:12px;font-weight:600;z-index:9999;font-size:0.875rem;box-shadow:var(--shadow-lg);}
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);z-index:500;align-items:center;justify-content:center;padding:16px;}
 .overlay.open{display:flex;}
-.modal-box{background:white;border-radius:20px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,0.25);}
-.modal-head{background:var(--tiffany);padding:20px 24px;color:white;position:relative;border-radius:20px 20px 0 0;}
-.modal-head h2{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;}
-.modal-close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.15);border:none;color:white;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;}
-.modal-body{padding:24px;}
-.modal-foot{padding:0 24px 20px;display:flex;gap:10px;justify-content:flex-end;}
-
-#toast{display:none;position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--tiffany);color:white;padding:12px 24px;border-radius:12px;font-weight:600;z-index:9999;font-size:0.875rem;}
-
+.mobile-admin-nav{display:none;}
 @media(max-width:768px){
   .sidebar{display:none;}
-  .main{margin-left:0;padding:12px;}
+  .main{margin-left:0;padding:12px;padding-top:64px;}
+  .mobile-admin-nav{display:block;position:fixed;top:0;left:0;right:0;background:linear-gradient(180deg,#0a1a1a,#0d2d2b);z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.15);}
+  .mobile-admin-nav-scroll{display:flex;overflow-x:auto;padding:10px 8px;gap:6px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  .mobile-admin-nav-scroll::-webkit-scrollbar{display:none;}
+  .mobile-admin-nav-scroll a{flex-shrink:0;color:rgba(255,255,255,0.75);padding:8px 12px;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;white-space:nowrap;text-decoration:none;}
+  .mobile-admin-nav-scroll a.active{background:rgba(255,255,255,0.12);color:white;}
+  .topbar{padding:12px 0;flex-direction:column;align-items:stretch;gap:8px;}
+  .topbar h1{font-size:1.15rem;}
+  .topbar > div{justify-content:flex-end;}
+  table{font-size:0.82rem;}
+  .stat-card{padding:14px;}
 }
 </style>
 </head>
@@ -125,7 +129,7 @@ tr:hover td{background:#f8fafa;}
   <div class="login-box">
     <div class="login-logo">Bilimpark<span>.kg</span></div>
     <div class="login-sub">Кабинет менеджера</div>
-    <div class="fgroup"><label>Email</label><input class="fcontrol" type="email" id="l-email" placeholder="manager@bilimpark.kg"></div>
+    <div class="fgroup"><label>Email</label><input class="fcontrol" type="email" id="l-email" value="admin@bilimpark.kg"></div>
     <div class="fgroup"><label>Пароль</label><input class="fcontrol" type="password" id="l-pass" onkeydown="if(event.key==='Enter')login()"></div>
     <button class="btn-login" onclick="login()">Войти</button>
     <div class="err" id="l-err"></div>
@@ -137,7 +141,7 @@ tr:hover td{background:#f8fafa;}
   <div class="sidebar">
     <div class="slogo">
       <div class="slogo-text">Bilimpark<span>.kg</span></div>
-      <small>Менеджер</small>
+      <small>Администратор</small>
     </div>
     <nav class="snav">
       <a class="active" onclick="showPage('dashboard',this)">📊 Дашборд</a>
@@ -146,23 +150,33 @@ tr:hover td{background:#f8fafa;}
       <a onclick="showPage('applications',this)">📋 Заявки <span id="apps-badge" style="margin-left:auto;background:#e8533a;color:white;font-size:0.65rem;font-weight:700;padding:2px 6px;border-radius:8px;display:none"></span></a>
       <a onclick="showPage('students',this)">👩‍🎓 Студенты</a>
       <a onclick="showPage('bookings',this)">📅 Бронирования</a>
-      <a onclick="showPage('leads',this)">🎯 Лиды <span id="leads-badge" style="margin-left:auto;background:#c9a84c;color:white;font-size:0.65rem;font-weight:700;padding:2px 6px;border-radius:8px;display:none"></span></a>
+      <a onclick="showPage('leads',this)">🎯 Лиды <span id="leads-badge" style="margin-left:auto;background:#C9A84C;color:white;font-size:0.65rem;font-weight:700;padding:2px 6px;border-radius:8px;display:none"></span></a>
       <a onclick="showPage('onboard',this)">➕ Новый репетитор</a>
     </nav>
     <div class="sfooter">
-      <div class="suser">
-        <div class="suser-av">👤</div>
-        <div><div class="suser-name" id="sidebar-name">—</div><div class="suser-role" id="sidebar-role">Менеджер</div></div>
-      </div>
       <button class="btn-logout" onclick="logout()">🚪 Выйти</button>
     </div>
   </div>
 
-  <div class="main">
+  <!-- Mobile top nav (only visible on phone) -->
+<div class="mobile-admin-nav" id="mobile-admin-nav">
+  <div class="mobile-admin-nav-scroll">
+    <a class="active" onclick="showPage('dashboard',this)">📊 Дашборд</a>
+    <a onclick="showPage('tasks',this)">✅ Задачи</a>
+    <a onclick="showPage('tutors',this)">👨‍🏫 Репетиторы</a>
+    <a onclick="showPage('applications',this)">📋 Заявки</a>
+    <a onclick="showPage('students',this)">👩‍🎓 Студенты</a>
+    <a onclick="showPage('bookings',this)">📅 Бронь</a>
+    <a onclick="showPage('leads',this)">🎯 Лиды</a>
+    <a onclick="showPage('onboard',this)">➕ Новый</a>
+    <a onclick="logout()" style="color:#dc2626">🚪</a>
+  </div>
+</div>
+<div class="main">
     <div class="topbar">
       <h1 id="page-title">Дашборд</h1>
       <div style="display:flex;gap:8px">
-        <span style="font-size:0.78rem;color:var(--ink-60);align-self:center" id="topbar-date"></span>
+        <span id="topbar-date" style="font-size:0.78rem;color:var(--ink-60);align-self:center"></span>
         <button class="btn-sm btn-outline" onclick="loadPage(currentPage)">↻ Обновить</button>
         <a href="index.html" class="btn-sm btn-outline" style="text-decoration:none">← Сайт</a>
       </div>
@@ -174,9 +188,9 @@ tr:hover td{background:#f8fafa;}
         <div class="stat-card"><span class="stat-val" id="d-students">—</span><div class="stat-label">Студентов</div></div>
         <div class="stat-card"><span class="stat-val" id="d-tutors">—</span><div class="stat-label">Репетиторов</div></div>
         <div class="stat-card"><span class="stat-val" id="d-bookings">—</span><div class="stat-label">Бронирований</div></div>
-        <div class="stat-card"><span class="stat-val" id="d-pending" style="color:var(--gold)">—</span><div class="stat-label">Ждут одобрения</div></div>
-        <div class="stat-card"><span class="stat-val" id="d-leads">—</span><div class="stat-label">Новых лидов</div></div>
-        <div class="stat-card"><span class="stat-val" id="d-tasks" style="color:var(--coral)">—</span><div class="stat-label">Открытых задач</div></div>
+        <div class="stat-card"><span class="stat-val" id="d-revenue">—</span><div class="stat-label">Выручка (сом)</div></div>
+        <div class="stat-card"><span class="stat-val" id="d-pending" style="color:var(--gold)">—</span><div class="stat-label">Ожидают одобрения</div></div>
+        <div class="stat-card"><span class="stat-val" id="d-applications">—</span><div class="stat-label">Новых заявок</div></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
         <div class="card">
@@ -190,221 +204,285 @@ tr:hover td{background:#f8fafa;}
       </div>
     </div>
 
-    <!-- TASKS -->
+    <!-- TUTORS -->
+    <div id="page-tutors" class="page">
+      <div class="card">
+        <div class="card-head">
+          <h3>Все репетиторы</h3>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <input class="table-search" type="text" placeholder="Поиск..." id="tutor-search" oninput="filterTutors(this.value)">
+            <select class="fcontrol" style="width:auto;padding:6px 12px;font-size:0.82rem" id="tutor-filter" onchange="loadTutors()">
+              <option value="">Все</option>
+              <option value="approved">Одобренные</option>
+              <option value="pending">Ожидают</option>
+              <option value="rejected">Отклонённые</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Репетитор</th><th>Предметы</th><th>Уроков</th><th>Рейтинг</th><th>Ставка</th><th>Статус</th><th>Бейдж</th><th>Действие</th></tr></thead>
+            <tbody id="tutors-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- STUDENTS -->
+    <div id="page-students" class="page">
+      <div class="card">
+        <div class="card-head">
+          <h3>Все студенты</h3>
+          <input class="table-search" type="text" placeholder="Поиск..." id="student-search" oninput="filterStudents(this.value)">
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Студент</th><th>Email</th><th>Телефон</th><th>Уроков</th><th>Дата регистрации</th><th>Статус</th><th>Действие</th></tr></thead>
+            <tbody id="students-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOOKINGS -->
+    <div id="page-bookings" class="page">
+      <div class="card">
+        <div class="card-head">
+          <h3>Все бронирования</h3>
+          <select class="fcontrol" style="width:auto;padding:6px 12px;font-size:0.82rem" id="booking-filter" onchange="loadBookings()">
+            <option value="">Все</option>
+            <option value="pending">Ожидают</option>
+            <option value="confirmed">Подтверждённые</option>
+            <option value="completed">Завершённые</option>
+            <option value="cancelled">Отменённые</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Студент</th><th>Репетитор</th><th>Предмет</th><th>Дата</th><th>Тип</th><th>Сумма</th><th>Статус</th><th>Действие</th></tr></thead>
+            <tbody id="bookings-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- APPLICATIONS -->
+<div id="page-applications" class="page">
+  <div id="applications-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px;"></div>
+</div>
+
+    <!-- REVENUE -->
+
+    <div id="page-onboard" class="page">
+      <div class="card" style="max-width:780px">
+        <div class="card-head"><h3>Создать профиль репетитора</h3></div>
+        <div style="padding:24px">
+          <div style="background:var(--tiffany-pale);border-radius:10px;padding:14px 18px;margin-bottom:20px;font-size:0.88rem;line-height:1.6;color:var(--ink)">
+            <strong>Как это работает:</strong> Заполните данные репетитора (с информацией которую он прислал в WhatsApp), загрузите видео. Система создаст профиль и выдаст магическую ссылку. Отправьте её репетитору через WhatsApp — он установит пароль и аккаунт активируется.
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div class="fgroup"><label>Имя *</label><input class="fcontrol" id="ob-fname" placeholder="Айгуль"></div>
+            <div class="fgroup"><label>Фамилия *</label><input class="fcontrol" id="ob-lname" placeholder="Бекова"></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div class="fgroup"><label>Телефон *</label><input class="fcontrol" id="ob-phone" type="tel" placeholder="+996 XXX XXX XXX"></div>
+            <div class="fgroup"><label>Email (если нет — сгенерируем)</label><input class="fcontrol" id="ob-email" type="email" placeholder="optional"></div>
+          </div>
+
+          <div class="fgroup">
+            <label>Предметы * (через запятую)</label>
+            <input class="fcontrol" id="ob-subjects" placeholder="Математика, Физика, ОРТ подготовка">
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div class="fgroup"><label>Ставка сом/час</label><input class="fcontrol" id="ob-rate" type="number" value="500" min="200"></div>
+            <div class="fgroup"><label>Пробный урок сом</label><input class="fcontrol" id="ob-trial" type="number" value="200" min="100"></div>
+          </div>
+
+          <div class="fgroup">
+            <label>Город</label>
+            <select class="fcontrol" id="ob-city">
+              <option>Бишкек</option><option>Ош</option><option>Жалал-Абад</option><option>Каракол</option><option>Токмок</option><option>Другой</option>
+            </select>
+          </div>
+
+          <div class="fgroup">
+            <label>О себе (вставьте из WhatsApp)</label>
+            <textarea class="fcontrol" id="ob-bio" rows="5" placeholder="Преподаю математику 5 лет. КНУ, математический факультет. Готовлю к ОРТ..."></textarea>
+          </div>
+
+          <div class="fgroup">
+            <label>Видео-презентация</label>
+            <div style="display:flex;gap:10px;margin-bottom:8px">
+              <button type="button" class="btn-sm btn-outline" onclick="document.getElementById('ob-video-file').click()">📁 Загрузить файл (до 60 МБ)</button>
+              <span id="ob-video-filename" style="font-size:0.82rem;color:var(--ink-60);align-self:center"></span>
+            </div>
+            <input type="file" id="ob-video-file" accept="video/*" style="display:none" onchange="onboardPickVideo(this)">
+            <div style="font-size:0.78rem;color:var(--ink-60);margin:4px 0">или</div>
+            <input class="fcontrol" id="ob-video-url" type="url" placeholder="https://youtube.com/... (если у репетитора уже есть)">
+          </div>
+
+          <div class="err" id="ob-err" style="color:#e74c3c;font-size:0.88rem;min-height:20px;margin-bottom:12px"></div>
+
+          <button class="btn-sm btn-tiffany" style="padding:12px 24px;font-size:0.92rem" onclick="onboardSubmit()" id="ob-submit-btn">Создать профиль →</button>
+
+          <div id="ob-progress" style="display:none;margin-top:16px;background:var(--tiffany-pale);border-radius:10px;padding:14px 18px;font-size:0.88rem">
+            <div id="ob-progress-text">Создаём...</div>
+            <div style="margin-top:8px;height:4px;background:white;border-radius:2px;overflow:hidden"><div id="ob-progress-bar" style="width:0%;height:100%;background:var(--tiffany);transition:width 0.3s"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUCCESS CARD -->
+      <div id="ob-success" style="display:none;max-width:780px;background:white;border-radius:14px;box-shadow:var(--shadow);border:1px solid var(--border);padding:28px;margin-top:20px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div style="width:44px;height:44px;border-radius:50%;background:#dcfce7;display:flex;align-items:center;justify-content:center;font-size:1.4rem">✓</div>
+          <div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600" id="ob-success-name">Профиль создан</div>
+            <div style="font-size:0.82rem;color:var(--ink-60)">Отправьте магическую ссылку репетитору через WhatsApp</div>
+          </div>
+        </div>
+
+        <div style="background:var(--bg);border-radius:10px;padding:14px;margin-bottom:16px">
+          <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:6px">Магическая ссылка</div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <input class="fcontrol" id="ob-claim-link" readonly style="font-size:0.82rem;background:white">
+            <button class="btn-sm btn-outline" onclick="onboardCopyLink()">📋 Копировать</button>
+          </div>
+        </div>
+
+        <div style="background:var(--bg);border-radius:10px;padding:14px;margin-bottom:16px">
+          <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:6px">WhatsApp сообщение (готовое)</div>
+          <textarea class="fcontrol" id="ob-whatsapp-msg" readonly rows="5" style="font-size:0.88rem;line-height:1.6;background:white"></textarea>
+          <button class="btn-sm btn-outline" onclick="onboardCopyMessage()" style="margin-top:8px">📋 Копировать текст</button>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a id="ob-whatsapp-link" target="_blank" rel="noopener" class="btn-sm" style="background:#25D366;color:white;text-decoration:none;padding:11px 22px;border-radius:8px;font-size:0.9rem;font-weight:600">💬 Отправить в WhatsApp</a>
+          <button class="btn-sm btn-outline" onclick="onboardReset()" style="padding:11px 22px">➕ Создать ещё</button>
+        </div>
+      </div>
+    </div>
+
+
     <div id="page-tasks" class="page">
       <div class="card">
         <div class="card-head">
-          <h3>Все задачи</h3>
-          <div style="display:flex;gap:8px">
-            <select class="fcontrol" style="width:auto;padding:6px 12px;font-size:0.82rem" id="task-filter" onchange="loadTasks()">
-              <option value="">Все</option>
-              <option value="todo">К выполнению</option>
-              <option value="in_progress">В работе</option>
-              <option value="done">Выполнено</option>
-            </select>
-            <button class="btn-sm btn-tiffany" onclick="openCreateTask()">+ Новая задача</button>
-          </div>
+          <h3>Мои задачи</h3>
+          <button class="btn-sm btn-tiffany" onclick="openCreateTask()">+ Новая задача</button>
         </div>
-        <div id="tasks-list"></div>
+        <div id="tasks-list"><div style="text-align:center;padding:40px;color:var(--ink-60)">Загрузка...</div></div>
       </div>
     </div>
-
-    <!-- LEADS -->
-
-
-<!-- TUTOR FULL MODAL (same as admin) -->
-<div class="overlay" id="tutorEditModal" onclick="if(event.target===this)this.classList.remove('open')">
-  <div style="background:white;border-radius:20px;max-width:680px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,0.25);">
-    <div style="background:linear-gradient(135deg,#0a1a1a,#0d2d2b);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;border-radius:20px 20px 0 0;">
-      <div>
-        <div style="font-size:1.1rem;font-weight:700;color:white;" id="tedit-modal-name">—</div>
-        <div style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:2px;" id="tedit-modal-email">—</div>
+    <div id="page-leads" class="page">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px" id="leads-stats"></div>
+      <div class="card" style="margin-bottom:18px">
+        <div class="card-head" style="gap:10px;flex-wrap:wrap">
+          <h3>Фильтр</h3>
+          <button class="lead-filter-btn" data-status="" onclick="filterLeads('')" style="background:var(--tiffany);color:white;border:none;padding:7px 14px;border-radius:8px;font-size:0.82rem;font-weight:500;cursor:pointer">Все</button>
+          <button class="lead-filter-btn" data-status="new" onclick="filterLeads('new')" style="background:white;border:1.5px solid var(--border);padding:7px 14px;border-radius:8px;font-size:0.82rem;font-weight:500;cursor:pointer">Новые</button>
+          <button class="lead-filter-btn" data-status="contacted" onclick="filterLeads('contacted')" style="background:white;border:1.5px solid var(--border);padding:7px 14px;border-radius:8px;font-size:0.82rem;font-weight:500;cursor:pointer">Связались</button>
+          <button class="lead-filter-btn" data-status="converted" onclick="filterLeads('converted')" style="background:white;border:1.5px solid var(--border);padding:7px 14px;border-radius:8px;font-size:0.82rem;font-weight:500;cursor:pointer">Конвертированы</button>
+          <button class="lead-filter-btn" data-status="dead" onclick="filterLeads('dead')" style="background:white;border:1.5px solid var(--border);padding:7px 14px;border-radius:8px;font-size:0.82rem;font-weight:500;cursor:pointer">Мёртвые</button>
+          <button onclick="loadLeads()" style="margin-left:auto;background:none;border:1.5px solid var(--border);padding:7px 14px;border-radius:8px;font-size:0.82rem;font-weight:500;cursor:pointer">Обновить</button>
+        </div>
       </div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <a id="tedit-view-link" href="#" target="_blank" style="font-size:0.78rem;color:rgba(255,255,255,0.6);text-decoration:none;">👁 Профиль</a>
-        <button onclick="document.getElementById('tutorEditModal').classList.remove('open')" style="background:rgba(255,255,255,0.15);border:none;color:white;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;">✕</button>
+      <div class="card"><div id="leads-list"></div></div>
+    </div>
+    <div id="leadModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);z-index:500;align-items:center;justify-content:center;padding:16px" onclick="if(event.target===this)closeLeadModal()">
+      <div style="background:white;border-radius:20px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,0.25)">
+        <div style="background:var(--tiffany);padding:22px 26px;color:white;position:relative">
+          <button onclick="closeLeadModal()" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.15);border:none;color:white;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem">X</button>
+          <h2 style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600" id="lead-modal-title">Лид</h2>
+          <p id="lead-modal-sub" style="opacity:0.75;font-size:0.82rem;margin-top:3px"></p>
+        </div>
+        <div style="padding:24px" id="lead-modal-body"></div>
       </div>
     </div>
-    <div id="tedit-modal-video" style="width:100%;height:200px;background:#0a1a1a;"></div>
-    <div style="padding:20px;">
-      <!-- TABS -->
-      <div style="display:flex;border-bottom:1px solid var(--border);margin-bottom:16px;">
-        <div id="ttab-info" onclick="switchTutorTab('info')" style="padding:10px 16px;font-size:0.82rem;font-weight:600;cursor:pointer;border-bottom:2px solid var(--tiffany);color:var(--tiffany);margin-bottom:-1px">Инфо</div>
-        <div id="ttab-edit" onclick="switchTutorTab('edit')" style="padding:10px 16px;font-size:0.82rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;color:var(--ink-60);margin-bottom:-1px">✏️ Редактировать</div>
-      </div>
+    
 
-      <!-- INFO TAB -->
-      <div id="ttab-info-content">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
-          <div style="background:var(--tiffany-pale);border-radius:8px;padding:10px;">
-            <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:3px;">Дисциплины</div>
-            <div style="font-weight:600;font-size:0.85rem;" id="tinfo-subjects">—</div>
-          </div>
-          <div style="background:var(--tiffany-pale);border-radius:8px;padding:10px;">
-            <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:3px;">Ставка</div>
-            <div style="font-weight:600;font-size:0.85rem;" id="tinfo-rate">—</div>
-          </div>
-          <div style="background:var(--tiffany-pale);border-radius:8px;padding:10px;">
-            <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:3px;">Телефон</div>
-            <div style="font-weight:600;font-size:0.85rem;" id="tinfo-phone">—</div>
-          </div>
-          <div style="background:var(--tiffany-pale);border-radius:8px;padding:10px;">
-            <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:3px;">Город</div>
-            <div style="font-weight:600;font-size:0.85rem;" id="tinfo-city">—</div>
-          </div>
-        </div>
-        <div style="margin-bottom:14px;">
-          <div style="font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink-60);margin-bottom:6px;">О себе</div>
-          <div style="font-size:0.85rem;line-height:1.75;color:var(--ink);" id="tinfo-bio">—</div>
-        </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;" id="tinfo-actions"></div>
-      </div>
-
-      <!-- EDIT TAB -->
-      <div id="ttab-edit-content" style="display:none">
-        <input type="hidden" id="tedit-user-id">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div class="fgroup"><label>Имя</label><input class="fcontrol" id="tedit-fname"></div>
-          <div class="fgroup"><label>Фамилия</label><input class="fcontrol" id="tedit-lname"></div>
-        </div>
-        <div class="fgroup"><label>Дисциплины (через запятую)</label><input class="fcontrol" id="tedit-subjects"></div>
-        <div class="fgroup"><label>Заголовок профиля</label><input class="fcontrol" id="tedit-headline" placeholder="Репетитор по математике, 5 лет опыта"></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div class="fgroup"><label>Ставка (сом/час)</label><input class="fcontrol" type="number" id="tedit-rate"></div>
-          <div class="fgroup"><label>Пробный (сом)</label><input class="fcontrol" type="number" id="tedit-trial"></div>
-        </div>
-        <div class="fgroup"><label>Город</label>
-          <select class="fcontrol" id="tedit-city">
-            <option>Бишкек</option><option>Ош</option><option>Джалал-Абад</option>
-            <option>Каракол</option><option>Токмок</option><option>Нарын</option><option>Талас</option><option>Баткен</option>
-          </select>
-        </div>
-        <div class="fgroup"><label>Особенности (через запятую)</label><input class="fcontrol" id="tedit-highlights" placeholder="Терпеливый, Опытный"></div>
-        <div class="fgroup"><label>О себе</label><textarea class="fcontrol" id="tedit-bio" rows="4"></textarea></div>
-        <div class="fgroup"><label>YouTube видео</label><input class="fcontrol" id="tedit-video" type="url" placeholder="https://youtube.com/watch?v=..."></div>
-        <div class="fgroup"><label>Телефон</label><input class="fcontrol" id="tedit-phone" type="tel"></div>
-        <div style="display:flex;gap:8px;margin-top:4px">
-          <button class="btn-sm btn-outline" onclick="document.getElementById('tutorEditModal').classList.remove('open')">Отмена</button>
-          <button class="btn-sm btn-tiffany" onclick="saveTutorEdit()">💾 Сохранить</button>
-        </div>
-        <div id="tedit-status" style="margin-top:8px;font-size:0.78rem;color:var(--ink-60)"></div>
-      </div>
-    </div>
   </div>
 </div>
 
+<div id="toast"></div>
+
 <script>
-const API = 'https://bilimly-backend-0zbt.onrender.com';
-let tok = null;
-let currentUser = null;
-let currentPage = 'dashboard';
-let allLeads = [];
-let allTutors = [];
-let allStudents = [];
-let managers = [];
+const API='https://bilimly-backend-0zbt.onrender.com';
+let tok=null;
+let currentPage='dashboard';
+let allTutors=[];
+let allStudents=[];
 
-async function login() {
-  const email = document.getElementById('l-email').value.trim();
-  const password = document.getElementById('l-pass').value;
-  const errEl = document.getElementById('l-err');
-  errEl.textContent = '';
-  try {
-    const res = await fetch(API + '/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    });
-    const data = await res.json();
-    if (data.token) {
-      if (!['manager', 'admin'].includes(data.user.role)) {
-        errEl.textContent = 'Доступ только для менеджеров';
-        return;
-      }
-      tok = data.token;
-      currentUser = data.user;
-      localStorage.setItem('bilimpark_manager_token', tok);
-      localStorage.setItem('bilimpark_manager_user', JSON.stringify(currentUser));
-      initApp();
-    } else {
-      errEl.textContent = data.error || 'Неверные данные';
-    }
-  } catch (e) {
-    errEl.textContent = 'Ошибка соединения';
-  }
+async function login(){
+  const email=document.getElementById('l-email').value.trim();
+  const password=document.getElementById('l-pass').value;
+  document.getElementById('l-err').textContent='';
+  try{
+    const res=await fetch(API+'/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+    const data=await res.json();
+    if(data.token){
+      if(data.user.role!=='admin'){document.getElementById('l-err').textContent='Доступ только для администраторов';return;}
+      tok=data.token;
+      document.getElementById('loginWrap').style.display='none';
+      document.getElementById('app').style.display='block';
+      document.getElementById('topbar-date').textContent=new Date().toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long'});
+      loadDashboard();
+    } else {document.getElementById('l-err').textContent=data.error||'Неверные данные';}
+  }catch(e){document.getElementById('l-err').textContent='Ошибка соединения';}
 }
 
-function initApp() {
-  document.getElementById('loginWrap').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  document.getElementById('sidebar-name').textContent = currentUser.first_name + ' ' + currentUser.last_name;
-  document.getElementById('sidebar-role').textContent = currentUser.role === 'admin' ? 'Администратор' : 'Менеджер';
-  document.getElementById('topbar-date').textContent = new Date().toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' });
-  loadDashboard();
-}
+function logout(){tok=null;currentUser=null;localStorage.removeItem('bilimpark_manager_token');localStorage.removeItem('bilimpark_manager_user');document.getElementById('loginWrap').style.display='flex';document.getElementById('app').style.display='none';}
 
-function logout() {
-  localStorage.removeItem('bilimpark_manager_token');
-  localStorage.removeItem('bilimpark_manager_user');
-  tok = null; currentUser = null;
-  document.getElementById('loginWrap').style.display = 'flex';
-  document.getElementById('app').style.display = 'none';
-}
-
-async function api(path, options = {}) {
-  const res = await fetch(API + path, {
-    ...options,
-    headers: { 'Authorization': 'Bearer ' + tok, 'Content-Type': 'application/json', ...(options.headers || {}) }
-  });
-  if (res.status === 401) { logout(); return null; }
+async function get(path){
+  const res=await fetch(API+path,{headers:{'Authorization':'Bearer '+tok}});
   return res.json();
 }
-// Aliases so admin-derived code works unchanged
-const get = (path) => api(path);
-const put = (path, body) => api(path, { method: 'PUT', body: JSON.stringify(body) });
 
-function showPage(name, el) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.snav a').forEach(a => a.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
-  if (el) el.classList.add('active');
-  currentPage = name;
-  const titles = { dashboard: 'Дашборд', tasks: 'Задачи', leads: 'Лиды', tutors: 'Репетиторы', applications: 'Заявки', students: 'Студенты', bookings: 'Бронирования', onboard: '➕ Новый репетитор' };
-  document.getElementById('page-title').textContent = titles[name] || name;
+async function put(path,body){
+  const res=await fetch(API+path,{method:'PUT',headers:{'Authorization':'Bearer '+tok,'Content-Type':'application/json'},body:JSON.stringify(body)});
+  return res.json();
+}
+
+function showPage(name,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.snav a').forEach(a=>a.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  if(el)el.classList.add('active');
+  currentPage=name;
+  const titles={dashboard:'Дашборд',tutors:'Репетиторы',students:'Студенты',bookings:'Бронирования',applications:'Заявки',revenue:'Выручка',leads:'Лиды',onboard:'Новый репетитор'};
+  document.getElementById('page-title').textContent=titles[name]||name;
   loadPage(name);
 }
 
-function loadPage(name) {
-  if (name === 'dashboard') loadDashboard();
-  else if (name === 'tasks') loadTasks();
-  else if (name === 'leads') loadLeads();
-  else if (name === 'tutors') loadTutors();
-  else if (name === 'students') loadStudents();
-  else if (name === 'bookings') loadBookings();
+function loadPage(name){
+  if(name==='dashboard')loadDashboard();
+  else if(name==='tasks')loadTasks();
+  else if(name==='tutors')loadTutors();
+  else if(name==='students')loadStudents();
+  else if(name==='bookings')loadBookings();
+  else if(name==='applications')loadApplications();
+  else if(name==='leads')loadLeads();
+  else if(name==='onboard')loadOnboard();
 }
 
 // ── DASHBOARD ──────────────────────────────────────────────
 async function loadDashboard(){
-  const[stats,bookings]=await Promise.all([api('/api/manager/stats'),api('/api/manager/bookings?limit=5')]);
+  const[stats,bookings]=await Promise.all([get('/api/admin/stats'),get('/api/admin/bookings?limit=5')]);
   if(stats){
     document.getElementById('d-students').textContent=stats.students||0;
     document.getElementById('d-tutors').textContent=stats.approved_tutors||0;
-    document.getElementById('d-bookings').textContent=stats.active_bookings||0;
-    document.getElementById('d-pending').textContent=stats.pending_applications||0;
-    document.getElementById('d-leads').textContent=stats.new_leads||0;
-    document.getElementById('d-tasks').textContent=stats.open_tasks||0;
-    const tasksBadge=document.getElementById('tasks-badge');
-    if(stats.open_tasks>0){tasksBadge.textContent=stats.open_tasks;tasksBadge.style.display='inline-block';}
-    const leadsBadge=document.getElementById('leads-badge');
-    if(stats.new_leads>0){leadsBadge.textContent=stats.new_leads;leadsBadge.style.display='inline-block';}
-    const appsBadge=document.getElementById('apps-badge');
-    if(stats.pending_applications>0){appsBadge.textContent=stats.pending_applications;appsBadge.style.display='inline-block';}
+    document.getElementById('d-bookings').textContent=stats.bookings||0;
+    // revenue not shown to manager
+    document.getElementById('d-pending').textContent=stats.pending_tutors||0;
+    document.getElementById('d-applications').textContent=stats.pending_applications||0;
   }
-  if(bookings?.length){
+  if(bookings?.bookings){
     const list=document.getElementById('recent-bookings-list');
-    list.innerHTML=bookings.slice(0,5).map(b=>`
+    list.innerHTML=bookings.bookings.slice(0,5).map(b=>`
       <div style="padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
         <div>
-          <div style="font-weight:600;font-size:0.85rem">${b.student_first_name||'—'} → ${b.tutor_first_name||'—'}</div>
+          <div style="font-weight:600;font-size:0.85rem">${b.student_first_name} → ${b.tutor_first_name}</div>
           <div style="font-size:0.75rem;color:var(--ink-60)">${b.subject||'—'} · ${new Date(b.lesson_date).toLocaleDateString('ru-RU')}</div>
         </div>
         <div style="text-align:right">
@@ -413,12 +491,21 @@ async function loadDashboard(){
         </div>
       </div>`).join('');
   }
-  const pending=await api('/api/manager/tutors?status=pending&limit=500');
+
+  // Update nav badges
+  const tasksBadge=document.getElementById('tasks-badge');
+  const appsBadge=document.getElementById('apps-badge');
+  if(stats&&tasksBadge&&stats.open_tasks>0){tasksBadge.textContent=stats.open_tasks;tasksBadge.style.display='inline-block';}
+  if(stats&&appsBadge&&stats.pending_applications>0){appsBadge.textContent=stats.pending_applications;appsBadge.style.display='inline-block';}
+
+  // Attention items
+  const pending=await get('/api/admin/users?role=tutor&limit=500');
   const attList=document.getElementById('attention-list');
-  if(!pending?.length){
+  const needApproval=pending?.filter?.(u=>u.tutor_approved===false||u.tutor_approved===null||u.approval_status==='pending')||[];
+  if(!needApproval.length){
     attList.innerHTML='<div style="text-align:center;padding:24px;color:var(--ink-60);font-size:0.85rem">✅ Всё в порядке</div>';
   } else {
-    attList.innerHTML=pending.slice(0,5).map(u=>`
+    attList.innerHTML=needApproval.slice(0,5).map(u=>`
       <div style="padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
         <div>
           <div style="font-weight:600;font-size:0.85rem">${u.first_name} ${u.last_name}</div>
@@ -429,139 +516,427 @@ async function loadDashboard(){
   }
 }
 
-// ── TASKS ──────────────────────────────────────────────────
-function renderTaskItem(t) {
-  const due = t.due_date ? new Date(t.due_date) : null;
-  const now = new Date();
-  let dueClass = 'upcoming', dueText = '';
-  if (due) {
-    const diff = due - now;
-    if (diff < 0) { dueClass = 'overdue'; dueText = '⚠️ Просрочено'; }
-    else if (diff < 86400000) { dueClass = 'today'; dueText = '🔥 Сегодня'; }
-    else { dueText = due.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' }); }
-  }
-  const priorityColors = { low: '#6b7280', medium: '#0ABAB5', high: '#c9a84c', urgent: '#e8533a' };
-  return `
-    <div class="task-item">
-      <div class="task-check ${t.status === 'done' ? 'done' : ''}" onclick="toggleTask('${t.id}','${t.status}')">
-        ${t.status === 'done' ? '✓' : ''}
-      </div>
-      <div style="flex:1">
-        <div class="task-title" style="${t.status === 'done' ? 'text-decoration:line-through;color:var(--ink-60)' : ''}">${t.title}</div>
-        <div class="task-meta">${t.description || ''}</div>
-      </div>
-      <div style="text-align:right;display:flex;flex-direction:column;gap:4px;align-items:flex-end">
-        <span style="background:${priorityColors[t.priority] || '#6b7280'}20;color:${priorityColors[t.priority] || '#6b7280'};padding:2px 8px;border-radius:10px;font-size:0.65rem;font-weight:700;text-transform:uppercase">${t.priority}</span>
-        ${due ? `<span class="task-due ${dueClass}">${dueText}</span>` : ''}
-        <button class="btn-sm btn-danger" style="padding:4px 8px;font-size:0.7rem" onclick="deleteTask('${t.id}')">🗑</button>
-      </div>
-    </div>`;
+// ── TUTORS ─────────────────────────────────────────────────
+async function loadTutors(){
+  const data=await get('/api/admin/users?role=tutor&limit=500');
+  if(!data)return;
+  allTutors=data;
+  renderTutors(data);
 }
 
-async function loadTasks() {
-  const status = document.getElementById('task-filter')?.value || '';
-  const tasks = await api('/api/manager/tasks');
-  const filtered = (tasks || []).filter(t => !status || t.status === status);
-  const el = document.getElementById('tasks-list');
-  if (!filtered.length) {
-    el.innerHTML = '<div style="text-align:center;padding:40px;color:var(--ink-60)">Нет задач</div>';
-    return;
-  }
-  el.innerHTML = filtered.map(t => renderTaskItem(t)).join('');
-}
-
-async function toggleTask(id, currentStatus) {
-  const newStatus = currentStatus === 'done' ? 'todo' : 'done';
-  await api('/api/manager/tasks/' + id, { method: 'PATCH', body: JSON.stringify({ status: newStatus }) });
-  loadPage(currentPage);
-}
-
-async function deleteTask(id) {
-  if (!confirm('Удалить задачу?')) return;
-  await api('/api/manager/tasks/' + id, { method: 'DELETE' });
-  showToast('Задача удалена');
-  loadPage(currentPage);
-}
-
-function openCreateTask() {
-  document.getElementById('task-title').value = '';
-  document.getElementById('task-desc').value = '';
-  document.getElementById('task-priority').value = 'medium';
-  document.getElementById('task-due').value = '';
-  document.getElementById('taskModal').classList.add('open');
-}
-
-function closeTaskModal() { document.getElementById('taskModal').classList.remove('open'); }
-
-async function createTask() {
-  const title = document.getElementById('task-title').value.trim();
-  if (!title) { showToast('Введите название задачи'); return; }
-  await api('/api/manager/tasks', {
-    method: 'POST',
-    body: JSON.stringify({
-      title,
-      description: document.getElementById('task-desc').value,
-      priority: document.getElementById('task-priority').value,
-      due_date: document.getElementById('task-due').value || null,
-      assigned_to: currentUser.id,
-    })
-  });
-  closeTaskModal();
-  showToast('✓ Задача создана');
-  loadPage(currentPage);
-}
-
-// ── LEADS ──────────────────────────────────────────────────
-function leadStatusBadge(s) {
-  return { new: 'badge-gold', contacted: 'badge-tiffany', converted: 'badge-green', dead: 'badge-gray' }[s] || 'badge-gray';
-}
-function leadStatusLabel(s) {
-  return { new: 'Новый', contacted: 'Связались', converted: 'Конвертирован', dead: 'Мёртвый' }[s] || s;
-}
-
-let leadsCurrentFilter='';
-let leadsCurrentList=[];
-async function loadLeads(statusFilter){
-  const status=statusFilter!==undefined?statusFilter:leadsCurrentFilter;
-  leadsCurrentFilter=status;
-  const listEl=document.getElementById('leads-list');
-  if(listEl)listEl.innerHTML='<div style="padding:40px;text-align:center;color:var(--ink-60)">Загрузка...</div>';
-  try{
-    const qs=status?'?status='+encodeURIComponent(status):'';
-    const res=await fetch(API+'/api/admin/leads'+qs,{headers:{'Authorization':'Bearer '+tok}});
-    if(!res.ok){if(listEl)listEl.innerHTML='<div style="padding:40px;text-align:center;color:#e74c3c">Ошибка загрузки</div>';return;}
-    const data=await res.json();
-    leadsCurrentList=data.leads||[];
-    if(data.counts)renderLeadStats(data.counts);
-    const newCount=(data.counts?.by_status?.new)||0;
-    const badge=document.getElementById('leads-badge');
-    if(badge){if(newCount>0){badge.textContent=newCount;badge.style.display='inline-block';}else{badge.style.display='none';}}
-    if(listEl){
-      if(!leadsCurrentList.length){listEl.innerHTML='<div style="padding:60px 24px;text-align:center;color:var(--ink-60)">Лидов нет</div>';return;}
-      listEl.innerHTML=leadsCurrentList.map(renderLeadRow).join('');
-    }
-  }catch(err){if(listEl)listEl.innerHTML='<div style="padding:40px;text-align:center;color:#e74c3c">Ошибка соединения</div>';}
-}
-
-function renderLeads(list) {
-  const tbody = document.getElementById('leads-tbody');
-  if (!list.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--ink-60)">Нет лидов</td></tr>'; return; }
-  const gradeMap = { primary: 'Началка', middle: 'Средняя', high: 'Старшая', ort_university: 'ОРТ/Ун.' };
-  const urgMap = { this_week: 'На этой неделе', this_month: 'В этом месяце', exploring: 'Изучает' };
-  tbody.innerHTML = list.map(l => `
-    <tr style="cursor:pointer" onclick="openLeadDetail(${JSON.stringify(l).replace(/"/g,'&quot;').replace(/'/g,'&#39;')})">
-      <td style="font-weight:600">${l.phone}</td>
-      <td>${l.subject}</td>
-      <td>${gradeMap[l.grade_band] || l.grade_band}</td>
-      <td><span style="font-size:0.75rem;color:var(--ink-60)">${urgMap[l.urgency] || l.urgency}</span></td>
-      <td><span class="badge ${leadStatusBadge(l.status)}">${leadStatusLabel(l.status)}</span></td>
-      <td style="font-size:0.78rem;color:var(--ink-60)">${l.manager_first_name ? l.manager_first_name + ' ' + (l.manager_last_name||'') : '—'}</td>
+function renderTutors(list){
+  const tbody=document.getElementById('tutors-tbody');
+  if(!list.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--ink-60);padding:30px">Нет репетиторов</td></tr>';return;}
+  tbody.innerHTML=list.map(u=>`
+    <tr>
       <td>
-        <a href="https://wa.me/${l.phone.replace(/[^0-9]/g,'')}" target="_blank" class="btn-sm" style="background:#25D366;color:white;text-decoration:none;padding:5px 10px;font-size:0.72rem" onclick="event.stopPropagation()">WhatsApp</a>
+        <div class="tutor-row">
+          <div class="tutor-av">👨‍🏫</div>
+          <div><div class="tutor-name">${u.first_name} ${u.last_name}</div><div class="tutor-email">${u.email}</div>
+<div class="tutor-email">${u.phone||'Телефон не указан'}</div></div>
+        </div>
+      </td>
+      <td>${(u.subjects||[]).join(', ')||'—'}</td>
+      <td>${u.total_lessons||0}</td>
+      <td>${parseFloat(u.rating||0).toFixed(1)} ★</td>
+      <td>${u.hourly_rate||500} сом</td>
+      <td><span class="badge ${u.tutor_approved?'badge-green':'badge-gold'}">${u.tutor_approved?'Одобрен':'Ожидает'}</span></td>
+      <td>${u.badge?`<span class="badge badge-tiffany">${u.badge}</span>`:'—'}</td>
+      <td style="display:flex;gap:6px;flex-wrap:wrap">
+        ${!u.tutor_approved?`<button class="btn-sm btn-success" onclick="approveTutor('${u.id}')">✓</button>`:''}
+        <button class="btn-sm btn-danger" onclick="blockUser('${u.id}','${u.first_name}')">Блок</button>
+        <button class="btn-sm" style="background:${u.is_visible===false?'#6b7280':'#0ABAB5'};color:white;border:none" onclick="toggleVisibility('${u.id}')">👁 ${u.is_visible===false?'Скрыт':'Виден'}</button>
+        <button class="btn-sm" style="background:#dc2626;color:white;border:none" onclick="deleteUser('${u.id}','${u.first_name} ${u.last_name||''}','${u.email}')">🗑️</button>
+        <a href="tutor.html?id=${u.tutor_profile_id}" target="_blank" class="btn-sm btn-outline" style="text-decoration:none">👁</a>
       </td>
     </tr>`).join('');
 }
 
+function filterTutors(q){
+  if(!q){renderTutors(allTutors);return;}
+  renderTutors(allTutors.filter(u=>(u.first_name+' '+u.last_name+u.email).toLowerCase().includes(q.toLowerCase())));
+}
+
+async function approveTutor(userId){
+  await fetch(API+'/api/admin/tutors/'+userId+'/approve',{method:'PUT',headers:{'Authorization':'Bearer '+tok}});
+  showToast('✓ Репетитор одобрен!');
+  loadPage(currentPage);
+}
+
+async function blockUser(userId,name){
+  if(!confirm('Заблокировать '+name+'?'))return;
+  await fetch(API+'/api/admin/users/'+userId+'/toggle-active',{method:'PUT',headers:{'Authorization':'Bearer '+tok}});
+  showToast('Пользователь заблокирован');
+  loadPage(currentPage);
+}
+
+async function deleteUser(userId, name, email){
+  if(!confirm('УДАЛИТЬ '+name+' ('+email+')?\n\nЭто навсегда удалит аккаунт. Email можно будет использовать снова. Продолжить?'))return;
+  const typed = prompt('Для подтверждения введите слово УДАЛИТЬ:');
+  if (typed !== 'УДАЛИТЬ') { showToast('Удаление отменено'); return; }
+  try {
+    const res = await fetch(API+'/api/admin/users/'+userId,{method:'DELETE',headers:{'Authorization':'Bearer '+tok}});
+    const data = await res.json().catch(()=>({}));
+    if (res.ok) { showToast('✓ Удалён: '+(data.deleted?.email||name)); loadPage(currentPage); }
+    else { showToast('Ошибка: '+(data.error||'unknown')); }
+  } catch(e) { showToast('Ошибка соединения'); }
+}
+
+// ── STUDENTS ───────────────────────────────────────────────
+async function loadStudents(){
+  const data=await get('/api/admin/users?role=student&limit=100');
+  if(!data)return;
+  allStudents=data;
+  renderStudents(data);
+}
+
+function renderStudents(list){
+  const tbody=document.getElementById('students-tbody');
+  if(!list.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--ink-60);padding:30px">Нет студентов</td></tr>';return;}
+  tbody.innerHTML=list.map(u=>`
+    <tr>
+      <td>
+        <div class="tutor-row">
+          <div class="tutor-av">👩‍🎓</div>
+          <div><div class="tutor-name">${u.first_name} ${u.last_name}</div></div>
+        </div>
+      </td>
+      <td>${u.email}</td>
+      <td>${u.phone||'—'}</td>
+      <td>${u.total_lessons||0}</td>
+      <td>${new Date(u.created_at).toLocaleDateString('ru-RU')}</td>
+      <td><span class="badge ${u.is_active?'badge-green':'badge-red'}">${u.is_active?'Активен':'Заблокирован'}</span></td>
+      <td style="display:flex;gap:6px"><button class="btn-sm btn-danger" onclick="blockUser('${u.id}','${u.first_name}')">Блок</button><button class="btn-sm" style="background:#dc2626;color:white;border:none" onclick="deleteUser('${u.id}','${u.first_name} ${u.last_name||''}','${u.email}')">🗑️</button></td>
+    </tr>`).join('');
+}
+
+function filterStudents(q){
+  if(!q){renderStudents(allStudents);return;}
+  renderStudents(allStudents.filter(u=>(u.first_name+' '+u.last_name+u.email).toLowerCase().includes(q.toLowerCase())));
+}
+
+// ── BOOKINGS ───────────────────────────────────────────────
+async function loadBookings(){
+  const status=document.getElementById('booking-filter').value;
+  const data=await get('/api/admin/bookings?limit=100'+(status?'&status='+status:''));
+  const tbody=document.getElementById('bookings-tbody');
+  // Backend returns array directly, not wrapped
+  const bookings = Array.isArray(data) ? data : (data?.bookings || []);
+  if(!bookings.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--ink-60);padding:30px">Нет бронирований</td></tr>';return;}
+  const sm={pending:'badge-gold',confirmed:'badge-green',completed:'badge-blue',cancelled:'badge-red'};
+  tbody.innerHTML=bookings.map(b=>`
+    <tr>
+      <td>${b.student_name || '—'}</td>
+      <td>${b.tutor_name || '—'}</td>
+      <td>${b.subject||'—'}</td>
+      <td>${new Date(b.lesson_date).toLocaleDateString('ru-RU')} ${b.start_time||''}</td>
+      <td><span class="badge ${b.lesson_type==='trial'?'badge-gold':'badge-gray'}">${b.lesson_type==='trial'?'Пробный':'Обычный'}</span></td>
+      <td style="font-weight:600">${b.amount} сом</td>
+      <td><span class="badge ${sm[b.status]||'badge-gray'}">${b.status}</span></td>
+      <td>
+        ${b.status==='pending'?`<button class="btn-sm btn-success" onclick="confirmBooking('${b.id}')">✓ Подтвердить</button>`:''}
+        ${b.status!=='cancelled'?`<button class="btn-sm btn-danger" onclick="cancelBooking('${b.id}')">✗</button>`:''}
+      </td>
+    </tr>`).join('');
+}
+
+async function confirmBooking(id){
+  await put('/api/admin/bookings/'+id+'/confirm',{});
+  showToast('✓ Бронирование подтверждено');loadBookings();
+}
+
+async function cancelBooking(id){
+  if(!confirm('Отменить бронирование?'))return;
+  await put('/api/admin/bookings/'+id+'/cancel',{});
+  showToast('Бронирование отменено');loadBookings();
+}
+
+// ── APPLICATIONS ───────────────────────────────────────────
+async function loadApplications(){
+  const data = await get('/api/admin/applications/full');
+  window.tutorCache = {};
+  const grid = document.getElementById('applications-grid');
+  if(!data?.length){
+    grid.innerHTML='<div style="background:white;border-radius:14px;padding:40px;text-align:center;color:var(--ink-60);grid-column:1/-1">Нет заявок на проверку</div>';
+    return;
+  }
+  grid.innerHTML = data.map(t => {
+  window.tutorCache[t.user_id] = t;
+  let embedUrl = '';
+  if(t.video_intro_url) {
+    if(t.video_intro_url.includes('youtube.com/watch')){const id=t.video_intro_url.split('v=')[1]?.split('&')[0];embedUrl='https://www.youtube.com/embed/'+id;}
+    else if(t.video_intro_url.includes('youtu.be/')){const id=t.video_intro_url.split('youtu.be/')[1]?.split('?')[0];embedUrl='https://www.youtube.com/embed/'+id;}
+    else embedUrl = t.video_intro_url;
+  }
+  return `
+    <div style="background:white;border-radius:14px;border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;cursor:pointer;" onclick="openTutorModalById('${t.user_id}')">
+      ${embedUrl ? 
+        `<iframe src="${embedUrl}" style="width:100%;height:160px;border:none;" allowfullscreen onclick="event.stopPropagation()"></iframe>` :
+        `<div style="width:100%;height:100px;background:var(--tiffany-pale);display:flex;align-items:center;justify-content:center;color:var(--ink-60);font-size:0.85rem;">🎥 Видео не добавлено</div>`
+      }
+      <div style="padding:16px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;margin-bottom:4px;">${t.first_name} ${t.last_name}</div>
+        <div style="font-size:0.78rem;color:var(--tiffany);margin-bottom:6px;">${(t.subjects||[]).join(' · ')||'Предметы не указаны'}</div>
+        <div style="font-size:0.78rem;color:var(--ink-60);margin-bottom:4px;">📧 ${t.email}</div>
+        <div style="font-size:0.78rem;color:var(--ink-60);margin-bottom:8px;">💰 ${t.hourly_rate||500} сом/час · 📍 ${t.city||'Бишкек'}</div>
+        ${t.bio_ru ? 
+          `<div style="font-size:0.82rem;color:var(--ink);line-height:1.6;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">${t.bio_ru}</div>
+          <div style="font-size:0.75rem;color:var(--tiffany);margin-bottom:12px;">Нажмите чтобы прочитать полностью →</div>` :
+          `<div style="background:#fff8e1;border-radius:8px;padding:8px;margin-bottom:12px;font-size:0.78rem;color:#7a5a00;">⚠️ Биография не заполнена</div>`
+        }
+        <div style="display:flex;gap:8px;" onclick="event.stopPropagation()">
+          <button class="btn-sm btn-success" style="flex:1" onclick="approveTutor('${t.user_id}')">✓ Одобрить</button>
+          <button class="btn-sm btn-danger" onclick="rejectTutor('${t.user_id}')">✗ Отклонить</button>
+        </div>
+        <div style="margin-top:8px;font-size:0.72rem;color:var(--ink-60)">Зарегистрирован: ${new Date(t.created_at).toLocaleDateString('ru-RU')}</div>
+      </div>
+    </div>`;
+}).join('');
+}
+
+async function rejectTutor(userId){
+  const reason = prompt('Причина отказа (будет отправлена репетитору):');
+  if(!reason) return;
+  await fetch(API+'/api/admin/tutors/'+userId+'/reject', {
+    method:'PUT',
+    headers:{'Authorization':'Bearer '+tok,'Content-Type':'application/json'},
+    body: JSON.stringify({reason})
+  });
+  showToast('Репетитор отклонён');
+  loadApplications();
+}
+
+async function approveApplication(id){
+  await put('/api/admin/applications/'+id+'/approve',{});
+  showToast('✓ Заявка одобрена');loadApplications();
+}
+
+async function rejectApplication(id){
+  await put('/api/admin/applications/'+id+'/reject',{});
+  showToast('Заявка отклонена');loadApplications();
+}
+
+// ── REVENUE ────────────────────────────────────────────────
+async function loadRevenue(){
+  const data=await get('/api/admin/bookings?limit=200');
+  if(!data?.bookings)return;
+  const completed=data.bookings.filter(b=>b.status==='completed'||b.status==='confirmed');
+  const total=completed.reduce((s,b)=>s+parseFloat(b.amount||0),0);
+  const now=new Date();
+  const monthTotal=completed.filter(b=>new Date(b.lesson_date).getMonth()===now.getMonth()).reduce((s,b)=>s+parseFloat(b.amount||0),0);
+  document.getElementById('r-total').textContent=Math.round(total).toLocaleString('ru')+' сом';
+  // Average commission across all completed bookings (real value from earnings ledger)
+let totalCommission = 0;
+try {
+  const ledgerSummary = await fetch(API+'/api/admin/commission-summary',{headers:{'Authorization':'Bearer '+tok}});
+  if(ledgerSummary.ok){
+    const d = await ledgerSummary.json();
+    totalCommission = d.total_commission || 0;
+  }
+}catch(e){/* fallback to estimate */}
+if(!totalCommission) totalCommission = total * 0.25; // fallback: midpoint estimate
+document.getElementById('r-commission').textContent=Math.round(totalCommission).toLocaleString('ru')+' сом';
+  document.getElementById('r-month').textContent=Math.round(monthTotal).toLocaleString('ru')+' сом';
+  document.getElementById('r-bookings').textContent=completed.length;
+  const tbody=document.getElementById('revenue-tbody');
+  tbody.innerHTML=data.bookings.slice(0,50).map(b=>`
+    <tr>
+      <td>${b.student_first_name} ${b.student_last_name}</td>
+      <td>${b.tutor_first_name} ${b.tutor_last_name}</td>
+      <td>${b.subject||'—'}</td>
+      <td>${new Date(b.lesson_date).toLocaleDateString('ru-RU')}</td>
+      <td style="font-weight:600">${b.amount} сом</td>
+      <td style="color:var(--tiffany)">${b.commission_amount ? Math.round(b.commission_amount) : '—'} сом</td>
+      <td><span class="badge ${b.status==='completed'?'badge-green':b.status==='confirmed'?'badge-blue':'badge-gold'}">${b.status}</span></td>
+    </tr>`).join('');
+}
+function switchTutorTab(tab, el) {
+  document.querySelectorAll('.modal-tab').forEach(t => { t.style.borderBottomColor='transparent'; t.style.color='var(--ink-60)'; });
+  el.style.borderBottomColor='var(--tiffany)'; el.style.color='var(--tiffany)';
+  document.getElementById('modal-tab-info').style.display = tab==='info' ? 'block' : 'none';
+  document.getElementById('modal-tab-edit').style.display = tab==='edit' ? 'block' : 'none';
+}
+
+function openTutorModalById(userId) {
+  const t = window.tutorCache[userId];
+  if(!t) return;
+
+  // Info tab
+  document.getElementById('modal-tutor-name').textContent = t.first_name + ' ' + t.last_name;
+  document.getElementById('modal-tutor-email').textContent = t.email;
+  document.getElementById('modal-subjects').textContent = (t.subjects||[]).join(', ')||'—';
+  document.getElementById('modal-rate').textContent = (t.hourly_rate||500) + ' сом/час · Пробный: ' + (t.trial_rate||0) + ' сом';
+  document.getElementById('modal-phone').textContent = t.phone||'—';
+  document.getElementById('modal-city').textContent = t.city||'Бишкек';
+  document.getElementById('modal-bio').textContent = t.bio_ru||'Биография не заполнена';
+
+  // View profile link
+  const viewLink = document.getElementById('modal-view-link');
+  if(viewLink && t.id) viewLink.href = '/tutor.html?id=' + t.id;
+
+  // Video
+  const videoEl = document.getElementById('modal-video');
+  if(t.video_intro_url){
+    let embedUrl = t.video_intro_url;
+    if(t.video_intro_url.includes('youtube.com/watch')){const id=t.video_intro_url.split('v=')[1]?.split('&')[0];embedUrl='https://www.youtube.com/embed/'+id;}
+    else if(t.video_intro_url.includes('youtu.be/')){const id=t.video_intro_url.split('youtu.be/')[1]?.split('?')[0];embedUrl='https://www.youtube.com/embed/'+id;}
+    videoEl.innerHTML=`<iframe src="${embedUrl}" style="width:100%;height:100%;border:none;" allowfullscreen></iframe>`;
+  } else {
+    videoEl.innerHTML='<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);font-size:0.85rem;">🎥 Видео не добавлено</div>';
+  }
+
+  // Actions
+  document.getElementById('modal-actions').innerHTML=`
+    ${!t.is_approved?`<button class="btn-sm btn-success" style="flex:1;padding:10px" onclick="approveTutor('${t.user_id}');document.getElementById('tutorModal').classList.remove('open')">✓ Одобрить</button>`:''}
+    <button class="btn-sm btn-danger" style="padding:10px" onclick="rejectTutor('${t.user_id}');document.getElementById('tutorModal').classList.remove('open')">✗ Отклонить</button>
+    <button class="btn-sm btn-outline" style="padding:10px" onclick="toggleVisibility('${t.user_id}')">${t.is_visible!==false?'🙈 Скрыть':'👁 Показать'}</button>
+  `;
+
+  // Edit tab - populate fields
+  document.getElementById('edit-tutor-user-id').value = t.user_id;
+  document.getElementById('edit-fname').value = t.first_name||'';
+  document.getElementById('edit-lname').value = t.last_name||'';
+  document.getElementById('edit-subjects').value = (t.subjects||[]).join(', ');
+  document.getElementById('edit-headline').value = t.headline||'';
+  document.getElementById('edit-rate').value = t.hourly_rate||500;
+  document.getElementById('edit-trial').value = t.trial_rate||0;
+  document.getElementById('edit-city').value = t.city||'Бишкек';
+  document.getElementById('edit-highlights').value = Array.isArray(t.highlights) ? t.highlights.join(', ') : (t.highlights||'');
+  document.getElementById('edit-bio').value = t.bio_ru||'';
+  document.getElementById('edit-video').value = t.video_intro_url||'';
+  document.getElementById('edit-phone').value = t.phone||'';
+  document.getElementById('edit-status').textContent = '';
+
+  // Reset to info tab
+  switchTutorTab('info', document.querySelector('.modal-tab'));
+  document.getElementById('tutorModal').classList.add('open');
+}
+
+async function saveTutorEdit() {
+  const userId = document.getElementById('edit-tutor-user-id').value;
+  const statusEl = document.getElementById('edit-status');
+  const subjects = document.getElementById('edit-subjects').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const highlights = document.getElementById('edit-highlights').value.split(',').map(s=>s.trim()).filter(Boolean);
+
+  statusEl.textContent = 'Сохранение...';
+  statusEl.style.color = 'var(--ink-60)';
+
+  try {
+    // Save user info
+    await fetch(API+'/api/admin/users/'+userId, {
+      method: 'PUT',
+      headers: {'Authorization':'Bearer '+tok,'Content-Type':'application/json'},
+      body: JSON.stringify({
+        first_name: document.getElementById('edit-fname').value,
+        last_name: document.getElementById('edit-lname').value,
+        phone: document.getElementById('edit-phone').value,
+      })
+    });
+
+    // Save tutor profile
+    await fetch(API+'/api/admin/tutors/'+userId+'/profile', {
+      method: 'PUT',
+      headers: {'Authorization':'Bearer '+tok,'Content-Type':'application/json'},
+      body: JSON.stringify({
+        subjects,
+        headline: document.getElementById('edit-headline').value,
+        hourly_rate: parseFloat(document.getElementById('edit-rate').value)||500,
+        trial_rate: parseFloat(document.getElementById('edit-trial').value)||0,
+        city: document.getElementById('edit-city').value,
+        highlights,
+        bio_ru: document.getElementById('edit-bio').value,
+        video_intro_url: document.getElementById('edit-video').value||null,
+      })
+    });
+
+    statusEl.textContent = '✓ Сохранено успешно';
+    statusEl.style.color = 'var(--tiffany)';
+    showToast('✓ Профиль репетитора обновлён');
+    loadTutors();
+  } catch(e) {
+    statusEl.textContent = 'Ошибка сохранения';
+    statusEl.style.color = '#e74c3c';
+  }
+}
+
+  async function toggleVisibility(userId){
+  const res = await fetch(API+'/api/admin/tutors/'+userId+'/toggle-visibility',{method:'PUT',headers:{'Authorization':'Bearer '+tok}});
+  const data = await res.json();
+  showToast(data.is_visible ? '👁 Репетитор виден на сайте' : '🙈 Репетитор скрыт с сайта');
+  loadTutors();
+}
+
+
+
+// ── TASKS ───────────────────────────────────────────────────
+async function loadTasks() {
+  const data = await get('/api/manager/tasks');
+  const el = document.getElementById('tasks-list');
+  const tasks = data || [];
+  const badge = document.getElementById('tasks-badge');
+  const open = tasks.filter(t => t.status !== 'done');
+  if (open.length > 0) { badge.textContent = open.length; badge.style.display = 'inline-block'; } else { badge.style.display = 'none'; }
+  if (!tasks.length) { el.innerHTML = '<div style="text-align:center;padding:40px;color:var(--ink-60)">Нет задач</div>'; return; }
+  el.innerHTML = tasks.map(t => `
+    <div style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px">
+      <input type="checkbox" ${t.status==='done'?'checked':''} onchange="toggleTask('${t.id}',this.checked)" style="width:16px;height:16px;cursor:pointer">
+      <div style="flex:1;${t.status==='done'?'text-decoration:line-through;opacity:0.5':''}">
+        <div style="font-weight:600;font-size:0.88rem">${t.title}</div>
+        ${t.description?`<div style="font-size:0.78rem;color:var(--ink-60);margin-top:2px">${t.description}</div>`:''}
+        ${t.due_date?`<div style="font-size:0.72rem;color:var(--gold);margin-top:3px">📅 ${new Date(t.due_date).toLocaleDateString('ru-RU')}</div>`:''}
+      </div>
+      <button onclick="deleteTask('${t.id}')" style="background:none;border:none;cursor:pointer;color:var(--ink-30);font-size:1rem">✕</button>
+    </div>`).join('');
+}
+function openCreateTask() {
+  const title = prompt('Название задачи:');
+  if (!title) return;
+  const desc = prompt('Описание (необязательно):') || '';
+  createTask(title, desc);
+}
+async function createTask(title, description) {
+  await fetch(API + '/api/manager/tasks', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + tok, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ title, description })
+  });
+  showToast('✓ Задача создана'); loadTasks();
+}
+async function toggleTask(id, done) {
+  await fetch(API + '/api/manager/tasks/' + id, {
+    method: 'PUT',
+    headers: { 'Authorization': 'Bearer ' + tok, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status: done ? 'done' : 'open' })
+  });
+  loadTasks();
+}
+async function deleteTask(id) {
+  await fetch(API + '/api/manager/tasks/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + tok } });
+  loadTasks();
+}
+
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',3500);}
+let leadsCurrentFilter = '';
+let leadsCurrentList = [];
+async function loadLeads(statusFilter) {
+  const status = statusFilter !== undefined ? statusFilter : leadsCurrentFilter;
+  leadsCurrentFilter = status;
+  const listEl = document.getElementById('leads-list');
+  listEl.innerHTML = '<div style="padding:40px;text-align:center;color:var(--ink-60)">Загрузка...</div>';
+  try {
+    const qs = status ? '?status=' + encodeURIComponent(status) : '';
+    const res = await fetch(API + '/api/admin/leads' + qs, { headers: { 'Authorization': 'Bearer ' + tok } });
+    if (!res.ok) { listEl.innerHTML = '<div style="padding:40px;text-align:center;color:#e74c3c">Ошибка загрузки</div>'; return; }
+    const data = await res.json();
+    leadsCurrentList = data.leads || [];
+    renderLeadStats(data.counts || {});
+    const newCount = (data.counts && data.counts.by_status && data.counts.by_status.new) || 0;
+    const badge = document.getElementById('leads-badge');
+    if (newCount > 0) { badge.textContent = newCount; badge.style.display = 'inline-block'; } else { badge.style.display = 'none'; }
+    if (!leadsCurrentList.length) { listEl.innerHTML = '<div style="padding:60px 24px;text-align:center;color:var(--ink-60)">Лидов в этой категории пока нет</div>'; return; }
+    listEl.innerHTML = leadsCurrentList.map(renderLeadRow).join('');
+  } catch (err) { console.error('loadLeads', err); listEl.innerHTML = '<div style="padding:40px;text-align:center;color:#e74c3c">Ошибка соединения</div>'; }
+}
 function renderLeadStats(counts) {
   const byStatus = counts.by_status || {};
   const byUrgency = counts.by_urgency || {};
@@ -638,269 +1013,6 @@ function filterLeads(status) {
   });
   loadLeads(status);
 }
-
-// ── TUTORS ──────────────────────────────────────────────────
-async function loadTutors(){
-  const status=document.getElementById('tutor-filter')?.value||'';
-  const data=await api('/api/admin/users?role=tutor&limit=500'+(status?'&approval='+status:''));
-  if(!data)return;
-  allTutors=data;
-  renderTutors(data);
-}
-
-function renderTutors(list) {
-  const tbody = document.getElementById('tutors-tbody');
-  if (!list.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--ink-60)">Нет репетиторов</td></tr>'; return; }
-  tbody.innerHTML = list.map(t => `
-    <tr>
-      <td>
-        <div style="font-weight:600;font-size:0.85rem">${t.first_name} ${t.last_name}</div>
-        <div style="font-size:0.72rem;color:var(--ink-60)">${t.email}</div>
-      </td>
-      <td style="font-size:0.78rem">${(t.subjects||[]).join(', ')||'—'}</td>
-      <td>${t.total_lessons||0}</td>
-      <td>${parseFloat(t.rating||0).toFixed(1)} ★</td>
-      <td><span class="badge ${t.is_approved?'badge-green':'badge-gold'}">${t.is_approved?'Одобрен':'Ожидает'}</span></td>
-      <td><span class="badge ${t.is_visible!==false?'badge-tiffany':'badge-gray'}">${t.is_visible!==false?'Виден':'Скрыт'}</span></td>
-      <td style="display:flex;gap:4px;flex-wrap:wrap">
-        ${!t.is_approved?`<button class="btn-sm btn-success" onclick="approveTutor('${t.id}')">✓</button>`:''}
-        <button class="btn-sm btn-outline" style="padding:5px 8px;font-size:0.72rem" onclick="toggleTutorVisibility('${t.id}')">👁</button>
-        <a href="tutor.html?id=${t.tutor_profile_id}" target="_blank" class="btn-sm btn-outline" style="text-decoration:none;padding:5px 8px;font-size:0.72rem">🔗</a>
-      </td>
-    </tr>`).join('');
-}
-
-function filterTutors(q) {
-  if (!q) { renderTutors(allTutors); return; }
-  renderTutors(allTutors.filter(t => (t.first_name+' '+t.last_name+t.email).toLowerCase().includes(q.toLowerCase())));
-}
-
-async function approveTutor(userId){
-  await api('/api/admin/tutors/'+userId+'/approve',{method:'PUT'});
-  showToast('✓ Репетитор одобрен!');loadPage(currentPage);
-}
-async function rejectTutor(userId){
-  const reason=prompt('Причина отказа:');if(!reason)return;
-  await api('/api/admin/tutors/'+userId+'/reject',{method:'PUT',body:JSON.stringify({reason})});
-  showToast('Репетитор отклонён');loadPage(currentPage);
-}
-async function toggleTutorVisibility(userId){
-  const res=await api('/api/admin/tutors/'+userId+'/toggle-visibility',{method:'PUT'});
-  showToast(res?.is_visible?'👁 Виден на сайте':'🙈 Скрыт с сайта');loadTutors();
-}
-async function blockUser(userId,name){
-  if(!confirm('Заблокировать '+name+'?'))return;
-  await api('/api/admin/users/'+userId+'/toggle-active',{method:'PUT'});
-  showToast('Пользователь заблокирован');loadPage(currentPage);
-}
-async function deleteUser(userId,name,email){
-  if(!confirm('УДАЛИТЬ '+name+' ('+email+')?
-
-Это навсегда. Продолжить?'))return;
-  const typed=prompt('Введите слово УДАЛИТЬ:');
-  if(typed!=='УДАЛИТЬ'){showToast('Отменено');return;}
-  const res=await api('/api/admin/users/'+userId,{method:'DELETE'});
-  showToast('✓ Удалён: '+name);loadPage(currentPage);
-}
-async function deleteTutor(userId,name,email){deleteUser(userId,name,email);}
-
-// ── STUDENTS ───────────────────────────────────────────────
-async function loadStudents(){
-  const data=await api('/api/admin/users?role=student&limit=100');
-  if(!data)return;
-  allStudents=data;
-  renderStudents(data);
-}
-
-function renderStudents(list){
-  const tbody=document.getElementById('students-tbody');
-  if(!list.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--ink-60);padding:30px">Нет студентов</td></tr>';return;}
-  tbody.innerHTML=list.map(u=>`
-    <tr>
-      <td><div class="tutor-row"><div class="tutor-av">👩‍🎓</div><div><div class="tutor-name">${u.first_name} ${u.last_name}</div></div></div></td>
-      <td>${u.email}</td>
-      <td>${u.phone||'—'}</td>
-      <td>${u.total_lessons||0}</td>
-      <td>${new Date(u.created_at).toLocaleDateString('ru-RU')}</td>
-      <td><span class="badge ${u.is_active?'badge-green':'badge-red'}">${u.is_active?'Активен':'Заблокирован'}</span></td>
-      <td style="display:flex;gap:6px">
-        <button class="btn-sm btn-danger" onclick="blockUser('${u.id}','${u.first_name}')">Блок</button>
-        <button class="btn-sm" style="background:#dc2626;color:white;border:none" onclick="deleteUser('${u.id}','${u.first_name} ${u.last_name||''}','${u.email}')">🗑️</button>
-      </td>
-    </tr>`).join('');
-}
-
-function filterStudents(q) {
-  if (!q) { renderStudents(allStudents); return; }
-  renderStudents(allStudents.filter(s => (s.first_name+' '+s.last_name+s.email).toLowerCase().includes(q.toLowerCase())));
-}
-
-// ── BOOKINGS ───────────────────────────────────────────────
-async function loadBookings(){
-  const status=document.getElementById('booking-filter')?.value||'';
-  const data=await api('/api/admin/bookings?limit=100'+(status?'&status='+status:''));
-  const tbody=document.getElementById('bookings-tbody');
-  const bookings=Array.isArray(data)?data:(data?.bookings||[]);
-  if(!bookings.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--ink-60);padding:30px">Нет бронирований</td></tr>';return;}
-  const sm={pending:'badge-gold',confirmed:'badge-green',completed:'badge-blue',cancelled:'badge-red'};
-  tbody.innerHTML=bookings.map(b=>`
-    <tr>
-      <td>${b.student_name||b.student_first_name||'—'}</td>
-      <td>${b.tutor_name||b.tutor_first_name||'—'}</td>
-      <td>${b.subject||'—'}</td>
-      <td>${new Date(b.lesson_date).toLocaleDateString('ru-RU')} ${b.start_time||''}</td>
-      <td><span class="badge ${b.lesson_type==='trial'?'badge-gold':'badge-gray'}">${b.lesson_type==='trial'?'Пробный':'Обычный'}</span></td>
-      <td style="font-weight:600">${b.amount} сом</td>
-      <td><span class="badge ${sm[b.status]||'badge-gray'}">${b.status}</span></td>
-      <td>
-        ${b.status==='pending'?`<button class="btn-sm btn-success" onclick="confirmBooking('${b.id}')">✓</button>`:''}
-        ${b.status!=='cancelled'?`<button class="btn-sm btn-danger" onclick="cancelBooking('${b.id}')">✗</button>`:''}
-      </td>
-    </tr>`).join('');
-}
-async function confirmBooking(id){await api('/api/admin/bookings/'+id+'/confirm',{method:'PUT'});showToast('✓ Подтверждено');loadBookings();}
-async function cancelBooking(id){if(!confirm('Отменить?'))return;await api('/api/admin/bookings/'+id+'/cancel',{method:'PUT'});showToast('Отменено');loadBookings();}
-
-// ── APPLICATIONS ───────────────────────────────────────────
-async function loadApplications() {
-  const data = await api('/api/manager/tutors?status=pending&limit=50');
-  const grid = document.getElementById('applications-grid');
-  if (!data?.length) {
-    grid.innerHTML = '<div style="padding:40px;text-align:center;color:var(--ink-60);grid-column:1/-1">✅ Нет новых заявок</div>';
-    return;
-  }
-  grid.innerHTML = data.map(t => {
-    let embedUrl = '';
-    if (t.video_intro_url) {
-      if (t.video_intro_url.includes('youtube.com/watch')) { const id = t.video_intro_url.split('v=')[1]?.split('&')[0]; embedUrl = 'https://www.youtube.com/embed/' + id; }
-      else if (t.video_intro_url.includes('youtu.be/')) { const id = t.video_intro_url.split('youtu.be/')[1]?.split('?')[0]; embedUrl = 'https://www.youtube.com/embed/' + id; }
-      else embedUrl = t.video_intro_url;
-    }
-    return `
-      <div style="background:white;border-radius:14px;border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden">
-        ${embedUrl
-          ? `<iframe src="${embedUrl}" style="width:100%;height:160px;border:none" allowfullscreen></iframe>`
-          : `<div style="width:100%;height:80px;background:var(--tiffany-pale);display:flex;align-items:center;justify-content:center;color:var(--ink-60);font-size:0.85rem">🎥 Видео не добавлено</div>`
-        }
-        <div style="padding:16px">
-          <div style="font-weight:700;font-size:1rem;margin-bottom:4px">${t.first_name} ${t.last_name}</div>
-          <div style="font-size:0.78rem;color:var(--tiffany);margin-bottom:4px">${(t.subjects || []).join(' · ') || 'Предметы не указаны'}</div>
-          <div style="font-size:0.78rem;color:var(--ink-60);margin-bottom:2px">📧 ${t.email}</div>
-          <div style="font-size:0.78rem;color:var(--ink-60);margin-bottom:2px">📞 ${t.phone || '—'}</div>
-          <div style="font-size:0.78rem;color:var(--ink-60);margin-bottom:8px">💰 ${t.hourly_rate || '—'} сом/час · 📍 ${t.city || 'Бишкек'}</div>
-          ${t.bio_ru
-            ? `<div style="font-size:0.82rem;color:#333;line-height:1.6;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">${t.bio_ru}</div>`
-            : `<div style="background:#fff8e1;border-radius:8px;padding:8px;margin-bottom:10px;font-size:0.78rem;color:#7a5a00">⚠️ Биография не заполнена</div>`
-          }
-          <div style="font-size:0.72rem;color:var(--ink-60);margin-bottom:12px">Подал заявку: ${new Date(t.created_at).toLocaleDateString('ru-RU')}</div>
-          <div style="display:flex;gap:8px">
-            <button class="btn-sm btn-success" style="flex:1" onclick="approveTutorApp('${t.id}','${t.first_name}')">✓ Одобрить</button>
-            <button class="btn-sm btn-danger" onclick="rejectTutorApp('${t.id}','${t.first_name}')">✗ Отклонить</button>
-          </div>
-        </div>
-      </div>`;
-  }).join('');
-}
-
-async function approveTutorApp(userId, name) {
-  const res = await api('/api/manager/tutors/' + userId + '/approve', { method: 'PUT' });
-  if (res) { showToast('✓ ' + name + ' одобрен!'); loadApplications(); loadDashboard(); }
-}
-
-async function rejectTutorApp(userId, name) {
-  const reason = prompt('Причина отказа для ' + name + ':');
-  if (!reason) return;
-  await api('/api/manager/tutors/' + userId + '/reject', { method: 'PUT', body: JSON.stringify({ reason }) });
-  showToast(name + ' отклонён'); loadApplications(); loadDashboard();
-}
-
-// ── TUTOR FULL MODAL (same as admin) ───────────────────────
-function switchTutorTab(tab) {
-  const isInfo = tab === 'info';
-  document.getElementById('ttab-info').style.cssText = `padding:10px 16px;font-size:0.82rem;font-weight:600;cursor:pointer;border-bottom:2px solid ${isInfo?'var(--tiffany)':'transparent'};color:${isInfo?'var(--tiffany)':'var(--ink-60)'};margin-bottom:-1px`;
-  document.getElementById('ttab-edit').style.cssText = `padding:10px 16px;font-size:0.82rem;font-weight:600;cursor:pointer;border-bottom:2px solid ${!isInfo?'var(--tiffany)':'transparent'};color:${!isInfo?'var(--tiffany)':'var(--ink-60)'};margin-bottom:-1px`;
-  document.getElementById('ttab-info-content').style.display = isInfo ? 'block' : 'none';
-  document.getElementById('ttab-edit-content').style.display = isInfo ? 'none' : 'block';
-}
-
-function openTutorEdit(t) {
-  if (typeof t === 'string') t = JSON.parse(t);
-
-  // Header
-  document.getElementById('tedit-modal-name').textContent = t.first_name + ' ' + t.last_name;
-  document.getElementById('tedit-modal-email').textContent = t.email;
-  const vlink = document.getElementById('tedit-view-link');
-  if (vlink && t.tutor_profile_id) vlink.href = '/tutor.html?id=' + t.tutor_profile_id;
-
-  // Video
-  const vid = document.getElementById('tedit-modal-video');
-  if (t.video_intro_url) {
-    let url = t.video_intro_url;
-    if (url.includes('youtube.com/watch')) { const id = url.split('v=')[1]?.split('&')[0]; url = 'https://www.youtube.com/embed/' + id; }
-    else if (url.includes('youtu.be/')) { const id = url.split('youtu.be/')[1]?.split('?')[0]; url = 'https://www.youtube.com/embed/' + id; }
-    vid.innerHTML = `<iframe src="${url}" style="width:100%;height:100%;border:none" allowfullscreen></iframe>`;
-  } else {
-    vid.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);font-size:0.85rem">🎥 Видео не добавлено</div>';
-  }
-
-  // Info tab
-  document.getElementById('tinfo-subjects').textContent = (t.subjects||[]).join(', ')||'—';
-  document.getElementById('tinfo-rate').textContent = (t.hourly_rate||500)+' сом/час · Пробный: '+(t.trial_rate||0)+' сом';
-  document.getElementById('tinfo-phone').textContent = t.phone||'—';
-  document.getElementById('tinfo-city').textContent = t.city||'Бишкек';
-  document.getElementById('tinfo-bio').textContent = t.bio_ru||'Биография не заполнена';
-  document.getElementById('tinfo-actions').innerHTML = `
-    ${!t.is_approved ? `<button class="btn-sm btn-success" onclick="approveTutor('${t.id}');document.getElementById('tutorEditModal').classList.remove('open')">✓ Одобрить</button>` : ''}
-    <button class="btn-sm btn-danger" onclick="rejectTutor('${t.id}');document.getElementById('tutorEditModal').classList.remove('open')">✗ Отклонить</button>
-    <button class="btn-sm btn-outline" onclick="toggleTutorVisibility('${t.id}')">${t.is_visible!==false?'🙈 Скрыть':'👁 Показать'}</button>
-    <button class="btn-sm" style="background:#dc2626;color:white;border:none" onclick="deleteTutor('${t.id}','${t.first_name} ${t.last_name}','${t.email}');document.getElementById('tutorEditModal').classList.remove('open')">🗑 Удалить</button>
-  `;
-
-  // Edit tab
-  document.getElementById('tedit-user-id').value = t.id;
-  document.getElementById('tedit-fname').value = t.first_name||'';
-  document.getElementById('tedit-lname').value = t.last_name||'';
-  document.getElementById('tedit-subjects').value = (t.subjects||[]).join(', ');
-  document.getElementById('tedit-headline').value = t.headline||'';
-  document.getElementById('tedit-rate').value = t.hourly_rate||500;
-  document.getElementById('tedit-trial').value = t.trial_rate||0;
-  document.getElementById('tedit-city').value = t.city||'Бишкек';
-  document.getElementById('tedit-highlights').value = Array.isArray(t.highlights) ? t.highlights.join(', ') : (t.highlights||'');
-  document.getElementById('tedit-bio').value = t.bio_ru||'';
-  document.getElementById('tedit-video').value = t.video_intro_url||'';
-  document.getElementById('tedit-phone').value = t.phone||'';
-  document.getElementById('tedit-status').textContent = '';
-
-  switchTutorTab('info');
-  document.getElementById('tutorEditModal').classList.add('open');
-}
-
-async function saveTutorEdit() {
-  const userId = document.getElementById('tedit-user-id').value;
-  const statusEl = document.getElementById('tedit-status');
-  const subjects = document.getElementById('tedit-subjects').value.split(',').map(s=>s.trim()).filter(Boolean);
-  const highlights = document.getElementById('tedit-highlights').value.split(',').map(s=>s.trim()).filter(Boolean);
-
-  statusEl.textContent = 'Сохранение...'; statusEl.style.color = 'var(--ink-60)';
-  try {
-    await api('/api/admin/users/'+userId, { method:'PUT', body: JSON.stringify({
-      first_name: document.getElementById('tedit-fname').value,
-      last_name: document.getElementById('tedit-lname').value,
-      phone: document.getElementById('tedit-phone').value,
-    })});
-    await api('/api/admin/tutors/'+userId+'/profile', { method:'PUT', body: JSON.stringify({
-      subjects, headline: document.getElementById('tedit-headline').value,
-      hourly_rate: parseFloat(document.getElementById('tedit-rate').value)||500,
-      trial_rate: parseFloat(document.getElementById('tedit-trial').value)||0,
-      city: document.getElementById('tedit-city').value,
-      highlights, bio_ru: document.getElementById('tedit-bio').value,
-      video_intro_url: document.getElementById('tedit-video').value||null,
-    })});
-    statusEl.textContent = '✓ Сохранено'; statusEl.style.color = 'var(--tiffany)';
-    showToast('✓ Профиль обновлён'); loadTutors();
-  } catch(e) { statusEl.textContent = 'Ошибка'; statusEl.style.color = '#e74c3c'; }
-}
-
 // ═══════════════════════════════════════════════════════════
 // ONBOARD NEW TUTOR
 // ═══════════════════════════════════════════════════════════
@@ -1054,367 +1166,8 @@ function onboardReset() {
   onboardVideoFile = null;
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-
-// ── MANAGERS ───────────────────────────────────────────────
-async function loadManagers() {
-  const data = await get('/api/admin/managers');
-  renderManagers(data || []);
-}
-
-function renderManagers(list) {
-  const tbody = document.getElementById('managers-tbody');
-  if (!list.length) {
-    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--ink-60)">Нет менеджеров. Создайте первого.</td></tr>';
-    return;
-  }
-  tbody.innerHTML = list.map(m => {
-    const perms = m.permissions || {};
-    const activePerms = Object.values(perms).filter(Boolean).length;
-    const totalPerms = Object.keys(perms).length || 10;
-    return `<tr>
-      <td><div style="font-weight:600">${m.first_name} ${m.last_name}</div><div style="font-size:0.72rem;color:var(--ink-60)">${m.phone||'—'}</div></td>
-      <td style="font-size:0.8rem">${m.email}</td>
-      <td>${m.assigned_leads||0}</td>
-      <td>${m.open_tasks||0}</td>
-      <td>${m.total_actions||0}</td>
-      <td><span class="badge ${m.is_active?'badge-green':'badge-red'}">${m.is_active?'Активен':'Заблокирован'}</span></td>
-      <td><span class="badge badge-tiffany">${activePerms}/${totalPerms} прав</span></td>
-      <td style="display:flex;gap:6px;flex-wrap:wrap">
-        <button class="btn-sm btn-outline" onclick='openEditPermissions(${JSON.stringify(m)})'>⚙️ Права</button>
-        <button class="btn-sm ${m.is_active?'btn-danger':'btn-success'}" onclick="toggleManager('${m.id}')">${m.is_active?'Блок':'Активировать'}</button>
-        <button class="btn-sm" style="background:#dc2626;color:white;border:none" onclick="deleteManager('${m.id}','${m.first_name}')">🗑️</button>
-      </td>
-    </tr>`;
-  }).join('');
-}
-
-function openCreateManager() {
-  showManagerModal('Новый менеджер', `
-    <div style="padding:20px">
-      <div class="fgroup"><label>Имя *</label><input class="fcontrol" id="m-fname" placeholder="Айгуль"></div>
-      <div class="fgroup"><label>Фамилия</label><input class="fcontrol" id="m-lname" placeholder="Иванова"></div>
-      <div class="fgroup"><label>Email *</label><input class="fcontrol" type="email" id="m-email" placeholder="manager@bilimpark.kg"></div>
-      <div class="fgroup"><label>Телефон</label><input class="fcontrol" id="m-phone" placeholder="+996..."></div>
-      <div class="fgroup"><label>Пароль *</label><input class="fcontrol" type="password" id="m-pass" placeholder="минимум 6 символов"></div>
-      <div class="fgroup"><label>Заметки</label><textarea class="fcontrol" id="m-notes" rows="2" placeholder="Отдел, обязанности..."></textarea></div>
-      <div class="err" id="m-err"></div>
-      <div style="display:flex;gap:8px;margin-top:12px">
-        <button class="btn-sm btn-outline" onclick="closeMgrModal()">Отмена</button>
-        <button class="btn-sm btn-tiffany" onclick="createManager()">Создать менеджера</button>
-      </div>
-    </div>`);
-}
-
-function showManagerModal(title, bodyHtml) {
-  let modal = document.getElementById('mgr-modal');
-  if (!modal) {
-    modal = document.createElement('div');
-    modal.id = 'mgr-modal';
-    modal.style.cssText = 'display:flex;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);z-index:500;align-items:center;justify-content:center;padding:16px';
-    document.body.appendChild(modal);
-  }
-  modal.innerHTML = `<div style="background:white;border-radius:20px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,0.25)">
-    <div style="background:var(--tiffany);padding:20px 24px;color:white;border-radius:20px 20px 0 0;display:flex;justify-content:space-between;align-items:center">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600">${title}</div>
-      <button onclick="closeMgrModal()" style="background:rgba(255,255,255,0.15);border:none;color:white;width:30px;height:30px;border-radius:50%;cursor:pointer">✕</button>
-    </div>
-    ${bodyHtml}
-  </div>`;
-  modal.style.display = 'flex';
-}
-
-function closeMgrModal() {
-  const m = document.getElementById('mgr-modal');
-  if (m) m.style.display = 'none';
-}
-
-async function createManager() {
-  const fname = document.getElementById('m-fname').value.trim();
-  const lname = document.getElementById('m-lname').value.trim();
-  const email = document.getElementById('m-email').value.trim();
-  const phone = document.getElementById('m-phone').value.trim();
-  const pass = document.getElementById('m-pass').value;
-  const notes = document.getElementById('m-notes').value;
-  const errEl = document.getElementById('m-err');
-  if (!fname || !email || !pass) { errEl.textContent = 'Заполните обязательные поля'; return; }
-  if (pass.length < 6) { errEl.textContent = 'Пароль минимум 6 символов'; return; }
-  const res = await fetch(API + '/api/admin/managers', {
-    method: 'POST',
-    headers: { 'Authorization': 'Bearer ' + tok, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ first_name: fname, last_name: lname, email, phone, password: pass, notes })
-  });
-  const data = await res.json();
-  if (res.ok) { closeMgrModal(); showToast('✓ Менеджер создан'); loadManagers(); }
-  else { errEl.textContent = data.error || 'Ошибка создания'; }
-}
-
-function openEditPermissions(manager) {
-  if (typeof manager === 'string') manager = JSON.parse(manager);
-  const perms = manager.permissions || {};
-  const permLabels = {
-    view_dashboard: 'Просмотр дашборда',
-    view_leads: 'Просмотр лидов',
-    edit_leads: 'Редактирование лидов',
-    view_all_leads: 'Все лиды (не только свои)',
-    view_tutors: 'Просмотр репетиторов',
-    approve_tutors: 'Одобрение репетиторов',
-    edit_tutors: 'Редактирование репетиторов',
-    view_students: 'Просмотр студентов',
-    view_bookings: 'Просмотр бронирований',
-    view_revenue: 'Просмотр выручки',
-  };
-  showManagerModal('Права доступа — ' + manager.first_name, `
-    <div style="padding:20px">
-      ${Object.entries(permLabels).map(([key, label]) => `
-        <label style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer">
-          <input type="checkbox" id="perm-${key}" ${perms[key] ? 'checked' : ''} style="width:16px;height:16px;accent-color:var(--tiffany)">
-          <span style="font-size:0.85rem">${label}</span>
-        </label>`).join('')}
-      <div style="display:flex;gap:8px;margin-top:16px">
-        <button class="btn-sm btn-outline" onclick="closeMgrModal()">Отмена</button>
-        <button class="btn-sm btn-tiffany" onclick="savePermissions('${manager.id}')">Сохранить права</button>
-      </div>
-    </div>`);
-}
-
-async function savePermissions(managerId) {
-  const permKeys = ['view_dashboard','view_leads','edit_leads','view_all_leads','view_tutors','approve_tutors','edit_tutors','view_students','view_bookings','view_revenue'];
-  const permissions = {};
-  permKeys.forEach(k => { permissions[k] = document.getElementById('perm-' + k)?.checked || false; });
-  await fetch(API + '/api/admin/managers/' + managerId + '/permissions', {
-    method: 'PUT',
-    headers: { 'Authorization': 'Bearer ' + tok, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ permissions })
-  });
-  closeMgrModal();
-  showToast('✓ Права обновлены');
-  loadManagers();
-}
-
-async function toggleManager(id) {
-  const res = await fetch(API + '/api/admin/managers/' + id + '/toggle', { method: 'PUT', headers: { 'Authorization': 'Bearer ' + tok } });
-  const data = await res.json();
-  showToast(data.is_active ? 'Менеджер активирован' : 'Менеджер заблокирован');
-  loadManagers();
-}
-
-async function deleteManager(id, name) {
-  if (!confirm('Удалить менеджера ' + name + '?')) return;
-  await fetch(API + '/api/admin/managers/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + tok } });
-  showToast('Менеджер удалён');
-  loadManagers();
-}
-
-// ── ANALYTICS (removed - manager doesn't need this) ──
-let analyticsPeriod = 7;
-let analyticsCharts = {};
-
-function setAnalyticsPeriod(days, el) {
-  analyticsPeriod = days;
-  document.querySelectorAll('.analytics-period').forEach(b => {
-    b.classList.remove('btn-tiffany', 'active');
-    b.classList.add('btn-outline');
-  });
-  el.classList.remove('btn-outline');
-  el.classList.add('btn-tiffany', 'active');
-  loadAnalytics();
-}
-
-async function loadAnalytics() {
-  const data = await get('/api/admin/analytics?period=' + analyticsPeriod);
-  if (!data) return;
-
-  document.getElementById('analytics-updated').textContent = 'Обновлено: ' + new Date().toLocaleTimeString('ru-RU');
-
-  renderKPIs(data);
-  renderBookingsChart(data.daily_bookings);
-  renderRevenueChart(data.revenue_by_day);
-  renderStudentsChart(data.student_growth);
-  renderHourlyChart(data.hourly_distribution);
-  renderSubjectsTable(data.subjects);
-  renderTutorsTable(data.top_tutors);
-  renderFunnel(data.conversion);
-}
-
-function renderKPIs(data) {
-  const c = data.conversion || {};
-  const t = data.totals || {};
-  const completionRate = c.total_bookings > 0 ? Math.round((c.completed / c.total_bookings) * 100) : 0;
-  const leadConversion = t.total_leads > 0 ? Math.round((t.converted_leads / t.total_leads) * 100) : 0;
-
-  document.getElementById('analytics-kpis').innerHTML = [
-    { val: c.total_bookings || 0, label: 'Бронирований', sub: `за ${analyticsPeriod} дней`, color: 'var(--tiffany)' },
-    { val: c.completed || 0, label: 'Завершённых уроков', sub: `${completionRate}% конверсия`, color: '#22c55e' },
-    { val: Math.round(c.total_revenue || 0).toLocaleString('ru') + ' сом', label: 'Выручка', sub: 'за период', color: 'var(--gold)' },
-    { val: c.unique_students || 0, label: 'Активных студентов', sub: 'уникальных', color: '#3b82f6' },
-    { val: c.active_tutors || 0, label: 'Активных репетиторов', sub: 'с бронями', color: '#8b5cf6' },
-    { val: Math.round(c.avg_lesson_price || 0) + ' сом', label: 'Средний чек', sub: 'за урок', color: 'var(--coral)' },
-    { val: t.total_students || 0, label: 'Всего студентов', sub: 'на платформе', color: 'var(--tiffany)' },
-    { val: t.approved_tutors || 0, label: 'Одобренных репетиторов', sub: 'на сайте', color: '#22c55e' },
-    { val: leadConversion + '%', label: 'Конверсия лидов', sub: `${t.converted_leads||0} из ${t.total_leads||0}`, color: 'var(--gold)' },
-  ].map(k => `
-    <div class="stat-card">
-      <span class="stat-val" style="color:${k.color};font-size:1.6rem">${k.val}</span>
-      <div class="stat-label">${k.label}</div>
-      <div style="font-size:0.7rem;color:var(--tiffany);margin-top:3px">${k.sub}</div>
-    </div>`).join('');
-}
-
-function destroyChart(id) {
-  if (analyticsCharts[id]) { analyticsCharts[id].destroy(); delete analyticsCharts[id]; }
-}
-
-function renderBookingsChart(data) {
-  destroyChart('bookings');
-  if (!data?.length) return;
-  const ctx = document.getElementById('bookings-chart').getContext('2d');
-  analyticsCharts['bookings'] = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: data.map(d => new Date(d.date).toLocaleDateString('ru-RU', { day:'numeric', month:'short' })),
-      datasets: [
-        { label: 'Завершённые', data: data.map(d => d.completed), backgroundColor: 'rgba(34,197,94,0.8)', stack: 'a' },
-        { label: 'Подтверждённые', data: data.map(d => d.confirmed), backgroundColor: 'rgba(10,186,181,0.8)', stack: 'a' },
-        { label: 'Отменённые', data: data.map(d => d.cancelled), backgroundColor: 'rgba(232,83,58,0.5)', stack: 'a' },
-      ]
-    },
-    options: { responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true } } }
-  });
-}
-
-function renderRevenueChart(data) {
-  destroyChart('revenue');
-  if (!data?.length) return;
-  const ctx = document.getElementById('revenue-chart').getContext('2d');
-  analyticsCharts['revenue'] = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: data.map(d => new Date(d.date).toLocaleDateString('ru-RU', { day:'numeric', month:'short' })),
-      datasets: [
-        { label: 'Выручка', data: data.map(d => Math.round(d.revenue)), borderColor: '#c9a84c', backgroundColor: 'rgba(201,168,76,0.1)', fill: true, tension: 0.4 },
-        { label: 'Комиссия (40%)', data: data.map(d => Math.round(d.commission)), borderColor: '#0ABAB5', backgroundColor: 'rgba(10,186,181,0.1)', fill: true, tension: 0.4 },
-      ]
-    },
-    options: { responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { y: { beginAtZero: true } } }
-  });
-}
-
-function renderStudentsChart(data) {
-  destroyChart('students');
-  if (!data?.length) return;
-  const ctx = document.getElementById('students-chart').getContext('2d');
-  analyticsCharts['students'] = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: data.map(d => new Date(d.date).toLocaleDateString('ru-RU', { day:'numeric', month:'short' })),
-      datasets: [{ label: 'Новых студентов', data: data.map(d => parseInt(d.new_students)), borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)', fill: true, tension: 0.4 }]
-    },
-    options: { responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { y: { beginAtZero: true } } }
-  });
-}
-
-function renderHourlyChart(data) {
-  destroyChart('hourly');
-  if (!data?.length) return;
-  const hours = Array.from({length:24}, (_,i) => i);
-  const bookingsByHour = {};
-  data.forEach(d => { bookingsByHour[parseInt(d.hour)] = parseInt(d.bookings); });
-  const ctx = document.getElementById('hourly-chart').getContext('2d');
-  analyticsCharts['hourly'] = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: hours.map(h => h + ':00'),
-      datasets: [{ label: 'Бронирований', data: hours.map(h => bookingsByHour[h] || 0), backgroundColor: 'rgba(10,186,181,0.7)' }]
-    },
-    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
-  });
-}
-
-function renderSubjectsTable(data) {
-  const el = document.getElementById('subjects-table');
-  if (!data?.length) { el.innerHTML = '<div style="padding:20px;text-align:center;color:var(--ink-60)">Нет данных</div>'; return; }
-  const max = Math.max(...data.map(d => parseInt(d.total_bookings)));
-  el.innerHTML = data.map((d, i) => `
-    <div style="padding:12px 20px;border-bottom:1px solid var(--border)">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-        <div style="font-weight:600;font-size:0.85rem">${i+1}. ${d.subject}</div>
-        <div style="font-size:0.78rem;color:var(--ink-60)">${d.total_bookings} бронирований</div>
-      </div>
-      <div style="height:6px;background:var(--ink-10);border-radius:3px;overflow:hidden">
-        <div style="height:100%;width:${Math.round((d.total_bookings/max)*100)}%;background:var(--tiffany);border-radius:3px"></div>
-      </div>
-      <div style="display:flex;gap:12px;margin-top:4px;font-size:0.72rem;color:var(--ink-60)">
-        <span>✅ ${d.completed} завершено</span>
-        <span>👥 ${d.unique_students} студентов</span>
-        <span>💰 ${Math.round(d.revenue).toLocaleString('ru')} сом</span>
-      </div>
-    </div>`).join('');
-}
-
-function renderTutorsTable(data) {
-  const el = document.getElementById('tutors-table');
-  if (!data?.length) { el.innerHTML = '<div style="padding:20px;text-align:center;color:var(--ink-60)">Нет данных</div>'; return; }
-  el.innerHTML = data.map((t, i) => `
-    <div style="padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px">
-      <div style="width:28px;height:28px;border-radius:50%;background:var(--tiffany-pale);display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;color:var(--tiffany);flex-shrink:0">${i+1}</div>
-      <div style="flex:1">
-        <div style="font-weight:600;font-size:0.85rem">${t.first_name} ${t.last_name}</div>
-        <div style="font-size:0.72rem;color:var(--ink-60)">${(t.subjects||[]).slice(0,2).join(', ')} · ⭐${parseFloat(t.rating||0).toFixed(1)}</div>
-      </div>
-      <div style="text-align:right">
-        <div style="font-weight:600;font-size:0.85rem">${t.completed_lessons} уроков</div>
-        <div style="font-size:0.72rem;color:var(--tiffany)">${Math.round(t.gross_revenue).toLocaleString('ru')} сом</div>
-      </div>
-    </div>`).join('');
-}
-
-function renderFunnel(data) {
-  if (!data) return;
-  const total = parseInt(data.total_bookings) || 1;
-  const steps = [
-    { label: 'Всего бронирований', val: data.total_bookings, color: '#3b82f6' },
-    { label: 'Подтверждённые', val: data.confirmed, color: '#0ABAB5' },
-    { label: 'Завершённые', val: data.completed, color: '#22c55e' },
-  ];
-  document.getElementById('funnel-chart').innerHTML = `
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
-      ${steps.map(s => {
-        const pct = Math.round((parseInt(s.val)||0) / total * 100);
-        return `<div style="text-align:center">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:${s.color}">${s.val||0}</div>
-          <div style="font-size:0.78rem;color:var(--ink-60);margin-bottom:8px">${s.label}</div>
-          <div style="height:8px;background:var(--ink-10);border-radius:4px;overflow:hidden">
-            <div style="height:100%;width:${pct}%;background:${s.color};border-radius:4px;transition:width 0.8s"></div>
-          </div>
-          <div style="font-size:0.72rem;color:${s.color};margin-top:4px;font-weight:600">${pct}%</div>
-        </div>`;
-      }).join('')}
-    </div>
-    <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);display:flex;gap:24px;flex-wrap:wrap">
-      <div style="font-size:0.82rem"><span style="color:var(--ink-60)">Пробных уроков:</span> <strong>${data.trial_lessons||0}</strong></div>
-      <div style="font-size:0.82rem"><span style="color:var(--ink-60)">Ср. чек:</span> <strong>${Math.round(data.avg_lesson_price||0)} сом</strong></div>
-      <div style="font-size:0.82rem"><span style="color:var(--ink-60)">Отменённых:</span> <strong>${data.cancelled||0}</strong></div>
-      <div style="font-size:0.82rem"><span style="color:var(--ink-60)">Уникальных студентов:</span> <strong>${data.unique_students||0}</strong></div>
-    </div>`;
-}
-
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.style.display = 'block';
-  setTimeout(() => t.style.display = 'none', 3500);
-}
-
-// ── AUTO LOGIN ─────────────────────────────────────────────
-const savedTok = localStorage.getItem('bilimpark_manager_token');
-const savedUser = JSON.parse(localStorage.getItem('bilimpark_manager_user') || 'null');
-if (savedTok && savedUser && ['manager','admin'].includes(savedUser.role)) {
-  tok = savedTok; currentUser = savedUser;
-  initApp();
-}
-
 </script>
-
-<!-- TUTOR DETAIL MODAL -->
+  <!-- TUTOR DETAIL MODAL -->
 <div class="overlay" id="tutorModal" onclick="if(event.target===this)this.classList.remove('open')">
   <div style="background:white;border-radius:20px;max-width:680px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,0.25);">
     <div style="background:linear-gradient(135deg,#0a1a1a,#0d2d2b);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;border-radius:20px 20px 0 0;">
@@ -1497,5 +1250,8 @@ if (savedTok && savedUser && ['manager','admin'].includes(savedUser.role)) {
 </div>
 </body>
 </html>
+
+
+<div id="toast"></div>
 </body>
 </html>
