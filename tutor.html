@@ -1038,8 +1038,15 @@ async function submitBooking() {
     const data = await res.json();
     if (res.ok) {
       closeBookingModal();
-      showToast('✓ Урок забронирован! Ожидайте подтверждения.');
-      setTimeout(() => window.location.href = '/dashboard.html', 2500);
+      // Redirect to Freedom Pay payment page
+      if (data.payment?.redirect_url) {
+        showToast('Перенаправляем на страницу оплаты...');
+        setTimeout(() => window.location.href = data.payment.redirect_url, 800);
+      } else {
+        // No payment URL (Freedom Pay not configured yet) - go to dashboard
+        showToast('✓ Урок забронирован! Ожидайте подтверждения.');
+        setTimeout(() => window.location.href = '/dashboard.html', 2000);
+      }
     } else {
       showToast(data.error || 'Ошибка при записи');
       btn.textContent = 'Подтвердить запись'; btn.disabled = false;
