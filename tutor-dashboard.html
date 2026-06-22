@@ -307,66 +307,140 @@ tr:hover td{background:#f8fafa;}
 
     <!-- PROFILE -->
     <div id="page-profile" class="page">
-      <div class="grid2">
-        <div class="card"><div class="card-head"><h3>Основная информация</h3></div>
-          <div class="card-body">
-            <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
-              <div class="avatar-big" id="profile-avatar">👨‍🏫</div>
-              <div><div style="font-weight:600;margin-bottom:6px" id="profile-name-display">—</div>
-                <button class="btn-sm btn-outline" onclick="document.getElementById('avatar-file').click()">📷 Загрузить фото</button>
-                <input type="file" id="avatar-file" accept="image/*" style="display:none" onchange="uploadAvatar(this)">
-              </div>
-            </div>
-            <div class="fgroup"><label>Имя</label><input class="fcontrol" id="p-fname" type="text"></div>
-            <div class="fgroup"><label>Фамилия</label><input class="fcontrol" id="p-lname" type="text"></div>
-            <div class="fgroup"><label>Телефон</label><input class="fcontrol" id="p-phone" type="tel" placeholder="+996 XXX XXX XXX"></div>
-            <button class="btn-sm btn-tiffany" onclick="saveProfile()">Сохранить</button>
-            <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border);">
-  <div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;">Уведомления</div>
-  <a href="https://t.me/BilimparkKGBot" target="_blank" style="display:flex;align-items:center;gap:10px;background:#229ED9;color:white;padding:12px 16px;border-radius:10px;text-decoration:none;font-weight:600;font-size:0.88rem;">
-    <span style="font-size:1.2rem;">✈️</span>
-    Подключить Telegram уведомления
-  </a>
-  <p style="font-size:0.75rem;color:var(--ink-60);margin-top:8px;">После нажатия откроется Telegram бот. Отправьте боту ваш email чтобы подключить уведомления об уроках.</p>
-</div>
+
+      <!-- PROFILE COMPLETENESS -->
+      <div class="card" style="margin-bottom:16px;border-left:4px solid var(--tiffany)">
+        <div class="card-body" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+          <div>
+            <div style="font-weight:600;margin-bottom:4px">Заполненность профиля: <span id="completeness-pct" style="color:var(--tiffany)">0%</span></div>
+            <div style="font-size:0.78rem;color:var(--ink-60)">Чем полнее профиль — тем больше студентов</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <a href="/tutor.html?id=__ID__" target="_blank" id="view-profile-link" class="btn-sm btn-outline" style="text-decoration:none">👁 Мой профиль на сайте</a>
           </div>
         </div>
-        <div class="card"><div class="card-head"><h3>Профиль репетитора</h3></div>
-          <div class="card-body">
-            <div class="fgroup"><label>Предметы (через запятую)</label><input class="fcontrol" id="p-subjects" placeholder="Математика, Физика"></div>
-            <div class="fgroup"><label>Ставка (сом/час)</label><input class="fcontrol" id="p-rate" type="number" min="200"></div>
-            <div class="fgroup"><label>Пробный урок (сом)</label><input class="fcontrol" id="p-trial" type="number" min="100"></div>
-            <div class="fgroup"><label>О себе (по-русски)</label><textarea class="fcontrol" id="p-bio-ru" rows="4" placeholder="Расскажите о своём опыте..."></textarea></div>
-            <div class="fgroup"><label>About (English)</label><textarea class="fcontrol" id="p-bio-en" rows="3" placeholder="Tell about your experience..."></textarea></div>
-            <button class="btn-sm btn-tiffany" onclick="saveTutorProfile()">Сохранить профиль</button>
-<button class="btn-sm btn-outline" id="submit-review-btn" onclick="submitForReview()" style="margin-top:10px;width:100%">📋 Отправить на проверку</button>
-<div id="submit-status" style="margin-top:8px;font-size:0.78rem;color:var(--ink-60)"></div>
+        <div style="height:6px;background:var(--ink-10);border-radius:0 0 14px 14px;overflow:hidden">
+          <div id="completeness-bar" style="height:100%;background:var(--tiffany);width:0%;transition:width 0.6s;border-radius:3px"></div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <!-- LEFT: Personal info -->
+        <div>
+          <div class="card" style="margin-bottom:16px"><div class="card-head"><h3>Фото и личные данные</h3></div>
+            <div class="card-body">
+              <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+                <div class="avatar-big" id="profile-avatar">👨‍🏫</div>
+                <div>
+                  <div style="font-weight:600;margin-bottom:6px" id="profile-name-display">—</div>
+                  <button class="btn-sm btn-outline" onclick="document.getElementById('avatar-file').click()">📷 Загрузить фото</button>
+                  <input type="file" id="avatar-file" accept="image/*" style="display:none" onchange="uploadAvatar(this)">
+                  <div style="font-size:0.72rem;color:var(--ink-60);margin-top:4px">Фото повышает доверие студентов</div>
+                </div>
+              </div>
+              <div class="fgroup"><label>Имя</label><input class="fcontrol" id="p-fname" type="text"></div>
+              <div class="fgroup"><label>Фамилия</label><input class="fcontrol" id="p-lname" type="text"></div>
+              <div class="fgroup"><label>Телефон</label><input class="fcontrol" id="p-phone" type="tel" placeholder="+996 XXX XXX XXX"></div>
+              <div class="fgroup"><label>Город</label>
+                <select class="fcontrol" id="p-city">
+                  <option value="Бишкек">Бишкек</option>
+                  <option value="Ош">Ош</option>
+                  <option value="Джалал-Абад">Джалал-Абад</option>
+                  <option value="Каракол">Каракол</option>
+                  <option value="Токмок">Токмок</option>
+                  <option value="Нарын">Нарын</option>
+                  <option value="Талас">Талас</option>
+                  <option value="Баткен">Баткен</option>
+                </select>
+              </div>
+              <button class="btn-sm btn-tiffany" onclick="saveProfile()">Сохранить</button>
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom:16px"><div class="card-head"><h3>Telegram уведомления</h3></div>
+            <div class="card-body">
+              <a href="https://t.me/BilimlyKGBot" target="_blank" style="display:flex;align-items:center;gap:10px;background:#229ED9;color:white;padding:12px 16px;border-radius:10px;text-decoration:none;font-weight:600;font-size:0.88rem;">
+                <span style="font-size:1.2rem;">✈️</span> Подключить Telegram
+              </a>
+              <p style="font-size:0.75rem;color:var(--ink-60);margin-top:8px;">Отправьте боту ваш email — и получайте уведомления о новых бронированиях и сообщениях.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Tutor profile -->
+        <div>
+          <div class="card" style="margin-bottom:16px"><div class="card-head"><h3>Профиль репетитора</h3></div>
+            <div class="card-body">
+              <div class="fgroup">
+                <label>Заголовок профиля</label>
+                <input class="fcontrol" id="p-headline" placeholder="Например: Репетитор по математике, 5 лет опыта, ОРТ" maxlength="120">
+                <div style="font-size:0.72rem;color:var(--ink-60);margin-top:4px">Показывается под вашим именем на сайте</div>
+              </div>
+              <div class="fgroup">
+                <label>Дисциплины (через запятую)</label>
+                <input class="fcontrol" id="p-subjects" placeholder="Математика, Физика, ОРТ подготовка">
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div class="fgroup"><label>Ставка (сом/час)</label><input class="fcontrol" id="p-rate" type="number" min="200"></div>
+                <div class="fgroup"><label>Пробный урок (сом)</label><input class="fcontrol" id="p-trial" type="number" min="0"></div>
+              </div>
+              <div class="fgroup">
+                <label>О себе</label>
+                <textarea class="fcontrol" id="p-bio-ru" rows="5" placeholder="Расскажите о своём опыте, методах обучения, достижениях студентов..."></textarea>
+                <div style="font-size:0.72rem;color:var(--ink-60);margin-top:4px">Минимум 100 символов. Чем подробнее — тем больше доверия.</div>
+              </div>
+              <div class="fgroup">
+                <label>Особенности (через запятую)</label>
+                <input class="fcontrol" id="p-highlights" placeholder="Терпеливый, Опытный, Результат-ориентированный">
+                <div style="font-size:0.72rem;color:var(--ink-60);margin-top:4px">Показывается как теги на вашем профиле</div>
+              </div>
+              <button class="btn-sm btn-tiffany" onclick="saveTutorProfile()">Сохранить профиль</button>
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom:16px"><div class="card-head"><h3>Языки</h3></div>
+            <div class="card-body">
+              <div id="languages-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px"></div>
+              <button class="btn-sm btn-outline" onclick="addLanguage()">+ Добавить язык</button>
+              <button class="btn-sm btn-tiffany" onclick="saveLanguages()" style="margin-left:8px">Сохранить</button>
+            </div>
           </div>
         </div>
       </div>
-      <div class="card"><div class="card-head"><h3>Видео-презентация</h3></div>
-        <div class="card-body">
-          <p style="font-size:0.85rem;color:var(--ink-60);margin-bottom:16px">Короткое видео (30-90 секунд) повышает бронирования в 3 раза. Запишитесь на телефон: имя, предмет, опыт, почему любите преподавать.</p>
-          <div id="video-preview" style="width:100%;max-width:400px;height:225px;background:var(--ink-10);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--ink-60);font-size:0.85rem;margin-bottom:14px;overflow:hidden;">🎥 Видео не добавлено</div>
 
-          <div style="background:var(--tiffany-pale,#d4f1f0);border-radius:10px;padding:14px;margin-bottom:14px">
-            <div style="font-weight:600;margin-bottom:8px;font-size:0.9rem">📹 Загрузить видео (рекомендуем)</div>
-            <input type="file" id="video-file-input" accept="video/*" onchange="uploadVideoFile(this)" style="display:none">
-            <button class="btn-sm btn-tiffany" onclick="document.getElementById('video-file-input').click()">Выбрать видео с телефона</button>
-            <div id="video-upload-status" style="margin-top:10px;font-size:0.82rem;color:var(--ink-60);display:none"></div>
-            <div id="video-upload-progress" style="margin-top:10px;height:6px;background:rgba(10,186,181,0.15);border-radius:3px;overflow:hidden;display:none">
-              <div id="video-upload-bar" style="height:100%;background:var(--tiffany);width:0%;transition:width 0.2s"></div>
-            </div>
-            <div style="font-size:0.72rem;color:var(--ink-60);margin-top:6px">Макс 60 МБ · формат MP4, MOV, WebM</div>
+      <!-- Education & Video - full width -->
+      <div class="grid2">
+        <div class="card"><div class="card-head"><h3>Образование и сертификаты</h3></div>
+          <div class="card-body">
+            <div id="education-list" style="display:flex;flex-direction:column;gap:10px;margin-bottom:12px"></div>
+            <button class="btn-sm btn-outline" onclick="addEducation()">+ Добавить образование</button>
+            <button class="btn-sm btn-tiffany" onclick="saveEducation()" style="margin-left:8px">Сохранить</button>
           </div>
+        </div>
 
-          <details style="margin-bottom:10px">
-            <summary style="font-size:0.85rem;color:var(--ink-60);cursor:pointer">Или вставить ссылку на YouTube/Vimeo</summary>
-            <div style="margin-top:10px">
-              <div class="fgroup"><input class="fcontrol" id="p-video" placeholder="https://youtube.com/watch?v=..." type="url"></div>
-              <button class="btn-sm btn-tiffany" onclick="saveVideo()">Сохранить ссылку</button>
+        <div class="card"><div class="card-head"><h3>Видео-презентация (YouTube)</h3></div>
+          <div class="card-body">
+            <p style="font-size:0.85rem;color:var(--ink-60);margin-bottom:16px">Загрузите короткое видео (30-90 сек) на YouTube и вставьте ссылку. Видео повышает бронирования в 3 раза.</p>
+            <div id="video-preview" style="width:100%;aspect-ratio:16/9;background:var(--ink-10);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--ink-60);font-size:0.85rem;margin-bottom:14px;overflow:hidden;">🎥 Видео не добавлено</div>
+            <div class="fgroup">
+              <label>Ссылка на YouTube</label>
+              <input class="fcontrol" id="p-video" placeholder="https://youtube.com/watch?v=..." type="url">
             </div>
-          </details>
+            <button class="btn-sm btn-tiffany" onclick="saveVideo()">Сохранить ссылку</button>
+            <div style="margin-top:12px;background:var(--tiffany-pale);border-radius:8px;padding:12px;font-size:0.78rem;color:var(--ink-60)">
+              💡 Как снять видео: запишитесь на телефон, расскажите своё имя, предметы, опыт и почему вам нравится преподавать. Загрузите на YouTube как публичное или по ссылке.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit for review -->
+      <div class="card" style="margin-top:16px;border:2px solid var(--tiffany)">
+        <div class="card-body" style="text-align:center;padding:28px">
+          <div style="font-size:1.1rem;font-weight:700;margin-bottom:8px">Готовы принимать студентов?</div>
+          <div style="font-size:0.88rem;color:var(--ink-60);margin-bottom:20px">После отправки мы проверим профиль в течение 24 часов и опубликуем на сайте.</div>
+          <button class="btn-sm btn-tiffany" id="submit-review-btn" onclick="submitForReview()" style="padding:12px 32px;font-size:0.95rem">📋 Отправить профиль на проверку</button>
+          <div id="submit-status" style="margin-top:12px;font-size:0.82rem;color:var(--ink-60)"></div>
         </div>
       </div>
     </div>
@@ -850,20 +924,106 @@ async function loadProfile(){
   document.getElementById('p-lname').value=data.last_name||'';
   document.getElementById('p-phone').value=data.phone||'';
   document.getElementById('profile-name-display').textContent=data.first_name+' '+data.last_name;
-  if(data.avatar_url){const av=document.getElementById('profile-avatar');if(av)av.innerHTML='<img src="'+data.avatar_url+'" alt="Avatar">';}
+  if(data.avatar_url){const av=document.getElementById('profile-avatar');if(av)av.innerHTML='<img src="'+data.avatar_url+'" alt="Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';}
+  if(data.city){const el=document.getElementById('p-city');if(el)el.value=data.city;}
+
+  // Update public profile link
+  if(data.tutor_profile_id){
+    const link=document.getElementById('view-profile-link');
+    if(link)link.href='/tutor.html?id='+data.tutor_profile_id;
+  }
+
   if(data.tutor_profile_id){
     document.getElementById('p-rate').value=data.hourly_rate||'';
     document.getElementById('p-trial').value=data.trial_rate||'';
     document.getElementById('p-bio-ru').value=data.bio_ru||'';
-    document.getElementById('p-bio-en').value=data.bio_en||'';
+    document.getElementById('p-headline').value=data.headline||'';
     if(data.subjects)document.getElementById('p-subjects').value=data.subjects.join(', ');
+    if(data.highlights)document.getElementById('p-highlights').value=(Array.isArray(data.highlights)?data.highlights:data.highlights).join?.(', ')||data.highlights||'';
     if(data.video_intro_url){document.getElementById('p-video').value=data.video_intro_url;updateVideoPreview(data.video_intro_url);}
+
+    // Languages
+    renderLanguages(data.languages||[]);
+
+    // Education
+    renderEducation(data.education||[]);
+
+    // Completeness
+    updateCompleteness(data);
   }
 }
 
+function updateCompleteness(data){
+  const checks=[
+    !!data.avatar_url,
+    !!(data.first_name && data.last_name),
+    !!(data.bio_ru && data.bio_ru.length > 100),
+    !!(data.subjects && data.subjects.length > 0),
+    !!data.hourly_rate,
+    !!data.video_intro_url,
+    !!(data.highlights && data.highlights.length > 0),
+    !!(data.education && data.education.length > 0),
+    !!(data.languages && data.languages.length > 0),
+    !!data.headline,
+  ];
+  const pct=Math.round((checks.filter(Boolean).length/checks.length)*100);
+  const pctEl=document.getElementById('completeness-pct');
+  const barEl=document.getElementById('completeness-bar');
+  if(pctEl)pctEl.textContent=pct+'%';
+  if(barEl)barEl.style.width=pct+'%';
+}
+
+// ── LANGUAGES ──────────────────────────────────────
+let _languages=[];
+function renderLanguages(langs){
+  _languages=langs||[];
+  const el=document.getElementById('languages-list');
+  if(!el)return;
+  if(!_languages.length){el.innerHTML='<div style="font-size:0.82rem;color:var(--ink-60)">Языки не добавлены</div>';return;}
+  el.innerHTML=_languages.map((l,i)=>`
+    <div style="display:flex;gap:8px;align-items:center">
+      <input class="fcontrol" style="flex:1" value="${l.language||''}" oninput="_languages[${i}].language=this.value" placeholder="Русский">
+      <select class="fcontrol" style="width:140px" onchange="_languages[${i}].level=this.value">
+        ${['Родной','Свободный','Продвинутый','Средний','Начальный'].map(lv=>`<option ${(l.level||'Родной')===lv?'selected':''}>${lv}</option>`).join('')}
+      </select>
+      <button onclick="_languages.splice(${i},1);renderLanguages(_languages)" style="border:none;background:none;cursor:pointer;color:#e74c3c;font-size:1rem">✕</button>
+    </div>`).join('');
+}
+function addLanguage(){_languages.push({language:'',level:'Родной'});renderLanguages(_languages);}
+async function saveLanguages(){
+  await apiFetch('/api/tutors/profile/me',{method:'PUT',body:JSON.stringify({languages:_languages})});
+  showToast('✓ Языки сохранены');
+}
+
+// ── EDUCATION ──────────────────────────────────────
+let _education=[];
+function renderEducation(edu){
+  _education=edu||[];
+  const el=document.getElementById('education-list');
+  if(!el)return;
+  if(!_education.length){el.innerHTML='<div style="font-size:0.82rem;color:var(--ink-60)">Образование не добавлено</div>';return;}
+  el.innerHTML=_education.map((e,i)=>`
+    <div style="background:var(--bg);border-radius:8px;padding:12px;position:relative">
+      <button onclick="_education.splice(${i},1);renderEducation(_education)" style="position:absolute;top:8px;right:8px;border:none;background:none;cursor:pointer;color:#e74c3c">✕</button>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+        <input class="fcontrol" placeholder="Учебное заведение" value="${e.institution||''}" oninput="_education[${i}].institution=this.value">
+        <input class="fcontrol" placeholder="Годы (2018-2022)" value="${e.years||''}" oninput="_education[${i}].years=this.value">
+      </div>
+      <input class="fcontrol" placeholder="Специальность / степень" value="${e.degree||''}" oninput="_education[${i}].degree=this.value">
+    </div>`).join('');
+}
+function addEducation(){_education.push({institution:'',years:'',degree:''});renderEducation(_education);}
+async function saveEducation(){
+  await apiFetch('/api/tutors/profile/me',{method:'PUT',body:JSON.stringify({education:_education})});
+  showToast('✓ Образование сохранено');
+}
+
 async function saveProfile(){
+  const city=document.getElementById('p-city')?.value||'Бишкек';
   const data={first_name:document.getElementById('p-fname').value,last_name:document.getElementById('p-lname').value,phone:document.getElementById('p-phone').value};
   await apiFetch('/api/auth/me',{method:'PUT',body:JSON.stringify(data)});
+  // Save city to tutor profile
+  await apiFetch('/api/tutors/profile/me',{method:'PUT',body:JSON.stringify({city})});
   currentUser.first_name=data.first_name;currentUser.last_name=data.last_name;
   localStorage.setItem('bilimpark_user',JSON.stringify(currentUser));
   document.getElementById('sidebar-name').textContent=data.first_name+' '+data.last_name;
@@ -872,7 +1032,15 @@ async function saveProfile(){
 
 async function saveTutorProfile(){
   const subjects=document.getElementById('p-subjects').value.split(',').map(s=>s.trim()).filter(Boolean);
-  const data={bio_ru:document.getElementById('p-bio-ru').value,bio_en:document.getElementById('p-bio-en').value,hourly_rate:parseFloat(document.getElementById('p-rate').value)||500,trial_rate:parseFloat(document.getElementById('p-trial').value)||200,subjects};
+  const highlights=(document.getElementById('p-highlights')?.value||'').split(',').map(s=>s.trim()).filter(Boolean);
+  const data={
+    bio_ru:document.getElementById('p-bio-ru').value,
+    headline:document.getElementById('p-headline')?.value||'',
+    hourly_rate:parseFloat(document.getElementById('p-rate').value)||500,
+    trial_rate:parseFloat(document.getElementById('p-trial').value)||0,
+    subjects,
+    highlights,
+  };
   await apiFetch('/api/tutors/profile/me',{method:'PUT',body:JSON.stringify(data)});
   showToast('✓ Профиль репетитора сохранён');
 }
@@ -914,60 +1082,8 @@ async function saveVideo(){
   updateVideoPreview(url);showToast('✓ Видео сохранено');
 }
 
-async function uploadVideoFile(input){
-  const file = input.files[0];
-  if (!file) return;
-  if (file.size > 60 * 1024 * 1024) { showToast('Видео слишком большое (макс 60 МБ)'); input.value=''; return; }
-  const statusEl = document.getElementById('video-upload-status');
-  const progressWrap = document.getElementById('video-upload-progress');
-  const progressBar = document.getElementById('video-upload-bar');
-  statusEl.style.display='block';
-  statusEl.textContent='Загружаем видео…';
-  progressWrap.style.display='block';
-  progressBar.style.width='0%';
+// Video upload via YouTube only - no file upload needed
 
-  try {
-    const fd = new FormData();
-    fd.append('video', file);
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', API + '/api/tutors/video-upload');
-    xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-    xhr.upload.onprogress = (e) => {
-      if (e.lengthComputable) {
-        const pct = Math.round((e.loaded / e.total) * 100);
-        progressBar.style.width = pct + '%';
-        statusEl.textContent = 'Загружаем видео… ' + pct + '%';
-      }
-    };
-    xhr.onload = () => {
-      progressWrap.style.display='none';
-      if (xhr.status >= 200 && xhr.status < 300) {
-        const data = JSON.parse(xhr.responseText);
-        statusEl.textContent = '✓ Видео загружено';
-        setTimeout(() => statusEl.style.display='none', 3000);
-        updateVideoPreview(data.video_url);
-        showToast('✓ Видео загружено');
-      } else {
-        let msg = 'Ошибка загрузки';
-        try { msg = JSON.parse(xhr.responseText).error || msg; } catch {}
-        statusEl.textContent = '✗ ' + msg;
-        showToast(msg);
-      }
-      input.value = '';
-    };
-    xhr.onerror = () => {
-      progressWrap.style.display='none';
-      statusEl.textContent = '✗ Ошибка соединения';
-      showToast('Ошибка соединения');
-      input.value = '';
-    };
-    xhr.send(fd);
-  } catch (err) {
-    console.error('video upload error', err);
-    progressWrap.style.display='none';
-    statusEl.textContent = '✗ ' + (err.message || 'Ошибка');
-  }
-}
 
 function updateVideoPreview(url){
   const preview=document.getElementById('video-preview');
