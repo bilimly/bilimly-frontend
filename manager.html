@@ -1053,91 +1053,7 @@ function onboardReset() {
   onboardVideoFile = null;
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-</script>
-  <!-- TUTOR DETAIL MODAL -->
-<div class="overlay" id="tutorModal" onclick="if(event.target===this)this.classList.remove('open')">
-  <div style="background:white;border-radius:20px;max-width:680px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,0.25);">
-    <div style="background:linear-gradient(135deg,#0a1a1a,#0d2d2b);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;border-radius:20px 20px 0 0;">
-      <div>
-        <div style="font-size:1.1rem;font-weight:700;color:white;" id="modal-tutor-name">—</div>
-        <div style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:2px;" id="modal-tutor-email">—</div>
-      </div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <a id="modal-view-link" href="#" target="_blank" style="font-size:0.78rem;color:rgba(255,255,255,0.6);text-decoration:none;">👁 Профиль</a>
-        <button onclick="document.getElementById('tutorModal').classList.remove('open')" style="background:rgba(255,255,255,0.15);border:none;color:white;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;">✕</button>
-      </div>
-    </div>
-    <div id="modal-video" style="width:100%;height:200px;background:#0a1a1a;"></div>
-    <div style="padding:20px;">
 
-      <!-- TABS -->
-      <div style="display:flex;border-bottom:1px solid var(--border);margin-bottom:16px;gap:0">
-        <div class="modal-tab active" onclick="switchTutorTab('info',this)" style="padding:10px 16px;font-size:0.82rem;font-weight:600;cursor:pointer;border-bottom:2px solid var(--tiffany);color:var(--tiffany);margin-bottom:-1px">Инфо</div>
-        <div class="modal-tab" onclick="switchTutorTab('edit',this)" style="padding:10px 16px;font-size:0.82rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;color:var(--ink-60);margin-bottom:-1px">✏️ Редактировать</div>
-      </div>
-
-      <!-- INFO TAB -->
-      <div id="modal-tab-info">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
-          <div style="background:var(--tiffany-pale);border-radius:8px;padding:10px;">
-            <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:3px;">Дисциплины</div>
-            <div style="font-weight:600;font-size:0.85rem;" id="modal-subjects">—</div>
-          </div>
-          <div style="background:var(--tiffany-pale);border-radius:8px;padding:10px;">
-            <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:3px;">Ставка</div>
-            <div style="font-weight:600;font-size:0.85rem;" id="modal-rate">—</div>
-          </div>
-          <div style="background:var(--tiffany-pale);border-radius:8px;padding:10px;">
-            <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:3px;">Телефон</div>
-            <div style="font-weight:600;font-size:0.85rem;" id="modal-phone">—</div>
-          </div>
-          <div style="background:var(--tiffany-pale);border-radius:8px;padding:10px;">
-            <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:3px;">Город</div>
-            <div style="font-weight:600;font-size:0.85rem;" id="modal-city">—</div>
-          </div>
-        </div>
-        <div style="margin-bottom:14px;">
-          <div style="font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink-60);margin-bottom:6px;">О себе</div>
-          <div style="font-size:0.85rem;line-height:1.75;color:var(--ink);" id="modal-bio">—</div>
-        </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;" id="modal-actions"></div>
-      </div>
-
-      <!-- EDIT TAB -->
-      <div id="modal-tab-edit" style="display:none">
-        <input type="hidden" id="edit-tutor-user-id">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div class="fgroup"><label>Имя</label><input class="fcontrol" id="edit-fname"></div>
-          <div class="fgroup"><label>Фамилия</label><input class="fcontrol" id="edit-lname"></div>
-        </div>
-        <div class="fgroup"><label>Дисциплины (через запятую)</label><input class="fcontrol" id="edit-subjects" placeholder="Математика, Физика"></div>
-        <div class="fgroup"><label>Заголовок профиля</label><input class="fcontrol" id="edit-headline" placeholder="Репетитор по математике, 5 лет опыта"></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div class="fgroup"><label>Ставка (сом/час)</label><input class="fcontrol" type="number" id="edit-rate"></div>
-          <div class="fgroup"><label>Пробный урок (сом)</label><input class="fcontrol" type="number" id="edit-trial"></div>
-        </div>
-        <div class="fgroup"><label>Город</label>
-          <select class="fcontrol" id="edit-city">
-            <option>Бишкек</option><option>Ош</option><option>Джалал-Абад</option>
-            <option>Каракол</option><option>Токмок</option><option>Нарын</option><option>Талас</option><option>Баткен</option>
-          </select>
-        </div>
-        <div class="fgroup"><label>Особенности (через запятую)</label><input class="fcontrol" id="edit-highlights" placeholder="Терпеливый, Опытный"></div>
-        <div class="fgroup"><label>О себе</label><textarea class="fcontrol" id="edit-bio" rows="4" placeholder="Биография репетитора..."></textarea></div>
-        <div class="fgroup"><label>YouTube видео (ссылка)</label><input class="fcontrol" id="edit-video" placeholder="https://youtube.com/watch?v=..." type="url"></div>
-        <div class="fgroup"><label>Телефон</label><input class="fcontrol" id="edit-phone" type="tel"></div>
-        <div style="display:flex;gap:8px;margin-top:4px">
-          <button class="btn-sm btn-outline" onclick="document.getElementById('tutorModal').classList.remove('open')">Отмена</button>
-          <button class="btn-sm btn-tiffany" onclick="saveTutorEdit()">💾 Сохранить изменения</button>
-        </div>
-        <div id="edit-status" style="margin-top:8px;font-size:0.78rem;color:var(--ink-60)"></div>
-      </div>
-    </div>
-  </div>
-</div>
-</body>
-</html>
-<script>
 // ── MANAGERS ───────────────────────────────────────────────
 async function loadManagers() {
   const data = await get('/api/admin/managers');
@@ -1287,10 +1203,8 @@ async function deleteManager(id, name) {
   showToast('Менеджер удалён');
   loadManagers();
 }
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
-<script>
-// ── ANALYTICS ───────────────────────────────────────────────
+
+// ── ANALYTICS (removed - manager doesn't need this) ──
 let analyticsPeriod = 7;
 let analyticsCharts = {};
 
@@ -1482,7 +1396,6 @@ function renderFunnel(data) {
       <div style="font-size:0.82rem"><span style="color:var(--ink-60)">Уникальных студентов:</span> <strong>${data.unique_students||0}</strong></div>
     </div>`;
 }
-</script>
 
 function showToast(msg) {
   const t = document.getElementById('toast');
@@ -1497,6 +1410,91 @@ if (savedTok && savedUser && ['manager','admin'].includes(savedUser.role)) {
   tok = savedTok; currentUser = savedUser;
   initApp();
 }
+
 </script>
+
+<!-- TUTOR DETAIL MODAL -->
+<div class="overlay" id="tutorModal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div style="background:white;border-radius:20px;max-width:680px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,0.25);">
+    <div style="background:linear-gradient(135deg,#0a1a1a,#0d2d2b);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;border-radius:20px 20px 0 0;">
+      <div>
+        <div style="font-size:1.1rem;font-weight:700;color:white;" id="modal-tutor-name">—</div>
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:2px;" id="modal-tutor-email">—</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <a id="modal-view-link" href="#" target="_blank" style="font-size:0.78rem;color:rgba(255,255,255,0.6);text-decoration:none;">👁 Профиль</a>
+        <button onclick="document.getElementById('tutorModal').classList.remove('open')" style="background:rgba(255,255,255,0.15);border:none;color:white;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;">✕</button>
+      </div>
+    </div>
+    <div id="modal-video" style="width:100%;height:200px;background:#0a1a1a;"></div>
+    <div style="padding:20px;">
+
+      <!-- TABS -->
+      <div style="display:flex;border-bottom:1px solid var(--border);margin-bottom:16px;gap:0">
+        <div class="modal-tab active" onclick="switchTutorTab('info',this)" style="padding:10px 16px;font-size:0.82rem;font-weight:600;cursor:pointer;border-bottom:2px solid var(--tiffany);color:var(--tiffany);margin-bottom:-1px">Инфо</div>
+        <div class="modal-tab" onclick="switchTutorTab('edit',this)" style="padding:10px 16px;font-size:0.82rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;color:var(--ink-60);margin-bottom:-1px">✏️ Редактировать</div>
+      </div>
+
+      <!-- INFO TAB -->
+      <div id="modal-tab-info">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+          <div style="background:var(--tiffany-pale);border-radius:8px;padding:10px;">
+            <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:3px;">Дисциплины</div>
+            <div style="font-weight:600;font-size:0.85rem;" id="modal-subjects">—</div>
+          </div>
+          <div style="background:var(--tiffany-pale);border-radius:8px;padding:10px;">
+            <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:3px;">Ставка</div>
+            <div style="font-weight:600;font-size:0.85rem;" id="modal-rate">—</div>
+          </div>
+          <div style="background:var(--tiffany-pale);border-radius:8px;padding:10px;">
+            <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:3px;">Телефон</div>
+            <div style="font-weight:600;font-size:0.85rem;" id="modal-phone">—</div>
+          </div>
+          <div style="background:var(--tiffany-pale);border-radius:8px;padding:10px;">
+            <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:3px;">Город</div>
+            <div style="font-weight:600;font-size:0.85rem;" id="modal-city">—</div>
+          </div>
+        </div>
+        <div style="margin-bottom:14px;">
+          <div style="font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink-60);margin-bottom:6px;">О себе</div>
+          <div style="font-size:0.85rem;line-height:1.75;color:var(--ink);" id="modal-bio">—</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;" id="modal-actions"></div>
+      </div>
+
+      <!-- EDIT TAB -->
+      <div id="modal-tab-edit" style="display:none">
+        <input type="hidden" id="edit-tutor-user-id">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="fgroup"><label>Имя</label><input class="fcontrol" id="edit-fname"></div>
+          <div class="fgroup"><label>Фамилия</label><input class="fcontrol" id="edit-lname"></div>
+        </div>
+        <div class="fgroup"><label>Дисциплины (через запятую)</label><input class="fcontrol" id="edit-subjects" placeholder="Математика, Физика"></div>
+        <div class="fgroup"><label>Заголовок профиля</label><input class="fcontrol" id="edit-headline" placeholder="Репетитор по математике, 5 лет опыта"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="fgroup"><label>Ставка (сом/час)</label><input class="fcontrol" type="number" id="edit-rate"></div>
+          <div class="fgroup"><label>Пробный урок (сом)</label><input class="fcontrol" type="number" id="edit-trial"></div>
+        </div>
+        <div class="fgroup"><label>Город</label>
+          <select class="fcontrol" id="edit-city">
+            <option>Бишкек</option><option>Ош</option><option>Джалал-Абад</option>
+            <option>Каракол</option><option>Токмок</option><option>Нарын</option><option>Талас</option><option>Баткен</option>
+          </select>
+        </div>
+        <div class="fgroup"><label>Особенности (через запятую)</label><input class="fcontrol" id="edit-highlights" placeholder="Терпеливый, Опытный"></div>
+        <div class="fgroup"><label>О себе</label><textarea class="fcontrol" id="edit-bio" rows="4" placeholder="Биография репетитора..."></textarea></div>
+        <div class="fgroup"><label>YouTube видео (ссылка)</label><input class="fcontrol" id="edit-video" placeholder="https://youtube.com/watch?v=..." type="url"></div>
+        <div class="fgroup"><label>Телефон</label><input class="fcontrol" id="edit-phone" type="tel"></div>
+        <div style="display:flex;gap:8px;margin-top:4px">
+          <button class="btn-sm btn-outline" onclick="document.getElementById('tutorModal').classList.remove('open')">Отмена</button>
+          <button class="btn-sm btn-tiffany" onclick="saveTutorEdit()">💾 Сохранить изменения</button>
+        </div>
+        <div id="edit-status" style="margin-top:8px;font-size:0.78rem;color:var(--ink-60)"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
 </body>
 </html>
