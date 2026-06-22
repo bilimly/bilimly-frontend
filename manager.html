@@ -368,6 +368,87 @@ tr:hover td{background:#f8fafa;}
 
 <div id="toast"></div>
 
+<!-- TUTOR FULL MODAL (same as admin) -->
+<div class="overlay" id="tutorEditModal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div style="background:white;border-radius:20px;max-width:680px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,0.25);">
+    <div style="background:linear-gradient(135deg,#0a1a1a,#0d2d2b);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;border-radius:20px 20px 0 0;">
+      <div>
+        <div style="font-size:1.1rem;font-weight:700;color:white;" id="tedit-modal-name">—</div>
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:2px;" id="tedit-modal-email">—</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <a id="tedit-view-link" href="#" target="_blank" style="font-size:0.78rem;color:rgba(255,255,255,0.6);text-decoration:none;">👁 Профиль</a>
+        <button onclick="document.getElementById('tutorEditModal').classList.remove('open')" style="background:rgba(255,255,255,0.15);border:none;color:white;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;">✕</button>
+      </div>
+    </div>
+    <div id="tedit-modal-video" style="width:100%;height:200px;background:#0a1a1a;"></div>
+    <div style="padding:20px;">
+      <!-- TABS -->
+      <div style="display:flex;border-bottom:1px solid var(--border);margin-bottom:16px;">
+        <div id="ttab-info" onclick="switchTutorTab('info')" style="padding:10px 16px;font-size:0.82rem;font-weight:600;cursor:pointer;border-bottom:2px solid var(--tiffany);color:var(--tiffany);margin-bottom:-1px">Инфо</div>
+        <div id="ttab-edit" onclick="switchTutorTab('edit')" style="padding:10px 16px;font-size:0.82rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;color:var(--ink-60);margin-bottom:-1px">✏️ Редактировать</div>
+      </div>
+
+      <!-- INFO TAB -->
+      <div id="ttab-info-content">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+          <div style="background:var(--tiffany-pale);border-radius:8px;padding:10px;">
+            <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:3px;">Дисциплины</div>
+            <div style="font-weight:600;font-size:0.85rem;" id="tinfo-subjects">—</div>
+          </div>
+          <div style="background:var(--tiffany-pale);border-radius:8px;padding:10px;">
+            <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:3px;">Ставка</div>
+            <div style="font-weight:600;font-size:0.85rem;" id="tinfo-rate">—</div>
+          </div>
+          <div style="background:var(--tiffany-pale);border-radius:8px;padding:10px;">
+            <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:3px;">Телефон</div>
+            <div style="font-weight:600;font-size:0.85rem;" id="tinfo-phone">—</div>
+          </div>
+          <div style="background:var(--tiffany-pale);border-radius:8px;padding:10px;">
+            <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:3px;">Город</div>
+            <div style="font-weight:600;font-size:0.85rem;" id="tinfo-city">—</div>
+          </div>
+        </div>
+        <div style="margin-bottom:14px;">
+          <div style="font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink-60);margin-bottom:6px;">О себе</div>
+          <div style="font-size:0.85rem;line-height:1.75;color:var(--ink);" id="tinfo-bio">—</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;" id="tinfo-actions"></div>
+      </div>
+
+      <!-- EDIT TAB -->
+      <div id="ttab-edit-content" style="display:none">
+        <input type="hidden" id="tedit-user-id">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="fgroup"><label>Имя</label><input class="fcontrol" id="tedit-fname"></div>
+          <div class="fgroup"><label>Фамилия</label><input class="fcontrol" id="tedit-lname"></div>
+        </div>
+        <div class="fgroup"><label>Дисциплины (через запятую)</label><input class="fcontrol" id="tedit-subjects"></div>
+        <div class="fgroup"><label>Заголовок профиля</label><input class="fcontrol" id="tedit-headline" placeholder="Репетитор по математике, 5 лет опыта"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="fgroup"><label>Ставка (сом/час)</label><input class="fcontrol" type="number" id="tedit-rate"></div>
+          <div class="fgroup"><label>Пробный (сом)</label><input class="fcontrol" type="number" id="tedit-trial"></div>
+        </div>
+        <div class="fgroup"><label>Город</label>
+          <select class="fcontrol" id="tedit-city">
+            <option>Бишкек</option><option>Ош</option><option>Джалал-Абад</option>
+            <option>Каракол</option><option>Токмок</option><option>Нарын</option><option>Талас</option><option>Баткен</option>
+          </select>
+        </div>
+        <div class="fgroup"><label>Особенности (через запятую)</label><input class="fcontrol" id="tedit-highlights" placeholder="Терпеливый, Опытный"></div>
+        <div class="fgroup"><label>О себе</label><textarea class="fcontrol" id="tedit-bio" rows="4"></textarea></div>
+        <div class="fgroup"><label>YouTube видео</label><input class="fcontrol" id="tedit-video" type="url" placeholder="https://youtube.com/watch?v=..."></div>
+        <div class="fgroup"><label>Телефон</label><input class="fcontrol" id="tedit-phone" type="tel"></div>
+        <div style="display:flex;gap:8px;margin-top:4px">
+          <button class="btn-sm btn-outline" onclick="document.getElementById('tutorEditModal').classList.remove('open')">Отмена</button>
+          <button class="btn-sm btn-tiffany" onclick="saveTutorEdit()">💾 Сохранить</button>
+        </div>
+        <div id="tedit-status" style="margin-top:8px;font-size:0.78rem;color:var(--ink-60)"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 const API = 'https://bilimly-backend-0zbt.onrender.com';
 let tok = null;
@@ -832,6 +913,93 @@ async function rejectTutorApp(userId, name) {
   if (!reason) return;
   await api('/api/manager/tutors/' + userId + '/reject', { method: 'PUT', body: JSON.stringify({ reason }) });
   showToast(name + ' отклонён'); loadApplications(); loadDashboard();
+}
+
+// ── TUTOR FULL MODAL (same as admin) ───────────────────────
+function switchTutorTab(tab) {
+  const isInfo = tab === 'info';
+  document.getElementById('ttab-info').style.cssText = `padding:10px 16px;font-size:0.82rem;font-weight:600;cursor:pointer;border-bottom:2px solid ${isInfo?'var(--tiffany)':'transparent'};color:${isInfo?'var(--tiffany)':'var(--ink-60)'};margin-bottom:-1px`;
+  document.getElementById('ttab-edit').style.cssText = `padding:10px 16px;font-size:0.82rem;font-weight:600;cursor:pointer;border-bottom:2px solid ${!isInfo?'var(--tiffany)':'transparent'};color:${!isInfo?'var(--tiffany)':'var(--ink-60)'};margin-bottom:-1px`;
+  document.getElementById('ttab-info-content').style.display = isInfo ? 'block' : 'none';
+  document.getElementById('ttab-edit-content').style.display = isInfo ? 'none' : 'block';
+}
+
+function openTutorEdit(t) {
+  if (typeof t === 'string') t = JSON.parse(t);
+
+  // Header
+  document.getElementById('tedit-modal-name').textContent = t.first_name + ' ' + t.last_name;
+  document.getElementById('tedit-modal-email').textContent = t.email;
+  const vlink = document.getElementById('tedit-view-link');
+  if (vlink && t.tutor_profile_id) vlink.href = '/tutor.html?id=' + t.tutor_profile_id;
+
+  // Video
+  const vid = document.getElementById('tedit-modal-video');
+  if (t.video_intro_url) {
+    let url = t.video_intro_url;
+    if (url.includes('youtube.com/watch')) { const id = url.split('v=')[1]?.split('&')[0]; url = 'https://www.youtube.com/embed/' + id; }
+    else if (url.includes('youtu.be/')) { const id = url.split('youtu.be/')[1]?.split('?')[0]; url = 'https://www.youtube.com/embed/' + id; }
+    vid.innerHTML = `<iframe src="${url}" style="width:100%;height:100%;border:none" allowfullscreen></iframe>`;
+  } else {
+    vid.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);font-size:0.85rem">🎥 Видео не добавлено</div>';
+  }
+
+  // Info tab
+  document.getElementById('tinfo-subjects').textContent = (t.subjects||[]).join(', ')||'—';
+  document.getElementById('tinfo-rate').textContent = (t.hourly_rate||500)+' сом/час · Пробный: '+(t.trial_rate||0)+' сом';
+  document.getElementById('tinfo-phone').textContent = t.phone||'—';
+  document.getElementById('tinfo-city').textContent = t.city||'Бишкек';
+  document.getElementById('tinfo-bio').textContent = t.bio_ru||'Биография не заполнена';
+  document.getElementById('tinfo-actions').innerHTML = `
+    ${!t.is_approved ? `<button class="btn-sm btn-success" onclick="approveTutor('${t.id}');document.getElementById('tutorEditModal').classList.remove('open')">✓ Одобрить</button>` : ''}
+    <button class="btn-sm btn-danger" onclick="rejectTutor('${t.id}');document.getElementById('tutorEditModal').classList.remove('open')">✗ Отклонить</button>
+    <button class="btn-sm btn-outline" onclick="toggleTutorVisibility('${t.id}')">${t.is_visible!==false?'🙈 Скрыть':'👁 Показать'}</button>
+    <button class="btn-sm" style="background:#dc2626;color:white;border:none" onclick="deleteTutor('${t.id}','${t.first_name} ${t.last_name}','${t.email}');document.getElementById('tutorEditModal').classList.remove('open')">🗑 Удалить</button>
+  `;
+
+  // Edit tab
+  document.getElementById('tedit-user-id').value = t.id;
+  document.getElementById('tedit-fname').value = t.first_name||'';
+  document.getElementById('tedit-lname').value = t.last_name||'';
+  document.getElementById('tedit-subjects').value = (t.subjects||[]).join(', ');
+  document.getElementById('tedit-headline').value = t.headline||'';
+  document.getElementById('tedit-rate').value = t.hourly_rate||500;
+  document.getElementById('tedit-trial').value = t.trial_rate||0;
+  document.getElementById('tedit-city').value = t.city||'Бишкек';
+  document.getElementById('tedit-highlights').value = Array.isArray(t.highlights) ? t.highlights.join(', ') : (t.highlights||'');
+  document.getElementById('tedit-bio').value = t.bio_ru||'';
+  document.getElementById('tedit-video').value = t.video_intro_url||'';
+  document.getElementById('tedit-phone').value = t.phone||'';
+  document.getElementById('tedit-status').textContent = '';
+
+  switchTutorTab('info');
+  document.getElementById('tutorEditModal').classList.add('open');
+}
+
+async function saveTutorEdit() {
+  const userId = document.getElementById('tedit-user-id').value;
+  const statusEl = document.getElementById('tedit-status');
+  const subjects = document.getElementById('tedit-subjects').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const highlights = document.getElementById('tedit-highlights').value.split(',').map(s=>s.trim()).filter(Boolean);
+
+  statusEl.textContent = 'Сохранение...'; statusEl.style.color = 'var(--ink-60)';
+  try {
+    await api('/api/admin/users/'+userId, { method:'PUT', body: JSON.stringify({
+      first_name: document.getElementById('tedit-fname').value,
+      last_name: document.getElementById('tedit-lname').value,
+      phone: document.getElementById('tedit-phone').value,
+    })});
+    await api('/api/admin/tutors/'+userId+'/profile', { method:'PUT', body: JSON.stringify({
+      subjects, headline: document.getElementById('tedit-headline').value,
+      hourly_rate: parseFloat(document.getElementById('tedit-rate').value)||500,
+      trial_rate: parseFloat(document.getElementById('tedit-trial').value)||0,
+      city: document.getElementById('tedit-city').value,
+      highlights, bio_ru: document.getElementById('tedit-bio').value,
+      video_intro_url: document.getElementById('tedit-video').value||null,
+    })});
+    statusEl.textContent = '✓ Сохранено'; statusEl.style.color = 'var(--tiffany)';
+    showToast('✓ Профиль обновлён'); loadTutors();
+  } catch(e) { statusEl.textContent = 'Ошибка'; statusEl.style.color = '#e74c3c'; }
 }
 
 function showToast(msg) {
