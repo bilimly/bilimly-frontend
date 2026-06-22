@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Оплата прошла успешно — Bilimpark</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#f0fffe;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:white;border-radius:24px;padding:48px 40px;max-width:480px;width:100%;text-align:center;box-shadow:0 8px 40px rgba(10,186,181,0.12)}
+.icon{font-size:4rem;margin-bottom:16px}
+h1{font-size:1.6rem;font-weight:800;color:#1B1F3B;margin-bottom:8px}
+p{font-size:0.95rem;color:#666;line-height:1.6;margin-bottom:24px}
+.detail-box{background:#f0fffe;border-radius:12px;padding:16px;margin-bottom:24px;font-size:0.88rem;color:#555;text-align:left;display:flex;flex-direction:column;gap:6px}
+.detail-row{display:flex;justify-content:space-between}
+.detail-label{color:#888}
+.detail-val{font-weight:600;color:#1B1F3B}
+.btn{display:block;background:#0ABAB5;color:white;padding:14px;border-radius:12px;font-size:0.95rem;font-weight:700;text-decoration:none;transition:background 0.2s;margin-bottom:10px}
+.btn:hover{background:#089490}
+.btn-outline{display:block;border:1.5px solid #e0e0e0;color:#555;padding:13px;border-radius:12px;font-size:0.88rem;font-weight:600;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="icon">✅</div>
+  <h1>Оплата прошла успешно!</h1>
+  <p>Ваш урок забронирован. Ссылка на Google Meet придёт на email после подтверждения репетитором.</p>
+  <div class="detail-box" id="booking-details">
+    <div class="detail-row"><span class="detail-label">Статус оплаты</span><span class="detail-val" style="color:#0ABAB5">✓ Оплачено</span></div>
+    <div class="detail-row"><span class="detail-label">Статус урока</span><span class="detail-val">Ожидает подтверждения</span></div>
+  </div>
+  <a href="/dashboard.html" class="btn">Перейти в мой кабинет →</a>
+  <a href="/" class="btn-outline">На главную</a>
+</div>
+<script>
+const params = new URLSearchParams(window.location.search);
+const bookingId = params.get('booking_id');
+if (bookingId) {
+  // Load booking details
+  const tok = localStorage.getItem('bilimpark_token');
+  if (tok) {
+    fetch('https://bilimly-backend-0zbt.onrender.com/api/bookings/' + bookingId, {
+      headers: { 'Authorization': 'Bearer ' + tok }
+    }).then(r => r.json()).then(b => {
+      if (b.lesson_date) {
+        const details = document.getElementById('booking-details');
+        details.innerHTML = `
+          <div class="detail-row"><span class="detail-label">Предмет</span><span class="detail-val">${b.subject || '—'}</span></div>
+          <div class="detail-row"><span class="detail-label">Дата</span><span class="detail-val">${new Date(b.lesson_date).toLocaleDateString('ru-RU')}</span></div>
+          <div class="detail-row"><span class="detail-label">Время</span><span class="detail-val">${b.start_time || '—'}</span></div>
+          <div class="detail-row"><span class="detail-label">Сумма</span><span class="detail-val">${b.amount} сом</span></div>
+          <div class="detail-row"><span class="detail-label">Статус</span><span class="detail-val" style="color:#0ABAB5">✓ Оплачено</span></div>
+        `;
+      }
+    }).catch(() => {});
+  }
+}
+</script>
+</body>
+</html>

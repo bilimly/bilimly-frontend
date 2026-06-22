@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ошибка оплаты — Bilimpark</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#fff5f5;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:white;border-radius:24px;padding:48px 40px;max-width:480px;width:100%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,0.08)}
+.icon{font-size:4rem;margin-bottom:16px}
+h1{font-size:1.6rem;font-weight:800;color:#1B1F3B;margin-bottom:8px}
+p{font-size:0.95rem;color:#666;line-height:1.6;margin-bottom:24px}
+.btn{display:block;background:#0ABAB5;color:white;padding:14px;border-radius:12px;font-size:0.95rem;font-weight:700;text-decoration:none;margin-bottom:10px}
+.btn-outline{display:block;border:1.5px solid #e0e0e0;color:#555;padding:13px;border-radius:12px;font-size:0.88rem;font-weight:600;text-decoration:none}
+.help{margin-top:20px;font-size:0.82rem;color:#888}
+.help a{color:#0ABAB5}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="icon">❌</div>
+  <h1>Оплата не прошла</h1>
+  <p>Платёж не был завершён. Ваше бронирование сохранено — вы можете попробовать оплатить снова.</p>
+  <button class="btn" onclick="retryPayment()">Попробовать снова</button>
+  <a href="/dashboard.html" class="btn-outline">Перейти в кабинет</a>
+  <p class="help">Проблема с оплатой? <a href="https://wa.me/996506354444">Напишите нам в WhatsApp</a></p>
+</div>
+<script>
+const params = new URLSearchParams(window.location.search);
+const bookingId = params.get('booking_id');
+
+async function retryPayment() {
+  const tok = localStorage.getItem('bilimpark_token');
+  if (!tok) { window.location.href = '/'; return; }
+  if (!bookingId) { window.location.href = '/dashboard.html'; return; }
+
+  try {
+    // Get payment id for this booking
+    const bookingRes = await fetch('https://bilimly-backend-0zbt.onrender.com/api/bookings/' + bookingId, {
+      headers: { 'Authorization': 'Bearer ' + tok }
+    });
+    const booking = await bookingRes.json();
+
+    // Retry payment
+    const retryRes = await fetch('https://bilimly-backend-0zbt.onrender.com/api/payments/' + booking.payment_id + '/retry', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + tok, 'Content-Type': 'application/json' }
+    });
+    const data = await retryRes.json();
+    if (data.redirect_url) {
+      window.location.href = data.redirect_url;
+    } else {
+      alert('Ошибка. Попробуйте позже или напишите нам.');
+    }
+  } catch (e) {
+    alert('Ошибка соединения. Попробуйте позже.');
+  }
+}
+</script>
+</body>
+</html>
