@@ -825,17 +825,31 @@ document.getElementById('r-commission').textContent=Math.round(totalCommission).
       <td><span class="badge ${b.status==='completed'?'badge-green':b.status==='confirmed'?'badge-blue':'badge-gold'}">${b.status}</span></td>
     </tr>`).join('');
 }
+function switchTutorTab(tab, el) {
+  document.querySelectorAll('.modal-tab').forEach(t => { t.style.borderBottomColor='transparent'; t.style.color='var(--ink-60)'; });
+  el.style.borderBottomColor='var(--tiffany)'; el.style.color='var(--tiffany)';
+  document.getElementById('modal-tab-info').style.display = tab==='info' ? 'block' : 'none';
+  document.getElementById('modal-tab-edit').style.display = tab==='edit' ? 'block' : 'none';
+}
+
 function openTutorModalById(userId) {
   const t = window.tutorCache[userId];
   if(!t) return;
 
+  // Info tab
   document.getElementById('modal-tutor-name').textContent = t.first_name + ' ' + t.last_name;
+  document.getElementById('modal-tutor-email').textContent = t.email;
   document.getElementById('modal-subjects').textContent = (t.subjects||[]).join(', ')||'—';
-  document.getElementById('modal-rate').textContent = (t.hourly_rate||500) + ' сом/час · Пробный: ' + (t.trial_rate||200) + ' сом';
-  document.getElementById('modal-email').textContent = t.email;
+  document.getElementById('modal-rate').textContent = (t.hourly_rate||500) + ' сом/час · Пробный: ' + (t.trial_rate||0) + ' сом';
+  document.getElementById('modal-phone').textContent = t.phone||'—';
   document.getElementById('modal-city').textContent = t.city||'Бишкек';
   document.getElementById('modal-bio').textContent = t.bio_ru||'Биография не заполнена';
 
+  // View profile link
+  const viewLink = document.getElementById('modal-view-link');
+  if(viewLink && t.id) viewLink.href = '/tutor.html?id=' + t.id;
+
+  // Video
   const videoEl = document.getElementById('modal-video');
   if(t.video_intro_url){
     let embedUrl = t.video_intro_url;
@@ -846,12 +860,78 @@ function openTutorModalById(userId) {
     videoEl.innerHTML='<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);font-size:0.85rem;">🎥 Видео не добавлено</div>';
   }
 
+  // Actions
   document.getElementById('modal-actions').innerHTML=`
-    <button class="btn-sm btn-success" style="flex:1;padding:12px" onclick="approveTutor('${t.user_id}');document.getElementById('tutorModal').classList.remove('open')">✓ Одобрить</button>
-    <button class="btn-sm btn-danger" style="padding:12px" onclick="rejectTutor('${t.user_id}');document.getElementById('tutorModal').classList.remove('open')">✗ Отклонить</button>
+    ${!t.is_approved?`<button class="btn-sm btn-success" style="flex:1;padding:10px" onclick="approveTutor('${t.user_id}');document.getElementById('tutorModal').classList.remove('open')">✓ Одобрить</button>`:''}
+    <button class="btn-sm btn-danger" style="padding:10px" onclick="rejectTutor('${t.user_id}');document.getElementById('tutorModal').classList.remove('open')">✗ Отклонить</button>
+    <button class="btn-sm btn-outline" style="padding:10px" onclick="toggleVisibility('${t.user_id}')">${t.is_visible!==false?'🙈 Скрыть':'👁 Показать'}</button>
   `;
 
+  // Edit tab - populate fields
+  document.getElementById('edit-tutor-user-id').value = t.user_id;
+  document.getElementById('edit-fname').value = t.first_name||'';
+  document.getElementById('edit-lname').value = t.last_name||'';
+  document.getElementById('edit-subjects').value = (t.subjects||[]).join(', ');
+  document.getElementById('edit-headline').value = t.headline||'';
+  document.getElementById('edit-rate').value = t.hourly_rate||500;
+  document.getElementById('edit-trial').value = t.trial_rate||0;
+  document.getElementById('edit-city').value = t.city||'Бишкек';
+  document.getElementById('edit-highlights').value = Array.isArray(t.highlights) ? t.highlights.join(', ') : (t.highlights||'');
+  document.getElementById('edit-bio').value = t.bio_ru||'';
+  document.getElementById('edit-video').value = t.video_intro_url||'';
+  document.getElementById('edit-phone').value = t.phone||'';
+  document.getElementById('edit-status').textContent = '';
+
+  // Reset to info tab
+  switchTutorTab('info', document.querySelector('.modal-tab'));
   document.getElementById('tutorModal').classList.add('open');
+}
+
+async function saveTutorEdit() {
+  const userId = document.getElementById('edit-tutor-user-id').value;
+  const statusEl = document.getElementById('edit-status');
+  const subjects = document.getElementById('edit-subjects').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const highlights = document.getElementById('edit-highlights').value.split(',').map(s=>s.trim()).filter(Boolean);
+
+  statusEl.textContent = 'Сохранение...';
+  statusEl.style.color = 'var(--ink-60)';
+
+  try {
+    // Save user info
+    await fetch(API+'/api/admin/users/'+userId, {
+      method: 'PUT',
+      headers: {'Authorization':'Bearer '+tok,'Content-Type':'application/json'},
+      body: JSON.stringify({
+        first_name: document.getElementById('edit-fname').value,
+        last_name: document.getElementById('edit-lname').value,
+        phone: document.getElementById('edit-phone').value,
+      })
+    });
+
+    // Save tutor profile
+    await fetch(API+'/api/admin/tutors/'+userId+'/profile', {
+      method: 'PUT',
+      headers: {'Authorization':'Bearer '+tok,'Content-Type':'application/json'},
+      body: JSON.stringify({
+        subjects,
+        headline: document.getElementById('edit-headline').value,
+        hourly_rate: parseFloat(document.getElementById('edit-rate').value)||500,
+        trial_rate: parseFloat(document.getElementById('edit-trial').value)||0,
+        city: document.getElementById('edit-city').value,
+        highlights,
+        bio_ru: document.getElementById('edit-bio').value,
+        video_intro_url: document.getElementById('edit-video').value||null,
+      })
+    });
+
+    statusEl.textContent = '✓ Сохранено успешно';
+    statusEl.style.color = 'var(--tiffany)';
+    showToast('✓ Профиль репетитора обновлён');
+    loadTutors();
+  } catch(e) {
+    statusEl.textContent = 'Ошибка сохранения';
+    statusEl.style.color = '#e74c3c';
+  }
 }
 
   async function toggleVisibility(userId){
@@ -1116,36 +1196,82 @@ function onboardReset() {
 </script>
   <!-- TUTOR DETAIL MODAL -->
 <div class="overlay" id="tutorModal" onclick="if(event.target===this)this.classList.remove('open')">
-  <div style="background:white;border-radius:20px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,0.25);">
-    <div style="background:linear-gradient(135deg,#0a1a1a,#0d2d2b);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:white;" id="modal-tutor-name">—</div>
-      <button onclick="document.getElementById('tutorModal').classList.remove('open')" style="background:rgba(255,255,255,0.15);border:none;color:white;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;">✕</button>
+  <div style="background:white;border-radius:20px;max-width:680px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,0.25);">
+    <div style="background:linear-gradient(135deg,#0a1a1a,#0d2d2b);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;border-radius:20px 20px 0 0;">
+      <div>
+        <div style="font-size:1.1rem;font-weight:700;color:white;" id="modal-tutor-name">—</div>
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:2px;" id="modal-tutor-email">—</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <a id="modal-view-link" href="#" target="_blank" style="font-size:0.78rem;color:rgba(255,255,255,0.6);text-decoration:none;">👁 Профиль</a>
+        <button onclick="document.getElementById('tutorModal').classList.remove('open')" style="background:rgba(255,255,255,0.15);border:none;color:white;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;">✕</button>
+      </div>
     </div>
-    <div id="modal-video" style="width:100%;height:220px;background:#0a1a1a;"></div>
-    <div style="padding:24px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
-        <div style="background:var(--tiffany-pale);border-radius:10px;padding:12px;">
-          <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:4px;">Предметы</div>
-          <div style="font-weight:600;font-size:0.85rem;" id="modal-subjects">—</div>
-        </div>
-        <div style="background:var(--tiffany-pale);border-radius:10px;padding:12px;">
-          <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:4px;">Ставка</div>
-          <div style="font-weight:600;font-size:0.85rem;" id="modal-rate">—</div>
-        </div>
-        <div style="background:var(--tiffany-pale);border-radius:10px;padding:12px;">
-          <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:4px;">Email</div>
-          <div style="font-weight:600;font-size:0.85rem;" id="modal-email">—</div>
-        </div>
-        <div style="background:var(--tiffany-pale);border-radius:10px;padding:12px;">
-          <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:4px;">Город</div>
-          <div style="font-weight:600;font-size:0.85rem;" id="modal-city">—</div>
-        </div>
+    <div id="modal-video" style="width:100%;height:200px;background:#0a1a1a;"></div>
+    <div style="padding:20px;">
+
+      <!-- TABS -->
+      <div style="display:flex;border-bottom:1px solid var(--border);margin-bottom:16px;gap:0">
+        <div class="modal-tab active" onclick="switchTutorTab('info',this)" style="padding:10px 16px;font-size:0.82rem;font-weight:600;cursor:pointer;border-bottom:2px solid var(--tiffany);color:var(--tiffany);margin-bottom:-1px">Инфо</div>
+        <div class="modal-tab" onclick="switchTutorTab('edit',this)" style="padding:10px 16px;font-size:0.82rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;color:var(--ink-60);margin-bottom:-1px">✏️ Редактировать</div>
       </div>
-      <div style="margin-bottom:20px;">
-        <div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink-60);margin-bottom:8px;">О себе</div>
-        <div style="font-size:0.88rem;line-height:1.8;color:var(--ink);" id="modal-bio">—</div>
+
+      <!-- INFO TAB -->
+      <div id="modal-tab-info">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+          <div style="background:var(--tiffany-pale);border-radius:8px;padding:10px;">
+            <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:3px;">Дисциплины</div>
+            <div style="font-weight:600;font-size:0.85rem;" id="modal-subjects">—</div>
+          </div>
+          <div style="background:var(--tiffany-pale);border-radius:8px;padding:10px;">
+            <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:3px;">Ставка</div>
+            <div style="font-weight:600;font-size:0.85rem;" id="modal-rate">—</div>
+          </div>
+          <div style="background:var(--tiffany-pale);border-radius:8px;padding:10px;">
+            <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:3px;">Телефон</div>
+            <div style="font-weight:600;font-size:0.85rem;" id="modal-phone">—</div>
+          </div>
+          <div style="background:var(--tiffany-pale);border-radius:8px;padding:10px;">
+            <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-60);margin-bottom:3px;">Город</div>
+            <div style="font-weight:600;font-size:0.85rem;" id="modal-city">—</div>
+          </div>
+        </div>
+        <div style="margin-bottom:14px;">
+          <div style="font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink-60);margin-bottom:6px;">О себе</div>
+          <div style="font-size:0.85rem;line-height:1.75;color:var(--ink);" id="modal-bio">—</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;" id="modal-actions"></div>
       </div>
-      <div style="display:flex;gap:10px;" id="modal-actions"></div>
+
+      <!-- EDIT TAB -->
+      <div id="modal-tab-edit" style="display:none">
+        <input type="hidden" id="edit-tutor-user-id">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="fgroup"><label>Имя</label><input class="fcontrol" id="edit-fname"></div>
+          <div class="fgroup"><label>Фамилия</label><input class="fcontrol" id="edit-lname"></div>
+        </div>
+        <div class="fgroup"><label>Дисциплины (через запятую)</label><input class="fcontrol" id="edit-subjects" placeholder="Математика, Физика"></div>
+        <div class="fgroup"><label>Заголовок профиля</label><input class="fcontrol" id="edit-headline" placeholder="Репетитор по математике, 5 лет опыта"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="fgroup"><label>Ставка (сом/час)</label><input class="fcontrol" type="number" id="edit-rate"></div>
+          <div class="fgroup"><label>Пробный урок (сом)</label><input class="fcontrol" type="number" id="edit-trial"></div>
+        </div>
+        <div class="fgroup"><label>Город</label>
+          <select class="fcontrol" id="edit-city">
+            <option>Бишкек</option><option>Ош</option><option>Джалал-Абад</option>
+            <option>Каракол</option><option>Токмок</option><option>Нарын</option><option>Талас</option><option>Баткен</option>
+          </select>
+        </div>
+        <div class="fgroup"><label>Особенности (через запятую)</label><input class="fcontrol" id="edit-highlights" placeholder="Терпеливый, Опытный"></div>
+        <div class="fgroup"><label>О себе</label><textarea class="fcontrol" id="edit-bio" rows="4" placeholder="Биография репетитора..."></textarea></div>
+        <div class="fgroup"><label>YouTube видео (ссылка)</label><input class="fcontrol" id="edit-video" placeholder="https://youtube.com/watch?v=..." type="url"></div>
+        <div class="fgroup"><label>Телефон</label><input class="fcontrol" id="edit-phone" type="tel"></div>
+        <div style="display:flex;gap:8px;margin-top:4px">
+          <button class="btn-sm btn-outline" onclick="document.getElementById('tutorModal').classList.remove('open')">Отмена</button>
+          <button class="btn-sm btn-tiffany" onclick="saveTutorEdit()">💾 Сохранить изменения</button>
+        </div>
+        <div id="edit-status" style="margin-top:8px;font-size:0.78rem;color:var(--ink-60)"></div>
+      </div>
     </div>
   </div>
 </div>
