@@ -640,7 +640,6 @@ function filterLeads(status) {
 }
 
 // ── TUTORS ──────────────────────────────────────────────────
-let allTutors = [];
 async function loadTutors(){
   const status=document.getElementById('tutor-filter')?.value||'';
   const data=await api('/api/admin/users?role=tutor&limit=500'+(status?'&approval='+status:''));
@@ -706,7 +705,6 @@ async function deleteUser(userId,name,email){
 async function deleteTutor(userId,name,email){deleteUser(userId,name,email);}
 
 // ── STUDENTS ───────────────────────────────────────────────
-let allStudents=[];
 async function loadStudents(){
   const data=await api('/api/admin/users?role=student&limit=100');
   if(!data)return;
