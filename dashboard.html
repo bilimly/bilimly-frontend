@@ -1446,13 +1446,13 @@ function renderDashboard() {
 
   // Hero: next lesson
   const upcoming = bookings
-    .filter(b => b.status !== 'cancelled' && new Date(b.lesson_date + 'T' + b.start_time) >= now)
-    .sort((a, b) => new Date(a.lesson_date + 'T' + a.start_time) - new Date(b.lesson_date + 'T' + b.start_time));
+    .filter(b => b.status !== 'cancelled' && safeDate(b.lesson_date, b.start_time) >= now)
+    .sort((a, b) => safeDate(a.lesson_date, a.start_time) - safeDate(b.lesson_date, b.start_time));
   const next = upcoming[0];
 
   const heroEl = document.getElementById('hero-slot');
   if (next) {
-    const lessonAt = new Date(next.lesson_date + 'T' + next.start_time);
+    const lessonAt = safeDate(next.lesson_date, next.start_time);
     const diffMs = lessonAt - now;
     const canJoin = diffMs > 0 && diffMs < 30 * 60 * 1000;
     const hrs = Math.floor(diffMs / 3600000);
@@ -1463,16 +1463,18 @@ function renderDashboard() {
     else if (hrs > 0) timeLabel = `Через ${hrs} ч ${mins} мин`;
     else timeLabel = `Через ${mins} мин`;
 
-    const dateLabel = lessonAt.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' });
-    const joinBtn = canJoin && next.meeting_url
-      ? `<a class="btn-hero" href="${escapeAttr(next.meeting_url)}" target="_blank" rel="noopener">Войти в урок</a>`
-      : `<button class="btn-hero" onclick="showToast('Ссылка появится за 30 минут до урока', '')">Войти в урок</button>`;
+    const dateLabel = formatDate(next.lesson_date, { weekday: 'long', day: 'numeric', month: 'long' });
+    const joinBtn = next.meeting_url && next.status === 'confirmed'
+      ? `<a class="btn-hero" href="${escapeAttr(next.meeting_url)}" target="_blank" rel="noopener">🎥 Войти в урок</a>`
+      : next.status === 'pending'
+      ? `<button class="btn-hero btn-hero-muted" onclick="showToast('Ожидайте подтверждения от репетитора')">Ожидает подтверждения</button>`
+      : `<button class="btn-hero btn-hero-muted" onclick="showToast('Ссылка появится после подтверждения урока')">Ссылка скоро появится</button>`;
 
     heroEl.innerHTML = `
       <div class="hero-lesson">
         <div class="hero-badge">${escapeHtml(timeLabel)}</div>
         <div class="hero-title">${escapeHtml(next.subject || 'Урок')} с ${escapeHtml((next.tutor_first_name || '') + ' ' + (next.tutor_last_name || ''))}</div>
-        <div class="hero-meta">${escapeHtml(dateLabel)} · ${escapeHtml(next.start_time.slice(0,5))}${next.duration_minutes ? ' · ' + next.duration_minutes + ' мин' : ''}</div>
+        <div class="hero-meta">${escapeHtml(dateLabel)} · ${escapeHtml((next.start_time || '').slice(0,5))}${next.duration_minutes ? ' · ' + next.duration_minutes + ' мин' : ''}</div>
         <div class="hero-actions">
           ${joinBtn}
           <a class="btn-hero-ghost" href="messages.html">Сообщения</a>
@@ -1527,7 +1529,7 @@ function renderDashboard() {
 
   // Recent lesson summaries
   const withSummary = bookings.filter(b => b.lesson_summary || b.homework)
-    .sort((a, b) => new Date(b.lesson_date) - new Date(a.lesson_date))
+    .sort((a, b) => new Date((b.lesson_date || '').substring(0, 10) + 'T12:00:00') - new Date(a.lesson_date))
     .slice(0, 4);
   const sumEl = document.getElementById('summaries-slot');
   if (!withSummary.length) {
@@ -1545,7 +1547,7 @@ function renderDashboard() {
 }
 
 function renderBookingRow(b) {
-  const lessonAt = new Date(b.lesson_date + 'T' + b.start_time);
+  const lessonAt = safeDate(b.lesson_date, b.start_time);
   const statusMap = {
     confirmed: ['badge-ok', 'Подтверждён'],
     pending: ['badge-warn', 'Ожидает'],
@@ -1554,12 +1556,12 @@ function renderBookingRow(b) {
     no_show: ['badge-err', 'Неявка'],
   };
   const [badgeClass, badgeText] = statusMap[b.status] || ['badge-neutral', b.status];
-  const dateLabel = lessonAt.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+  const dateLabel = formatDate(b.lesson_date, { day: 'numeric', month: 'short' });
   const tutorInitial = ((b.tutor_first_name || '?')[0]).toUpperCase();
   const tutorFullName = ((b.tutor_first_name || '') + ' ' + (b.tutor_last_name || '')).trim();
 
   // Show meeting link whenever it exists (not just 30min before)
-  const showJoin = b.meeting_url && (b.status === 'confirmed' || b.status === 'pending');
+  const showJoin = b.meeting_url && b.status === 'confirmed';
   const joinLink = showJoin
     ? `<a href="${escapeAttr(b.meeting_url)}" target="_blank" rel="noopener" style="background:var(--teal,#0ABAB5);color:white;padding:6px 12px;border-radius:6px;text-decoration:none;font-size:0.78rem;font-weight:600;display:inline-block">🎥 Войти</a>`
     : '';
@@ -1578,7 +1580,7 @@ function renderBookingRow(b) {
       <div class="list-av">${escapeHtml(tutorInitial)}</div>
       <div class="list-info">
         <div class="list-title">${escapeHtml(tutorFullName)}</div>
-        <div class="list-sub">${escapeHtml(b.subject || 'Урок')} · ${escapeHtml(dateLabel)} · ${escapeHtml(b.start_time.slice(0,5))}</div>
+        <div class="list-sub">${escapeHtml(b.subject || 'Урок')} · ${escapeHtml(dateLabel)} · ${escapeHtml((b.start_time || '').slice(0,5))}</div>
       </div>
       <div class="list-right" style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end">
         <span class="badge ${badgeClass}">${escapeHtml(badgeText)}</span>
@@ -1928,14 +1930,14 @@ function renderFinanceUnlocked() {
 function renderPaymentsHistory() {
   const paid = allBookings
     .filter(b => b.status === 'completed' || b.payment_status === 'completed')
-    .sort((a, b) => new Date(b.lesson_date) - new Date(a.lesson_date));
+    .sort((a, b) => new Date((b.lesson_date || '').substring(0, 10) + 'T12:00:00') - new Date(a.lesson_date));
   if (!paid.length) return `<div class="empty-state">История платежей появится после первых уроков</div>`;
   return paid.slice(0, 20).map(b => `
     <div class="list-row">
       <div class="list-av">${escapeHtml(((b.tutor_first_name || '?')[0]).toUpperCase())}</div>
       <div class="list-info">
         <div class="list-title">${escapeHtml(b.subject || 'Урок')} — ${escapeHtml(b.tutor_first_name || '')}</div>
-        <div class="list-sub">${new Date(b.lesson_date).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
+        <div class="list-sub">${new Date((b.lesson_date || '').substring(0, 10) + 'T12:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
       </div>
       <div class="list-right">
         <span class="money" style="font-size:1rem">${parseFloat(b.amount || 0).toLocaleString('ru-RU')} сом</span>
@@ -2129,6 +2131,18 @@ function escapeHtml(str) {
 
 function escapeAttr(str) {
   return String(str ?? '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+}
+
+function safeDate(dateStr, timeStr) {
+  // Handle both '2026-06-22' and '2026-06-22T00:00:00.000Z' formats
+  const datePart = (dateStr || '').substring(0, 10); // always take first 10 chars = YYYY-MM-DD
+  const timePart = (timeStr || '00:00').substring(0, 5); // HH:MM
+  return new Date(datePart + 'T' + timePart + ':00');
+}
+
+function formatDate(dateStr, opts) {
+  const d = new Date((dateStr || '').substring(0, 10) + 'T12:00:00'); // noon to avoid timezone drift
+  return d.toLocaleDateString('ru-RU', opts);
 }
 
 function pluralize(n, one, few, many) {
