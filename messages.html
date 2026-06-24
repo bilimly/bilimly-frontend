@@ -231,6 +231,21 @@ async function loadConversations(){
   const data=await apiFetch('/api/messages/conversations');
   if(!data)return;
   conversations=data;
+  // Auto-open conversation from URL param
+  const urlConvId = new URLSearchParams(window.location.search).get('conv');
+  if (urlConvId) {
+    const target = conversations.find(c => c.id === urlConvId);
+    if (target) {
+      const myId = currentUser?.id;
+      const isStudent = target.student_id === myId;
+      const otherName = isStudent
+        ? (target.tutor_first_name||'') + ' ' + (target.tutor_last_name||'')
+        : (target.student_first_name||'') + ' ' + (target.student_last_name||'');
+      const otherAv = isStudent ? target.tutor_avatar : target.student_avatar;
+      openConv(urlConvId, otherName.trim(), otherAv || '');
+      return;
+    }
+  }
   renderConversations(data);
 }
 
