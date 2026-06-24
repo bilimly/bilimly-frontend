@@ -1128,6 +1128,28 @@ function showPage(name) {
 }
 
 // ── OAUTH CALLBACK ────────────────────────────────────────────
+// ── SERVICE WORKER ───────────────────────────────────────────
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').then(reg => {
+    console.log('[SW] Registered');
+  }).catch(err => console.warn('[SW] Failed:', err));
+
+  // Listen for messages from SW (e.g. notification tap)
+  navigator.serviceWorker.addEventListener('message', e => {
+    if (e.data?.type === 'OPEN_TAB') {
+      showPage(e.data.tab || 'messages');
+    }
+  });
+}
+
+// Handle ?tab= URL param (e.g. from notification click)
+(function handleTabParam() {
+  const tab = new URLSearchParams(window.location.search).get('tab');
+  if (tab) {
+    window.addEventListener('load', () => showPage(tab));
+  }
+})();
+
 (function handleOAuth() {
   const params = new URLSearchParams(window.location.search);
   const t = params.get('token');
