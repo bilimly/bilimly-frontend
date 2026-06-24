@@ -418,7 +418,7 @@ img{max-width:100%;display:block}
         ${[1,2,3,4,5,6,7,8,9,10,11].map(g=>`<option value="${g}">${g} класс</option>`).join('')}
       </select>
     </div>
-    <div style="margin-bottom:16px"><label style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#888;display:block;margin-bottom:5px">Дата рождения</label><input id="child-dob" class="fcontrol" type="date"></div>
+    <div style="margin-bottom:16px"><label style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#888;display:block;margin-bottom:5px">Школа</label><input id="child-school" class="fcontrol" placeholder="Школа (необязательно)"></div>
     <div id="child-err" style="color:#e53e3e;font-size:0.78rem;margin-bottom:10px"></div>
     <button onclick="saveChild()" style="width:100%;background:#0ABAB5;color:white;border:none;padding:13px;border-radius:12px;font-size:0.95rem;font-weight:700;cursor:pointer">Сохранить</button>
   </div>
@@ -1058,35 +1058,39 @@ async function loadAllLessons() {
 }
 
 async function loadChildren() {
-  const data = await apiFetch('/api/children');
+  const resp = await apiFetch('/api/children');
+  const data = resp?.children || [];
+  _childrenCache = data;
   const el = document.getElementById('children-slot');
-  if (!data?.length) {
+  if (!data.length) {
     el.innerHTML = `<div class="empty-state">Нет добавленных детей. <span style="color:#0ABAB5;cursor:pointer" onclick="openChildModal()">Добавить →</span></div>`;
     return;
   }
-  el.innerHTML = data.map(c => `
+  el.innerHTML = data.map(c => {
+    const gradeLabel = c.grade_number ? c.grade_number + ' класс' : (c.grade_band || '');
+    return `
     <div class="list-row">
       <div class="list-av" style="background:#f0fffe;color:#0ABAB5">${(c.name||'?')[0].toUpperCase()}</div>
-      <div class="list-info"><div class="list-title">${escapeHtml(c.name)}</div><div class="list-sub">${c.grade ? 'Класс: ' + c.grade : ''}</div></div>
-      <button onclick="editChild(${c.id})" style="color:#0ABAB5;font-size:0.82rem;font-weight:600">Ред.</button>
-    </div>`).join('');
+      <div class="list-info"><div class="list-title">${escapeHtml(c.name)}</div><div class="list-sub">${escapeHtml(gradeLabel)}${c.school ? ' · ' + escapeHtml(c.school) : ''}</div></div>
+      <button onclick="openChildModal('${c.id}')" style="color:#0ABAB5;font-size:0.82rem;font-weight:600">Ред.</button>
+    </div>`;
+  }).join('');
 }
+let _childrenCache = [];
 function openChildModal(id) {
   document.getElementById('child-edit-id').value = id || '';
   document.getElementById('child-modal-title').textContent = id ? 'Редактировать' : 'Добавить ребёнка';
   document.getElementById('child-name').value = '';
   document.getElementById('child-grade').value = '';
-  document.getElementById('child-dob').value = '';
+  if (document.getElementById('child-school')) document.getElementById('child-school').value = '';
   document.getElementById('child-err').textContent = '';
   if (id) {
-    // Pre-fill from loaded children data
-    apiFetch('/api/children/' + id).then(c => {
-      if (c) {
-        document.getElementById('child-name').value = c.name || '';
-        document.getElementById('child-grade').value = c.grade || '';
-        document.getElementById('child-dob').value = c.date_of_birth ? c.date_of_birth.substring(0,10) : '';
-      }
-    });
+    const c = _childrenCache.find(x => String(x.id) === String(id));
+    if (c) {
+      document.getElementById('child-name').value = c.name || '';
+      document.getElementById('child-grade').value = c.grade_number || '';
+      if (document.getElementById('child-school')) document.getElementById('child-school').value = c.school || '';
+    }
   }
   document.getElementById('child-overlay').style.display = 'flex';
 }
@@ -1095,17 +1099,24 @@ async function saveChild() {
   const id = document.getElementById('child-edit-id').value;
   const name = document.getElementById('child-name').value.trim();
   const grade = document.getElementById('child-grade').value;
-  const dob = document.getElementById('child-dob').value;
+  const school = document.getElementById('child-school')?.value.trim() || '';
   const errEl = document.getElementById('child-err');
   errEl.textContent = '';
   if (!name) { errEl.textContent = 'Укажите имя ребёнка'; return; }
   const url = id ? '/api/children/' + id : '/api/children';
   const method = id ? 'PUT' : 'POST';
-  const res = await apiFetch(url, {method, body: JSON.stringify({name, grade: grade || null, date_of_birth: dob || null})});
-  if (res) {
+  const body = {
+    name,
+    grade_number: grade ? parseInt(grade) : null,
+    school: school || null,
+  };
+  const res = await apiFetch(url, {method, body: JSON.stringify(body)});
+  if (res && !res.error && !res.errors) {
     closeChildModal();
     showToast(id ? '✓ Данные обновлены' : '✓ Ребёнок добавлен');
     loadChildren();
+  } else {
+    errEl.textContent = res?.error || 'Ошибка сохранения';
   }
 }
 
