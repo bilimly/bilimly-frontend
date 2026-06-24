@@ -190,6 +190,14 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.97);backdrop
 .not-match{background:#f0fffe;border-radius:10px;padding:14px;margin:0 16px 16px;display:flex;gap:10px;align-items:flex-start}
 .not-match-icon{color:#0ABAB5;font-size:1rem;flex-shrink:0;margin-top:1px}
 .not-match-text{font-size:0.8rem;color:#555;line-height:1.5}
+.guarantee-box{background:#f0fffe;border:1.5px solid #b8f0ec;border-radius:12px;padding:14px;margin:0 16px 16px}
+.guarantee-head{display:flex;align-items:center;gap:7px;margin-bottom:6px}
+.guarantee-shield{font-size:1.05rem}
+.guarantee-title{font-size:0.88rem;font-weight:700;color:#0a7c5e}
+.guarantee-text{font-size:0.8rem;color:#444;line-height:1.55}
+.guarantee-text strong{color:#0a7c5e;font-weight:700}
+.trial-explain{background:#fffbeb;border-radius:8px;padding:8px 12px;margin:0 16px 12px;font-size:0.76rem;color:#92660a;line-height:1.45;display:flex;gap:7px;align-items:flex-start}
+.trial-explain-icon{flex-shrink:0}
 .book-features{border-top:1px solid #f0f0f0;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
 .book-feature{display:flex;align-items:center;gap:8px;font-size:0.8rem;color:#666}
 .book-feature-icon{color:#0ABAB5;font-size:0.85rem;width:14px;flex-shrink:0}
@@ -507,15 +515,22 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.97);backdrop
         <button class="btn-book-trial" onclick="handleBooking()" id="btn-book-main">
           ⚡ Записаться на пробный урок
         </button>
+        <div class="trial-explain">
+          <span class="trial-explain-icon">💡</span>
+          <span>Пробный урок — это полноценное занятие со скидкой, чтобы вы познакомились с репетитором перед покупкой пакета уроков.</span>
+        </div>
         <div class="book-icon-row">
           <button class="book-icon-btn" onclick="handleMessage()">💬 Написать</button>
           <button class="book-icon-btn" onclick="toggleSave()" id="save-btn">♡ Сохранить</button>
           <button class="book-icon-btn" onclick="shareTutor()">↗ Поделиться</button>
         </div>
       </div>
-      <div class="not-match">
-        <span class="not-match-icon">✓</span>
-        <div class="not-match-text">Не подошёл репетитор? Напишите нам — подберём другого бесплатно.</div>
+      <div class="guarantee-box">
+        <div class="guarantee-head">
+          <span class="guarantee-shield">🛡️</span>
+          <span class="guarantee-title">Гарантия Bilimpark</span>
+        </div>
+        <div class="guarantee-text">Не понравился пробный урок? Получите <strong>2 бесплатных пробных урока</strong> с другими репетиторами — или <strong>полный возврат денег</strong>. Без вопросов.</div>
       </div>
       <div class="book-features">
         <div class="book-feature"><span class="book-feature-icon">🎥</span> Урок проходит в Google Meet</div>
@@ -576,6 +591,13 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.97);backdrop
         </select>
       </div>
       <div class="bp-info-box" id="bm-price-box">💡 После записи репетитор подтвердит урок и вы получите ссылку на Google Meet.</div>
+      <div class="guarantee-box" style="margin:12px 0 0">
+        <div class="guarantee-head">
+          <span class="guarantee-shield">🛡️</span>
+          <span class="guarantee-title">Гарантия возврата</span>
+        </div>
+        <div class="guarantee-text">Если пробный урок не понравится — мы дадим <strong>2 бесплатных пробных урока</strong> с другими репетиторами или <strong>вернём деньги полностью</strong>.</div>
+      </div>
     </div>
     <div class="bp-modal-foot">
       <button class="btn-cancel" onclick="closeBookingModal()">Отмена</button>
@@ -588,6 +610,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.97);backdrop
 <script src="/auth.js"></script>
 <script>
 const API = 'https://bilimly-backend-0zbt.onrender.com';
+const TRIAL_PRICE = 500; // Fixed platform trial price for all tutors
 const urlParams = new URLSearchParams(window.location.search);
 const tutorId = urlParams.get('id');
 let tutor = null;
@@ -803,8 +826,8 @@ function renderPage() {
     <a href="/?subject=${encodeURIComponent(s)}">Репетиторы по ${s} онлайн</a>`).join('');
 
   // Sidebar
-  document.getElementById('sidebar-price').textContent = tutor.hourly_rate || '—';
-  document.getElementById('sidebar-dur').textContent = 'сом/час';
+  document.getElementById('sidebar-price').textContent = TRIAL_PRICE;
+  document.getElementById('sidebar-dur').textContent = 'сом / пробный урок';
   if (tutor.rating > 0) {
     document.getElementById('sidebar-stars').textContent = '★'.repeat(Math.round(tutor.rating));
     document.getElementById('sidebar-reviews-count').textContent = `${parseFloat(tutor.rating).toFixed(1)} (${tutor.review_count || allReviews.length} отзывов)`;
@@ -995,7 +1018,7 @@ async function loadSimilarTutors() {
 function updateBookingPrice() {
   const type = document.getElementById('bm-type')?.value;
   if (!tutor) return;
-  const price = type === 'trial' ? (tutor.trial_rate || tutor.hourly_rate || '—') : (tutor.hourly_rate || '—');
+  const price = type === 'trial' ? TRIAL_PRICE : (tutor.hourly_rate || '—');
   document.getElementById('bm-price-box').innerHTML = `💡 Стоимость урока: <strong>${price} сом</strong>. После подтверждения вы получите ссылку на Google Meet.`;
 }
 
@@ -1029,7 +1052,7 @@ async function submitBooking() {
   btn.textContent = 'Отправка...'; btn.disabled = true;
 
   try {
-    const amount = type === 'trial' ? (tutor.trial_rate || tutor.hourly_rate) : tutor.hourly_rate;
+    const amount = type === 'trial' ? TRIAL_PRICE : tutor.hourly_rate;
     const res = await fetch(`${API}/api/bookings`, {
       method: 'POST',
       headers: {'Content-Type':'application/json','Authorization':`Bearer ${Auth.getToken()}`},
@@ -1045,7 +1068,7 @@ async function submitBooking() {
       } else {
         // No payment URL (Freedom Pay not configured yet) - go to dashboard
         showToast('✓ Урок забронирован! Ожидайте подтверждения.');
-        setTimeout(() => window.location.href = '/dashboard.html', 2000);
+        setTimeout(() => window.location.href = '/student-dashboard.html', 2000);
       }
     } else {
       showToast(data.error || 'Ошибка при записи');
