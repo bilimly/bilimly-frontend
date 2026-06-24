@@ -380,9 +380,14 @@ tr:hover td{background:#f8fafa;}
                 <label>Дисциплины (через запятую)</label>
                 <input class="fcontrol" id="p-subjects" placeholder="Математика, Физика, ОРТ подготовка">
               </div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-                <div class="fgroup"><label>Ставка (сом/час)</label><input class="fcontrol" id="p-rate" type="number" min="200"></div>
-                <div class="fgroup"><label>Пробный урок (сом)</label><input class="fcontrol" id="p-trial" type="number" min="0"></div>
+              <div class="fgroup"><label>Ставка (сом/час)</label><input class="fcontrol" id="p-rate" type="number" min="200"></div>
+              <div class="fgroup">
+                <label>Пробный урок</label>
+                <div style="display:flex;align-items:center;gap:10px;padding:11px 13px;background:#f8f8f8;border:1.5px solid #e8e8e8;border-radius:10px">
+                  <span style="font-size:1rem;font-weight:700;color:#0ABAB5">500 сом</span>
+                  <span style="font-size:0.78rem;color:#888">— фиксированная цена платформы</span>
+                </div>
+                <div style="font-size:0.74rem;color:#aaa;margin-top:6px;line-height:1.45">Пробный урок стоит 500 сом для всех репетиторов. Эта оплата идёт платформе и не входит в ваш доход.</div>
               </div>
               <div class="fgroup">
                 <label>О себе</label>
@@ -948,7 +953,6 @@ async function loadProfile(){
 
   if(data.tutor_profile_id){
     document.getElementById('p-rate').value=data.hourly_rate||'';
-    document.getElementById('p-trial').value=data.trial_rate||'';
     document.getElementById('p-bio-ru').value=data.bio_ru||'';
     document.getElementById('p-headline').value=data.headline||'';
     if(data.subjects)document.getElementById('p-subjects').value=data.subjects.join(', ');
@@ -1050,7 +1054,6 @@ async function saveTutorProfile(){
     bio_ru:document.getElementById('p-bio-ru').value,
     headline:document.getElementById('p-headline')?.value||'',
     hourly_rate:parseFloat(document.getElementById('p-rate').value)||500,
-    trial_rate:parseFloat(document.getElementById('p-trial').value)||0,
     subjects,
     highlights,
   };
