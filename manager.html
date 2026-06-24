@@ -409,6 +409,19 @@ tr:hover td{background:#f8fafa;}
 
 <script>
 const API='https://bilimly-backend-0zbt.onrender.com';
+
+// ── HANDLE GOOGLE OAUTH CALLBACK ──────────────────────────
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const t = params.get('token'), u = params.get('user');
+  if (t && u) {
+    try {
+      localStorage.setItem('bilimpark_token', t);
+      localStorage.setItem('bilimpark_user', decodeURIComponent(u));
+      window.history.replaceState({}, '', window.location.pathname);
+    } catch(e) {}
+  }
+})();
 let tok=null;
 let currentPage='dashboard';
 let allTutors=[];
