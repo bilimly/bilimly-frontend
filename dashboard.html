@@ -193,6 +193,8 @@ img{max-width:100%;display:block}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
 /* ── TOAST ─────────────────────────────────────────── */
+.fcontrol{width:100%;border:1.5px solid #e0e0e0;border-radius:10px;padding:11px 13px;font-size:0.9rem;font-family:inherit;outline:none;background:white;transition:border-color 0.2s}
+.fcontrol:focus{border-color:#0ABAB5}
 #toast{display:none;position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1B1F3B;color:white;padding:11px 20px;border-radius:10px;font-size:0.85rem;font-weight:500;z-index:9999;white-space:nowrap;max-width:90vw;text-align:center}
 
 /* ── MESSAGES PLACEHOLDER ──────────────────────────── */
@@ -374,6 +376,54 @@ img{max-width:100%;display:block}
 
   </div><!-- /scroll-area -->
 
+<!-- REVIEW MODAL -->
+<div id="review-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;align-items:flex-end;justify-content:center" onclick="if(event.target===this)closeReviewModal()">
+  <div style="background:white;width:100%;max-width:480px;border-radius:20px 20px 0 0;padding:28px 24px 40px;position:relative">
+    <button onclick="closeReviewModal()" style="position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:#f5f5f5;border:none;cursor:pointer;font-size:1rem">✕</button>
+    <h3 style="font-size:1rem;font-weight:700;margin-bottom:4px" id="review-tutor-name">Оставить отзыв</h3>
+    <p style="font-size:0.82rem;color:#888;margin-bottom:20px">Расскажите о своём опыте с этим репетитором</p>
+    <div style="display:flex;gap:8px;justify-content:center;margin-bottom:20px" id="star-row">
+      ${[1,2,3,4,5].map(i => `<span data-star="${i}" onclick="setReviewStar(${i})" style="font-size:2rem;cursor:pointer;color:#e0e0e0;transition:color 0.15s">★</span>`).join('')}
+    </div>
+    <textarea id="review-comment" placeholder="Ваш отзыв (необязательно)..." style="width:100%;border:1.5px solid #e0e0e0;border-radius:10px;padding:12px;font-size:0.9rem;font-family:Inter,sans-serif;resize:none;outline:none;margin-bottom:16px;min-height:80px"></textarea>
+    <div id="review-err" style="color:#e53e3e;font-size:0.78rem;margin-bottom:10px"></div>
+    <button onclick="submitReview()" style="width:100%;background:#0ABAB5;color:white;border:none;padding:13px;border-radius:12px;font-size:0.95rem;font-weight:700;cursor:pointer">Отправить отзыв</button>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div id="settings-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;align-items:flex-end;justify-content:center" onclick="if(event.target===this)closeSettings()">
+  <div style="background:white;width:100%;max-width:480px;border-radius:20px 20px 0 0;padding:28px 24px 40px;position:relative;max-height:80vh;overflow-y:auto">
+    <button onclick="closeSettings()" style="position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:#f5f5f5;border:none;cursor:pointer;font-size:1rem">✕</button>
+    <h3 style="font-size:1rem;font-weight:700;margin-bottom:20px">Настройки профиля</h3>
+    <div style="margin-bottom:12px"><label style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#888;display:block;margin-bottom:5px">Имя</label><input id="settings-fname" class="fcontrol" type="text"></div>
+    <div style="margin-bottom:12px"><label style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#888;display:block;margin-bottom:5px">Фамилия</label><input id="settings-lname" class="fcontrol" type="text"></div>
+    <div style="margin-bottom:16px"><label style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#888;display:block;margin-bottom:5px">Телефон</label><input id="settings-phone" class="fcontrol" type="tel"></div>
+    <div id="settings-err" style="color:#e53e3e;font-size:0.78rem;margin-bottom:10px"></div>
+    <button onclick="saveSettings()" style="width:100%;background:#0ABAB5;color:white;border:none;padding:13px;border-radius:12px;font-size:0.95rem;font-weight:700;cursor:pointer">Сохранить</button>
+    <button onclick="logout()" style="width:100%;background:white;border:1.5px solid #e0e0e0;color:#e53e3e;padding:12px;border-radius:12px;font-size:0.9rem;font-weight:600;cursor:pointer;margin-top:10px">Выйти из аккаунта</button>
+  </div>
+</div>
+
+<!-- CHILD MODAL -->
+<div id="child-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;align-items:flex-end;justify-content:center" onclick="if(event.target===this)closeChildModal()">
+  <div style="background:white;width:100%;max-width:480px;border-radius:20px 20px 0 0;padding:28px 24px 40px;position:relative">
+    <button onclick="closeChildModal()" style="position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:#f5f5f5;border:none;cursor:pointer;font-size:1rem">✕</button>
+    <h3 style="font-size:1rem;font-weight:700;margin-bottom:20px" id="child-modal-title">Добавить ребёнка</h3>
+    <input type="hidden" id="child-edit-id">
+    <div style="margin-bottom:12px"><label style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#888;display:block;margin-bottom:5px">Имя *</label><input id="child-name" class="fcontrol" placeholder="Имя ребёнка"></div>
+    <div style="margin-bottom:12px"><label style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#888;display:block;margin-bottom:5px">Класс</label>
+      <select id="child-grade" class="fcontrol">
+        <option value="">— выберите —</option>
+        ${[1,2,3,4,5,6,7,8,9,10,11].map(g=>`<option value="${g}">${g} класс</option>`).join('')}
+      </select>
+    </div>
+    <div style="margin-bottom:16px"><label style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#888;display:block;margin-bottom:5px">Дата рождения</label><input id="child-dob" class="fcontrol" type="date"></div>
+    <div id="child-err" style="color:#e53e3e;font-size:0.78rem;margin-bottom:10px"></div>
+    <button onclick="saveChild()" style="width:100%;background:#0ABAB5;color:white;border:none;padding:13px;border-radius:12px;font-size:0.95rem;font-weight:700;cursor:pointer">Сохранить</button>
+  </div>
+</div>
+
   <!-- BOTTOM NAV -->
   <nav class="bottom-nav">
     <button class="bnav-btn active" onclick="showPage('home')" id="bnav-home">
@@ -504,6 +554,11 @@ async function initApp() {
 
   await Promise.all([loadBookings(), loadTutors()]);
   renderHome();
+  // Load messages count for badge immediately
+  loadMessages();
+  startMsgPolling();
+  // Request notification permission
+  requestNotificationPermission();
 }
 
 // ── DATA LOADING ────────────────────────────────────────────
@@ -768,28 +823,152 @@ function renderCalendar(upcoming) {
 }
 
 // ── MESSAGES ─────────────────────────────────────────────────
+let _totalUnread = 0;
+
 async function loadMessages() {
   const data = await apiFetch('/api/messages/conversations');
   const el = document.getElementById('messages-slot');
   if (!data?.length) {
     el.innerHTML = `<div class="msg-empty"><div class="msg-empty-icon">💬</div><div class="msg-empty-title">Нет сообщений</div><div class="msg-empty-sub">Напишите репетитору через страницу поиска</div></div>`;
+    updateMsgBadge(0);
     return;
   }
+
+  // Figure out who is "other" for each conversation
+  const myId = currentUser?.id;
+  let totalUnread = 0;
+
   el.innerHTML = data.map(c => {
-    const other = c.other_user || {};
-    const initials = (other.first_name || '?')[0].toUpperCase();
-    const lastMsg = c.last_message?.content || '';
-    const timeStr = c.last_message?.created_at ? new Date(c.last_message.created_at).toLocaleDateString('ru-RU', {day:'numeric',month:'short'}) : '';
+    const isStudent = c.student_id === myId;
+    const otherFirst = isStudent ? (c.tutor_first_name||'') : (c.student_first_name||'');
+    const otherLast  = isStudent ? (c.tutor_last_name||'')  : (c.student_last_name||'');
+    const otherAvatar = isStudent ? c.tutor_avatar : c.student_avatar;
+    const initials = (otherFirst || '?')[0].toUpperCase();
+    const lastMsg = c.last_message || '';
+    const unread = parseInt(c.my_unread) || 0;
+    totalUnread += unread;
+
+    // Format time
+    let timeStr = '';
+    if (c.last_message_at) {
+      const d = new Date(c.last_message_at);
+      const now = new Date();
+      const diffH = (now - d) / 3600000;
+      if (diffH < 24) timeStr = d.toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'});
+      else timeStr = d.toLocaleDateString('ru-RU', {day:'numeric',month:'short'});
+    }
+
     return `
-      <div class="list-row" onclick="window.location.href='messages.html'" style="cursor:pointer">
-        <div class="list-av">${other.avatar_url ? `<img src="${other.avatar_url}">` : escapeHtml(initials)}</div>
-        <div class="list-info">
-          <div class="list-title">${escapeHtml((other.first_name||'') + ' ' + (other.last_name||''))}</div>
-          <div class="list-sub">${escapeHtml(lastMsg.substring(0, 50))}${lastMsg.length > 50 ? '…' : ''}</div>
+      <div class="list-row" onclick="window.location.href='messages.html'" style="cursor:pointer;background:${unread > 0 ? '#f8ffff' : 'white'}">
+        <div class="list-av" style="position:relative">
+          ${otherAvatar ? `<img src="${escapeHtml(otherAvatar)}">` : escapeHtml(initials)}
+          ${unread > 0 ? `<span style="position:absolute;top:-2px;right:-2px;background:#e53e3e;color:white;border-radius:50%;width:18px;height:18px;font-size:0.65rem;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid white">${unread > 9 ? '9+' : unread}</span>` : ''}
         </div>
-        <div style="font-size:0.72rem;color:#aaa;flex-shrink:0">${escapeHtml(timeStr)}</div>
+        <div class="list-info">
+          <div class="list-title" style="font-weight:${unread > 0 ? '700' : '600'}">${escapeHtml(otherFirst + ' ' + otherLast)}</div>
+          <div class="list-sub" style="color:${unread > 0 ? '#333' : '#888'}">${escapeHtml(lastMsg.substring(0, 55))}${lastMsg.length > 55 ? '…' : ''}</div>
+        </div>
+        <div style="font-size:0.72rem;color:${unread > 0 ? '#0ABAB5' : '#aaa'};flex-shrink:0;font-weight:${unread > 0 ? '600' : '400'}">${escapeHtml(timeStr)}</div>
       </div>`;
   }).join('');
+
+  updateMsgBadge(totalUnread);
+}
+
+function updateMsgBadge(count) {
+  _totalUnread = count;
+  const btn = document.getElementById('bnav-messages');
+  if (!btn) return;
+  const existing = btn.querySelector('.msg-badge');
+  if (existing) existing.remove();
+  if (count > 0) {
+    btn.style.position = 'relative';
+    const badge = document.createElement('span');
+    badge.className = 'msg-badge';
+    badge.style.cssText = `position:absolute;top:6px;right:calc(50% - 18px);background:#e53e3e;color:white;border-radius:10px;padding:1px 5px;font-size:0.6rem;font-weight:700;min-width:16px;text-align:center`;
+    badge.textContent = count > 99 ? '99+' : count;
+    btn.appendChild(badge);
+  }
+}
+
+// Poll for new messages every 15 seconds when on messages tab or home tab
+let _msgPollInterval = null;
+function startMsgPolling() {
+  if (_msgPollInterval) return;
+  _msgPollInterval = setInterval(async () => {
+    const data = await apiFetch('/api/messages/conversations').catch(() => null);
+    if (!data) return;
+    const myId = currentUser?.id;
+    let total = 0;
+    data.forEach(c => { total += parseInt(c.my_unread) || 0; });
+    const prev = _totalUnread;
+    updateMsgBadge(total);
+    // If on messages page, refresh list
+    const msgPage = document.getElementById('page-messages');
+    if (msgPage?.classList.contains('active')) {
+      loadMessages();
+    }
+    // Show notification if new unread arrived and page not focused
+    if (total > prev && document.hidden) {
+      showPushNotification('Bilimpark', `${total} непрочитанных сообщений`);
+    }
+  }, 15000);
+}
+
+function stopMsgPolling() {
+  if (_msgPollInterval) { clearInterval(_msgPollInterval); _msgPollInterval = null; }
+}
+
+// PWA push notifications
+async function requestNotificationPermission() {
+  if (!('Notification' in window)) return false;
+  if (Notification.permission === 'granted') return true;
+  if (Notification.permission === 'denied') return false;
+  const perm = await Notification.requestPermission();
+  return perm === 'granted';
+}
+
+async function showPushNotification(title, body) {
+  if (!('Notification' in window)) return;
+  if (Notification.permission !== 'granted') return;
+  if ('serviceWorker' in navigator) {
+    const reg = await navigator.serviceWorker.ready.catch(() => null);
+    if (reg) {
+      reg.showNotification(title, {
+        body,
+        icon: '/icon-192.png',
+        badge: '/icon-192.png',
+        vibrate: [200, 100, 200],
+        tag: 'bilimpark-message',
+        renotify: true,
+      });
+      return;
+    }
+  }
+  new Notification(title, { body, icon: '/icon-192.png' });
+}
+
+let _reviewBookingId = null, _reviewTutorId = null, _reviewStar = 0;
+function openReviewModal(bookingId, tutorId, tutorName) {
+  _reviewBookingId = bookingId; _reviewTutorId = tutorId; _reviewStar = 0;
+  document.getElementById('review-tutor-name').textContent = 'Отзыв о ' + tutorName;
+  document.getElementById('review-comment').value = '';
+  document.getElementById('review-err').textContent = '';
+  document.querySelectorAll('#star-row span').forEach((s,i) => { s.style.color = '#e0e0e0'; });
+  document.getElementById('review-overlay').style.display = 'flex';
+}
+function closeReviewModal() { document.getElementById('review-overlay').style.display = 'none'; }
+function setReviewStar(n) {
+  _reviewStar = n;
+  document.querySelectorAll('#star-row span').forEach((s,i) => { s.style.color = i < n ? '#f59e0b' : '#e0e0e0'; });
+}
+async function submitReview() {
+  if (!_reviewStar) { document.getElementById('review-err').textContent = 'Выберите оценку'; return; }
+  const comment = document.getElementById('review-comment').value;
+  const res = await apiFetch('/api/bookings/' + _reviewBookingId + '/review', {
+    method:'POST', body: JSON.stringify({tutor_id: _reviewTutorId, rating: _reviewStar, comment})
+  });
+  if (res) { closeReviewModal(); showToast('✓ Спасибо за отзыв!'); loadBookings().then(renderHome); }
 }
 
 async function startMessage(userId, name) {
@@ -816,8 +995,58 @@ function openChildren() {
   slot.style.display = isOpen ? 'none' : 'block';
   if (!isOpen) loadChildren();
 }
-function openPayments() { showToast('История платежей — скоро появится'); }
-function openSettings() { showToast('Настройки — скоро появится'); }
+async function openPayments() {
+  const slot = document.getElementById('mehr-lessons-slot');
+  // Show payment history in lessons history slot
+  slot.style.display = 'block';
+  const el = document.getElementById('all-lessons-slot');
+  el.innerHTML = '<div class="empty-state">Загрузка платежей...</div>';
+  try {
+    const data = await apiFetch('/api/payments/history');
+    if (!data?.length) { el.innerHTML = '<div class="empty-state">Нет платежей</div>'; return; }
+    el.innerHTML = data.map(p => `
+      <div class="list-row">
+        <div class="list-av" style="background:#f0f8ff;color:#1a6bb5;font-size:0.9rem">💳</div>
+        <div class="list-info">
+          <div class="list-title">${escapeHtml(p.subject || 'Урок')} · ${escapeHtml(p.tutor_first_name || '')} ${escapeHtml(p.tutor_last_name || '')}</div>
+          <div class="list-sub">${formatDate(p.lesson_date, {day:'numeric',month:'short'})} · ${p.amount} сом</div>
+        </div>
+        <div class="list-right">
+          <span class="badge ${p.status === 'completed' ? 'badge-ok' : 'badge-warn'}">${p.status === 'completed' ? 'Оплачено' : 'Ожидает'}</span>
+        </div>
+      </div>`).join('');
+  } catch(e) { el.innerHTML = '<div class="empty-state">Не удалось загрузить</div>'; }
+}
+function openSettings() {
+  // Populate settings form
+  if (currentUser) {
+    document.getElementById('settings-fname').value = currentUser.first_name || '';
+    document.getElementById('settings-lname').value = currentUser.last_name || '';
+    document.getElementById('settings-phone').value = currentUser.phone || '';
+  }
+  document.getElementById('settings-overlay').style.display = 'flex';
+}
+function closeSettings() { document.getElementById('settings-overlay').style.display = 'none'; }
+async function saveSettings() {
+  const fname = document.getElementById('settings-fname').value.trim();
+  const lname = document.getElementById('settings-lname').value.trim();
+  const phone = document.getElementById('settings-phone').value.trim();
+  const errEl = document.getElementById('settings-err');
+  errEl.textContent = '';
+  if (!fname) { errEl.textContent = 'Укажите имя'; return; }
+  try {
+    const res = await apiFetch('/api/auth/me', {method:'PUT', body:JSON.stringify({first_name:fname, last_name:lname, phone})});
+    if (res) {
+      currentUser.first_name = fname; currentUser.last_name = lname;
+      localStorage.setItem('bilimpark_user', JSON.stringify(currentUser));
+      closeSettings();
+      showToast('✓ Профиль обновлён');
+      // Update avatar
+      const av = document.getElementById('user-avatar');
+      if (av) av.textContent = fname[0].toUpperCase();
+    }
+  } catch(e) { errEl.textContent = 'Ошибка сохранения'; }
+}
 
 async function loadAllLessons() {
   const filter = document.getElementById('history-filter')?.value || '';
@@ -842,7 +1071,43 @@ async function loadChildren() {
       <button onclick="editChild(${c.id})" style="color:#0ABAB5;font-size:0.82rem;font-weight:600">Ред.</button>
     </div>`).join('');
 }
-function openChildModal() { showToast('Добавление детей — скоро появится'); }
+function openChildModal(id) {
+  document.getElementById('child-edit-id').value = id || '';
+  document.getElementById('child-modal-title').textContent = id ? 'Редактировать' : 'Добавить ребёнка';
+  document.getElementById('child-name').value = '';
+  document.getElementById('child-grade').value = '';
+  document.getElementById('child-dob').value = '';
+  document.getElementById('child-err').textContent = '';
+  if (id) {
+    // Pre-fill from loaded children data
+    apiFetch('/api/children/' + id).then(c => {
+      if (c) {
+        document.getElementById('child-name').value = c.name || '';
+        document.getElementById('child-grade').value = c.grade || '';
+        document.getElementById('child-dob').value = c.date_of_birth ? c.date_of_birth.substring(0,10) : '';
+      }
+    });
+  }
+  document.getElementById('child-overlay').style.display = 'flex';
+}
+function closeChildModal() { document.getElementById('child-overlay').style.display = 'none'; }
+async function saveChild() {
+  const id = document.getElementById('child-edit-id').value;
+  const name = document.getElementById('child-name').value.trim();
+  const grade = document.getElementById('child-grade').value;
+  const dob = document.getElementById('child-dob').value;
+  const errEl = document.getElementById('child-err');
+  errEl.textContent = '';
+  if (!name) { errEl.textContent = 'Укажите имя ребёнка'; return; }
+  const url = id ? '/api/children/' + id : '/api/children';
+  const method = id ? 'PUT' : 'POST';
+  const res = await apiFetch(url, {method, body: JSON.stringify({name, grade: grade || null, date_of_birth: dob || null})});
+  if (res) {
+    closeChildModal();
+    showToast(id ? '✓ Данные обновлены' : '✓ Ребёнок добавлен');
+    loadChildren();
+  }
+}
 
 // ── PAGE NAVIGATION ──────────────────────────────────────────
 const pageTitles = { home:'Главная', search:'Найти репетитора', schedule:'Расписание', messages:'Сообщения', mehr:'Ещё' };
