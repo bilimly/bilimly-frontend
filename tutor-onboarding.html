@@ -213,13 +213,14 @@ input[type=range]{width:100%;accent-color:var(--tiffany);height:6px;border-radiu
       </div>
 
       <div class="fgroup">
-        <label>Пробный урок (50 минут)</label>
+        <label>Пробный урок</label>
         <div class="price-display" style="background:var(--gold-light)">
-          <div class="price-val" id="trial-display" style="color:var(--gold)">200 сом</div>
-          <div class="price-label">пробный урок</div>
+          <div class="price-val" style="color:var(--gold)">500 сом</div>
+          <div class="price-label">фиксированная цена платформы</div>
         </div>
-        <input type="range" id="trial-slider" min="100" max="500" step="50" value="200" oninput="updateTrial(this.value)">
-        <div class="price-hints"><span>100 сом</span><span>Рекомендуем: 200</span><span>500 сом</span></div>
+        <div style="font-size:0.78rem;color:#888;line-height:1.5;margin-top:8px;padding:10px 12px;background:#f8f8f8;border-radius:8px">
+          💡 Пробный урок стоит 500 сом для всех репетиторов. Эта оплата идёт платформе Bilimpark — она помогает привлекать новых учеников. После пробного урока ученик покупает пакет занятий по вашей цене.
+        </div>
       </div>
 
       <div class="err" id="step2-err"></div>
@@ -448,7 +449,7 @@ let currentStep = 1;
 let selectedSubjects = new Set();
 let tutorData = {
   first_name:'', last_name:'', email:'', phone:'', password:'',
-  subjects:[], hourly_rate:500, trial_rate:200,
+  subjects:[], hourly_rate:500,
   bio_ru:'', experience:'', education:'', city:'Бишкек',
   video_url:''
 };
@@ -537,10 +538,7 @@ function updatePrice(val) {
   tutorData.hourly_rate = parseInt(val);
 }
 
-function updateTrial(val) {
-  document.getElementById('trial-display').textContent = val + ' сом';
-  tutorData.trial_rate = parseInt(val);
-}
+
 
 function step2Next() {
   if(selectedSubjects.size === 0) { document.getElementById('step2-err').textContent='Выберите хотя бы один предмет';return; }
@@ -634,7 +632,6 @@ async function submitProfile() {
         bio_ru: tutorData.bio_ru,
         subjects: tutorData.subjects,
         hourly_rate: tutorData.hourly_rate,
-        trial_rate: tutorData.trial_rate,
         city: tutorData.city,
         video_intro_url: tutorData.video_url || null
       })
