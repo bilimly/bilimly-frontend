@@ -859,7 +859,7 @@ async function loadMessages() {
     }
 
     return `
-      <div class="list-row" onclick="window.location.href='messages.html'" style="cursor:pointer;background:${unread > 0 ? '#f8ffff' : 'white'}">
+      <div class="list-row" onclick="window.location.href='messages.html?conv=${c.id}'" style="cursor:pointer;background:${unread > 0 ? '#f8ffff' : 'white'}">
         <div class="list-av" style="position:relative">
           ${otherAvatar ? `<img src="${escapeHtml(otherAvatar)}">` : escapeHtml(initials)}
           ${unread > 0 ? `<span style="position:absolute;top:-2px;right:-2px;background:#e53e3e;color:white;border-radius:50%;width:18px;height:18px;font-size:0.65rem;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid white">${unread > 9 ? '9+' : unread}</span>` : ''}
