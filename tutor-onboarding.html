@@ -436,7 +436,8 @@ input[type=range]{width:100%;accent-color:var(--tiffany);height:6px;border-radiu
         <div class="success-step"><div class="ss-num">4</div><div class="ss-text">Первые студенты начнут записываться к вам!</div></div>
       </div>
       <a href="tutor-dashboard.html" style="background:var(--tiffany);color:white;padding:14px 32px;border-radius:12px;text-decoration:none;font-weight:600;display:inline-block;font-size:0.95rem;">Открыть кабинет репетитора →</a>
-      <div style="margin-top:20px;font-size:0.85rem;color:var(--ink-60)">Есть вопросы? Напишите нам в WhatsApp: <strong style="color:var(--ink)">+996 506 35 44 44</strong></div>
+      <a id="wa-cta" href="#" target="_blank" rel="noopener" style="background:#25D366;color:white;padding:14px 32px;border-radius:12px;text-decoration:none;font-weight:600;display:inline-block;font-size:0.95rem;margin-top:12px">💬 Написать нам в WhatsApp</a>
+      <div style="margin-top:16px;font-size:0.85rem;color:var(--ink-60)">Есть вопросы? Напишите нам в WhatsApp — ответим сразу 😊</div>
     </div>
   </div>
 </div>
@@ -445,6 +446,13 @@ input[type=range]{width:100%;accent-color:var(--tiffany);height:6px;border-radiu
 
 <script>
 const API = 'https://bilimly-backend-0zbt.onrender.com';
+// ⚠️ WHEN YOU GET YOUR NEW WHATSAPP NUMBER, CHANGE IT HERE (digits only, with country code):
+const WHATSAPP_NUMBER = '996506354444';
+const WHATSAPP_PREFILL = encodeURIComponent('Здравствуйте! Хочу стать репетитором на Bilimpark.kg 🎓');
+window.addEventListener('DOMContentLoaded', () => {
+  const wa = document.getElementById('wa-cta');
+  if (wa) wa.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_PREFILL}`;
+});
 let currentStep = 1;
 let selectedSubjects = new Set();
 let tutorData = {
