@@ -22,7 +22,7 @@ const Auth = {
     if (role === 'admin') return '/admin.html';
     if (role === 'tutor') return '/tutor-dashboard.html';
     if (role === 'manager') return '/manager.html';
-    return '/dashboard.html';
+    return '/student-dashboard.html';
   },
 
   async login(email, password) {
@@ -34,11 +34,11 @@ const Auth = {
     return res.json();
   },
 
-  async register(firstName, lastName, email, password) {
+  async register(firstName, lastName, email, password, role = 'student') {
     const res = await fetch(`${BP_API}/api/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ first_name: firstName, last_name: lastName, email, password, role: 'student' })
+      body: JSON.stringify({ first_name: firstName, last_name: lastName, email, password, role: role === 'tutor' ? 'tutor' : 'student' })
     });
     return res.json();
   },
@@ -53,6 +53,31 @@ const Auth = {
 const AuthModal = {
   _callback: null,
   _context: null, // { tutorName, tutorAvatar, action }
+  _selectedRole: 'student',
+
+  _selectRole(role) {
+    this._selectedRole = role;
+    const studentCard = document.getElementById('bp-role-student');
+    const tutorCard = document.getElementById('bp-role-tutor');
+    const googleBtn = document.getElementById('bp-google-reg');
+    if (role === 'tutor') {
+      tutorCard.style.border = '2px solid #0ABAB5';
+      tutorCard.style.background = '#f0fffe';
+      tutorCard.querySelector('div:nth-child(2)').style.color = '#0ABAB5';
+      studentCard.style.border = '2px solid #e0e0e0';
+      studentCard.style.background = 'white';
+      studentCard.querySelector('div:nth-child(2)').style.color = '#555';
+    } else {
+      studentCard.style.border = '2px solid #0ABAB5';
+      studentCard.style.background = '#f0fffe';
+      studentCard.querySelector('div:nth-child(2)').style.color = '#0ABAB5';
+      tutorCard.style.border = '2px solid #e0e0e0';
+      tutorCard.style.background = 'white';
+      tutorCard.querySelector('div:nth-child(2)').style.color = '#555';
+    }
+    // Update Google button to carry the role
+    if (googleBtn) googleBtn.href = `${BP_API}/api/auth/google?role=${role}`;
+  },
 
   open(tab = 'login', callback = null, context = null) {
     this._callback = callback;
@@ -134,7 +159,22 @@ const AuthModal = {
 
         <!-- REGISTER -->
         <div id="bp-reg-form" style="display:none">
-          <a href="${BP_API}/api/auth/google?return_url=${encodeURIComponent(googleReturnUrl)}" style="display:flex;align-items:center;justify-content:center;gap:10px;padding:13px;border:1.5px solid #e0e0e0;border-radius:12px;font-size:0.9rem;font-weight:600;cursor:pointer;background:white;color:#1B1F3B;text-decoration:none;margin-bottom:12px">
+          <div style="margin-bottom:14px">
+            <div style="font-size:0.82rem;font-weight:600;color:#555;margin-bottom:8px;text-align:center">Я регистрируюсь как:</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <div id="bp-role-student" onclick="AuthModal._selectRole('student')" style="border:2px solid #0ABAB5;background:#f0fffe;border-radius:12px;padding:12px 8px;text-align:center;cursor:pointer;transition:all 0.15s">
+                <div style="font-size:1.4rem;margin-bottom:2px">🎓</div>
+                <div style="font-size:0.82rem;font-weight:700;color:#0ABAB5">Ученик / Родитель</div>
+                <div style="font-size:0.68rem;color:#888;margin-top:2px">Ищу репетитора</div>
+              </div>
+              <div id="bp-role-tutor" onclick="AuthModal._selectRole('tutor')" style="border:2px solid #e0e0e0;background:white;border-radius:12px;padding:12px 8px;text-align:center;cursor:pointer;transition:all 0.15s">
+                <div style="font-size:1.4rem;margin-bottom:2px">👨‍🏫</div>
+                <div style="font-size:0.82rem;font-weight:700;color:#555">Репетитор</div>
+                <div style="font-size:0.68rem;color:#888;margin-top:2px">Хочу преподавать</div>
+              </div>
+            </div>
+          </div>
+          <a id="bp-google-reg" href="${BP_API}/api/auth/google?role=student" style="display:flex;align-items:center;justify-content:center;gap:10px;padding:13px;border:1.5px solid #e0e0e0;border-radius:12px;font-size:0.9rem;font-weight:600;cursor:pointer;background:white;color:#1B1F3B;text-decoration:none;margin-bottom:12px">
             <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
             Зарегистрироваться через Google
           </a>
@@ -215,12 +255,12 @@ const AuthModal = {
     const btn = document.querySelector('#bp-reg-form button');
     btn.textContent = 'Создаём...'; btn.disabled = true;
     try {
-      const data = await Auth.register(fname, lname, email, pass);
+      const data = await Auth.register(fname, lname, email, pass, this._selectedRole);
       if (data.token) {
         Auth.setSession(data.token, data.user);
         this.close();
         if (this._callback) { this._callback(data.user); this._callback = null; }
-        else window.location.href = '/dashboard.html';
+        else window.location.href = Auth.getDashboardUrl(data.user.role);
       } else {
         errEl.textContent = data.errors?.[0]?.msg || data.error || 'Ошибка регистрации';
         btn.textContent = 'Создать аккаунт'; btn.disabled = false;
