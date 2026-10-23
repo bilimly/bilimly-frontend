@@ -1,0 +1,330 @@
+
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Билимпарк — 3 пробных урока английского за 999 сом</title>
+<meta name="description" content="3 пробных урока английского в Билимпарке за 999 сом. Группы до 12 учеников по уровню, центр Бишкека.">
+<meta name="theme-color" content="#1B2A80">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Unbounded:wght@700;800;900&display=swap">
+<style>
+:root{
+  --bg1:#2C45C9; --bg2:#16226B; --ink:#0E1A4A; --muted:#5B6690;
+  --gold:#F2C96B; --white:#FFFFFF; --soft:#C9D8FF; --line:#DCE3F5; --blue:#3B5BF0;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:Manrope,Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--white);
+  background:radial-gradient(120% 60% at 50% 0%,#4F6CFA 0%,var(--bg1) 40%,var(--bg2) 100%) fixed,var(--bg2);
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:480px;margin:0 auto;padding:0 16px 40px}
+header{display:flex;align-items:center;justify-content:space-between;padding:20px 4px 8px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:5px;font-size:15px;color:var(--gold)}
+.logo svg{flex:none}
+.hdr-wa{font-size:13px;font-weight:700;color:var(--soft);text-decoration:none;border:1.5px solid rgba(255,255,255,.25);border-radius:999px;padding:8px 14px}
+h1{font-family:Unbounded,Manrope,Inter,sans-serif;font-weight:800;font-size:clamp(28px,8vw,36px);line-height:1.12;text-align:center;margin:22px 0 10px}
+.offer{display:flex;justify-content:center;margin:0 0 22px}
+.offer span{background:var(--gold);color:#1B2A6B;font-weight:800;font-size:16px;border-radius:999px;padding:10px 18px}
+/* carousel */
+.car{position:relative}
+.track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-radius:24px}
+.track::-webkit-scrollbar{display:none}
+.card{flex:0 0 100%;scroll-snap-align:center;border-radius:24px;min-height:250px;display:grid;grid-template-columns:44% 56%;overflow:hidden;position:relative}
+.vis{position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.vis img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vis .ico{width:72%;max-width:150px}
+.txt{padding:22px 18px 34px 8px;display:flex;flex-direction:column;justify-content:center;gap:8px}
+.txt b{font-family:Unbounded,Manrope,Inter,sans-serif;font-weight:800;font-size:21px;line-height:1.1;text-transform:uppercase}
+.txt p{margin:0;font-size:13.5px;line-height:1.4;opacity:.95}
+.c1{background:linear-gradient(135deg,#F2C96B,#E9A93A);color:#1B2A6B}
+.c2{background:linear-gradient(135deg,#1FB36B,#108A50)}
+.c3{background:linear-gradient(135deg,#FF7A45,#F0522B)}
+.c4{background:linear-gradient(135deg,#6A86FF,#3B5BF0)}
+.c5{background:linear-gradient(135deg,#9B6BFF,#6E43E6)}
+.c6{background:#FFFFFF;color:var(--ink)}
+.dots{position:absolute;left:0;right:0;bottom:14px;display:flex;justify-content:center;gap:6px;pointer-events:none}
+.dots i{width:22px;height:4px;border-radius:2px;background:rgba(255,255,255,.45);transition:all .25s}
+.dots i.on{width:34px;background:#fff}
+/* form card */
+.box{margin-top:26px;background:#fff;color:var(--ink);border-radius:28px;border:3px solid #5C7BFF;padding:28px 22px 24px;box-shadow:0 20px 60px rgba(10,20,80,.35)}
+.step{font-size:13px;font-weight:800;color:var(--blue);letter-spacing:1px;text-transform:uppercase;text-align:center}
+.box h2{font-family:Unbounded,Manrope,Inter,sans-serif;font-weight:800;font-size:24px;line-height:1.18;text-align:center;margin:8px 0 6px}
+.sub{text-align:center;color:var(--muted);font-size:15px;margin:0 0 18px}
+.price{display:flex;align-items:baseline;justify-content:center;gap:10px;margin:0 0 18px}
+.price strong{font-family:Unbounded,Manrope,Inter,sans-serif;font-size:42px;font-weight:900;color:var(--ink)}
+.price s{color:var(--muted);font-weight:700;font-size:17px}
+label{display:block;font-size:13px;font-weight:700;color:var(--muted);margin:14px 0 6px}
+input,select{width:100%;font:inherit;font-size:17px;color:var(--ink);background:#F5F7FD;border:1.5px solid var(--line);border-radius:14px;padding:14px 14px;outline:none;appearance:none;-webkit-appearance:none}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%235B6690' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:40px}
+input:focus,select:focus{border-color:var(--blue);background:#fff}
+.phone{display:flex;gap:8px}
+.phone span{flex:none;display:flex;align-items:center;padding:0 14px;background:#EEF1FB;border:1.5px solid var(--line);border-radius:14px;font-weight:700;font-size:17px}
+.err{color:#C62828;font-size:13px;font-weight:700;margin-top:6px;display:none}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:58px;margin-top:22px;border:0;border-radius:16px;background:var(--blue);color:#fff;font:inherit;font-size:18px;font-weight:800;cursor:pointer;text-decoration:none}
+.btn:active{transform:scale(.99)}
+.btn.alt{background:#EEF1FB;color:var(--ink);margin-top:12px}
+.btn.wa{background:#1FB36B}
+.note{text-align:center;color:var(--muted);font-size:13.5px;line-height:1.45;margin:14px 0 0}
+.ok{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;line-height:1.4;margin:10px 0}
+.ok svg{flex:none;margin-top:2px}
+.qr{margin:6px auto 4px;width:240px;height:240px;border-radius:20px;border:2px dashed var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden;background:#fff;color:var(--muted);font-size:14px;text-align:center;padding:10px}
+.qr img{width:100%;height:100%;object-fit:contain}
+.how{background:#F5F7FD;border-radius:16px;padding:14px 16px;margin-top:16px}
+.how ol{margin:0;padding-left:20px;font-size:14.5px;line-height:1.5}
+.sum{display:flex;justify-content:space-between;align-items:center;background:#F5F7FD;border-radius:14px;padding:12px 16px;margin:0 0 16px;font-size:14.5px}
+.sum b{font-size:18px}
+.hidden{display:none}
+.trust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:22px}
+.trust div{background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);border-radius:18px;padding:14px 8px;text-align:center}
+.trust b{display:block;font-family:Unbounded,Manrope,Inter,sans-serif;font-size:20px;color:#fff}
+.trust span{font-size:12px;color:var(--soft);font-weight:600}
+.plans{margin-top:30px}
+.plans h3,.faq h3{font-family:Unbounded,Manrope,Inter,sans-serif;font-size:20px;line-height:1.2;text-align:center;margin:0 0 6px}
+.plans-sub{text-align:center;color:var(--soft);font-size:14px;margin:0 0 14px}
+.plan{background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);border-radius:20px;padding:16px 18px;margin-bottom:10px}
+.plan.hl{background:#fff;color:var(--ink);border:2px solid var(--gold)}
+.plan-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.plan-top b{font-size:17px}
+.tag{background:var(--gold);color:#1B2A6B;font-size:12px;font-weight:800;border-radius:999px;padding:5px 10px}
+.plan-price{font-family:Unbounded,Manrope,Inter,sans-serif;font-weight:800;font-size:28px;margin:6px 0 2px}
+.plan-price small{font-family:Manrope,Inter,sans-serif;font-size:14px;font-weight:700}
+.plan p{margin:6px 0 0;font-size:14.5px;line-height:1.45}
+.plan .muted{color:var(--soft)}
+.plan.hl .muted{color:var(--muted)}
+.plan ul{margin:8px 0 0;padding-left:20px;font-size:14.5px;line-height:1.6}
+.plan-all{text-align:center;font-weight:700;font-size:15px;margin:14px 0 6px}
+.plans-note{text-align:center;color:var(--soft);font-size:13.5px;line-height:1.45;margin:0}
+.faq{margin-top:26px}
+.faq h3{font-family:Unbounded,Manrope,Inter,sans-serif;font-size:20px;text-align:center;margin:0 0 12px}
+details{background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.18);border-radius:16px;padding:14px 16px;margin-bottom:10px}
+summary{font-weight:700;font-size:15.5px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:20px;line-height:1;color:var(--gold)}
+details[open] summary::after{content:"–"}
+details p{margin:10px 0 0;color:var(--soft);font-size:14.5px;line-height:1.5}
+footer{text-align:center;color:var(--soft);font-size:13.5px;line-height:1.6;margin-top:28px}
+footer a{color:#fff}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="logo">
+    <svg width="30" height="34" viewBox="0 0 30 34" aria-hidden="true"><path d="M15 1l13 4v11c0 8-5.6 14-13 17C7.6 30 2 24 2 16V5z" fill="#1B2A80" stroke="#F2C96B" stroke-width="2"/><path d="M8 19l7-6 7 6" fill="none" stroke="#F2C96B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="15" cy="9" r="1.8" fill="#F2C96B"/></svg>
+    BILIMPARK
+  </div>
+  <a class="hdr-wa" href="#" data-wa="Здравствуйте! У меня вопрос про 3 пробных урока за 999 сом">Вопрос?</a>
+</header>
+
+<h1>Хотите выучить английский?</h1>
+<div class="offer"><span>3 пробных урока — 999 сом</span></div>
+
+<div class="car">
+  <div class="track" id="track">
+    <article class="card c1">
+      <div class="vis"><svg class="ico" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="54" fill="#fff" opacity=".35"/><text x="60" y="76" text-anchor="middle" font-family="Unbounded,Inter,sans-serif" font-weight="900" font-size="44" fill="#1B2A6B">999</text></svg><img src="photo-1.jpg" alt="" onerror="this.remove()"></div>
+      <div class="txt"><b>3 урока за 999 сом</b><p>Вместо 1 500 сом. Занятия офлайн в центре Бишкека. Примите решение после трёх занятий.</p></div>
+    </article>
+    <article class="card c2">
+      <div class="vis"><svg class="ico" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="54" fill="#fff" opacity=".18"/><g fill="#fff"><circle cx="40" cy="48" r="10"/><circle cx="80" cy="48" r="10"/><circle cx="60" cy="40" r="12"/><path d="M22 86c2-14 10-22 18-22s16 8 18 22zM62 86c2-14 10-22 18-22s16 8 18 22z"/><path d="M38 90c3-18 12-28 22-28s19 10 22 28z"/></g></svg><img src="photo-2.jpg" alt="" onerror="this.remove()"></div>
+      <div class="txt"><b>Группы до 12 учеников</b><p>Собираем группы строго по уровню, поэтому ребёнку не скучно и не слишком сложно.</p></div>
+    </article>
+    <article class="card c3">
+      <div class="vis"><svg class="ico" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="54" fill="#fff" opacity=".18"/><g fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><circle cx="44" cy="44" r="12"/><circle cx="80" cy="50" r="9"/><path d="M22 90c2-16 12-26 22-26s20 10 22 26M68 88c2-12 7-19 13-19s11 7 13 19"/></g></svg><img src="photo-3.jpg" alt="" onerror="this.remove()"></div>
+      <div class="txt"><b>Main + Support teacher</b><p>Основной учитель ведёт урок, а Support teacher помогает разобрать то, что не получилось.</p></div>
+    </article>
+    <article class="card c4">
+      <div class="vis"><svg class="ico" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="54" fill="#fff" opacity=".18"/><g fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><rect x="32" y="26" width="56" height="70" rx="8"/><path d="M44 50l8 8 16-16M44 76h32"/></g></svg><img src="photo-4.jpg" alt="" onerror="this.remove()"></div>
+      <div class="txt"><b>Тест уровня бесплатно</b><p>Перед первым уроком определим уровень и подберём подходящую группу.</p></div>
+    </article>
+    <article class="card c5">
+      <div class="vis"><svg class="ico" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="54" fill="#fff" opacity=".18"/><g fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M60 96s-26-24-26-46a26 26 0 0152 0c0 22-26 46-26 46z"/><circle cx="60" cy="50" r="9"/></g></svg><img src="photo-5.jpg" alt="" onerror="this.remove()"></div>
+      <div class="txt"><b>Центр города</b><p>ул. Токтогула / ул. Шопокова, 2 этаж, над магазином SPAR. Рядом ГУМ и ЦУМ.</p></div>
+    </article>
+    <article class="card c6">
+      <div class="vis" style="background:#EEF1FB"><svg class="ico" viewBox="0 0 120 120" aria-hidden="true"><g fill="none" stroke="#3B5BF0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><circle cx="60" cy="60" r="38"/><path d="M60 38v24l14 10"/></g></svg><img src="photo-6.jpg" alt="" onerror="this.remove()"></div>
+      <div class="txt"><b>Удобное время</b><p>Уроки по 80 минут с 07:30 до 19:50. Новые группы стартуют каждую неделю.</p></div>
+    </article>
+  </div>
+  <div class="dots" id="dots" aria-hidden="true"></div>
+</div>
+
+<!-- STEP 1: form -->
+<section class="box" id="step1">
+  <div class="step">Шаг 1 из 2</div>
+  <h2>Запишитесь на пробные уроки</h2>
+  <div class="price"><strong>999 сом</strong><s>1 500 сом</s></div>
+  <form id="form" novalidate>
+    <label for="name">Имя ученика</label>
+    <input id="name" name="name" autocomplete="name" placeholder="Например, Айдана">
+    <div class="err" id="e-name">Укажите имя</div>
+
+    <label for="phone">Телефон родителя (WhatsApp)</label>
+    <div class="phone"><span>+996</span><input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="555 123 456"></div>
+    <div class="err" id="e-phone">Проверьте номер: 9 цифр</div>
+
+    <label for="grade">Класс / возраст</label>
+    <select id="grade" name="grade">
+      <option value="">Выберите</option>
+      <option>1–4 класс</option><option>5–6 класс</option><option>7–8 класс</option><option>9–11 класс</option><option>Студент</option><option>Взрослый</option>
+    </select>
+    <div class="err" id="e-grade">Выберите класс</div>
+
+    <label for="time">Удобное время</label>
+    <select id="time" name="time">
+      <option value="">Выберите</option>
+      <option>07:30 – 08:50</option><option>09:00 – 10:20</option><option>10:30 – 11:50</option><option>14:00 – 15:20</option><option>15:30 – 16:50</option><option>17:00 – 18:20</option><option>18:30 – 19:50</option>
+    </select>
+    <div class="err" id="e-time">Выберите время</div>
+
+    <button class="btn" type="submit">Перейти к оплате
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    <p class="note">Занятия проходят офлайн в Бишкеке, Токтогула 75/1</p>
+  </form>
+</section>
+
+<!-- STEP 2: pay -->
+<section class="box hidden" id="step2" tabindex="-1">
+  <div class="step">Шаг 2 из 2</div>
+  <h2>Оплатите 999 сом</h2>
+  <p class="sub">Место в группе бронируется после оплаты</p>
+  <div class="sum"><span id="sumWho">Ученик</span><b>999 сом</b></div>
+  <div class="qr" id="qrBox"><img src="trial-qr.png" alt="QR-код для оплаты 999 сом" onerror="this.parentNode.textContent='Здесь будет QR-код для оплаты (файл trial-qr.png)'"></div>
+  <a class="btn alt" href="trial-qr.png" download="bilimpark-qr.png">Сохранить QR в галерею</a>
+  <div class="how">
+    <ol>
+      <li>Сохраните QR в галерею</li>
+      <li>Откройте приложение банка: MBank, O!Bank, Bakai и др.</li>
+      <li>Нажмите «Сканировать QR» и выберите фото из галереи</li>
+      <li>Оплатите 999 сом</li>
+    </ol>
+  </div>
+  <a class="btn wa" href="#" id="paid">Я оплатил(а), отправить чек</a>
+  <p class="note">Откроется WhatsApp с вашими данными. Прикрепите скриншот чека, и мы подтвердим время первого урока.</p>
+</section>
+
+<div class="trust">
+  <div><b>12</b><span>учеников в группе максимум</span></div>
+  <div><b>80</b><span>минут длится урок</span></div>
+  <div><b>6</b><span>дней в неделю, Пн–Сб</span></div>
+</div>
+
+<section class="plans">
+  <h3>Тарифы после пробных уроков</h3>
+  <p class="plans-sub">General English · 3 раза в неделю · 12 уроков в месяц</p>
+
+  <div class="plan hl">
+    <div class="plan-top"><b>Подписка</b><span class="tag">Популярно</span></div>
+    <div class="plan-price">5 900 <small>сом/мес</small></div>
+    <p>Оплата списывается автоматически каждый месяц, продлевать вручную не нужно.</p>
+    <p class="muted">Первый платёж: 8 400 сом (5 900 + вступительный взнос 2 500 сом). Далее только 5 900 сом/мес.</p>
+  </div>
+
+  <div class="plan">
+    <div class="plan-top"><b>Только 1 месяц</b></div>
+    <div class="plan-price">8 400 <small>сом</small></div>
+  </div>
+
+  <div class="plan">
+    <div class="plan-top"><b>6 месяцев</b></div>
+    <div class="plan-price">31 200 <small>сом</small></div>
+    <p class="muted">5 200 сом в месяц</p>
+    <ul><li>2 недели заморозки</li></ul>
+  </div>
+
+  <div class="plan">
+    <div class="plan-top"><b>12 месяцев</b><span class="tag">Выгоднее всего</span></div>
+    <div class="plan-price">57 600 <small>сом</small></div>
+    <p class="muted">4 800 сом в месяц</p>
+    <ul><li>4 недели заморозки</li><li>2 пробных урока для друга</li><li>Рассрочка MPlus / Zero</li></ul>
+  </div>
+
+  <div class="plan-all">Все тарифы включают группы до 12 учеников по уровню.</div>
+  <p class="plans-note">Если ученик перестаёт заниматься, при повторной записи вступительный взнос 2 500 сом оплачивается снова.</p>
+</section>
+
+<section class="faq">
+  <h3>Частые вопросы</h3>
+  <details><summary>Для какого возраста?</summary><p>Для школьников с 1 по 11 класс, студентов и взрослых. Группу подбираем по уровню.</p></details>
+  <details><summary>Что будет после оплаты?</summary><p>Вы отправляете чек в WhatsApp, администратор подтверждает группу и время первого урока. Перед уроком проводим бесплатный тест уровня.</p></details>
+  <details><summary>Что если не подойдёт?</summary><p>Три урока — это как раз проверить учителя, группу и формат. Если всё нравится, выбирайте подходящий тариф: от 4 800 сом в месяц.</p></details>
+  <details><summary>Где проходят занятия?</summary><p>Токтогула 75/1, 2 этаж, пересечение с Шопокова, над магазином SPAR. Центр открыт ежедневно с 08:00 до 21:00.</p></details>
+</section>
+
+<footer>
+  Билимпарк · Токтогула 75/1, 2 этаж, пересечение с Шопокова, над магазином SPAR<br>
+  WhatsApp <a href="#" data-wa="Здравствуйте!">0506 74 88 88</a>
+</footer>
+
+</div>
+
+<script>
+/* ===== Настройки ===== */
+var CONFIG = {
+  whatsapp: '996506748888',   // номер для чеков, без +
+  price: 999,
+  leadEndpoint: '',           // URL Google Apps Script (необязательно) — заявки попадут в таблицу
+  pixelId: ''                 // ID пикселя Meta (необязательно)
+};
+
+/* Meta Pixel */
+if (CONFIG.pixelId) {
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', CONFIG.pixelId); fbq('track', 'PageView');
+}
+function track(ev, data){ try{ if (window.fbq) fbq('track', ev, data||{}); }catch(e){} }
+
+function waLink(text){ return 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(text); }
+document.querySelectorAll('[data-wa]').forEach(function(a){ a.href = waLink(a.getAttribute('data-wa')); a.target = '_blank'; a.rel = 'noopener'; });
+
+/* Карусель */
+var track_ = document.getElementById('track'), dots = document.getElementById('dots');
+var cards = track_.children, n = cards.length, cur = 0, timer;
+for (var i = 0; i < n; i++) dots.appendChild(document.createElement('i'));
+function paint(){ for (var j = 0; j < n; j++) dots.children[j].className = j === cur ? 'on' : ''; }
+track_.addEventListener('scroll', function(){ cur = Math.round(track_.scrollLeft / track_.clientWidth); paint(); }, {passive:true});
+function next(){ cur = (cur + 1) % n; track_.scrollTo({left: cur * (track_.clientWidth + 12), behavior: 'smooth'}); }
+function start(){ stop(); timer = setInterval(next, 3500); }
+function stop(){ clearInterval(timer); }
+track_.addEventListener('touchstart', stop, {passive:true});
+track_.addEventListener('touchend', start, {passive:true});
+paint(); start();
+
+/* Форма */
+var lead = {};
+function show(id, on){ document.getElementById(id).style.display = on ? 'block' : 'none'; }
+document.getElementById('form').addEventListener('submit', function(e){
+  e.preventDefault();
+  var name = document.getElementById('name').value.trim();
+  var phone = document.getElementById('phone').value.replace(/\D/g, '').replace(/^996/, '').replace(/^0/, '');
+  var grade = document.getElementById('grade').value;
+  var time = document.getElementById('time').value;
+  var ok = true;
+  show('e-name', !name); if (!name) ok = false;
+  var pOk = phone.length === 9; show('e-phone', !pOk); if (!pOk) ok = false;
+  show('e-grade', !grade); if (!grade) ok = false;
+  show('e-time', !time); if (!time) ok = false;
+  if (!ok) return;
+
+  lead = { name: name, phone: '+996' + phone, grade: grade, time: time, offer: '3 урока за 999', source: 'instagram', at: new Date().toISOString() };
+  if (CONFIG.leadEndpoint) {
+    try { fetch(CONFIG.leadEndpoint, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'text/plain'}, body: JSON.stringify(lead) }); } catch (err) {}
+  }
+  track('Lead'); track('InitiateCheckout', { value: CONFIG.price, currency: 'KGS' });
+
+  document.getElementById('sumWho').textContent = name + ' · ' + time;
+  document.getElementById('paid').href = waLink(
+    'Здравствуйте! Оплатил(а) 3 пробных урока за 999 сом.\n' +
+    'Ученик: ' + name + '\nКласс: ' + grade + '\nВремя: ' + time + '\nТелефон: +996' + phone + '\n\nЧек прикрепляю.'
+  );
+  document.getElementById('step1').classList.add('hidden');
+  var s2 = document.getElementById('step2'); s2.classList.remove('hidden');
+  s2.scrollIntoView({behavior: 'smooth', block: 'start'}); s2.focus({preventScroll: true});
+});
+document.getElementById('paid').addEventListener('click', function(){ track('Purchase', { value: CONFIG.price, currency: 'KGS' }); this.target = '_blank'; });
+</script>
+</body>
+</html>
