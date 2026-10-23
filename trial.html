@@ -200,17 +200,15 @@ footer a{color:#fff}
       <li>Откройте приложение банка: MBank, O!Bank, Bakai и др.</li>
       <li>Нажмите «Сканировать QR» и выберите фото из галереи</li>
       <li>Оплатите 999 сом</li>
+      <li>Отправьте чек в WhatsApp <a href="#" data-wa="Здравствуйте! Отправляю чек за 3 пробных урока (999 сом).
+Имя и фамилия ученика: 
+Возраст: " style="color:#1FB36B;font-weight:800;white-space:nowrap">0506 74 88 88</a> и напишите имя, фамилию и возраст ученика</li>
     </ol>
   </div>
   <a class="btn wa" href="#" id="paid">Я оплатил(а), отправить чек</a>
   <p class="note">Откроется WhatsApp с вашими данными. Прикрепите скриншот чека, и мы подтвердим время первого урока.</p>
 </section>
 
-<div class="trust">
-  <div><b>12</b><span>учеников в группе максимум</span></div>
-  <div><b>80</b><span>минут длится урок</span></div>
-  <div><b>6</b><span>дней в неделю, Пн–Сб</span></div>
-</div>
 
 <section class="plans">
   <h3>Тарифы после пробных уроков</h3>
@@ -318,7 +316,7 @@ document.getElementById('form').addEventListener('submit', function(e){
   document.getElementById('sumWho').textContent = name + ' · ' + time;
   document.getElementById('paid').href = waLink(
     'Здравствуйте! Оплатил(а) 3 пробных урока за 999 сом.\n' +
-    'Ученик: ' + name + '\nКласс: ' + grade + '\nВремя: ' + time + '\nТелефон: +996' + phone + '\n\nЧек прикрепляю.'
+    'Ученик: ' + name + '\nКласс: ' + grade + '\nВремя: ' + time + '\nТелефон: +996' + phone + '\nФамилия ученика: \nВозраст: \n\nЧек прикрепляю.'
   );
   document.getElementById('step1').classList.add('hidden');
   var s2 = document.getElementById('step2'); s2.classList.remove('hidden');
