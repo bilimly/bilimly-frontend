@@ -1,0 +1,340 @@
+
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Математика с Кайратом Эшболотовым — Билимпарк</title>
+<meta name="description" content="Математика с 1 по 11 класс и для взрослых. Дважды чемпион Кыргызстана и шестикратный призёр международных олимпиад. Три пробных урока.">
+<meta name="theme-color" content="#FFFFFF">
+<meta property="og:title" content="Математика с Кайратом Эшболотовым">
+<meta property="og:description" content="Три пробных урока со мной или с моей командой. Офлайн и онлайн.">
+<meta property="og:image" content="https://bilimpark.kg/kairat.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,500;7..72,700;7..72,800&family=Neucha&display=swap">
+<style>
+:root{
+  --paper:#FFFFFF;
+  --grid:#DFE8F4;
+  --ink:#1D2F6F;      /* школьные синие чернила */
+  --text:#1E2430;     /* основной текст, графит */
+  --pencil:#5E6676;   /* второстепенный */
+  --margin:#E0474C;   /* красные поля тетради */
+  --hl:#FFF1A8;       /* маркер */
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;color:var(--text);
+  font:400 17px/1.6 Literata,Georgia,serif;
+  background-color:var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:22px 22px;
+}
+/* красная линия полей */
+.page{max-width:560px;margin:0 auto;position:relative;padding:0 20px 48px 46px}
+.page::before{content:"";position:absolute;top:0;bottom:0;left:30px;width:2px;background:var(--margin);opacity:.75}
+a{color:var(--ink)}
+:focus-visible{outline:3px solid var(--margin);outline-offset:2px}
+
+.top{display:flex;justify-content:space-between;align-items:baseline;padding:18px 0 6px}
+.brand{font-weight:800;font-size:18px;color:var(--ink);letter-spacing:-.2px}
+.top a{font-size:15px;font-weight:500}
+
+h1{font-weight:800;font-size:clamp(30px,8.4vw,40px);line-height:1.12;letter-spacing:-.6px;color:var(--ink);margin:30px 0 16px}
+.intro{font-size:18px;margin:0 0 22px}
+.hand{font-family:Neucha,"Comic Sans MS",cursive;color:var(--margin);font-size:21px;line-height:1.25}
+
+.go{display:inline-block;background:var(--ink);color:#fff;text-decoration:none;font:700 17px/1 Literata,Georgia,serif;padding:18px 24px;border-radius:6px;border:0;cursor:pointer}
+.go:active{transform:translateY(1px)}
+
+/* фото, вклеенное в тетрадь */
+.photo{position:relative;margin:34px 0 8px;transform:rotate(-1.6deg)}
+.photo img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;object-position:49% 50%;border:8px solid #fff;box-shadow:0 1px 2px rgba(30,36,48,.18),0 8px 22px rgba(30,36,48,.12)}
+.photo::before{content:"";position:absolute;top:-12px;left:50%;width:96px;height:26px;margin-left:-48px;background:rgba(246,228,160,.85);transform:rotate(2deg);z-index:1}
+.photo + .hand{margin:6px 0 0 6px;transform:rotate(-1deg)}
+
+h2{font-weight:800;font-size:25px;line-height:1.2;color:var(--ink);letter-spacing:-.3px;margin:52px 0 14px}
+p{margin:0 0 14px}
+.muted{color:var(--pencil);font-size:15.5px}
+
+/* достижения — по годам */
+.record{margin:0;padding:0;list-style:none}
+.record li{display:grid;grid-template-columns:62px 1fr;gap:12px;padding:9px 0;border-bottom:1px dashed #B9C6DD}
+.record b{color:var(--ink);font-weight:700}
+.record span{display:block}
+mark{background:linear-gradient(transparent 55%,var(--hl) 55%);color:inherit;padding:0 2px}
+
+.diplomas{display:none;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+.diplomas img{width:100%;aspect-ratio:3/4;object-fit:cover;border:6px solid #fff;box-shadow:0 4px 14px rgba(30,36,48,.15)}
+.diplomas img:nth-child(odd){transform:rotate(-1.2deg)}
+.diplomas img:nth-child(even){transform:rotate(1.4deg)}
+
+.what{columns:2;column-gap:20px;margin:0;padding-left:18px}
+.what li{break-inside:avoid;margin-bottom:4px}
+
+/* таблица цен */
+.prices{width:100%;border-collapse:collapse;font-size:16px;background:rgba(255,255,255,.88)}
+.prices th,.prices td{padding:11px 6px;text-align:right;border-bottom:1px solid #C9D4E6;vertical-align:top}
+.prices th{white-space:nowrap;font-weight:700;color:var(--ink);font-size:15px}
+.prices th:first-child,.prices td:first-child{text-align:left;padding-left:0}
+.prices td small{display:block;color:var(--pencil);font-size:13px;line-height:1.35}
+.prices tr.trial td{font-weight:700;color:var(--ink)}
+.prices td.n{white-space:nowrap}
+
+/* форма */
+.form{margin-top:18px;background:#fff;border:2px solid var(--ink);border-radius:4px;padding:22px 18px 20px;box-shadow:6px 6px 0 rgba(29,47,111,.12);scroll-margin-top:16px}
+.who{display:grid;gap:10px;margin:0 0 6px}
+.who label{display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:start;border:1.5px solid #C9D4E6;border-radius:4px;padding:13px 12px;cursor:pointer}
+.who input{margin:4px 0 0;width:18px;height:18px;accent-color:var(--ink)}
+.who label:has(input:checked){border-color:var(--ink);background:#F4F7FD}
+.who b{display:block;font-weight:700;color:var(--ink)}
+.who small{display:block;color:var(--pencil);font-size:14px;line-height:1.4}
+.who .sum{font-weight:800;color:var(--ink);white-space:nowrap}
+.fld{display:block;font-size:15px;color:var(--pencil);margin:18px 0 2px}
+.inp{width:100%;font:500 18px/1.4 Literata,Georgia,serif;color:var(--text);background:transparent;border:0;border-bottom:1.5px solid #9DADC9;border-radius:0;padding:8px 0;outline:none;appearance:none;-webkit-appearance:none}
+.inp:focus{border-bottom-color:var(--ink)}
+select.inp{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235E6676' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 2px center;padding-right:22px}
+.tel{display:flex;gap:8px;align-items:baseline}
+.tel span{font:500 18px Literata,Georgia,serif;color:var(--pencil)}
+.radios{display:flex;gap:22px;margin-top:6px}
+.radios label{display:flex;gap:8px;align-items:center;font-size:17px;cursor:pointer}
+.radios input{width:18px;height:18px;accent-color:var(--ink);margin:0}
+.err{color:var(--margin);font-size:14px;margin-top:4px;display:none}
+.form .go{width:100%;margin-top:24px}
+.small{font-size:14.5px;color:var(--pencil);margin:12px 0 0;text-align:center}
+.hidden{display:none}
+
+.pay h3{font-weight:800;font-size:22px;color:var(--ink);margin:0 0 4px}
+.pay ol{padding-left:20px;margin:14px 0 0}
+.pay li{margin-bottom:8px}
+.mb{display:block;text-align:center;background:#fff;color:var(--ink);border:2px solid var(--ink);margin-top:12px}
+.qr{display:block;width:200px;margin:18px auto 6px;border:6px solid #fff;box-shadow:0 2px 10px rgba(30,36,48,.15)}
+.wa{background:#1E8E55}
+.qrsave{display:block;text-align:center;font-size:15px;margin-bottom:6px}
+
+details{border-bottom:1px dashed #B9C6DD;padding:12px 0}
+summary{font-weight:700;color:var(--ink);cursor:pointer;list-style:none;padding-right:26px;position:relative}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";position:absolute;right:0;top:-2px;font-family:Neucha,cursive;font-size:26px;color:var(--margin)}
+details[open] summary::after{content:"−"}
+details p{margin:8px 0 0;font-size:16px}
+
+.addr{border-left:4px solid var(--ink);background:rgba(255,255,255,.9);padding:12px 14px;margin:0 0 6px;font-size:16px;line-height:1.5}
+.addr b{display:block;font-size:19px;color:var(--ink)}
+.center{display:none;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+.center img{width:100%;aspect-ratio:4/3;object-fit:cover;border:6px solid #fff;box-shadow:0 4px 14px rgba(30,36,48,.15)}
+.center img:first-child{grid-column:1/-1;transform:rotate(-1deg)}
+.center img:nth-child(2){transform:rotate(1.2deg)}
+.center img:nth-child(3){transform:rotate(-.8deg)}
+.sub3{font-weight:800;font-size:20px;color:var(--ink);margin:34px 0 8px}
+footer{margin-top:48px;font-size:15px;color:var(--pencil);line-height:1.6}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media (min-width:600px){.page{padding-left:70px}.page::before{left:48px}}
+</style>
+</head>
+<body>
+<main class="page">
+
+<div class="top">
+  <span class="brand">Билимпарк</span>
+  <a href="#" data-wa="Здравствуйте! У меня вопрос про уроки математики">Написать в WhatsApp</a>
+</div>
+
+<h1>Билимпарк — центр математики в самом центре Бишкека</h1>
+<p class="intro">Занимаемся офлайн, в своём центре. Учим математике с 1 по 11 класс и взрослых. Открыты каждый день с 9:00 до 20:00.</p>
+
+<div class="addr">
+  <b>Токтогула 75/1, 2 этаж</b>
+  пересечение с Шопокова, над магазином SPAR. Рядом ГУМ и ЦУМ.
+</div>
+
+<!-- Фото центра: положите center-1.jpg, center-2.jpg, center-3.jpg рядом со страницей — появятся сами -->
+<div class="center" id="center">
+  <img src="center-1.jpg" alt="Класс в центре Билимпарк" onerror="this.remove()">
+  <img src="center-2.jpg" alt="Занятие в центре Билимпарк" onerror="this.remove()">
+  <img src="center-3.jpg" alt="Центр Билимпарк" onerror="this.remove()">
+</div>
+
+<a class="go" href="#zapis" style="margin-top:24px">Записаться на пробные уроки</a>
+
+<h2>Я Кайрат Эшболотов, основатель Билимпарка</h2>
+<p>Сам преподаю здесь математику и учу детей с 2017 года. Дважды чемпион Кыргызстана и шестикратный призёр международных олимпиад, включая IMO.</p>
+<figure class="photo" style="margin-left:0;margin-right:0"><img src="kairat.jpg" alt="Кайрат Эшболотов" width="2346" height="1418"></figure>
+<p class="hand">помогу закрыть пробелы, пройти программу наперёд или подготовиться к олимпиаде</p>
+
+<h3 class="sub3">Мои олимпиады</h3>
+<ul class="record">
+  <li><b>2013</b><span>Республиканская олимпиада Кыргызстана по математике, 1 место</span></li>
+  <li><b>2014</b><span>Республиканская олимпиада Кыргызстана, снова 1 место</span></li>
+  <li><b>6 раз</b><span>призёр международных олимпиад: <mark>IMO</mark>, APMO, BMO, IZhO, SRMC</span></li>
+</ul>
+<p class="hand" style="margin-top:10px">IMO — главная олимпиада мира для школьников</p>
+<div class="diplomas" id="diplomas">
+  <img src="diploma-1.jpg" alt="Грамота" onerror="this.remove()"><img src="diploma-2.jpg" alt="Грамота" onerror="this.remove()">
+  <img src="diploma-3.jpg" alt="Грамота" onerror="this.remove()"><img src="diploma-4.jpg" alt="Грамота" onerror="this.remove()">
+</div>
+
+<h2>С чем помогаем</h2>
+<p>Занимаемся со всеми, с 1 по 11 класс, и со взрослыми.</p>
+<ul class="what">
+  <li>пробелы в знаниях</li><li>программа наперёд</li><li>олимпиады</li><li>ОРТ</li><li>вступительные экзамены</li>
+  <li>IGCSE и A Levels</li><li>IB</li><li>SAT</li><li>CSCA для поступления в Китай</li>
+</ul>
+
+<h2>Как проходят уроки</h2>
+<p>Два урока в неделю по часу. В группе 2–4 ученика, у каждого своя программа и свой темп, поэтому на уроке я успеваю поработать с каждым.</p>
+<p>Можно учиться со мной или с моей командой. Этих преподавателей я выбрал из многих кандидатов и сам проверил их знания. Подход и программа у нас одинаковые.</p>
+<p>Уроки идут каждый день, с понедельника по воскресенье, с 9:00 до 20:00. И у меня, и у команды.</p>
+<p class="muted">В центре на Токтогула 75/1 или онлайн из дома.</p>
+
+<h2>Стоимость</h2>
+<table class="prices">
+  <thead><tr><th></th><th>Со мной</th><th>С командой</th></tr></thead>
+  <tbody>
+    <tr class="trial"><td>3 пробных урока</td><td class="n">6 600</td><td class="n">2 700</td></tr>
+    <tr><td>Месяц, 8 уроков<small>группа 3–4 ученика у меня, около 3 у команды</small></td><td class="n">17 500</td><td class="n">7 500</td></tr>
+    <tr><td>Вступительный взнос<small>один раз, при оплате по месяцам</small></td><td class="n">9 000</td><td class="n">4 000</td></tr>
+    <tr><td>50 уроков<small>примерно на полгода</small></td><td class="n">125 000</td><td class="n">45 000</td></tr>
+    <tr><td>100 уроков<small>примерно на год</small></td><td class="n">220 000</td><td class="n">90 000</td></tr>
+  </tbody>
+</table>
+<p class="muted" style="margin-top:10px">Цены в сомах. В месячном абонементе неиспользованные уроки сгорают.</p>
+<p class="hand">в пакетах 50 и 100 уроков нет взноса, и уроки не сгорают</p>
+
+<h2 id="zapis">Запись на пробные уроки</h2>
+<p>Три урока, чтобы посмотреть, как мы работаем. Обычно их проходят за неделю–полторы.</p>
+
+<div class="form" id="step1">
+  <form id="form" novalidate>
+    <div class="who" role="radiogroup" aria-label="Преподаватель">
+      <label><input type="radio" name="teacher" value="kairat" checked><span><b>Со мной</b><small>пн–вс, с 9:00 до 20:00</small></span><span class="sum">6 600 сом</span></label>
+      <label><input type="radio" name="teacher" value="team"><span><b>С моей командой</b><small>пн–вс, с 9:00 до 20:00</small></span><span class="sum">2 700 сом</span></label>
+    </div>
+
+    <label class="fld" for="name">Имя ученика</label>
+    <input class="inp" type="text" id="name" autocomplete="off">
+    <div class="err" id="e-name">Напишите имя ученика</div>
+
+    <label class="fld" for="phone">Ваш WhatsApp</label>
+    <div class="tel"><span>+996</span><input class="inp" type="tel" id="phone" inputmode="tel" autocomplete="tel-national" placeholder="555 123 456"></div>
+    <div class="err" id="e-phone">В номере должно быть 9 цифр после +996</div>
+
+    <label class="fld" for="grade">Класс</label>
+    <select class="inp" id="grade">
+      <option value=""></option>
+      <option>1 класс</option><option>2 класс</option><option>3 класс</option><option>4 класс</option><option>5 класс</option><option>6 класс</option>
+      <option>7 класс</option><option>8 класс</option><option>9 класс</option><option>10 класс</option><option>11 класс</option><option>Взрослый</option>
+    </select>
+    <div class="err" id="e-grade">Выберите класс</div>
+
+    <label class="fld" for="goal">Что нужно</label>
+    <select class="inp" id="goal">
+      <option value=""></option>
+      <option>Закрыть пробелы</option><option>Учиться наперёд</option><option>Олимпиады</option><option>ОРТ</option><option>Вступительные экзамены</option>
+      <option>IGCSE / A Levels</option><option>IB</option><option>SAT</option><option>CSCA (Китай)</option><option>Пока не знаю</option>
+    </select>
+    <div class="err" id="e-goal">Выберите, что нужно</div>
+
+    <span class="fld">Где заниматься</span>
+    <div class="radios">
+      <label><input type="radio" name="format" value="Офлайн" checked>В центре</label>
+      <label><input type="radio" name="format" value="Онлайн">Онлайн</label>
+    </div>
+
+    <button class="go" type="submit">Перейти к оплате</button>
+    <p class="small">Время уроков согласуем после оплаты</p>
+  </form>
+</div>
+
+<div class="form pay hidden" id="step2" tabindex="-1">
+  <h3 id="payTitle">Оплата</h3>
+  <p class="muted" id="payFor"></p>
+  <a class="go mb" href="#" id="mbank" target="_blank" rel="noopener">Открыть MBank</a>
+  <p class="small">Получатель: ИП Эшболотов Кайрат. Сумму нужно ввести самому.</p>
+  <img class="qr" src="mbank-qr.png" alt="QR-код для оплаты" width="200" height="200">
+  <a class="qrsave" href="mbank-qr.png" download="bilimpark-qr.png">Сохранить QR</a>
+  <p class="small" style="margin-top:0">Подходит для любого банка: «Сканировать QR» и выбрать фото из галереи</p>
+  <ol>
+    <li>Оплатите <span id="amt"></span>.</li>
+    <li>Отправьте чек в WhatsApp, мы подберём время первого урока.</li>
+  </ol>
+  <a class="go wa" href="#" id="paid" style="display:block;text-align:center;margin-top:8px">Отправить чек в WhatsApp</a>
+</div>
+
+<h2>Вопросы родителей</h2>
+<details><summary>Пробные уроки в группе или индивидуально?</summary><p>Зависит от набора: бывает в мини-группе, бывает один на один. В любом случае я или преподаватель смотрим, на каком уровне ребёнок и что ему нужно.</p></details>
+<details><summary>Чем занятия со мной отличаются от занятий с командой?</summary><p>Программа и подход одинаковые, расписание тоже: каждый день с 9:00 до 20:00. У меня группы 3–4 ученика, у команды в среднем 3, и занятия с командой стоят дешевле.</p></details>
+<details><summary>Когда можно заниматься?</summary><p>Каждый день, с понедельника по воскресенье, с 9:00 до 20:00. Точное время подберём после оплаты пробных уроков.</p></details>
+<details><summary>Зачем вступительный взнос?</summary><p>Это разовый платёж при записи на помесячные занятия: 9 000 сом у меня, 4 000 сом у команды. Если покупаете пакет на 50 или 100 уроков, взноса нет.</p></details>
+<details><summary>Можно заниматься из другого города?</summary><p>Да, онлайн. Уроки такие же: два раза в неделю по часу.</p></details>
+
+<footer>
+  Билимпарк, Токтогула 75/1, 2 этаж, пересечение с Шопокова, над магазином SPAR.<br>
+  WhatsApp: <a href="#" data-wa="Здравствуйте!">0506 74 88 88</a>
+</footer>
+</main>
+
+<script>
+var CONFIG = {
+  whatsapp: '996506748888',
+  mbankLink: 'https://app.mbank.kg/qr/#00020101021132830012c2b.mbank.kg010202101610301200334358311131%D0%98%D0%9F%20%D0%AD%D1%88%D0%B1%D0%BE%D0%BB%D0%BE%D1%82%D0%BE%D0%B2%20%D0%9A%D0%B0%D0%B9%D1%80%D0%B0%D1%82%20%D0%AD%D1%88%D0%B1%D0%BE%D0%BB%D0%BE%D1%82%D0%BE%D0%B2%D0%B8%D1%871302123422mbiz%3A35007780%3A77228469',
+  prices: { kairat: 6600, team: 2700 },
+  leadEndpoint: 'https://script.google.com/macros/s/AKfycbxkU56MIyaAa2Qwqqsbd0wZrk-NB_vaqMx4y20sJmuj1npkKc9fzudZ5ZDu9Ipzd6YT/exec',
+  pixelId: ''
+};
+if (CONFIG.pixelId) {
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', CONFIG.pixelId); fbq('track', 'PageView');
+}
+function track(ev, data){ try{ if (window.fbq) fbq('track', ev, data||{}); }catch(e){} }
+function waLink(text){ return 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(text); }
+function som(n){ return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' сом'; }
+document.querySelectorAll('[data-wa]').forEach(function(a){ a.href = waLink(a.getAttribute('data-wa')); a.target = '_blank'; a.rel = 'noopener'; });
+document.getElementById('mbank').href = CONFIG.mbankLink;
+
+['center','diplomas'].forEach(function(id){ var box = document.getElementById(id);
+  box.querySelectorAll('img').forEach(function(im){ im.addEventListener('load', function(){ box.style.display = 'grid'; }); }); });
+var dip = null;
+
+function show(id, on){ document.getElementById(id).style.display = on ? 'block' : 'none'; }
+function checked(name){ var r = document.querySelector('input[name="'+name+'"]:checked'); return r ? r.value : ''; }
+
+document.getElementById('form').addEventListener('submit', function(e){
+  e.preventDefault();
+  var name = document.getElementById('name').value.trim();
+  var phone = document.getElementById('phone').value.replace(/\D/g, '').replace(/^996/, '').replace(/^0/, '');
+  var grade = document.getElementById('grade').value;
+  var goal = document.getElementById('goal').value;
+  var ok = true;
+  show('e-name', !name); if (!name) ok = false;
+  var pOk = phone.length === 9; show('e-phone', !pOk); if (!pOk) ok = false;
+  show('e-grade', !grade); if (!grade) ok = false;
+  show('e-goal', !goal); if (!goal) ok = false;
+  if (!ok) return;
+
+  var t = checked('teacher'), format = checked('format'), price = CONFIG.prices[t];
+  var who = t === 'kairat' ? 'с Кайратом' : 'с командой Кайрата';
+  var lead = { name: name, phone: '+996' + phone, grade: grade, goal: goal, format: format, teacher: who,
+    offer: 'Математика: 3 пробных ' + who + ' за ' + price, course: 'Математика', source: 'instagram-math', at: new Date().toISOString() };
+  if (CONFIG.leadEndpoint) { try { fetch(CONFIG.leadEndpoint, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'text/plain'}, body: JSON.stringify(lead) }).catch(function(){}); } catch (err) {} }
+  track('Lead'); track('InitiateCheckout', { value: price, currency: 'KGS' });
+
+  document.getElementById('payTitle').textContent = 'Оплата: ' + som(price);
+  document.getElementById('payFor').textContent = 'Три пробных урока ' + who + ', ученик ' + name + ', ' + grade.toLowerCase() + '.';
+  document.getElementById('amt').textContent = som(price);
+  var paid = document.getElementById('paid');
+  paid.dataset.price = price;
+  paid.href = waLink('Здравствуйте! Оплатил(а) 3 пробных урока по математике ' + who + ' (' + som(price) + ').\n' +
+    'Ученик: ' + name + '\nКласс: ' + grade + '\nЧто нужно: ' + goal + '\nФормат: ' + format + '\nТелефон: +996' + phone + '\n\nЧек прикрепляю. Какое время свободно?');
+  document.getElementById('step1').classList.add('hidden');
+  var s2 = document.getElementById('step2'); s2.classList.remove('hidden');
+  s2.scrollIntoView({behavior: 'smooth', block: 'start'}); s2.focus({preventScroll: true});
+});
+document.getElementById('paid').addEventListener('click', function(){ track('Purchase', { value: +this.dataset.price || 0, currency: 'KGS' }); this.target = '_blank'; });
+</script>
+</body>
+</html>
