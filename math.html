@@ -2,6 +2,7 @@
 
 
 
+
 <!doctype html>
 <html lang="ru">
 <head>
@@ -11,7 +12,7 @@
 <meta name="description" content="Математика с 1 по 11 класс и для взрослых. Дважды чемпион Кыргызстана и шестикратный призёр международных олимпиад. Три пробных урока.">
 <meta name="theme-color" content="#FFFFFF">
 <meta property="og:title" content="Математика с Кайратом Эшболотовым">
-<meta property="og:description" content="Три пробных урока со мной или с моей командой. Офлайн и онлайн.">
+<meta property="og:description" content="Три пробных урока со мной или с моей командой. Оффлайн и онлайн.">
 <meta property="og:image" content="https://bilimpark.kg/kairat.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -84,13 +85,20 @@ mark{background:linear-gradient(transparent 55%,var(--hl) 55%);color:inherit;pad
 .what li{break-inside:avoid;margin-bottom:4px}
 
 /* таблица цен */
-.prices{width:100%;border-collapse:collapse;font-size:16px;background:rgba(255,255,255,.88)}
-.prices th,.prices td{padding:11px 6px;text-align:right;border-bottom:1px solid #C9D4E6;vertical-align:top}
-.prices th{white-space:nowrap;font-weight:700;color:var(--ink);font-size:15px}
-.prices th:first-child,.prices td:first-child{text-align:left;padding-left:0}
-.prices td small{display:block;color:var(--pencil);font-size:13px;line-height:1.35}
-.prices tr.trial td{font-weight:700;color:var(--ink)}
-.prices td.n{white-space:nowrap}
+.pbox{background:#fff;border:1.5px solid #C9D4E6;border-radius:4px;padding:14px 14px 4px;margin-bottom:14px}
+.pbox h3{margin:0 0 4px;font-size:19px;font-weight:800;color:var(--ink)}
+.pbox ul{list-style:none;margin:0;padding:0}
+.pbox li{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:10px 0;border-top:1px solid #E3E9F3}
+.pbox li:first-child{border-top:0}
+.pbox li span{min-width:0}
+.pbox li b{white-space:nowrap;font-weight:700;color:var(--ink)}
+.pbox li small{display:block;color:var(--pencil);font-size:13.5px;line-height:1.35}
+.pbox li.trial span,.pbox li.trial b{font-weight:800;color:var(--ink)}
+.pbox li.sub{background:#F4F7FD;margin:0 -14px;padding:12px 14px}
+.pbox li.sub span{font-weight:700;color:var(--ink)}
+.pbox li.sub small{font-weight:400}
+.badge{display:inline-block;font-style:normal;font-size:12.5px;font-weight:700;color:#fff;background:var(--ink);border-radius:3px;padding:2px 7px;margin:0 0 4px;line-height:1.4}
+.pbox li.sub .badge{display:table}
 
 /* форма */
 .form{margin-top:18px;background:#fff;border:2px solid var(--ink);border-radius:4px;padding:22px 18px 20px;box-shadow:6px 6px 0 rgba(29,47,111,.12);scroll-margin-top:16px}
@@ -156,7 +164,7 @@ footer{margin-top:48px;font-size:15px;color:var(--pencil);line-height:1.6}
 </div>
 
 <h1>Билимпарк — центр математики в самом центре Бишкека</h1>
-<p class="intro">Занимаемся офлайн, в своём центре. Учим математике с 1 по 11 класс и взрослых. Открыты каждый день с 9:00 до 20:00.</p>
+<p class="intro">Занимаемся оффлайн, в своём центре. Учим математике с 1 по 11 класс и взрослых. Открыты каждый день с 9:00 до 20:00.</p>
 
 <div class="addr">
   <b>Токтогула 75/1, 2 этаж</b>
@@ -197,23 +205,33 @@ footer{margin-top:48px;font-size:15px;color:var(--pencil);line-height:1.6}
 </ul>
 
 <h2>Как проходят уроки</h2>
-<p>Два урока в неделю по часу. В группе 2–4 ученика, у каждого своя программа и свой темп, поэтому на уроке я успеваю поработать с каждым.</p>
+<p>Два урока в неделю по часу. В мини-группе 3 ученика, у каждого своя программа и свой темп, поэтому на уроке я успеваю поработать с каждым.</p>
 <p>Можно учиться со мной или с моей командой. Этих преподавателей я выбрал из многих кандидатов и сам проверил их знания. Подход и программа у нас одинаковые.</p>
 <p>Уроки идут каждый день, с понедельника по воскресенье, с 9:00 до 20:00. И у меня, и у команды.</p>
-<p class="muted">В центре на Токтогула 75/1 или онлайн из дома.</p>
+<p class="muted">Оффлайн в центре на Токтогула 75/1 или онлайн из дома.</p>
 
 <h2>Стоимость</h2>
-<table class="prices">
-  <thead><tr><th></th><th>Со мной</th><th>С командой</th></tr></thead>
-  <tbody>
-    <tr class="trial"><td>3 пробных урока</td><td class="n">6 600</td><td class="n">2 700</td></tr>
-    <tr><td>Месяц, 8 уроков<small>группа 3–4 ученика у меня, около 3 у команды</small></td><td class="n">17 500</td><td class="n">7 500</td></tr>
-    <tr><td>Вступительный взнос<small>один раз, при оплате по месяцам</small></td><td class="n">9 000</td><td class="n">4 000</td></tr>
-    <tr><td>50 уроков<small>примерно на полгода</small></td><td class="n">125 000</td><td class="n">45 000</td></tr>
-    <tr><td>100 уроков<small>примерно на год</small></td><td class="n">220 000</td><td class="n">90 000</td></tr>
-  </tbody>
-</table>
-<p class="muted" style="margin-top:10px">Цены в сомах. В месячном абонементе неиспользованные уроки сгорают.</p>
+<div class="pbox">
+  <h3>Со мной</h3>
+  <ul>
+    <li class="trial"><span>3 пробных урока</span><b>6&nbsp;600&nbsp;сом</b></li>
+    <li><span>Вступительный взнос<small>разово, при оформлении подписки</small></span><b>9&nbsp;000&nbsp;сом</b></li>
+    <li class="sub"><span><em class="badge">Подписка</em>Ежемесячно, 1 числа<small>мини-группа из 3 учеников, 2 урока в неделю. Автоматическое списание с карты 1 числа каждого месяца</small></span><b>17&nbsp;500&nbsp;сом</b></li>
+    <li><span>50 уроков<small>примерно на полгода</small></span><b>125&nbsp;000&nbsp;сом</b></li>
+    <li><span>100 уроков<small>примерно на год</small></span><b>220&nbsp;000&nbsp;сом</b></li>
+  </ul>
+</div>
+<div class="pbox">
+  <h3>С командой</h3>
+  <ul>
+    <li class="trial"><span>3 пробных урока</span><b>2&nbsp;700&nbsp;сом</b></li>
+    <li><span>Вступительный взнос<small>разово, при оформлении подписки</small></span><b>4&nbsp;000&nbsp;сом</b></li>
+    <li class="sub"><span><em class="badge">Подписка</em>Ежемесячно, 1 числа<small>мини-группа из 3 учеников, 2 урока в неделю. Автоматическое списание с карты 1 числа каждого месяца</small></span><b>7&nbsp;500&nbsp;сом</b></li>
+    <li><span>50 уроков<small>примерно на полгода</small></span><b>45&nbsp;000&nbsp;сом</b></li>
+    <li><span>100 уроков<small>примерно на год</small></span><b>90&nbsp;000&nbsp;сом</b></li>
+  </ul>
+</div>
+<p class="muted" style="margin-top:10px">Подписка продлевается сама: деньги списываются с карты автоматически 1 числа каждого месяца.</p>
 <p class="hand">в пакетах 50 и 100 уроков нет взноса, и уроки не сгорают</p>
 
 <h2 id="zapis">Запись на пробные уроки</h2>
@@ -252,7 +270,7 @@ footer{margin-top:48px;font-size:15px;color:var(--pencil);line-height:1.6}
 
     <span class="fld">Где заниматься</span>
     <div class="radios">
-      <label><input type="radio" name="format" value="Офлайн" checked>В центре</label>
+      <label><input type="radio" name="format" value="Оффлайн" checked>Оффлайн</label>
       <label><input type="radio" name="format" value="Онлайн">Онлайн</label>
     </div>
 
@@ -281,9 +299,10 @@ footer{margin-top:48px;font-size:15px;color:var(--pencil);line-height:1.6}
 
 <h2>Вопросы родителей</h2>
 <details><summary>Пробные уроки в группе или индивидуально?</summary><p>Зависит от набора: бывает в мини-группе, бывает один на один. В любом случае я или преподаватель смотрим, на каком уровне ребёнок и что ему нужно.</p></details>
-<details><summary>Чем занятия со мной отличаются от занятий с командой?</summary><p>Программа и подход одинаковые, расписание тоже: каждый день с 9:00 до 20:00. У меня группы 3–4 ученика, у команды в среднем 3, и занятия с командой стоят дешевле.</p></details>
+<details><summary>Чем занятия со мной отличаются от занятий с командой?</summary><p>Программа и подход одинаковые, расписание тоже: каждый день с 9:00 до 20:00. И у меня, и у команды мини-группа из 3 учеников. Занятия с командой стоят дешевле.</p></details>
 <details><summary>Когда можно заниматься?</summary><p>Каждый день, с понедельника по воскресенье, с 9:00 до 20:00. Точное время подберём после оплаты пробных уроков.</p></details>
-<details><summary>Зачем вступительный взнос?</summary><p>Это разовый платёж при записи на помесячные занятия: 9 000 сом у меня, 4 000 сом у команды. Если покупаете пакет на 50 или 100 уроков, взноса нет.</p></details>
+<details><summary>Зачем вступительный взнос?</summary><p>Нам важно, чтобы ученики относились к занятиям серьёзно и не бросали их. Взнос также покрывает разные расходы на обучение. Он оплачивается один раз при оформлении подписки: 9 000 сом у меня, 4 000 сом у команды.</p><p>Если ученик перестаёт заниматься и подписка отменяется, при повторной записи вступительный взнос оплачивается снова. При покупке пакета на 50 или 100 уроков взноса нет.</p></details>
+<details><summary>Как работает подписка?</summary><p>Это не абонемент, а подписка. Оплата за месяц автоматически списывается с вашей карты 1 числа каждого месяца, ничего продлевать вручную не нужно.</p></details>
 <details><summary>Можно заниматься из другого города?</summary><p>Да, онлайн. Уроки такие же: два раза в неделю по часу.</p></details>
 
 <footer>
